@@ -4,15 +4,16 @@ Ce projet est un application web pour des sentiers culturels. Il est développé
 # Instalation dev
 
 ## Prérequis
-- PHP 8.3
+- MAMP ou WAMP
 - Composer
 - Node.js
   - Npm
 - Git bash
 
 ## Installation
-Faire ces commandes dans un terminal bash
+Lancer MAMP ou WAMP et faire les commandes suivante dans un terminal bash
 
+### Projet
 Cloner le projet et ce déplacer dedans
 ```bash
 $ git clone https://github.com/LucaCDRocha/RELLL-ProjArt24.git
@@ -37,13 +38,23 @@ Générer une clé pour l'application
 $ php artisan key:generate
 ```
 
-Créer un fichier de base de donnée sqlite nommé `database.sqlite` dans le dossier database
-
+### Base de donnée
 Puis migrer les tables
 ```bash
 $ php artisan migrate
 ```
 
+Puis répondre yes à la question suivante
+```bash
+$ php artisan migrate
+
+  WARN The database 'relll-projart' does not exist on the 'mysql' connection.
+
+  Would you like to create it? (yes/no) [no]:
+ >
+```
+
+### Lancer le serveur
 Ouvrir 2 terminaux et lancer les commandes suivantes dans cette ordre
 ```bash
 $ php artisan serve
