@@ -4,11 +4,17 @@ Ce projet est un application web pour des sentiers culturels. Il est développé
 # Installation dev
 
 ## Prérequis
-- MAMP ou WAMP
+- MAMP
+  - [Installation de MAMP](https://www.mamp.info/en/downloads/)
 - Composer
-- Node.js
-  - Npm
-- Git Bash
+  - [Installation de Composer](https://getcomposer.org/download/)
+- Node.js (npm est installé avec Node.js)
+  - [Installation de Node.js](https://nodejs.org/en/download/prebuilt-installer/)
+- Git
+  - Windows avec GitBash
+    - [Installation de GitBash](https://gitforwindows.org/)
+  - Mac
+    - [Installation de Git](https://git-scm.com/download/mac)
 
 ## Installation
 Lancer MAMP ou WAMP et faire les commandes suivantes dans un terminal Bash
