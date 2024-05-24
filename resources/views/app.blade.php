@@ -27,7 +27,7 @@
 
 </head>
 
-<body class="font-sans antialiased dark:bg-gray-800 dark:text-white">
+<body class="font-sans antialiased bg-green-50 text-green-950 dark:bg-green-950 dark:text-green-50">
     @inertia
 </body>
 

@@ -139,6 +139,6 @@ span {
 }
 
 span.active {
-    @apply bg-green-600 dark:bg-green-500 text-white;
+    @apply bg-green-600 dark:bg-green-500 text-green-50;
 }
 </style>
