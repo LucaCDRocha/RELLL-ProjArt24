@@ -1,0 +1,187 @@
+{
+    "themes": [
+        {
+            "name": "Enfants",
+            "descr": "Découvrez des randonnées didactiques amusantes et éducatives, spécialement conçues pour les enfants, alliant nature, aventure et apprentissage"
+        },
+        {
+            "name": "Sculpture",
+            "descr": "Explorez des randonnées captivantes avec des sculptures artistiques dans la ville de votre choix."
+        },
+        {
+            "name": "Architecture",
+            "descr": "Vous aimez l'architecture ? Alors ces sentiers sont pour vous !"
+        }
+    ],
+    "sentiers": [
+        {
+            "titre": "Art en ville de Lausanne",
+            "description": "Lausanne regorge d’œuvres d’art inconnues bien qu’à la vue de tous. Revisitez la ville sous un nouveau jour et profitez de vues majestueuses.",
+            "duree": "1h40",
+            "difficulte": "facile",
+            "theme": "Sculpture",
+            "accessibilite": true,
+            "info_transport": "Le départ est à la gare de Lausanne et le trajet se finit à l’arrêt du métro d’Ouchy.",
+            "depart": {
+                "lieu": "Place de la Gare Lausanne",
+                "coordonnees": [
+                    46.31021,
+                    6.37449
+                ]
+            },
+            "arrivee": {
+                "lieu": "Ouchy-Olympique",
+                "coordonnees": [
+                    46.30252,
+                    6.37354
+                ]
+            },
+            "restauration": "plusieurs restaurants ou cafés sur le parcours",
+            "points_interet": [
+                {
+                    "nom": "Plateforme 10",
+                    "description": "C’est un peu le nouveau quartier des arts de Lausanne. Il est composé de plusieurs musées ainsi que de galeries extérieures. C’est une fondation de droit public soutenue par l’Etat de Vaud.",
+                    "tags": [
+                        "Musée",
+                        "Art"
+                    ],
+                    "coordonnees": [
+                        46.518273,
+                        6.625511
+                    ],
+                    "ouverture": "10h-18h",
+                    "url": "https://plateforme10.ch",
+                    "image": {
+                        "source": "By MHM55 - Own work, CC BY-SA 4.0",
+                        "url": "https://commons.wikimedia.org/w/index.php?curid=127998410"
+                    }
+                },
+                {
+                    "nom": "Parc de Milan",
+                    "description": "Faites une pause, parcourez le jardin botanique et profitez d’une vue renversante en haut de la colline de Montriond.",
+                    "tags": [
+                        "Vue panoramique"
+                    ],
+                    "coordonnees": [
+                        46.515143,
+                        6.624853
+                    ],
+                    "ouverture": "-",
+                    "url": "-",
+                    "image": {
+                        "source": "",
+                        "url": "https://commons.wikimedia.org/wiki/File:Jardin_Botanique_25.09.11.JPG"
+                    }
+                },
+                {
+                    "nom": "Parc du musée olymique",
+                    "description": "Plusieurs statues sur le thème des jeux olympiques ou du sport. Laissez-vous surprendre en le parcourant. Une fontaine et des activités pour les enfants sont disponibles également.",
+                    "tags": [
+                        "Art",
+                        "Sculpture"
+                    ],
+                    "coordonnees": [
+                        46.507901,
+                        6.634382
+                    ],
+                    "ouverture": "-",
+                    "url": "http://lausanne.over-blog.org/pages/Le_jardin_dOlympie-1560965.html",
+                    "image": {
+                        "source": "By Lausanne, ville verte",
+                        "url": "http://idata.over-blog.com/2/21/56/99/Mus-e-olympique/MO_cuirasse_article_1.jpg"
+                    }
+                },
+                {
+                    "nom": "Général Guisan",
+                    "description": "Le Général Henri Guisan fut le commandant en chef de l'armée suisse pendant la Seconde Guerre mondiale. Connu pour son leadership, il a renforcé la stratégie de défense nationale, notamment avec le Plan Wahlen et le Réduit national, préparant la Suisse à résister à une éventuelle invasion.",
+                    "tags": [
+                        "Art",
+                        "Sculpture"
+                    ],
+                    "coordonnees": [
+                        46.507202,
+                        6.629650
+                    ],
+                    "ouverture": "-",
+                    "url": "-",
+                    "image": {
+                        "source": "Patrick Nouhailler's…, CC BY-SA 3.0, via Wikimedia Commons",
+                        "url": "https://commons.wikimedia.org/wiki/File:Lausanne_-_Lake_Side_-_Vaud,_Switzerland_-_panoramio_(44).jpg"
+                    }
+                },
+                {
+                    "nom": "Nicolas Delémont - Femme à l’enfant",
+                    "description": "Cette sculpture qui tend vers l’abstrait nous invite dans l’intimité qu’une femme peut avoir avec son enfant.",
+                    "tags": [
+                        "Art",
+                        "Sculpture"
+                    ],
+                    "coordonnees": [
+                        46.505255,
+                        6.627512
+                    ],
+                    "ouverture": "-",
+                    "url": "-",
+                    "image": {
+                        "source": "",
+                        "url": ""
+                    }
+                },
+                {
+                    "nom": "Vladimir Tchepelik – Serge Lifar",
+                    "description": "Serge Lifar est un grand danseur et chorégraphe qui a terminé sa vie à Lausanne. Vladimir Tchepelik a voulu lui rendre hommage en représentant un moment phare de sa carrière.",
+                    "tags": [
+                        "Art",
+                        "Sculpture"
+                    ],
+                    "coordonnees": [
+                        46.505530,
+                        6.627067
+                    ],
+                    "ouverture": "-",
+                    "url": "-",
+                    "image": {
+                        "source": "",
+                        "url": "https://commons.wikimedia.org/wiki/File:Serge_Lifar_bij_repetitie_van_Nederlands_Ballet,_Bestanddeelnr_912-2421.jpg"
+                    }
+                },
+                {
+                    "nom": "Angel Durate – Ouverture au monde",
+                    "description": "Cet artiste s’inspire de la géométrie dans ses œuvres. Cette sculpture invite les voyageurs et s’illumine aux rayons du soleil.",
+                    "tags": [
+                        "Art",
+                        "Sculpture"
+                    ],
+                    "coordonnees": [
+                        46.504836,
+                        6.625691
+                    ],
+                    "ouverture": "-",
+                    "url": "-",
+                    "image": {
+                        "source": "AlterVista, CC BY-SA 3.0, via Wikimedia Commons",
+                        "url": "https://commons.wikimedia.org/wiki/File:Lausanne_Ouchy_Skulptur_besser.JPG"
+                    }
+                },
+                {
+                    "nom": "Clelia Bettua - Eole",
+                    "description": "Cette sculpture indique le sens du vent. Pour le découvrir, trouver le monolithe qui complète le demi-cercle de la girouette.",
+                    "tags": [
+                        "Art",
+                        "Sculpture"
+                    ],
+                    "coordonnees": [
+                        46.505253,
+                        6.625671
+                    ],
+                    "ouverture": "-",
+                    "url": "-",
+                    "image": {
+                        "source": "Gzzz, CC BY-SA 4.0, via Wikimedia Commons",
+                        "url": "https://commons.wikimedia.org/wiki/File:%C3%89ole_(Clelia_Bettua).jpg"
+                    }
+                }
+            ]
+        }
+    ]
+}
