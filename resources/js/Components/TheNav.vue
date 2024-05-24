@@ -83,7 +83,7 @@ window.addEventListener("load", () => {});
 
 <style scoped>
 div {
-    @apply bg-green-100 dark:bg-green-900;
+    @apply bg-green-100 dark:bg-green-800;
     display: flex;
     justify-content: space-around;
     position: fixed;
@@ -112,7 +112,6 @@ div {
 }
 
 .fixed a {
-    @apply bg-green-100 dark:bg-green-900;
     height: 4.5rem;
     width: 6rem;
     margin: 0.5rem 1rem;
@@ -139,6 +138,6 @@ span {
 }
 
 span.active {
-    @apply bg-green-600 dark:bg-green-500 text-green-50;
+    @apply bg-green-300 dark:bg-green-600;
 }
 </style>
