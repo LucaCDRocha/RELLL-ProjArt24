@@ -1,11 +1,9 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
 import { ref, onMounted, onUnmounted, watch } from "vue";
-import useDarkMode from "@/Composables/darkMode";
 import TheNav from "@/Components/TheNav.vue";
 import AppCardList from "@/Components/AppCardList.vue";
-
-const { toggleDarkMode } = useDarkMode();
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 const data = ref([
     {
@@ -30,22 +28,16 @@ const data = ref([
 <template>
     <Head title="Home" />
 
-    <button
-        @click="toggleDarkMode()"
-        class="px-4 py-2 text-sm font-semibold text-green-50 bg-blue-500 rounded-full"
-    >
-        Toggle Dark Mode
-    </button>
-
     <h1>Home</h1>
-    
+    <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+
     <AppCardList :datas="data">Les parcours les plus populaires</AppCardList>
-    <AppCardList :datas="data">Les points d’intérêts les mieux notés</AppCardList>
+    <AppCardList :datas="data"
+        >Les points d’intérêts les mieux notés</AppCardList
+    >
     <AppCardList :datas="data">Les différentes catégories</AppCardList>
 
-
-
-    <div style="height: 5rem;"></div>
+    <div style="height: 5rem"></div>
     <TheNav />
 </template>
 

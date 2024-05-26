@@ -16,6 +16,16 @@ onMounted(() => {
                 ?.classList.add("active");
             break;
 
+        case "/bookmark":
+        case "/favorites":
+        case "/my-trails":
+        case "/profile":
+        case "/settings":
+            document
+                .querySelector('a[href="/autres"]')
+                ?.querySelector("span")
+                ?.classList.add("active");
+
         default:
             document
                 .querySelector('a[href="' + window.location.pathname + '"]')
