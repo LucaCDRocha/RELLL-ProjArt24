@@ -5,7 +5,6 @@ import useDarkMode from "@/Composables/darkMode";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 
-
 const { toggleDarkMode } = useDarkMode();
 </script>
 
@@ -14,11 +13,21 @@ const { toggleDarkMode } = useDarkMode();
 
     <h1>Settings</h1>
 
-    <PrimaryButton @click="toggleDarkMode()">Toggle dark mode</PrimaryButton>
-    <SecondaryButton>Toggle dark mode</SecondaryButton>
+    <div>
+        <PrimaryButton @click="toggleDarkMode()"
+            >Toggle dark mode</PrimaryButton
+        >
+        <SecondaryButton icon="search">Rechercher</SecondaryButton>
+    </div>
 
     <div style="height: 5rem"></div>
     <TheNav />
 </template>
 
-<style scoped></style>
+<style scoped>
+div {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+</style>

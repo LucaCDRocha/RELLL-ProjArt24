@@ -5,3 +5,9 @@
         <slot />
     </button>
 </template>
+
+<style scoped>
+button {
+    height: 2.5rem;
+}
+</style>
