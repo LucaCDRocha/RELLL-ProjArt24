@@ -4,6 +4,7 @@ import TheNav from "@/Components/TheNav.vue";
 import useDarkMode from "@/Composables/darkMode";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import BaseToggleButton from "@/Components/BaseToggleButton.vue";
 
 const { toggleDarkMode } = useDarkMode();
 </script>
@@ -19,6 +20,8 @@ const { toggleDarkMode } = useDarkMode();
         >
         <SecondaryButton icon="search">Rechercher</SecondaryButton>
     </div>
+
+    <BaseToggleButton label="Theme sombre" />
 
     <div style="height: 5rem"></div>
     <TheNav />
