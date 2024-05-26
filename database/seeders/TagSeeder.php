@@ -22,8 +22,7 @@ class TagSeeder extends Seeder
         $tags = collect($data['sentiers'])
                     ->pluck('points_interet') //extrait les valeurs d'un attribut donné de chaque élément de la collection
                     ->flatten(1) //aplatie la collection d'un niveau
-                    ->pluck('tags')
-                    ->flatten()//aplatit complètement la collection
+                    ->pluck('tag')
                     ->unique()
                     ->values()
                     ->all();
@@ -33,7 +32,8 @@ class TagSeeder extends Seeder
            Tag::create([
                 'name' => $tag
             ]);
-        }} catch (\Exception $e) {
+        }
+    } catch (\Exception $e) {
             $this->command->error($e->getMessage());
         }
     }

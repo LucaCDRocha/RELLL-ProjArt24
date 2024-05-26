@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
         //création des parcours tests
        // $this->call(TagSeeder::class);
        // $this->call(LocationSeeder::class);
-         $this->call(ThemesSeeder::class);
-        // $this->call(InterestPointSeeder::class);
+        // $this->call(ThemesSeeder::class);
+         $this->call(InterestPointSeeder::class);
         // $this->call(ImgSeeder::class);
         // $this->call(TrailsSeeder::class);
         // $this->call(InterestPointTrailSeeder::class);

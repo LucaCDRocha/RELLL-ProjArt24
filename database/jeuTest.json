@@ -41,10 +41,7 @@
                 {
                     "nom": "Plateforme 10",
                     "description": "C’est un peu le nouveau quartier des arts de Lausanne. Il est composé de plusieurs musées ainsi que de galeries extérieures. C’est une fondation de droit public soutenue par l’Etat de Vaud.",
-                    "tags": [
-                        "Musée",
-                        "Art"
-                    ],
+                    "tag":"Musée",
                     "coordonnees": [
                         46.518273,
                         6.625511
@@ -59,9 +56,7 @@
                 {
                     "nom": "Parc de Milan",
                     "description": "Faites une pause, parcourez le jardin botanique et profitez d’une vue renversante en haut de la colline de Montriond.",
-                    "tags": [
-                        "Vue panoramique"
-                    ],
+                    "tag":"Vue panoramique",
                     "coordonnees": [
                         46.515143,
                         6.624853
@@ -76,10 +71,7 @@
                 {
                     "nom": "Parc du musée olymique",
                     "description": "Plusieurs statues sur le thème des jeux olympiques ou du sport. Laissez-vous surprendre en le parcourant. Une fontaine et des activités pour les enfants sont disponibles également.",
-                    "tags": [
-                        "Art",
-                        "Sculpture"
-                    ],
+                    "tag":"Art",
                     "coordonnees": [
                         46.507901,
                         6.634382
@@ -94,10 +86,7 @@
                 {
                     "nom": "Général Guisan",
                     "description": "Le Général Henri Guisan fut le commandant en chef de l'armée suisse pendant la Seconde Guerre mondiale. Connu pour son leadership, il a renforcé la stratégie de défense nationale, notamment avec le Plan Wahlen et le Réduit national, préparant la Suisse à résister à une éventuelle invasion.",
-                    "tags": [
-                        "Art",
-                        "Sculpture"
-                    ],
+                    "tag":"Sculpture",
                     "coordonnees": [
                         46.507202,
                         6.629650
@@ -112,10 +101,7 @@
                 {
                     "nom": "Nicolas Delémont - Femme à l’enfant",
                     "description": "Cette sculpture qui tend vers l’abstrait nous invite dans l’intimité qu’une femme peut avoir avec son enfant.",
-                    "tags": [
-                        "Art",
-                        "Sculpture"
-                    ],
+                    "tag":"Sculpture",
                     "coordonnees": [
                         46.505255,
                         6.627512
@@ -130,10 +116,7 @@
                 {
                     "nom": "Vladimir Tchepelik – Serge Lifar",
                     "description": "Serge Lifar est un grand danseur et chorégraphe qui a terminé sa vie à Lausanne. Vladimir Tchepelik a voulu lui rendre hommage en représentant un moment phare de sa carrière.",
-                    "tags": [
-                        "Art",
-                        "Sculpture"
-                    ],
+                    "tag":"Sculpture",
                     "coordonnees": [
                         46.505530,
                         6.627067
@@ -148,10 +131,7 @@
                 {
                     "nom": "Angel Durate – Ouverture au monde",
                     "description": "Cet artiste s’inspire de la géométrie dans ses œuvres. Cette sculpture invite les voyageurs et s’illumine aux rayons du soleil.",
-                    "tags": [
-                        "Art",
-                        "Sculpture"
-                    ],
+                    "tag":"Sculpture",
                     "coordonnees": [
                         46.504836,
                         6.625691
@@ -166,10 +146,7 @@
                 {
                     "nom": "Clelia Bettua - Eole",
                     "description": "Cette sculpture indique le sens du vent. Pour le découvrir, trouver le monolithe qui complète le demi-cercle de la girouette.",
-                    "tags": [
-                        "Art",
-                        "Sculpture"
-                    ],
+                    "tag":"Art",
                     "coordonnees": [
                         46.505253,
                         6.625671
