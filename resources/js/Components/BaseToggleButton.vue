@@ -1,5 +1,5 @@
 <script setup>
-import { defineModel, watch } from "vue";
+import { defineModel } from "vue";
 import useDarkMode from "@/Composables/darkMode.js";
 
 const { isDarkMode, toggleDarkMode } = useDarkMode();

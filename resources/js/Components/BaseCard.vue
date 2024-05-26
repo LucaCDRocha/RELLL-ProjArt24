@@ -1,5 +1,4 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
 import BaseTag from "@/Components/BaseTag.vue";
 
 defineProps({

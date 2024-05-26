@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 
 onMounted(() => {
     console.log("mounted");
@@ -36,10 +36,6 @@ onMounted(() => {
 });
 const isOpen = ref(false);
 
-watch(isOpen, (value) => {
-    console.log(value);
-});
-
 window.addEventListener("load", () => {});
 </script>
 
@@ -68,12 +64,12 @@ window.addEventListener("load", () => {});
     <div class="modal" v-show="isOpen" @click="isOpen = !isOpen">
         <div class="fixed">
             <a href="/bookmark"
-                ><span class="material-symbols-rounded"> bookmark </span
-                >Mes listes</a
+                ><span class="material-symbols-rounded"> bookmark </span>Mes
+                listes</a
             >
             <a href="/favorites"
-                ><span class="material-symbols-rounded"> star </span
-                >Mes favoris</a
+                ><span class="material-symbols-rounded"> star </span>Mes
+                favoris</a
             >
             <a href="/my-trails"
                 ><span class="material-symbols-rounded"> conversion_path </span
@@ -145,7 +141,7 @@ span {
     display: flex;
     align-self: center;
     justify-content: center;
-    
+
     width: 60%;
     margin-bottom: 0.1rem;
     padding: 0.2rem;

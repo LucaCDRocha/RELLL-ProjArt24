@@ -1,6 +1,6 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref } from "vue";
 import TheNav from "@/Components/TheNav.vue";
 import AppCardList from "@/Components/AppCardList.vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
