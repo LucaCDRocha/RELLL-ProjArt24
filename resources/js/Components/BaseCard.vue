@@ -13,7 +13,7 @@ defineProps({
 <template>
     <div class="card">
         <div class="tag">
-            <BaseTag  :selected="false" :tag="tag">{{ tag }}</BaseTag>
+            <BaseTag :tag="tag">{{ tag }}</BaseTag>
         </div>
         <p><slot /></p>
     </div>
@@ -21,24 +21,23 @@ defineProps({
 
 <style scoped>
 div.card {
-    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-
     display: flex;
     flex-direction: column;
     align-self: center;
     justify-content: flex-end;
+    
     height: 10rem;
     padding: 1rem;
     margin-right: 1rem;
     margin-bottom: 1rem;
 
     border-radius: 1.75rem;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    
     background-color: beige;
     background:
         linear-gradient(180deg, rgba(32, 32, 32, 0) 0%, #202020 94.1%),
         white 50% / cover no-repeat
-
-    
 }
 
 .tag {
@@ -49,8 +48,8 @@ div.card {
 }
 
 p {
-    @apply text-green-50;
-    font-size: 1.1rem;
+    @apply text-xl text-green-50;
+
     width: 10rem;
 }
 </style>

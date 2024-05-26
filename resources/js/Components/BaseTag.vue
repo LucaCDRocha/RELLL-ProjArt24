@@ -1,9 +1,15 @@
 <script setup>
+import { onMounted } from "vue";
+
 // defini un props pour le composant avec tag qui est optionnel
-defineProps({
+const { tag, selected } = defineProps({
     tag: {
         type: String,
         default: () => "None",
+    },
+    selected: {
+        type: Boolean,
+        default: () => false,
     },
 });
 
@@ -20,22 +26,35 @@ const getTagColor = (tag) => {
             return "bg-blue-100 dark:bg-blue-900";
     }
 };
+
+const getClasses = (tag) => {
+    const classes = {
+        "active": selected,
+    };
+    classes[getTagColor(tag)] = true;
+    return classes;
+};
 </script>
 
 <template>
-    <a href="/show-tag" class="tag" :class="getTagColor(tag)">
+    <a href="/show-tag" class="tag" :class="getClasses(tag)">
         {{ tag }}
     </a>
 </template>
 
 <style scoped>
 .tag {
+    @apply text-sm;
+
     display: inline-flex;
-    padding: 0.1875rem 1rem;
     justify-content: center;
     align-items: center;
-    gap: 0.625rem;
+    
+    padding: 0.2rem 0.8rem;
+    border-radius: 0.35rem;
+}
 
-    border-radius: 0.3125rem;
+.tag.active {
+    @apply bg-transparent border-2 border-teal-400 text-teal-400 dark:text-teal-400 dark:border-teal-400;
 }
 </style>

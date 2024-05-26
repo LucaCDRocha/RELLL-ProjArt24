@@ -38,10 +38,12 @@ const data = ref([
     </button>
 
     <h1>Home</h1>
-    <p>Welcome to your application</p>
+    
     <AppCardList :datas="data">Les parcours les plus populaires</AppCardList>
     <AppCardList :datas="data">Les points d’intérêts les mieux notés</AppCardList>
     <AppCardList :datas="data">Les différentes catégories</AppCardList>
+
+
 
     <div style="height: 5rem;"></div>
     <TheNav />

@@ -1,5 +1,4 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
 import BaseCard from "@/Components/BaseCard.vue";
 
 defineProps({
@@ -28,8 +27,9 @@ div.cardList {
 }
 
 p {
+    @apply text-2xl;
+    
     margin-left: 1rem;
-    font-size: 1.5rem;
 }
 
 div:first-child {

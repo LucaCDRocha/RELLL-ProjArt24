@@ -84,6 +84,7 @@ window.addEventListener("load", () => {});
 <style scoped>
 div {
     @apply bg-green-100 dark:bg-green-800;
+
     display: flex;
     justify-content: space-around;
     position: fixed;
@@ -95,13 +96,12 @@ div {
 
 .modal {
     @apply bg-transparent dark:bg-transparent;
+
     width: 100vw;
     height: 100vh;
 }
 
 .fixed {
-    border-top-left-radius: 2rem;
-    border-top-right-radius: 2rem;
     display: flex;
     flex-direction: row;
     flex-flow: row wrap;
@@ -109,6 +109,9 @@ div {
     align-items: flex-end;
     position: fixed;
     right: 0rem;
+
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
 }
 
 .fixed a {
@@ -118,23 +121,27 @@ div {
 }
 
 a {
+    @apply text-xs;
+
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+
     width: 100%;
-    font-size: 0.7rem;
 }
 
 span {
-    width: 60%;
-    margin-bottom: 0.1rem;
-    padding: 0.2rem;
-    border: none;
-    border-radius: 1.2rem;
     display: flex;
     align-self: center;
     justify-content: center;
+    
+    width: 60%;
+    margin-bottom: 0.1rem;
+    padding: 0.2rem;
+
+    border: none;
+    border-radius: 1.2rem;
 }
 
 span.active {
