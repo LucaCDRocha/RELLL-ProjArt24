@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        // // création d'utilisateurs
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
@@ -27,7 +28,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'marc@example.com',
         //     'email_verified_at' => now(),
         //     'password' => "12345Bob",
-        //     'is_admin' => true
+        //     'is_admin' => false
         // ]);
         // User::factory()->create([
         //     'name' => 'Sam',
@@ -52,5 +53,9 @@ class DatabaseSeeder extends Seeder
         // $this->call(CommentSeeder::class);
         // $this->call(LikeSeeder::class);
         // $this->call(RankingSeeder::class);
+
+        // // création de favoris et 
+        // $this->call(FavoriteSeeder::class);
+        // $this->call(FavoriteTrailSeeder::class);
     }
 }
