@@ -1,0 +1,36 @@
+{
+    "comments" : [
+        {
+            "user": "Test User",
+            "trail": "Art en ville de Lausanne",
+            "content" : "Ce parcours est génial !"
+        },
+        {
+            "user": "Marc",
+            "trail": "Art en ville de Lausanne",
+            "content" : "Je recommande sans hésiter !"
+        },
+        {
+            "user": "Sam",
+            "trail": "Art en ville de Lausanne",
+            "content" : "Il manque des détails dans les points d'intérêts de ce parcours"
+        }
+    ],
+    "rankings":[
+        {
+            "user" :"Test User",
+            "trail":"Art en ville de Lausanne",
+            "note": 5
+        },
+        {
+            "user" :"Sam",
+            "trail":"Art en ville de Lausanne",
+            "note": 2
+        },
+        {
+            "user" :"Marc",
+            "trail":"Art en ville de Lausanne",
+            "note": 4
+        }
+    ]
+}
