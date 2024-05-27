@@ -23,7 +23,7 @@ defineExpose({ focus: () => input.value.focus() });
 
 <style scoped>
 input {
-    @apply bg-green-50 dark:bg-green-950;
+    @apply bg-green-50 dark:bg-green-900;
     @apply text-green-950 dark:text-green-50;
     @apply border-gray-300 dark:border-gray-700;
     @apply focus:ring-1 focus:ring-green-500 dark:focus:ring-green-600;
