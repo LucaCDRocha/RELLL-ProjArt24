@@ -29,3 +29,27 @@ require __DIR__.'/auth.php';
 Route::get('/home', function () {
     return Inertia::render('Home');
 });
+
+Route::get('/search', function () {
+    return Inertia::render('Search');
+});
+
+Route::get('/map', function () {
+    return Inertia::render('Map');
+});
+
+Route::get('/settings', function () {
+    return Inertia::render('Settings');
+});
+
+Route::get('/bookmark', function () {
+    return Inertia::render('List');
+});
+
+Route::get('/favorites', function () {
+    return Inertia::render('List');
+});
+
+Route::get('/my-trails', function () {
+    return Inertia::render('List');
+});

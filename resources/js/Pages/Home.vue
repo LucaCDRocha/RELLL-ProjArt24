@@ -1,29 +1,44 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import { ref, onMounted, onUnmounted, watch } from "vue";
-import useDarkMode from "@/Composables/darkMode";
+import { ref } from "vue";
+import TheNav from "@/Components/TheNav.vue";
+import AppCardList from "@/Components/AppCardList.vue";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
-const { toggleDarkMode } = useDarkMode();
-
+const data = ref([
+    {
+        name: "Château",
+        tag: "Facile",
+    },
+    {
+        name: "Art en ville de Lausanne",
+        tag: "Moyen",
+    },
+    {
+        name: "33",
+        tag: "Difficile",
+    },
+    {
+        name: "33",
+        tag: "oui",
+    },
+]);
 </script>
 
 <template>
     <Head title="Home" />
-    <button
-        @click="toggleDarkMode()"
-        class="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-lg"
-    >
-        Toggle Dark Mode
-    </button>
 
-    <h1
-        class="text-xl font-semibold text-black dark:text-white dark:background-black"
+    <h1>Home</h1>
+    <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+
+    <AppCardList :datas="data">Les parcours les plus populaires</AppCardList>
+    <AppCardList :datas="data"
+        >Les points d’intérêts les mieux notés</AppCardList
     >
-        Home
-    </h1>
-    <p class="text-sm text-gray-500 dark:text-gray-400">
-        Welcome to your application
-    </p>
+    <AppCardList :datas="data">Les différentes catégories</AppCardList>
+
+    <div style="height: 5rem"></div>
+    <TheNav />
 </template>
 
 <style scoped></style>
