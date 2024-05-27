@@ -21,5 +21,11 @@ class FavoriteTrailSeeder extends Seeder
 
         $favorite = Favorite::find(5);
         $favorite->trails()->attach(1);
+
+        $favorite = Favorite::find(2);
+        $favorite->trails()->attach(2);
+
+        $favorite = Favorite::find(5);
+        $favorite->trails()->attach(2);
     }
 }

@@ -15,7 +15,7 @@ class LikeSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i=1; $i < 4 ; $i++) { 
+        for ($i=1; $i < 5 ; $i++) { 
             $numbers = range(1, 3);
             shuffle($numbers);
             $n = rand(0, 3);

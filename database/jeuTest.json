@@ -2,7 +2,7 @@
     "themes": [
         {
             "name": "Enfants",
-            "descr": "Découvrez des randonnées didactiques amusantes et éducatives, spécialement conçues pour les enfants, alliant nature, aventure et apprentissage"
+            "descr": "Découvrez des randonnées adaptés aux enfants, alliant nature, aventure et apprentissage"
         },
         {
             "name": "Sculpture",
@@ -11,6 +11,10 @@
         {
             "name": "Architecture",
             "descr": "Vous aimez l'architecture ? Alors ces sentiers sont pour vous !"
+        },
+        {
+            "name": "Historique",
+            "descr": "(Re)Découvrez la ville à travers son histoire."
         }
     ],
     "sentiers": [
@@ -194,6 +198,181 @@
                         {
                             "source": "Gzzz, CC BY-SA 4.0, via Wikimedia Commons",
                             "url": "https://commons.wikimedia.org/wiki/File:%C3%89ole_(Clelia_Bettua).jpg"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "titre": "L'Histoire d'Yverdon-les-Bains",
+            "description": "Connaissez-vous l'histoire de la ville d'Yverdon ? Apprenez-en plus à travrs notre chemin",
+            "duree": "00:30:00",
+            "difficulte": "facile",
+            "themes": [
+                "Historique",
+                "Enfants"
+            ],
+            "accessibilite": true,
+            "info_transport": "C'est une boucle depuis l'arrêt du bus Yverdon, Théâtre Benno Besson des bus 604 et 605'.",
+            "depart": {
+                "coordonnees": [
+                    46.779110, 
+                    6.642196
+                ]
+            },
+            "arrivee": {
+                "coordonnees": [
+                    46.779110, 
+                    6.642196
+                ]
+            },
+            "image": {
+                "source": "Roland Zumbühl (Picswiss), Arlesheim (Commons:Picswiss project), CC BY-SA 3.0, via Wikimedia Commons",
+                "url": "https://upload.wikimedia.org/wikipedia/commons/2/25/Picswiss_VD-47-14.jpg"
+            },
+            "restauration": "plusieurs restaurants ou cafés sur le parcours",
+            "parking" : {
+                "coordonnees": [
+                    46.780740, 
+                    6.638750
+                ]
+            },
+            "points_interet": [
+                {
+                    "nom": "Théâtre Benno Besson (1898)",
+                    "description": "C'était un casino pendant un siècle. Il a ensuite été transformé en une salle de spectacle et nommé d'après Benno Besson(1922-2006), un homme du Nord vaudois bien connu du monde du théâtre comme acteur et metteur en scène.",
+                    "tag": "Théâtre",
+                    "coordonnees": [
+                        46.779657, 
+                        6.642460
+                    ],
+                    "opening": "00:00:00",
+                    "close": "23:59:59",
+                    "url": "https://www.theatrebennobesson.ch/",
+                    "images": [
+                        {
+                            "source": "Sébastien Lassueur, CC BY-SA 4.0, via Wikimedia Commons",
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/3/36/Th%C3%A9%C3%A2tre_Benno_Besson%2C_Yverdon-les-Bains.jpg"
+                        },
+                        {
+                            "source": "Erling Mandelmann / photo©ErlingMandelmann.ch",
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Benno_Besson_%281983%29_by_Erling_Mandelmann.jpg"
+                        }
+                    ]
+                },
+                {
+                    "nom": "Temple national (1757)",
+                    "description": "La chapelle urbaine Notre-Dame, mentionnée pour la première fois en 1379, a subi des modifications majeures en 1508-1509, notamment la construction d'une chapelle attenante dédiée aux saints Roch et Sébastien. En 1536, la conquête bernoise a entraîné la démolition du chœur et la réorganisation de l'église en temple protestant. Aujourd'hui, il reste principalement le clocher médiéval du XIVe siècle, rehaussé entre 1608 et 1609, avec un ensemble de cloches médiévales unique en Europe.",
+                    "tag": "Bâtiment",
+                    "coordonnees": [
+                        46.778904, 
+                        6.640619
+                    ],
+                    "opening": "09:00:00",
+                    "close": "17:00:00",
+                    "url": "-",
+                    "images": [
+                        {
+                            "source": "Roland Zumbühl (Picswiss), Arlesheim (Commons:Picswiss project), CC BY-SA 3.0, via Wikimedia Commons",
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Picswiss_VD-47-17.jpg"
+                        },
+                        {
+                            "source": "Antoine Delage, CC BY-SA 4.0, via Wikimedia Commons",
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Orgue_du_Temple_d%27Yverdon-les-Bains_Suisse.jpg"
+                        }
+                    ]
+                },
+                {
+                    "nom": "Hôtel de Ville (1769)",
+                    "description": "Construit entre 1767 et 1773 par l'architecte Abraham Burnand, cet édifice incarne l'autonomie des autorités communales face au souverain bernois. Situé sur la place Pestalozzi, il se distingue par sa façade en pierres jaunes de Neuchâtel, rythmée par des pilastres colossaux et divers types d'ouvertures. Destiné à accueillir les halles au rez-de-chaussée, l'administration au premier étage et des locaux publics et logements au second, il a été conçu à partir d'un concours collaboratif entre les architectes Béat de Hennezel et Abraham Burnand.",
+                    "tag": "Bâtiment",
+                    "coordonnees": [
+                        46.778527, 
+                        6.640818
+                    ],
+                    "opening": "00:00:00",
+                    "close": "23:59:59",
+                    "url": "-",
+                    "images": [
+                        {
+                            "source": "Olivier Anh, CC BY-SA 3.0, via Wikimedia Commons",
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/H%C3%B4tel_de_Ville_d%27Yverdon_les_Bains.jpg"
+                        }
+                    ]
+                },
+                {
+                    "nom": "Logis de l'Aigle Royal (XVIIIe siècle)",
+                    "description": "Le bâtiment de l'Aigle royal, construit au XVIIIe siècle par Béat de Hennezel, fut une auberge puis l'institut pour jeunes filles de Johann Heinrich Pestalozzi en 1806. Inscrit comme bien culturel suisse d'importance nationale, il sert aujourd'hui d'annexe à l'hôtel de ville, surnommé Hôtel de Ville no 2.",
+                    "tag": "Bâtiment",
+                    "coordonnees": [
+                        46.778488, 
+                        6.640374
+                    ],
+                    "opening": "00:00:00",
+                    "close": "23:59:59",
+                    "url": "-",
+                    "images": [
+                        {
+                            "source": "Olivier Anh, CC BY-SA 3.0, via Wikimedia Commons",
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/7/76/L%27ancien_h%C3%B4tel_de_l%27Aigle_%C3%A0_Yverdon_les_Bains.jpg"
+                        }
+                    ]
+                },
+                {
+                    "nom": "Place Pestalozzi",
+                    "description": "Influencé par Jean-Jacques Rousseau, Johann Heinrich Pestalozzi consacre sa vie à l'éducation des enfants pauvres, créant des écoles modèles en Europe. En 1806, il fonde plusieurs instituts à Yverdon, dont un pour jeunes filles et un pour sourds-muets.",
+                    "tag": "Place",
+                    "coordonnees": [
+                        46.778659, 
+                        6.641027
+                    ],
+                    "opening": "00:00:00",
+                    "close": "23:59:59",
+                    "url": "https://fr.wikipedia.org/wiki/Johann_Heinrich_Pestalozzi",
+                    "images": [
+                        {
+                            "source": "-",
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Johann_Heinrich_Pestalozzi_%28Real_Academia_de_Bellas_Artes_de_San_Fernando%2C_Madrid%29.jpg"
+                        },
+                        {
+                            "source": "Jean-Pierre Bösiger, CC BY-SA 4.0, via Wikimedia Commons",
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/3/35/Statue_Pestalozzi.jpg"
+                        }
+                    ]
+                },
+                {
+                    "nom": "Centre historique",
+                    "description": "Observez les rues piétonnes et découvrez les vestiges de l'ancien temps",
+                    "tag": "Bâtiment",
+                    "coordonnees": [
+                        46.778659, 
+                        6.641027
+                    ],
+                    "opening": "00:00:00",
+                    "close": "23:59:59",
+                    "url": "-",
+                    "images": [
+                        {
+                            "source": "Roland Zumbühl (Picswiss), Arlesheim (Commons:Picswiss project), CC BY-SA 3.0, via Wikimedia Commons",
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/2/25/Picswiss_VD-47-14.jpg"
+                        }
+                    ]
+                },
+                {
+                    "nom": "Château d'Yverdon (XIIIe siècle)",
+                    "description": "Le château d'Yverdon, initialement habité par les seigneurs savoyards, est construit autour de 1235 par Amédée III de Montfaucon-Montbéliard. Vendu à Pierre II de Savoie en 1260, le château de plan quadrangulaire est érigé entre 1260 et 1265 pour protéger la ville. Devenu chef-lieu du bailliage d'Yverdon sous la domination bernoise en 1536, il sert de résidence aux baillis jusqu'en 1798. En 1805, la ville d'Yverdon achète le château, et Johann Heinrich Pestalozzi y installe son institut de 1805 à 1825. Le château est restauré au XXe siècle par les architectes Otto Schmid et Pierre Margot.",
+                    "tag": "Château",
+                    "coordonnees": [
+                        46.777941,
+                        6.641481
+                    ],
+                    "opening": "11:00:00",
+                    "close": "18:00:00",
+                    "url": "http://chateau.yverdon.ch/accueil",
+                    "images": [
+                        {
+                            "source": "Geri340, CC BY-SA 4.0, via Wikimedia Commons",
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/0/03/Das_Schloss_von_Yverdon-les-Bains_06.jpg"
                         }
                     ]
                 }

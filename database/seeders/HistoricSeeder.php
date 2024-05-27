@@ -17,5 +17,13 @@ class HistoricSeeder extends Seeder
             'user_id' => 2,
             'trail_id' => 1
         ]);
+        Historic::create([
+            'user_id' => 2,
+            'trail_id' => 2
+        ]);
+        Historic::create([
+            'user_id' => 3,
+            'trail_id' => 2
+        ]);
     }
 }

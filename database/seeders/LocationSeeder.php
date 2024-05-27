@@ -29,7 +29,6 @@ class LocationSeeder extends Seeder
                 dump($coordinate);
                 $locationId = JsonHelper::getLocationIdByCoordinates($coordinate);
                 if ($locationId == null) {
-                    dump($locationId);
                     Location::create([
                         'latitude' => $coordinate[0],
                         'longitude' => $coordinate[1]
@@ -46,6 +45,24 @@ class LocationSeeder extends Seeder
                 ->all();
 
             foreach ($coordinates_arrivee as $coordinate) {
+                $locationId = JsonHelper::getLocationIdByCoordinates($coordinate);
+                if ($locationId == null) {
+                    Location::create([
+                        'latitude' => $coordinate[0],
+                        'longitude' => $coordinate[1]
+                    ]);
+                }
+            }
+
+            //crée les points des parkings des sentiers
+            $coordinates_parking = collect($data['sentiers'])
+                ->pluck('parking')
+                ->pluck('coordonnees')
+                ->unique()
+                ->values()
+                ->all();
+
+            foreach ($coordinates_parking as $coordinate) {
                 $locationId = JsonHelper::getLocationIdByCoordinates($coordinate);
                 if ($locationId == null) {
                     Location::create([

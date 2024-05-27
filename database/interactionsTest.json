@@ -14,6 +14,11 @@
             "user": "Sam",
             "trail": "Art en ville de Lausanne",
             "content" : "Il manque des détails dans les points d'intérêts de ce parcours"
+        },
+        {
+            "user": "Sam",
+            "trail": "L'Histoire d'Yverdon-les-Bains",
+            "content" : "Je redécouvre ma ville ! Merci pour ce partage !"
         }
     ],
     "rankings":[
@@ -30,6 +35,16 @@
         {
             "user" :"Marc",
             "trail":"Art en ville de Lausanne",
+            "note": 4
+        },
+        {
+            "user" :"Marc",
+            "trail":"L'Histoire d'Yverdon-les-Bains",
+            "note": 4
+        },
+        {
+            "user" :"Sam",
+            "trail":"L'Histoire d'Yverdon-les-Bains",
             "note": 4
         }
     ]
