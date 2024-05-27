@@ -38,7 +38,7 @@ class TrailsSeeder extends Seeder
                 $endId = JsonHelper::getLocationIdByCoordinates($trail['arrivee']['coordonnees']);
                 $parkingId = JsonHelper::getLocationIdByCoordinates($trail['parking']['coordonnees']);
 
-                $imgId = JsonHelper::getInfoByValue('imgs', 'url', $trail['image']['url']);
+                // $imgId = JsonHelper::getInfoByValue('imgs', 'url', $trail['image']['url']);
 
                 Trail::create([
                     'name' => $trail['titre'],

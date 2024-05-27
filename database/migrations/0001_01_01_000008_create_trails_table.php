@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('trails', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->date('time'); // à vérifier et confirmer le type
+            $table->time('time'); // à vérifier et confirmer le type
             $table->text('description');
             $table->integer('difficulty'); // sur une échelle de 1 à 3,
             $table->boolean('is_accessible');
