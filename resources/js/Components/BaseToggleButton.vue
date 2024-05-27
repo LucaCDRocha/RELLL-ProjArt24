@@ -1,13 +1,7 @@
 <script setup>
-import { defineModel } from "vue";
 import useDarkMode from "@/Composables/darkMode.js";
 
 const { isDarkMode, toggleDarkMode } = useDarkMode();
-
-const isChecked = defineModel({
-    prop: "checked",
-    event: "change",
-});
 
 defineProps({
     label: {

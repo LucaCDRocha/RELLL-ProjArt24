@@ -32,7 +32,7 @@ p {
     margin-left: 1rem;
 }
 
-div:first-child {
+div.cardList:first-child {
     margin-left: 1rem;
 }
 </style>

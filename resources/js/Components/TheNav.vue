@@ -2,7 +2,6 @@
 import { ref, onMounted } from "vue";
 
 onMounted(() => {
-    console.log("mounted");
     switch (window.location.pathname) {
         case "/login":
         case "/logout":
