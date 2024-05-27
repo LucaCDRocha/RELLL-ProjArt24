@@ -1,6 +1,4 @@
 <script setup>
-import { onMounted } from "vue";
-
 // defini un props pour le composant avec tag qui est optionnel
 const { tag, selected } = defineProps({
     tag: {
@@ -19,11 +17,11 @@ const getTagColor = (tag) => {
         case "Facile":
             return "bg-green-100 dark:bg-green-900";
         case "Moyen":
-            return "bg-yellow-100 dark:bg-yellow-900";
+            return "bg-blue-100 dark:bg-blue-900";
         case "Difficile":
             return "bg-red-100 dark:bg-red-900";
         default:
-            return "bg-blue-100 dark:bg-blue-900";
+            return "bg-blue-900 text-green-50 dark:bg-blue-100 dark:text-green-950";
     }
 };
 
@@ -55,6 +53,6 @@ const getClasses = (tag) => {
 }
 
 .tag.active {
-    @apply bg-transparent border-2 border-teal-400 text-teal-400 dark:text-teal-400 dark:border-teal-400;
+    @apply bg-transparent border-2 border-blue-900 text-blue-900 dark:text-blue-900 dark:border-blue-900;
 }
 </style>

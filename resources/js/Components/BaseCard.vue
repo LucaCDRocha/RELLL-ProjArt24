@@ -47,17 +47,14 @@ defineProps({
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
             minima quis, ex obcaecati ullam commodi a veniam rerum accusantium
             repellendus quae doloribus veritatis nesciunt corporis? Minima
-            quaerat aspernatur nihil et?
-
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
-            minima quis, ex obcaecati ullam commodi a veniam rerum accusantium
-            repellendus quae doloribus veritatis nesciunt corporis? Minima
-            quaerat aspernatur nihil et?
-
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
-            minima quis, ex obcaecati ullam commodi a veniam rerum accusantium
-            repellendus quae doloribus veritatis nesciunt corporis? Minima
-            quaerat aspernatur nihil et?
+            quaerat aspernatur nihil et? Lorem, ipsum dolor sit amet consectetur
+            adipisicing elit. Quia minima quis, ex obcaecati ullam commodi a
+            veniam rerum accusantium repellendus quae doloribus veritatis
+            nesciunt corporis? Minima quaerat aspernatur nihil et? Lorem, ipsum
+            dolor sit amet consectetur adipisicing elit. Quia minima quis, ex
+            obcaecati ullam commodi a veniam rerum accusantium repellendus quae
+            doloribus veritatis nesciunt corporis? Minima quaerat aspernatur
+            nihil et?
         </p>
     </BaseBottomSheet>
 </template>
@@ -67,7 +64,7 @@ div.card {
     display: flex;
     flex-direction: column;
     align-self: center;
-    justify-content: flex-end;
+    justify-content: space-between;
 
     height: 10rem;
     padding: 1rem;
@@ -82,11 +79,12 @@ div.card {
         white 50% / cover no-repeat;
 }
 
-.tag {
+.card .tag {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0.6rem;
+    justify-content: flex-end;
 }
 
 .card p {
