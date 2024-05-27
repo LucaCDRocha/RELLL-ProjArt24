@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Themes;
+use App\Models\Theme;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Helpers\JsonHelper;
@@ -22,7 +22,7 @@ class ThemesSeeder extends Seeder
                 ->all();
 
                 foreach ($themes as $theme) {
-                    Themes::create([
+                    Theme::create([
                         'name' => $theme['name'],
                         'description' => $theme['descr']
                     ]);

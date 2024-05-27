@@ -17,51 +17,62 @@ class LocationSeeder extends Seeder
         try {
             $data = JsonHelper::readJson('/jeuTest.json'); //récupère des infos dans jeuTest.json
 
+            //crée les points de départ des sentiers
             $coordinates_depart = collect($data['sentiers'])
                 ->pluck('depart')
                 ->pluck('coordonnees')
-                ->filter() // Filtrer les points d'intérêt sans coordonnées
+                ->unique()
                 ->values()
                 ->all();
 
             foreach ($coordinates_depart as $coordinate) {
                 dump($coordinate);
-                Location::create([
-                    'latitude' => $coordinate[0],
-                    'longitude' => $coordinate[1]
-                ]);
+                $locationId = JsonHelper::getLocationIdByCoordinates($coordinate);
+                if ($locationId == null) {
+                    dump($locationId);
+                    Location::create([
+                        'latitude' => $coordinate[0],
+                        'longitude' => $coordinate[1]
+                    ]);
+                }
             }
 
+            //crée les points d'arrivées des sentiers
             $coordinates_arrivee = collect($data['sentiers'])
                 ->pluck('arrivee')
                 ->pluck('coordonnees')
-                ->filter() // Filtrer les points d'intérêt sans coordonnées
+                ->unique()
                 ->values()
                 ->all();
 
             foreach ($coordinates_arrivee as $coordinate) {
-                dump($coordinate);
-                Location::create([
-                    'latitude' => $coordinate[0],
-                    'longitude' => $coordinate[1]
-                ]);
+                $locationId = JsonHelper::getLocationIdByCoordinates($coordinate);
+                if ($locationId == null) {
+                    Location::create([
+                        'latitude' => $coordinate[0],
+                        'longitude' => $coordinate[1]
+                    ]);
+                }
             }
 
-            // Extraire les coordonnées de tous les points d'intérêt
+            // Extrait les coordonnées de tous les points d'intérêt
             $coordinates = collect($data['sentiers'])
                 ->pluck('points_interet')
                 ->flatten(1)
                 ->pluck('coordonnees')
-                ->filter() // Filtrer les points d'intérêt sans coordonnées
+                ->unique()
                 ->values()
                 ->all();
 
-            // Insérer les tags dans la base de données
+            // Insére les coordonnées des points dans la base de données
             foreach ($coordinates as $coordinate) {
-                Location::create([
-                    'latitude' => $coordinate[0],
-                    'longitude' => $coordinate[1]
-                ]);
+                $locationId = JsonHelper::getLocationIdByCoordinates($coordinate);
+                if ($locationId == null) {
+                    Location::create([
+                        'latitude' => $coordinate[0],
+                        'longitude' => $coordinate[1]
+                    ]);
+                }
             }
         } catch (\Exception $e) {
             $this->command->error($e->getMessage());

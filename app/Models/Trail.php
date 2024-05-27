@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Psy\Output\Theme;
 
 class Trail extends Model
 {
@@ -59,5 +58,9 @@ class Trail extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function interest_points() {
+        return $this->belongsToMany(InterestPoint::class);
     }
 }
