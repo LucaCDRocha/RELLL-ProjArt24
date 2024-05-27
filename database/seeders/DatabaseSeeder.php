@@ -38,7 +38,6 @@ class DatabaseSeeder extends Seeder
         //     'is_admin' => true
         // ]);
         
-
         // // création des parcours tests
         // $this->call(TagSeeder::class);
         // $this->call(LocationSeeder::class);
@@ -54,8 +53,11 @@ class DatabaseSeeder extends Seeder
         // $this->call(LikeSeeder::class);
         // $this->call(RankingSeeder::class);
 
-        // // création de favoris et 
+        // // création de favoris et de listes
         // $this->call(FavoriteSeeder::class);
         // $this->call(FavoriteTrailSeeder::class);
+
+        // // création de l'historique
+        // $this->call(HistoricSeeder::class);
     }
 }
