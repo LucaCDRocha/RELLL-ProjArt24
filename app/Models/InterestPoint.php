@@ -32,4 +32,8 @@ class InterestPoint extends Model
     {
         return $this->belongsTo(Tag::class);
     }
+
+    public function trails() {
+        return $this->belongsToMany(Trail::class);
+    }
 }
