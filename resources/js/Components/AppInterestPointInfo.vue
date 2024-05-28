@@ -15,20 +15,23 @@ const emit = defineEmits(["handleClose"]);
 
 <template>
     <h1>{{ data.name }}</h1>
-    <div class="tag">
-        <BaseTag :tag="data.tag" :selected="true">{{ data.tag }}</BaseTag>
+    <p>{{ data.description }}</p>
+    <div>
+        <BaseTag v-for="tag in data.tags" :key="tag" :tag="tag">{{
+            tag
+        }}</BaseTag>
     </div>
-
+    <p>Distance: {{ data.distance }} km</p>
+    <p>Temps: {{ data.time }} min</p>
+    <p>Difficulté: Facile</p>
+    <!-- <p>Points d'intérêts: {{ props.waypoints.length }}</p> -->
+    <p>Commentaires: 0</p>
     <div>
         <PrimaryButton>Valider</PrimaryButton>
-
         <SecondaryButton icon="close" @click.self="emit('handleClose')"
             >Fermer</SecondaryButton
         >
     </div>
-    <p>
-        {{ data.description }}
-    </p>
 </template>
 
 <style scoped></style>

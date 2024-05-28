@@ -4,6 +4,7 @@ import BaseTag from "@/Components/BaseTag.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 
 const isOpen = ref(false);
 
@@ -20,9 +21,9 @@ const toggleBottomSheet = () => {
 };
 
 defineProps({
-    tag: {
-        type: String,
-        default: () => [],
+    data: {
+        type: Object,
+        default: () => {},
     },
 });
 </script>
@@ -30,40 +31,16 @@ defineProps({
 <template>
     <div class="card" @click="isOpen = !isOpen">
         <div class="tag">
-            <BaseTag :tag="tag" :selected="true">{{ tag }}</BaseTag>
+            <BaseTag :tag="data.tag" :selected="true">{{ data.tag }}</BaseTag>
         </div>
-        <p><slot /></p>
+        <p>{{ data.name }}</p>
     </div>
     <BaseBottomSheet
         v-if="isOpen"
         :isOpen="isOpen"
         @handle-open="toggleBottomSheet()"
     >
-        <h1><slot /></h1>
-        <div class="tag">
-            <BaseTag :tag="tag" :selected="true">{{ tag }}</BaseTag>
-        </div>
-
-        <div>
-            <PrimaryButton>Valider</PrimaryButton>
-
-            <SecondaryButton icon="close" @click="toggleBottomSheet()"
-                >Fermer</SecondaryButton
-            >
-        </div>
-        <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
-            minima quis, ex obcaecati ullam commodi a veniam rerum accusantium
-            repellendus quae doloribus veritatis nesciunt corporis? Minima
-            quaerat aspernatur nihil et? Lorem, ipsum dolor sit amet consectetur
-            adipisicing elit. Quia minima quis, ex obcaecati ullam commodi a
-            veniam rerum accusantium repellendus quae doloribus veritatis
-            nesciunt corporis? Minima quaerat aspernatur nihil et? Lorem, ipsum
-            dolor sit amet consectetur adipisicing elit. Quia minima quis, ex
-            obcaecati ullam commodi a veniam rerum accusantium repellendus quae
-            doloribus veritatis nesciunt corporis? Minima quaerat aspernatur
-            nihil et?
-        </p>
+        <AppTrailInfo :data="data" @handle-close="toggleBottomSheet()"/>
     </BaseBottomSheet>
 </template>
 

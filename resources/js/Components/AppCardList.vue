@@ -12,9 +12,11 @@ defineProps({
 <template>
     <p><slot /></p>
     <div class="cardList">
-        <BaseCard v-for="data in datas" :key="data.name" :tag="data.tag">{{
-            data.name
-        }}</BaseCard>
+        <BaseCard
+            v-for="data in datas"
+            :key="data.id"
+            :data="data"
+        />
     </div>
 </template>
 
@@ -28,7 +30,7 @@ div.cardList {
 
 p {
     @apply text-2xl;
-    
+
     margin-left: 1rem;
 }
 

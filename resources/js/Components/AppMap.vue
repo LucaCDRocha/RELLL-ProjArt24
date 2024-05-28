@@ -1,9 +1,7 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import BaseTag from "@/Components/BaseTag.vue";
+import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 
 const isOpen = ref(false);
 const distance = ref(0);
@@ -11,6 +9,14 @@ const time = ref(0);
 const name = ref("Trail");
 const description = ref("Description");
 const tags = ref(["Facile", "Moyen", "Difficile"]);
+
+const data = computed(() => ({
+    name: name.value,
+    description: description.value,
+    tags: tags.value,
+    distance: distance.value,
+    time: time.value,
+}));
 
 watch(isOpen, (value) => {
     if (value) {
@@ -125,27 +131,7 @@ onMounted(() => {
         :isOpen="isOpen"
         @handle-open="toggleBottomSheet()"
     >
-        <h1>{{ name }}</h1>
-        <p>{{ description }}</p>
-        <div>
-            <BaseTag
-                v-for="tag in tags"
-                :key="tag"
-                :tag="tag"
-                >{{ tag }}</BaseTag
-            >
-        </div>
-        <p>Distance: {{ distance }} km</p>
-        <p>Temps: {{ time }} min</p>
-        <p>Difficulté: Facile</p>
-        <p>Points d'intérêts: {{ props.waypoints.length }}</p>
-        <p>Commentaires: 0</p>
-        <div>
-            <PrimaryButton>Valider</PrimaryButton>
-            <SecondaryButton icon="close" @click="toggleBottomSheet()"
-                >Fermer</SecondaryButton
-            >
-        </div>
+        <AppInterestPointInfo :data="data" @handle-close="toggleBottomSheet()"/>
     </BaseBottomSheet>
 </template>
 
