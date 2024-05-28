@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TrailCreateRequest;
 use App\Models\Img;
 use App\Models\Location;
+use App\Models\Theme;
 use App\Models\Trail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -27,7 +28,8 @@ class TrailController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Trail/Trail_create');
+        $allThemes = Theme::all();
+        return Inertia::render('Trail/Trail_create', ['themes' => $allThemes]);
     }
 
     /**
