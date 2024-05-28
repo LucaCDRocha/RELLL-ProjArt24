@@ -31,9 +31,17 @@ class Trail extends Model
         return $this->belongsTo(Img::class);
     }
 
-    public function locations()
+    public function location_start()
     {
-        return $this->belongsToMany(Location::class);
+        return $this->belongsTo(Location::class);
+    }
+    public function location_end()
+    {
+        return $this->belongsTo(Location::class);
+    }
+    public function location_parking()
+    {
+        return $this->belongsTo(Location::class);
     }
 
     public function themes()
