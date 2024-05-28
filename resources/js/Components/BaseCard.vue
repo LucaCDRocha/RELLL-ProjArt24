@@ -1,11 +1,19 @@
 <script setup>
-import { ref, defineProps } from "vue";
+import { ref, defineProps, watch } from "vue";
 import BaseTag from "@/Components/BaseTag.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const isOpen = ref(false);
+
+watch(isOpen, (value) => {
+    if (value) {
+        document.body.style.overflow = "hidden";
+    } else {
+        document.body.style.overflow = "auto";
+    }
+});
 
 const toggleBottomSheet = () => {
     isOpen.value = !isOpen.value;
@@ -22,7 +30,7 @@ defineProps({
 <template>
     <div class="card" @click="isOpen = !isOpen">
         <div class="tag">
-            <BaseTag :tag="tag">{{ tag }}</BaseTag>
+            <BaseTag :tag="tag" :selected="true">{{ tag }}</BaseTag>
         </div>
         <p><slot /></p>
     </div>
@@ -33,7 +41,7 @@ defineProps({
     >
         <h1><slot /></h1>
         <div class="tag">
-            <BaseTag :tag="tag">{{ tag }}</BaseTag>
+            <BaseTag :tag="tag" :selected="true">{{ tag }}</BaseTag>
         </div>
 
         <div>

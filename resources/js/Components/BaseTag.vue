@@ -27,7 +27,7 @@ const getTagColor = (tag) => {
 
 const getClasses = (tag) => {
     const classes = {
-        "active": selected,
+        "active": !selected,
     };
     classes[getTagColor(tag)] = true;
     return classes;
