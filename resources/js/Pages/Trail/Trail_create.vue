@@ -2,11 +2,12 @@
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import BaseRadioButtonGroup from '@/Components/BaseRadioButtonGroup.vue';
 import BaseTextArea from '@/Components/BaseTextArea.vue';
 import BaseSelect from '@/Components/BaseSelect.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { watch, ref } from 'vue';
 
 const form = useForm({
@@ -66,6 +67,7 @@ const previousStep = () => { step.value-- }
 
     <Head title="Créer un parcours" />
     <form @submit.prevent="submit">
+        <p>Création d'un sentier - {{ step }} / 6</p>
         <section v-if="step == 1">
             <div>
                 <InputLabel for="name" value="Veuillez choisir le nom du sentier" />
@@ -105,7 +107,7 @@ const previousStep = () => { step.value-- }
             <div>
                 <InputLabel for="info_transports" value="Si oui, veuillez décrire l’accès aux transports public" />
                 <BaseTextArea id="info_transports" class="mt-1 block w-full" v-model="form.info_transports" required
-                    autofocus />
+                    autofocus placeholder="Description"/>
                 <InputError class="mt-2" :message="form.errors.info_transports" />
             </div>
         </section>
@@ -133,7 +135,8 @@ const previousStep = () => { step.value-- }
         <section v-if="step == 4">
             <div>
                 <InputLabel for="depart" value="Veuillez choisir un lieu de départ du sentier" />
-                <TextInput id="depart" class="mt-1 block w-full" v-model="form.location_start" required autofocus />
+                <TextInput id="depart" class="mt-1 block w-full" v-model="form.location_start" required 
+                autofocus placeholder="Nom de la rue, numéro, ville" />
                 <InputError class="mt-2" :message="form.errors.location_start" />
             </div>
         </section>
@@ -143,15 +146,18 @@ const previousStep = () => { step.value-- }
                 <InputLabel for="interest_point"
                     value="Veuillez choisir les lieux que vous souhaitez visiter lors du sentier" />
                 <TextInput id="interest_point" class="mt-1 block w-full" v-model="form.interest_point" required
-                    autofocus />
+                    autofocus placeholder="Nom du lieu"/>
                 <InputError class="mt-2" :message="form.errors.interest_point" />
+
+                <SecondaryButton>Créer un lieu</SecondaryButton>
             </div>
         </section>
 
         <section v-if="step == 6">
             <div>
                 <InputLabel for="arrivee" value="Veuillez choisir un lieu d'arrivée du sentier" />
-                <TextInput id="arrivee" class="mt-1 block w-full" v-model="form.location_end" required autofocus />
+                <TextInput id="arrivee" class="mt-1 block w-full" v-model="form.location_end" required 
+                autofocus placeholder="Nom de la rue, numéro, ville"/>
                 <InputError class="mt-2" :message="form.errors.location_end" />
             </div>
 
@@ -166,7 +172,7 @@ const previousStep = () => { step.value-- }
         </section>
         <div>
             <a v-if="step > 1" @click.prevent="previousStep()" href="">Revenir en arrière</a>
-            <PrimaryButton v-if="step < 6" @click.prevent="nextStep()" :disabled="form.processing">
+            <PrimaryButton v-if="step < 6" @click.prevent="nextStep()">
                 Prochaine étape
             </PrimaryButton>
             <PrimaryButton v-else class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
