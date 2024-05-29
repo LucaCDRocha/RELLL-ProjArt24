@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref } from "vue";
+import { ref } from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseTag from "@/Components/BaseTag.vue";
@@ -49,8 +49,10 @@ const imgs = ref([
     "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg",
     "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg/2880px-Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg",
     "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/20170920_Lausanne-13.jpg/640px-20170920_Lausanne-13.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg/2880px-Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/20170920_Lausanne-13.jpg/640px-20170920_Lausanne-13.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg/2880px-Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/20170920_Lausanne-13.jpg/640px-20170920_Lausanne-13.jpg",
 ]);
 
 const emit = defineEmits(["handleClose"]);
@@ -102,5 +104,6 @@ const emit = defineEmits(["handleClose"]);
     justify-content: space-between;
 
     width: 100%;
+    padding-right: 1rem;
 }
 </style>

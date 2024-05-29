@@ -23,6 +23,7 @@ const notOnMap = window.location.pathname !== "/map"
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding-right: 1rem;
 }
 
 .container div {

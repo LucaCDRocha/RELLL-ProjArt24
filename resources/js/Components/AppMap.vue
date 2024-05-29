@@ -1,7 +1,9 @@
 <script setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
+import BaseMap from "@/Components/BaseMap.vue";
+import { map, trail, updateView } from "@/Stores/map.js";
 
 const isOpen = ref(false);
 const distance = ref(0);
@@ -38,60 +40,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-    const map = L.map("map")
-        .setView([46.77911, 6.642196], 17)
-        .setMaxZoom(19)
-        .setMinZoom(10);
-
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        minZoom: 10,
-        attribution:
-            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(map);
-
-    L.Control.Button = L.Control.extend({
-        options: {
-            position: "topleft",
-        },
-        onAdd: function (map) {
-            var container = L.DomUtil.create(
-                "div",
-                "leaflet-bar leaflet-control"
-            );
-            var button = L.DomUtil.create(
-                "a",
-                "leaflet-control-button material-symbols-rounded",
-                container
-            );
-            button.textContent = "target";
-
-            L.DomEvent.disableClickPropagation(button); // Empêche la propagation de clics vers la carte
-            L.DomEvent.on(button, "click", function () {
-                map.setView([46.77911, 6.642196], 17);
-                // navigator.geolocation.getCurrentPosition((position) => {
-                //     map.setView(
-                //         [position.coords.latitude, position.coords.longitude],
-                //         17
-                //     );
-                // });
-            });
-
-            L.DomEvent.on(button, "mouseover", function () {
-                button.style.cursor = "pointer";
-                button.style.userSelect = "none";
-            });
-
-            container.title = "Center";
-            return container;
-        },
-        onRemove: function (map) {},
-    });
-
-    var customControl = new L.Control.Button();
-    customControl.addTo(map);
-
-    let control = L.Routing.control({
+    trail.value = L.Routing.control({
         waypoints: props.waypoints,
         router: new L.Routing.OSRMv1({
             serviceUrl: "https://routing.openstreetmap.de/routed-foot/route/v1",
@@ -118,20 +67,29 @@ onMounted(() => {
                 toggleBottomSheet();
             });
         },
-    }).addTo(map);
+    }).addTo(map.value);
+
+    // change the position of the control
+    trail.value.setPosition("bottomleft");
 
     // get the information of the route
-    control.on("routesfound", (e) => {
+    trail.value.on("routesfound", (e) => {
         const routes = e.routes;
         const summary = routes[0].summary;
         distance.value = summary.totalDistance;
         time.value = summary.totalTime;
     });
+
+    updateView();
+});
+
+onUnmounted(() => {
+    trail.value = null;
 });
 </script>
 
 <template>
-    <div id="map"></div>
+    <BaseMap />
     <BaseBottomSheet
         v-if="isOpen"
         :isOpen="isOpen"

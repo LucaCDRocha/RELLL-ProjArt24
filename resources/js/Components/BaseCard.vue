@@ -41,7 +41,7 @@ defineProps({
         :isOpen="isOpen"
         @handle-open="toggleBottomSheet()"
     >
-        <AppInterestPointInfo
+        <AppTrailInfo
             :data="data"
             @handle-close="toggleBottomSheet()"
         />

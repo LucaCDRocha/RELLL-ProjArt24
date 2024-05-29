@@ -53,12 +53,11 @@ const data = ref([
         <AppCardList :datas="data">Les différentes catégories</AppCardList>
     </div>
 
-    <div style="height: 5rem"></div>
     <TheNav />
 </template>
 
 <style scoped>
 .home {
-    padding: 1rem;
+    padding: 1rem 0rem 0rem 1rem;
 }
 </style>

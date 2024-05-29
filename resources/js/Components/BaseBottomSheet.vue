@@ -32,6 +32,7 @@ const scrollUp = (e) => {
 .base-overlay-card {
     position: fixed;
     top: 100vh;
+    left: 0;
 
     width: 100vw;
     height: 100vh;
@@ -52,7 +53,7 @@ const scrollUp = (e) => {
 
     position: fixed;
     top: 50vh;
-    padding: 1rem 1rem;
+    padding: 1rem 0rem 1rem 1rem;
 
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;

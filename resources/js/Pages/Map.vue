@@ -59,10 +59,12 @@ const waypoints = [
     <Head title="Map" />
 
     <AppMap :waypoints="waypoints" />
-
-    <div style="height: 5rem"></div>
+    
     <TheNav />
 </template>
 
 <style scoped>
+#map {
+    height: calc(var(--vh, 1vh) * 100 - 5rem);
+}
 </style>

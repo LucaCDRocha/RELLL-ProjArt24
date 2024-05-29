@@ -31,5 +31,6 @@ div.cardList {
     flex-direction: row;
     overflow: scroll;
     height: 100%;
+    padding-right: 1rem;
 }
 </style>
