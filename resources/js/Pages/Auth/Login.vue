@@ -74,7 +74,7 @@ const submit = () => {
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
                     <span class="ms-2 text-sm text-gray-600 dark:text-gray-400"
-                        >Remember me</span
+                        >Se souvenir de moi</span
                     >
                 </label>
             </div>
@@ -85,7 +85,7 @@ const submit = () => {
                     :href="route('password.request')"
                     class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
                 >
-                    Forgot your password?
+                    Mot de passe oublié ?
                 </Link>
 
                 <PrimaryButton
@@ -93,8 +93,17 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Log in
+                    Se connecter
                 </PrimaryButton>
+            </div>
+
+            <div>
+                <Link
+                    :href="route('register')"
+                    class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >
+                    Pas encore de compte ? Créez-en un dès maintenant.
+                </Link>
             </div>
         </form>
     </GuestLayout>

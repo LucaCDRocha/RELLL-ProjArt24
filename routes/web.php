@@ -19,7 +19,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -50,6 +51,7 @@ Route::get('/favorites', function () {
     return Inertia::render('List');
 });
 
+//Route qui requiert authentification
 Route::get('/my-trails', function () {
-    return Inertia::render('List');
-});
+    return Inertia::render('History');
+})->middleware(['auth', 'verified'])->name('history');
