@@ -40,17 +40,25 @@ const data = ref([
 <template>
     <Head title="Home" />
 
-    <h1>Home</h1>
-    <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+    <div class="home">
+        <h1>Home</h1>
+        <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
 
-    <AppCardList :datas="data">Les parcours les plus populaires</AppCardList>
-    <AppCardList :datas="data"
-        >Les points d’intérêts les mieux notés</AppCardList
-    >
-    <AppCardList :datas="data">Les différentes catégories</AppCardList>
+        <AppCardList :datas="data"
+            >Les parcours les plus populaires</AppCardList
+        >
+        <AppCardList :datas="data"
+            >Les points d’intérêts les mieux notés</AppCardList
+        >
+        <AppCardList :datas="data">Les différentes catégories</AppCardList>
+    </div>
 
     <div style="height: 5rem"></div>
     <TheNav />
 </template>
 
-<style scoped></style>
+<style scoped>
+.home {
+    padding: 1rem;
+}
+</style>

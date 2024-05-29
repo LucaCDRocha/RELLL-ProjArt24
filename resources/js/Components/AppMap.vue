@@ -69,6 +69,12 @@ onMounted(() => {
             L.DomEvent.disableClickPropagation(button); // Empêche la propagation de clics vers la carte
             L.DomEvent.on(button, "click", function () {
                 map.setView([46.77911, 6.642196], 17);
+                // navigator.geolocation.getCurrentPosition((position) => {
+                //     map.setView(
+                //         [position.coords.latitude, position.coords.longitude],
+                //         17
+                //     );
+                // });
             });
 
             L.DomEvent.on(button, "mouseover", function () {
@@ -131,7 +137,10 @@ onMounted(() => {
         :isOpen="isOpen"
         @handle-open="toggleBottomSheet()"
     >
-        <AppInterestPointInfo :data="data" @handle-close="toggleBottomSheet()"/>
+        <AppInterestPointInfo
+            :data="data"
+            @handle-close="toggleBottomSheet()"
+        />
     </BaseBottomSheet>
 </template>
 

@@ -5,8 +5,10 @@ const isOpen = defineProps({
 });
 
 const scrollUp = (e) => {
-    document.querySelector(".base-overlay-card__content").style.top = `0`
-    document.querySelector(".base-overlay-card__content").style.height = `100vh`
+    document.querySelector(".base-overlay-card__content").style.top = `0`;
+    document.querySelector(
+        ".base-overlay-card__content"
+    ).style.height = `100vh`;
 };
 </script>
 
@@ -46,6 +48,8 @@ const scrollUp = (e) => {
 .base-overlay-card__content {
     @apply bg-green-50 dark:bg-green-950;
 
+    display: flex;
+
     position: fixed;
     top: 50vh;
     padding: 1rem 1rem;
@@ -57,5 +61,6 @@ const scrollUp = (e) => {
     height: 50vh;
 
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 </style>

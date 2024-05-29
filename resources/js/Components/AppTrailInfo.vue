@@ -14,6 +14,7 @@ const emit = defineEmits(["handleClose"]);
 </script>
 
 <template>
+    <TheCardNav @handle-close="emit('handleClose')" />
     <h1>{{ data.name }}</h1>
     <div class="tag">
         <BaseTag :tag="data.tag" :selected="true">{{ data.tag }}</BaseTag>
