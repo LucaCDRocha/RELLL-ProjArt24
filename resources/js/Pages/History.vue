@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/vue3';
 import TheNav from "@/Components/TheNav.vue";
 import { ref } from "vue";
 import AppCardList from "@/Components/AppCardList.vue";
+import BaseDivider from "@/Components/BaseDivider.vue";
 
 const data = ref([
     {
@@ -44,7 +45,7 @@ const data = ref([
     <h1>Votre historique de sentiers</h1>
     <AppCardList :datas="data">Les sentiers que vous avez créés</AppCardList>
 
-    <hr>
+    <BaseDivider/>
 
     <AppCardList :datas="data">Les sentiers que vous avez créés</AppCardList>
     <TheNav />
