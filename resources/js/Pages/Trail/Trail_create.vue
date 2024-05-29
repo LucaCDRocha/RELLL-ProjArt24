@@ -85,7 +85,7 @@ const previousStep = () => { step.value-- }
 
             <div>
                 <InputLabel for="difficulty" value="Veuillez mettre le niveau du sentier" />
-                <BaseSelect name="difficulty" :options="difficulties" v-model="form.difficulty" placeholder="--Choisir--"/>
+                <BaseSelect name="difficulty" :options="difficulties" v-model="form.difficulty"/>
                 <InputError class="mt-2" :message="form.errors.difficulty" />
             </div>
         </section>

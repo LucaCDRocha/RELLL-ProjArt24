@@ -23,7 +23,8 @@ class InterestPointController extends Controller
      */
     public function create()
     {
-        return Inertia::render('InterestPoint/InterestPoint_create');
+        $allTags = Tag::all();
+        return Inertia::render('InterestPoint/InterestPoint_create', ['tags' => $allTags]);
     }
 
     /**
