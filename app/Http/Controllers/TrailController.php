@@ -184,4 +184,31 @@ class TrailController extends Controller
         Trail::findOrFail($id)->delete();
         return redirect(route('home'));
     }
+
+    public function home()
+    {
+        $allTrails = Trail::all()->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'themes', 'rankings');
+
+        foreach ($allTrails as $trail) {
+            switch ($trail->difficulty) {
+                case 1:
+                    $trail->difficulty = "Facile";
+                    break;
+                case 2:
+                    $trail->difficulty = "Moyen";
+                    break;
+                case 3:
+                    $trail->difficulty = "Difficile";
+                    break;
+            }
+
+            $trail->note = $trail->rankings()->avg('note');
+
+            foreach ($trail->interest_points as $point) {
+                $point->load('location', 'tag');
+                $point->imgs = $point->imgs()->get();
+            }
+        }
+        return Inertia::render('Home', ['trails' => $allTrails]);
+    }
 }

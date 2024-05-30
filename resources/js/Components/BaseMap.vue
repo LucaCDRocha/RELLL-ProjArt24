@@ -1,5 +1,12 @@
 <script setup>
-import { map, marker, circle, trail, customIcon, updateView } from "@/Stores/map.js";
+import {
+    map,
+    marker,
+    circle,
+    trail,
+    customIcon,
+    updateView,
+} from "@/Stores/map.js";
 import { onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
@@ -8,8 +15,8 @@ const props = defineProps({
         required: false,
     },
     waypoints: {
-        type: Array,
-        default: () => [],
+        type: Object,
+        default: () => {},
         required: false,
     },
     draggable: {
@@ -67,8 +74,40 @@ onMounted(() => {
     }
 
     if (props.waypoints) {
+        const waypoints = [
+            {
+                name: "Départ",
+                latLng: L.latLng(
+                    props.waypoints.location_start.latitude,
+                    props.waypoints.location_start.longitude
+                ),
+                description: "Départ",
+                tag: "Départ",
+                imgs: [props.waypoints.img.img_path],
+            },
+        ];
+        for (const point of props.waypoints.interest_points) {
+            waypoints.push({
+                name: point.name,
+                latLng: L.latLng(point.location.latitude, point.location.longitude),
+                description: point.description,
+                tag: point.tag,
+                imgs: point.imgs,
+            });
+        }
+        waypoints.push({
+            name: "Arrivée",
+            latLng: L.latLng(
+                props.waypoints.location_end.latitude,
+                props.waypoints.location_end.longitude
+            ),
+            description: "Arrivée",
+            tag: "Arrivée",
+            imgs: [props.waypoints.img.img_path],
+        });
+
         trail.value = L.Routing.control({
-            waypoints: props.waypoints,
+            waypoints: waypoints,
             router: new L.Routing.OSRMv1({
                 serviceUrl:
                     "https://routing.openstreetmap.de/routed-foot/route/v1",
@@ -84,7 +123,11 @@ onMounted(() => {
                     draggable: props.draggable,
                     icon: customIcon.value,
                 }).on("click", function () {
-                    emit("marker-click", { name: wp.name, info: wp.info, tags: wp.tags });
+                    emit("marker-click", {
+                        name: wp.name,
+                        info: wp.info,
+                        tags: wp.tags,
+                    });
                 });
             },
             show: false,
@@ -96,16 +139,18 @@ onMounted(() => {
         // find the center of the routing by calculating the coordinates of the middle point
         var lat = 0;
         var lng = 0;
-        props.waypoints.forEach((point) => {
+        waypoints.forEach((point) => {
             lat += point.latLng.lat;
             lng += point.latLng.lng;
         });
 
-        map.value.setView([lat / props.waypoints.length, lng / props.waypoints.length]);
+        map.value.setView([lat / waypoints.length, lng / waypoints.length]);
     }
 
     if (props.trakable) {
-        marker.value = L.marker([0, 0], { icon: customIcon.value }).addTo(map.value);
+        marker.value = L.marker([0, 0], { icon: customIcon.value }).addTo(
+            map.value
+        );
 
         circle.value = L.circle([0, 0], {
             color: "blue",
