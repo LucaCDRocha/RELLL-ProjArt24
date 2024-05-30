@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import L from "leaflet";
+import { info } from "autoprefixer";
 
 const map = ref(null);
 
@@ -17,34 +18,61 @@ const customIcon = ref(
     })
 );
 
-// get the position of the user
-const updatePosition = () => {
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            const { latitude, longitude } = position.coords;
-            marker.value.setLatLng([latitude, longitude]);
-            circle.value.setLatLng([latitude, longitude]);
-            circle.value.setRadius(position.coords.accuracy / 2);
-            console.log("Position updated", position.coords.accuracy / 2);
-        },
-        (error) => {
-            console.error(error);
-        }
+// get the information of the route
+const infoTrail = ref(null);
+const getInfoTrail = () => {
+    trail.value.on("routesfound", (e) => {
+        const routes = e.routes;
+        const summary = routes[0].summary;
+        infoTrail.value = summary;
+    });
+
+    return infoTrail.value;
+};
+
+// getCoordinates()
+// Demande au navigateur de détecter la position actuelle de l'utilisateur et retourne une Promise
+const getCoordinates = () => {
+    return new Promise((res, rej) =>
+        navigator.geolocation.getCurrentPosition(res, rej)
     );
+};
+
+// getPosition()
+// Résout la promesse de getCoordinates et retourne un objet {lat: x, long: y}
+const getPosition = async () => {
+    const position = await getCoordinates();
+    return {
+        lat: position.coords.latitude,
+        long: position.coords.longitude,
+        accuracy: position.coords.accuracy,
+    };
+};
+
+// get the position of the user
+const updatePosition = async () => {
+    const position = await getPosition();
+    marker.value.setLatLng([position.lat, position.long]);
+    circle.value.setLatLng([position.lat, position.long]);
+    circle.value.setRadius(position.accuracy / 2);
+    console.log("Position updated", position.accuracy / 2);
+    return position;
 };
 
 // get the user precision location
-const updateView = () => {
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            updatePosition();
-            const { latitude, longitude } = position.coords;
-            map.value.setView([latitude, longitude], 18);
-        },
-        (error) => {
-            console.error(error);
-        }
-    );
+const updateView = async () => {
+    const position = await updatePosition();
+    map.value.setView([position.lat, position.long], 18);
 };
 
-export { map, marker, circle, trail, customIcon, updateView, updatePosition };
+export {
+    map,
+    marker,
+    circle,
+    trail,
+    infoTrail,
+    customIcon,
+    updateView,
+    updatePosition,
+    getInfoTrail,
+};

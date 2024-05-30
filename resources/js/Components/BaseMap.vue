@@ -6,6 +6,7 @@ import {
     trail,
     customIcon,
     updateView,
+    updatePosition,
 } from "@/Stores/map.js";
 import { onMounted, onUnmounted } from "vue";
 
@@ -68,8 +69,28 @@ onMounted(() => {
     }
 
     if (props.points) {
-        props.points.forEach((point) => {
-            L.marker(point, { icon: customIcon.value }).addTo(map.value);
+        props.points.forEach((elem) => {
+            const point = {
+                latLng: L.latLng(
+                    elem.location.latitude,
+                    elem.location.longitude
+                ),
+                name: elem.name,
+                open_season: elem.open_season,
+                description: elem.description,
+                tag: elem.tag,
+                imgs: elem.imgs,
+            };
+            // create a marker for each point
+            L.marker(point.latLng, { icon: customIcon.value })
+                .addTo(map.value)
+                .on("click", function () {
+                    emit("marker-click", {
+                        point: elem,
+                    });
+                });
+
+            // L.marker(point, { icon: customIcon.value }).addTo(map.value);
         });
     }
 
@@ -89,7 +110,10 @@ onMounted(() => {
         for (const point of props.waypoints.interest_points) {
             waypoints.push({
                 name: point.name,
-                latLng: L.latLng(point.location.latitude, point.location.longitude),
+                latLng: L.latLng(
+                    point.location.latitude,
+                    point.location.longitude
+                ),
                 description: point.description,
                 tag: point.tag,
                 imgs: point.imgs,
@@ -124,9 +148,7 @@ onMounted(() => {
                     icon: customIcon.value,
                 }).on("click", function () {
                     emit("marker-click", {
-                        name: wp.name,
-                        info: wp.info,
-                        tags: wp.tags,
+                        point: wp,
                     });
                 });
             },
@@ -193,6 +215,10 @@ onMounted(() => {
 
         var customControl = new L.Control.Button();
         customControl.addTo(map.value);
+
+        setInterval(() => {
+            updatePosition();
+        }, 5000);
     }
 });
 

@@ -41,9 +41,7 @@ Route::get('/search', function () {
     return Inertia::render('Search');
 });
 
-Route::get('/map', function () {
-    return Inertia::render('Map');
-});
+Route::get('/map', [InterestPointController::class, 'map']);
 
 Route::get('/settings', function () {
     return Inertia::render('Settings');
