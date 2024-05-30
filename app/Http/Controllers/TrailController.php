@@ -6,6 +6,7 @@ use App\Http\Requests\TrailCreateRequest;
 use App\Models\Img;
 use App\Models\InterestPoint;
 use App\Models\Location;
+use App\Models\Theme;
 use App\Models\Trail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,7 +30,8 @@ class TrailController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Trail/TrailCreate');
+        $allThemes = Theme::all();
+        return Inertia::render('Trail/TrailCreate', ['themes' => $allThemes]);
     }
 
     /**

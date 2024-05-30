@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InterestPointController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TrailController;
 use Illuminate\Foundation\Application;
@@ -33,4 +34,4 @@ Route::get('/home', function () {
 
 Route::resource("trails", TrailController::class);
 
-Route::resource("interestPoints", TrailController::class);
+Route::resource("interestPoints", InterestPointController::class);
