@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\HistoricsController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\InterestPointController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TrailController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\FavoriteController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -27,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource("/bookmark", FavoriteController::class);
+    Route::get('/my-trails', [HistoricsController::class, 'showHistorics']);
 });
 
 require __DIR__ . '/auth.php';
@@ -50,11 +52,6 @@ Route::get('/settings', function () {
     return Inertia::render('Settings');
 });
 
-Route::get('/favorites', function () {
-    return Inertia::render('List');
-});
-
-//Route qui requiert authentification
-Route::get('/my-trails', function () {
-    return Inertia::render('History');
-})->middleware(['auth', 'verified'])->name('history');
+// Route::get('/favorites', function () {
+//     return Inertia::render('List');
+// });

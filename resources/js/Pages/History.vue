@@ -36,17 +36,27 @@ const data = ref([
     },
 ]);
 
+const datas = defineProps({
+  historics: {
+    type: Array,
+      default: () => [],
+    },
+    myTrails : {
+        type: Array,
+      default: () => [],
+    }
+});
+
 </script>
 
 <template>
 
     <Head title="Historique" />
-
     <h1>Votre historique de sentiers</h1>
-    <AppCardList :datas="data">Les sentiers que vous avez créés</AppCardList>
+    <AppCardList :datas="historics">Votre historique de sentiers</AppCardList>
 
     <BaseDivider/>
 
-    <AppCardList :datas="data">Les sentiers que vous avez créés</AppCardList>
+    <AppCardList :datas="myTrails">Les sentiers que vous avez créés</AppCardList>
     <TheNav />
 </template>
