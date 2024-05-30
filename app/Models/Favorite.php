@@ -9,6 +9,10 @@ class Favorite extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function trails()
     {
         return $this->belongsToMany(Trail::class);

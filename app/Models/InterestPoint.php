@@ -11,10 +11,7 @@ class InterestPoint extends Model
 
     protected $fillable = [
         'name',
-        'time',
         'description',
-        'open_hour',
-        'close_hour',
         'url',
         'open_season',
     ];
@@ -36,9 +33,5 @@ class InterestPoint extends Model
     public function tag()
     {
         return $this->belongsTo(Tag::class);
-    }
-
-    public function trails() {
-        return $this->belongsToMany(Trail::class);
     }
 }

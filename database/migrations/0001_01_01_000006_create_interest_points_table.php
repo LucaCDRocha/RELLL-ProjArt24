@@ -15,9 +15,8 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
-            $table->time('open_hour');
-            $table->time('close_hour');
             $table->text('url');
+            $table->string('open_season');
             $table->integer('location_id')->unsigned();
             $table->integer('tag_id')->unsigned();
 

@@ -9,6 +9,11 @@ class Img extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'source',
+        'img_path',
+    ];
+
     public function interestPoint()
     {
         return $this->belongsTo(InterestPoint::class);

@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('imgs', function (Blueprint $table) {
             $table->increments('id');
-            // $table->text('img_path'); surement pas nécessaire
-            $table->file('img');
+            $table->text('img_path'); // surement pas nécessaire
+            // $table->file('img');
+            $table->string('source');
             $table->integer('interest_point_id')->unsigned();
 
             $table->foreign('interest_point_id')->references('id')->on('interest_points')

@@ -26,8 +26,6 @@ class RankingSeeder extends Seeder
                     'note' => $ranking['note'],
                     'trail_id' => $trailId,
                     'user_id' => $userId,
-                    'created_at' => now(),
-                    'updated_at' => now()
                 ]);
             }
         } catch (\Exception $e) {

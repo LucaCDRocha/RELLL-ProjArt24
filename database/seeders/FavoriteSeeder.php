@@ -19,8 +19,6 @@ class FavoriteSeeder extends Seeder
             Favorite::create([
                 'user_id' => $i,
                 'name' => 'favoris',
-                'created_at' => now(),
-                'updated_at' => now()
             ]);
         }
         

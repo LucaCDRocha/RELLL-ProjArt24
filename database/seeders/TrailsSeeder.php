@@ -38,7 +38,7 @@ class TrailsSeeder extends Seeder
                 $endId = JsonHelper::getLocationIdByCoordinates($trail['arrivee']['coordonnees']);
                 $parkingId = JsonHelper::getLocationIdByCoordinates($trail['parking']['coordonnees']);
 
-                // $imgId = JsonHelper::getInfoByValue('imgs', 'url', $trail['image']['url']);
+                $imgId = JsonHelper::getInfoByValue('imgs', 'img_path', $trail['image']['url']);
 
                 Trail::create([
                     'name' => $trail['titre'],
@@ -46,17 +46,14 @@ class TrailsSeeder extends Seeder
                     'description' => $trail['description'],
                     'difficulty' => $difficulteId,
                     'is_accessible' => $trail['accessibilite'],
-                    'is_approved' => true,
                     'user_id' => 1,
-                    // 'img_id' => $imgId,
-                    'img_id' => 2,
+                    'img_id' => $imgId,
+                    // 'img_id' => 2,
                     'location_start_id' => $startId,
                     'location_end_id' => $endId,
                     'location_parking_id' => $parkingId,
                     'info_transport' => $trail['info_transport'],
                     // 'info_restauration' => $trail['restauration'],
-                    'created_at' => now(),
-                    'updated_at' => now(),
                 ]);
             }
 

@@ -32,13 +32,10 @@ class InterestPointSeeder extends Seeder
                 InterestPoint::create([
                     'name' => $point['nom'],
                     'description' => $point['description'],
-                    'open_hour' => $point['opening'],
-                    'close_hour' => $point['close'],
+                    'open_season' => $point['open_season'],
                     'url' => $point['url'],
                     'location_id' => $locationId,
                     'tag_id' => $tagId,
-                    'created_at' => now(),
-                    'updated_at' => now(),
                 ]);
             }
 

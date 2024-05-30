@@ -15,15 +15,8 @@ class Trail extends Model
         'description',
         'difficulty',
         'is_accessible',
-        'is_approved',
-        'location_start_id',
-        'location_end_id',
+        'info_transport',
     ];
-
-    public function interest_points()
-    {
-        return $this->belongsToMany(InterestPoint::class);
-    }
 
     public function user()
     {

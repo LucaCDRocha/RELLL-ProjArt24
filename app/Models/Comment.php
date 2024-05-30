@@ -9,6 +9,10 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'content',
+    ];
+
     public function trail()
     {
         return $this->belongsTo(Trail::class);
