@@ -60,7 +60,6 @@ const emit = defineEmits(["handleClose"]);
 
 <template>
     <div class="interest-point">
-        <TheCardNav @handle-close="emit('handleClose')" />
         <h1>{{ data.name }}</h1>
         <div class="ouvertures">
             <p>Toute les saisons</p>
@@ -86,12 +85,16 @@ const emit = defineEmits(["handleClose"]);
 
 <style scoped>
 .interest-point {
+    @apply bg-green-50 dark:bg-green-950;
+    @apply text-green-950 dark:text-green-50;
+
     display: flex;
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
     width: 100%;
     height: fit-content;
+    padding: 1rem 0rem 1rem 1rem;
 }
 
 .tags {

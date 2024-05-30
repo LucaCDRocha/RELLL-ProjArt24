@@ -11,6 +11,8 @@ import {
     customIcon,
     updateView,
 } from "@/Stores/map.js";
+import { SwipeModal } from "@takuma-ru/vue-swipe-modal";
+import TheCardNav from "./TheCardNav.vue";
 
 const isOpen = ref(false);
 const distance = ref(0);
@@ -26,14 +28,6 @@ const data = computed(() => ({
     distance: distance.value,
     time: time.value,
 }));
-
-watch(isOpen, (value) => {
-    if (value) {
-        document.body.style.overflow = "hidden";
-    } else {
-        document.body.style.overflow = "auto";
-    }
-});
 
 const toggleBottomSheet = () => {
     isOpen.value = !isOpen.value;
@@ -108,7 +102,7 @@ onUnmounted(() => {
         :waypoints="props.waypoints"
         @marker-click="updateCardInfo($event)"
     />
-    <BaseBottomSheet
+    <!-- <BaseBottomSheet
         v-if="isOpen"
         :isOpen="isOpen"
         @handle-open="toggleBottomSheet()"
@@ -117,10 +111,27 @@ onUnmounted(() => {
             :data="data"
             @handle-close="toggleBottomSheet()"
         />
-    </BaseBottomSheet>
+    </BaseBottomSheet> -->
+    <SwipeModal
+        v-model="isOpen"
+        snapPoint="50dvh"
+        :is-backdrop="true"
+        :is-full-screen="true"
+        :is-drag-handle="true"
+        :is-persistent="false"
+        :is-scroll-lock="true"
+    >
+        <template v-slot:backdrop>
+            <div class="custom-backdrop-class-name" />
+        </template>
+        <AppInterestPointInfo
+            :data="data"
+            @handle-close="toggleBottomSheet()"
+        />
+    </SwipeModal>
 </template>
 
-<style scoped>
+<style>
 #map {
     height: calc(100vh - 5rem);
     height: calc(var(--vh, 1vh) * 100 - 5rem);
