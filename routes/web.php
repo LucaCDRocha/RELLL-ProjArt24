@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\FavoriteController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -23,9 +24,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource("/bookmark", FavoriteController::class);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('/home', function () {
     return Inertia::render('Home');
@@ -43,9 +45,10 @@ Route::get('/settings', function () {
     return Inertia::render('Settings');
 });
 
-Route::get('/bookmark', function () {
-    return Inertia::render('List');
-});
+// Route::get('/bookmark', function () {
+//     return Inertia::render('List');
+// });
+
 
 Route::get('/favorites', function () {
     return Inertia::render('List');

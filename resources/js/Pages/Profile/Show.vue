@@ -1,6 +1,7 @@
 <script setup>
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import TheNav from "@/Components/TheNav.vue";
+import BaseDivider from "@/Components/BaseDivider.vue";
 import DangerButton from '@/Components/DangerButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
@@ -34,7 +35,7 @@ const edit = () => {
     <Head title="Profile" />
     <p>Votre profil</p>
     <DangerButton @click="logout()">Déconnexion</DangerButton>
-    <hr>
+    <BaseDivider/>
     <p>{{ user.name }}</p>
     <PrimaryButton @click="edit()">Modifier le profil</PrimaryButton>
     <TheNav />
