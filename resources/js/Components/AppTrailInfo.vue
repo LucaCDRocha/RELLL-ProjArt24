@@ -57,12 +57,63 @@ const imgs = ref([
     "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/20170920_Lausanne-13.jpg/640px-20170920_Lausanne-13.jpg",
 ]);
 
-const emit = defineEmits(["handleClose"]);
+const waypoints = [
+    {
+        name: "Start",
+        latLng: L.latLng(46.77911, 6.642196),
+        info: "Starting point",
+        tags: ["tag1", "tag2"],
+    },
+    {
+        name: "Waypoint 2",
+        latLng: L.latLng(46.779657, 6.64246),
+        info: "Waypoint 2",
+        tags: ["tag3", "tag4"],
+    },
+    {
+        name: "Waypoint 3",
+        latLng: L.latLng(46.778904, 6.640619),
+        info: "Waypoint 3",
+        tags: ["tag5", "tag6"],
+    },
+    {
+        name: "Waypoint 4",
+        latLng: L.latLng(46.778527, 6.640818),
+        info: "Waypoint 4",
+        tags: ["tag7", "tag8"],
+    },
+    {
+        name: "Waypoint 5",
+        latLng: L.latLng(46.778488, 6.640374),
+        info: "Waypoint 5",
+        tags: ["tag9", "tag10"],
+    },
+    {
+        name: "Waypoint 6",
+        latLng: L.latLng(46.778659, 6.641027),
+        info: "Waypoint 6",
+        tags: ["tag11", "tag12"],
+    },
+    {
+        name: "Waypoint 7",
+        latLng: L.latLng(46.777941, 6.641481),
+        info: "Waypoint 7",
+        tags: ["tag13", "tag14"],
+    },
+    {
+        name: "End",
+        latLng: L.latLng(46.77911, 6.642196),
+        info: "Ending point",
+        tags: ["tag15", "tag16"],
+    },
+];
+
+const emit = defineEmits(["handleOpen"]);
 </script>
 
 <template>
     <div class="trail">
-        <TheCardNav @handle-close="emit('handleClose')" />
+        <TheCardNav @handle-close="emit('handleOpen')" />
 
         <div class="tags">
             <div class="tag">
@@ -122,7 +173,7 @@ const emit = defineEmits(["handleClose"]);
             </p>
             <p>5 km</p>
         </div>
-        <BaseMap />
+        <BaseMap :draggable="false" :waypoints="waypoints" />
 
         <AppCardList :datas="dataTest">Points d'intérêt du sentier</AppCardList>
 
@@ -167,7 +218,7 @@ const emit = defineEmits(["handleClose"]);
     padding-right: 1rem;
 }
 
-.accessibilite{
+.accessibilite {
     justify-content: flex-start;
     gap: 0.5rem;
 }

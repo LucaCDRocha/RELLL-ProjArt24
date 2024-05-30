@@ -2,6 +2,7 @@
 import { Head } from "@inertiajs/vue3";
 import TheNav from "@/Components/TheNav.vue";
 import AppMap from "@/Components/AppMap.vue";
+import BaseMap from "@/Components/BaseMap.vue";
 
 const waypoints = [
     {
@@ -59,6 +60,7 @@ const waypoints = [
     <Head title="Map" />
 
     <AppMap :waypoints="waypoints" />
+    <!-- <BaseMap :trakable="true" :waypoints="waypoints" /> -->
     
     <TheNav />
 </template>

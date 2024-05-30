@@ -1,8 +1,7 @@
 <script setup>
-const emit = defineEmits(["handleClose"]);
-
 const notOnMap = window.location.pathname !== "/map"
 
+const emit = defineEmits(["handleClose"]);
 </script>
 
 <template>

@@ -7,19 +7,15 @@ const marker = ref(null);
 
 const circle = ref(null);
 
-// get and return the position of the user
-const getPosition = () => {
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                resolve(position);
-            },
-            (error) => {
-                reject(error);
-            }
-        );
-    });
-};
+const trail = ref(null);
+
+const customIcon = ref(
+    L.icon({
+        iconUrl: "/img/location_on.svg",
+        iconSize: [30, 34],
+        iconAnchor: [15, 34],
+    })
+);
 
 // get the position of the user
 const updatePosition = () => {
@@ -41,9 +37,9 @@ const updatePosition = () => {
 const updateView = () => {
     navigator.geolocation.getCurrentPosition(
         (position) => {
+            updatePosition();
             const { latitude, longitude } = position.coords;
             map.value.setView([latitude, longitude], 18);
-            updatePosition();
         },
         (error) => {
             console.error(error);
@@ -51,10 +47,4 @@ const updateView = () => {
     );
 };
 
-const trail = ref(null);
-
-setInterval(() => {
-    updatePosition();
-}, 5000);
-
-export { map, marker, circle, trail, updateView, updatePosition, getPosition };
+export { map, marker, circle, trail, customIcon, updateView, updatePosition };

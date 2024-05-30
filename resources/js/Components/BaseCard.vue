@@ -30,7 +30,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="card" @click="isOpen = !isOpen">
+    <div class="card" @click="toggleBottomSheet()">
         <div class="tag">
             <BaseTag :tag="data.tag" :selected="true">{{ data.tag }}</BaseTag>
         </div>
@@ -41,10 +41,7 @@ defineProps({
         :isOpen="isOpen"
         @handle-open="toggleBottomSheet()"
     >
-        <AppTrailInfo
-            :data="data"
-            @handle-close="toggleBottomSheet()"
-        />
+        <AppTrailInfo :data="data" @handle-open="toggleBottomSheet()" />
     </BaseBottomSheet>
 </template>
 

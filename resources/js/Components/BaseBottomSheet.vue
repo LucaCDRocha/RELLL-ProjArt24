@@ -1,7 +1,9 @@
 <script setup>
-const isOpen = defineProps({
-    type: Boolean,
-    default: false,
+defineProps({
+    isOpen: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const scrollUp = (e) => {
@@ -10,13 +12,15 @@ const scrollUp = (e) => {
         ".base-overlay-card__content"
     ).style.height = `100vh`;
 };
+
+const emit = defineEmits(["handleOpen"]);
 </script>
 
 <template>
     <div
         class="base-overlay-card"
         :open="isOpen"
-        @click.self="$emit('handleOpen')"
+        @click.self="emit('handleOpen')"
     >
         <div
             class="base-overlay-card__content"
