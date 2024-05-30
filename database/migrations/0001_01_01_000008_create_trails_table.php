@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('description');
             $table->integer('difficulty'); // sur une échelle de 1 à 3,
             $table->boolean('is_accessible');
-            $table->boolean('is_approved');
             $table->integer('user_id')->unsigned();
             $table->integer('img_id')->unsigned();
             $table->integer('location_start_id')->unsigned();

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\InterestPointController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TrailController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,6 +34,9 @@ require __DIR__ . '/auth.php';
 Route::get('/home', function () {
     return Inertia::render('Home');
 });
+Route::resource("trails", TrailController::class);
+
+Route::resource("interestPoints", InterestPointController::class);
 
 Route::get('/search', function () {
     return Inertia::render('Search');
@@ -44,11 +49,6 @@ Route::get('/map', function () {
 Route::get('/settings', function () {
     return Inertia::render('Settings');
 });
-
-// Route::get('/bookmark', function () {
-//     return Inertia::render('List');
-// });
-
 
 Route::get('/favorites', function () {
     return Inertia::render('List');

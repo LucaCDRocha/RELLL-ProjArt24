@@ -20,6 +20,11 @@ class Trail extends Model
         'location_end_id',
     ];
 
+    public function interest_points()
+    {
+        return $this->belongsToMany(InterestPoint::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -30,9 +35,17 @@ class Trail extends Model
         return $this->belongsTo(Img::class);
     }
 
-    public function locations()
+    public function location_start()
     {
-        return $this->belongsToMany(Location::class);
+        return $this->belongsTo(Location::class);
+    }
+    public function location_end()
+    {
+        return $this->belongsTo(Location::class);
+    }
+    public function location_parking()
+    {
+        return $this->belongsTo(Location::class);
     }
 
     public function themes()
