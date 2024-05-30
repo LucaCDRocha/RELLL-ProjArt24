@@ -18,18 +18,26 @@ const props = defineProps({
 </script>
 
 <template>
-        <div>
-            <p>{{ name }}</p>
+        <div class="teamCard">
+            <img :src="img" alt="">
+            <p class="name">{{ name }}</p>
             <p>{{ title }}</p>
         </div>
 </template>
 
 <style scoped>
-    div {
-        display: flex;
-        justify-content: space-between;
-        border-bottom-width: 1px;
-        border-color: lightgray;
+    .teamCard {
         padding: 12px 5px;
+        width: 30%;
+        flex-direction: column;
+    }
+
+    .name{
+        font-weight: bold;
+    }
+
+    img {
+        height: 100px;
+        clip-path:ellipse(33% 50%);
     }
 </style>
