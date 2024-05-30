@@ -19,6 +19,11 @@ class InterestPoint extends Model
         'open_season',
     ];
 
+    public function trails()
+    {
+        return $this->belongsToMany(Trail::class);
+    }
+
     public function location()
     {
         return $this->belongsTo(Location::class);

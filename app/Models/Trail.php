@@ -21,6 +21,11 @@ class Trail extends Model
         'location_end_id',
     ];
 
+    public function interest_points()
+    {
+        return $this->belongsToMany(InterestPoint::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
