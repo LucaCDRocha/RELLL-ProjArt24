@@ -1,7 +1,6 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import TheNav from "@/Components/TheNav.vue";
-import { ref, defineProps } from "vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
 import BaseLinkList from "@/Components/BaseLinkList.vue";
 import BasePlainButton from "@/Components/BasePlainButton.vue";
@@ -33,7 +32,7 @@ const listes = defineProps({
     <h1>Vos listes</h1>
     <BaseDivider/>
         
-    <BaseLinkList v-for="el in list" :name="el.name" :id="el.id" link="bookmark"/>
+    <BaseLinkList v-for="el in list" :key="el.id" :name="el.name" :id="el.id" link="bookmark"/>
 
     <BasePlainButton type="button" icon="add_circle">Créer une nouvelle liste</BasePlainButton>
 

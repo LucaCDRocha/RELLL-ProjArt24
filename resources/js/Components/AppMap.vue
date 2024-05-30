@@ -1,16 +1,8 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 import BaseMap from "@/Components/BaseMap.vue";
-import {
-    map,
-    trail,
-    marker,
-    circle,
-    customIcon,
-    updateView,
-} from "@/Stores/map.js";
+import { trail, updateView } from "@/Stores/map.js";
 import { SwipeModal } from "@takuma-ru/vue-swipe-modal";
 import TheCardNav from "./TheCardNav.vue";
 

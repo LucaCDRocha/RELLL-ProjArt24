@@ -1,6 +1,5 @@
 <script setup>
 import RadioButton from './BaseRadioButton.vue';
-import { defineProps } from 'vue';
 
 const props = defineProps({
     options: {
@@ -22,6 +21,6 @@ const form = defineModel({
 
 <template>
     <div class="radio-button-group">
-        <RadioButton v-for="option in options" :option="option" :name="name" v-model="form" />
+        <RadioButton v-for="option in options" :key="option.id" :option="option" :name="name" v-model="form" />
     </div>
 </template>

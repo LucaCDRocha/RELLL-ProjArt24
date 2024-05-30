@@ -1,10 +1,8 @@
 <script setup>
 import { ref } from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseTag from "@/Components/BaseTag.vue";
 import BaseImgGalery from "@/Components/BaseImgGalery.vue";
-import TheCardNav from "@/Components/TheCardNav.vue";
 import AppCardList from "@/Components/AppCardList.vue";
 
 const dataTest = ref([

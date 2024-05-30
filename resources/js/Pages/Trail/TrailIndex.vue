@@ -1,6 +1,4 @@
 <script setup>
-import { defineProps } from "vue"
-
 const trails = defineProps({
   trails: {
     type: Array,

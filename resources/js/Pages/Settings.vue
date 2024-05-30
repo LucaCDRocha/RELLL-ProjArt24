@@ -9,7 +9,7 @@ import BaseTeamInfos from "@/Components/BaseTeamInfos.vue";
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from "@/Components/TextInput.vue";
-//import BaseTextArea from "@/Components/BaseTextArea.vue";
+import BaseTextArea from "@/Components/BaseTextArea.vue";
 import { watch } from 'vue';
 
 const team = [
@@ -76,7 +76,7 @@ const submit = () => {
             <p>Cette application a été réalisée dans le cadre du projet d’articulation en 2ème année d’ingénierie des
                 médias à la HEIG-VD.</p>
             <div class="team">
-                <BaseTeamInfos v-for="member in team" :name="member.name" :title="member.title" :img="member.photo" />
+                <BaseTeamInfos v-for="member in team" :key="member.name" :name="member.name" :title="member.title" :img="member.photo" />
             </div>
         </div>
 
@@ -99,12 +99,12 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.object" />
                 </div>
 
-                <!-- <div>
+                <div>
                     <InputLabel for="message" value="Votre message" />
                     <BaseTextArea id="message" class="mt-1 block w-full" v-model="form.message" required autofocus
                         placeholder="Message" />
                     <InputError class="mt-2" :message="form.errors.message" />
-                </div> -->
+                </div>
 
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Contacter
