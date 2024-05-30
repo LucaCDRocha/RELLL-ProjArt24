@@ -11,25 +11,33 @@ const props = defineProps({
     link :{
         required: true,
         type : String
+    },
+    numberElem :{
+        type : Number
     }
 });
 </script>
 
 <template>
-    <a :href="`${link}/${id}`">
-        <div>
-            <p>{{ name }}</p>
+    <a :href="`${link}`">
+        <div class="element">
+            <div>
+                <p>{{ name }}</p>
+                <p v-if="numberElem">({{ numberElem }})</p>
+            </div>
             <span class="material-symbols-rounded"> arrow_right </span>
         </div>
     </a>
 </template>
 
 <style scoped>
-    div {
-        display: flex;
+    div.element {
         justify-content: space-between;
         border-bottom-width: 1px;
         border-color: lightgray;
         padding: 12px 5px;
+    }
+    div{
+        display: flex;
     }
 </style>

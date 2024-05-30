@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::create('interest_points', function (Blueprint $table) {
             $table->increments('id');
-            $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'));
             $table->string('name');
             $table->text('description');
             $table->text('url');

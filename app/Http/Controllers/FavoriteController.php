@@ -17,7 +17,9 @@ class FavoriteController extends Controller
      */
     public function index()
     {
-            $userLists = Favorite::where('user_id', auth()->id())->get();
+            $userLists = Favorite::where('user_id', auth()->id())
+            ->withCount('trails')    
+            ->get();
             return Inertia::render('List', ['list' => $userLists]);
     }
 
@@ -42,7 +44,9 @@ class FavoriteController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $favorite = Favorite::findOrFail($id);
+        $trails = $favorite->trails()->get();
+        return Inertia::render('OneList', ['listDetails' => $favorite, 'trailsList' => $trails]);
     }
 
     /**
