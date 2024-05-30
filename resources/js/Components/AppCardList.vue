@@ -10,29 +10,27 @@ defineProps({
 </script>
 
 <template>
-    <p><slot /></p>
-    <div class="cardList">
-        <BaseCard v-for="data in datas" :key="data.name" :tag="data.tag">{{
-            data.name
-        }}</BaseCard>
+    <div>
+        <h2><slot /></h2>
+        <div class="cardList">
+            <BaseCard v-for="data in datas" :key="data.id" :data="data" />
+        </div>
     </div>
 </template>
 
 <style scoped>
+div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
 div.cardList {
     display: flex;
     flex-direction: row;
     overflow: scroll;
-    scrollbar-width: none;
-}
-
-p {
-    @apply text-2xl;
-    
-    margin-left: 1rem;
-}
-
-div.cardList:first-child {
-    margin-left: 1rem;
+    height: 100%;
+    padding-right: 1rem;
 }
 </style>
