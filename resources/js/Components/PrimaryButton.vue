@@ -1,7 +1,33 @@
 <template>
-    <button
-        class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
-    >
+    <button>
         <slot />
     </button>
 </template>
+
+<style scoped>
+button {
+    @apply inline-flex items-center px-4 py-2;
+
+    @apply font-semibold text-sm;
+    @apply text-green-50 dark:text-green-800;
+
+    @apply bg-green-800 dark:bg-green-200;
+    @apply border-green-800 dark:border-green-200;
+    @apply border rounded-full border-transparent shadow-sm;
+
+    @apply hover:bg-green-700 dark:hover:bg-green-100;
+    @apply hover:text-green-50 dark:hover:text-green-800;
+
+    @apply active:bg-green-900 dark:active:bg-green-300;
+    @apply active:text-green-50 dark:active:text-green-800;
+
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply focus:ring-green-500 dark:focus:ring-green-600 dark:focus:ring-offset-green-800;
+    @apply focus:border-green-500 dark:focus:border-green-600;
+    @apply focus:bg-green-700 dark:focus:bg-green-50;
+
+    @apply transition ease-in-out duration-150;
+
+    height: 2.5rem;
+}
+</style>

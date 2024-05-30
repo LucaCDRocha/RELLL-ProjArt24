@@ -62,6 +62,11 @@ $ php artisan migrate
  >
 ```
 
+Remplir la base de donnée
+```bash
+$ php artisan db:seed
+```
+
 ### Lancer les serveurs
 Ouvrir un deuxième terminal et lancer les commandes suivantes dans cet ordre une par terminal
 ```bash

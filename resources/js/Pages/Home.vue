@@ -1,29 +1,63 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import { ref, onMounted, onUnmounted, watch } from "vue";
-import useDarkMode from "@/Composables/darkMode";
+import { ref } from "vue";
+import TheNav from "@/Components/TheNav.vue";
+import AppCardList from "@/Components/AppCardList.vue";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
-const { toggleDarkMode } = useDarkMode();
-
+const data = ref([
+    {
+        id: 1,
+        name: "Château",
+        description: "Le château de Lausanne",
+        tag: "Facile",
+        is_accessible: true,
+    },
+    {
+        id: 2,
+        name: "Art en ville de Lausanne",
+        description: "Les oeuvres d'art de la ville de Lausanne",
+        tag: "Moyen",
+        is_accessible: true,
+    },
+    {
+        id: 3,
+        name: "33",
+        description: "Le parcours du 33",
+        tag: "Difficile",
+        is_accessible: false,
+    },
+    {
+        id: 4,
+        name: "33",
+        description: "Le parcours du 33",
+        tag: "oui",
+        is_accessible: false,
+    },
+]);
 </script>
 
 <template>
     <Head title="Home" />
-    <button
-        @click="toggleDarkMode()"
-        class="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-lg"
-    >
-        Toggle Dark Mode
-    </button>
 
-    <h1
-        class="text-xl font-semibold text-black dark:text-white dark:background-black"
-    >
-        Home
-    </h1>
-    <p class="text-sm text-gray-500 dark:text-gray-400">
-        Welcome to your application
-    </p>
+    <div class="home">
+        <h1>Home</h1>
+        <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+
+        <AppCardList :datas="data"
+            >Les parcours les plus populaires</AppCardList
+        >
+        <AppCardList :datas="data"
+            >Les points d’intérêts les mieux notés</AppCardList
+        >
+        <AppCardList :datas="data">Les différentes catégories</AppCardList>
+    </div>
+
+    <TheNav />
 </template>
 
-<style scoped></style>
+<style scoped>
+.home {
+    padding: 1rem 0rem 0rem 1rem;
+}
+</style>
