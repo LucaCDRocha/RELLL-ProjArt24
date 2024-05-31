@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('trails', function (Blueprint $table) {
             $table->increments('id');
-            $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'));
+            // $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'));
             $table->string('name');
             $table->time('time'); // à vérifier et confirmer le type
             $table->text('description');

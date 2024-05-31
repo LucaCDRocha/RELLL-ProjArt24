@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('favorites', function (Blueprint $table) {
             $table->increments('id');
-            $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'));
+            // $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'));
             $table->string('name');
             $table->integer('user_id')->unsigned();
 
