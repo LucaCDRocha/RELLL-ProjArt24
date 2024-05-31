@@ -8,6 +8,7 @@ import TheCardNav from "@/Components/TheCardNav.vue";
 import BaseImgGalery from "@/Components/BaseImgGalery.vue";
 import AppCardList from "@/Components/AppCardList.vue";
 import BaseMap from "@/Components/BaseMap.vue";
+import AppSaveButton from "@/Components/AppSaveButton.vue"
 
 defineProps({
     data: {
@@ -144,7 +145,7 @@ const emit = defineEmits(["handleOpen"]);
 
         <div class="actions">
             <PrimaryButton>Commencer</PrimaryButton>
-            <SecondaryButton icon="bookmark">Enrengistrer</SecondaryButton>
+            <AppSaveButton :title="data.name" :id="data.id"/>
             <SecondaryButton icon="star">Favoris</SecondaryButton>
         </div>
 

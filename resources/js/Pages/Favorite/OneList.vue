@@ -1,8 +1,8 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import TheNav from "@/Components/TheNav.vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
-import BasePlainButton from "@/Components/BasePlainButton.vue";
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 import BaseCard from "@/Components/BaseCard.vue";
 
 const items = defineProps({
@@ -15,6 +15,12 @@ const items = defineProps({
         default: () => [],
     }
 });
+const form = useForm({ 
+    id : items.listDetails.id
+});
+const submit = () => {
+    form.get(route('bookmark.edit', { id: items.listDetails.id }), {});
+};
 
 </script>
 <template>
@@ -26,6 +32,10 @@ const items = defineProps({
         class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
     Retour
     </Link>
+
+    <SecondaryButton @click="submit" class="ms-4" icon="edit">
+                    Modifier
+    </SecondaryButton>
 
     <BaseDivider />
 
