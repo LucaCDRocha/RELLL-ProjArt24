@@ -53,7 +53,9 @@ const emit = defineEmits(["handleOpen"]);
         <div class="stars">{{ data.note }}</div>
 
         <div class="actions">
-            <PrimaryButton>Commencer</PrimaryButton>
+            <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)"
+                >Commencer</PrimaryButton
+            >
             <SecondaryButton icon="bookmark">Enrengistrer</SecondaryButton>
             <SecondaryButton icon="star">Favoris</SecondaryButton>
         </div>
@@ -88,7 +90,9 @@ const emit = defineEmits(["handleOpen"]);
         </div>
         <BaseMap :draggable="false" :waypoints="data" />
 
-        <AppCardList :datas="data.interest_points">Points d'intérêt du sentier</AppCardList>
+        <AppCardList :datas="data.interest_points"
+            >Points d'intérêt du sentier</AppCardList
+        >
 
         <h2>Accessibilité</h2>
         <div class="infos accessibilite">

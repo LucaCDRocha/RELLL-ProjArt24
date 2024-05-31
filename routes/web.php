@@ -55,3 +55,7 @@ Route::get('/favorites', function () {
 Route::get('/my-trails', function () {
     return Inertia::render('History');
 })->middleware(['auth', 'verified'])->name('history');
+
+Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');
+
+Route::get('interest-point/{id}', [InterestPointController::class, 'show'])->name('interest-point.show');

@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 import BaseMap from "@/Components/BaseMap.vue";
-import { trail, updateView } from "@/Stores/map.js";
+import { trail } from "@/Stores/map.js";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import { SwipeModal } from "@takuma-ru/vue-swipe-modal";
 import TheCardNav from "./TheCardNav.vue";
@@ -34,9 +34,9 @@ const props = defineProps({
     },
 });
 
-onMounted(() => {
-    updateView();
-});
+// onMounted(() => {
+//     updateView();
+// });
 
 const updateCardInfo = (e) => {
     name.value = e.point.name;
@@ -55,6 +55,7 @@ onUnmounted(() => {
 <template>
     <BaseMap
         :trakable="true"
+        :track="true"
         :points="waypoints"
         @marker-click="updateCardInfo($event)"
     />
@@ -63,10 +64,7 @@ onUnmounted(() => {
         :isOpen="isOpen"
         @handle-open="toggleBottomSheet()"
     >
-        <AppInterestPointInfo
-            :data="data"
-            @handle-open="toggleBottomSheet()"
-        />
+        <AppInterestPointInfo :data="data" @handle-open="toggleBottomSheet()" />
     </BaseBottomSheet>
 </template>
 

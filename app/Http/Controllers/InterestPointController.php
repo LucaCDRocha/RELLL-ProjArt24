@@ -51,8 +51,8 @@ class InterestPointController extends Controller
      */
     public function show(string $id)
     {
-        $interestPoint = InterestPoint::findOrFail($id);
-        return Inertia::render('InterestPoint/InterestPointCreate')->with($interestPoint);
+        $interestPoint = InterestPoint::findOrFail($id)->load('location', 'tag', 'imgs');
+        return Inertia::render('InterestPoint/InterestPointShow')->with('interestPoint', $interestPoint);
     }
 
     /**

@@ -205,10 +205,21 @@ class TrailController extends Controller
             $trail->note = $trail->rankings()->avg('note');
 
             foreach ($trail->interest_points as $point) {
-                $point->load('location', 'tag');
-                $point->imgs = $point->imgs()->get();
+                $point->load('location', 'tag', 'imgs');
             }
         }
         return Inertia::render('Home', ['trails' => $allTrails]);
+    }
+
+    public function start($id)
+    {
+        $trail = Trail::findOrFail($id)->load('interest_points', 'location_start', 'location_end', 'location_parking', 'themes', 'rankings', 'img');
+        $trail->note = $trail->rankings()->avg('note');
+
+        foreach ($trail->interest_points as $point) {
+            $point->load('location', 'tag', 'imgs');
+        }
+
+        return Inertia::render('Trail/TrailStart', ['trail' => $trail]);
     }
 }

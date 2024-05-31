@@ -34,8 +34,6 @@ onMounted(() => {
     }
 });
 const isOpen = ref(false);
-
-window.addEventListener("load", () => {});
 </script>
 
 <template>

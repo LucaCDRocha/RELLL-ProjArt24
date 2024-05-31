@@ -4,10 +4,13 @@ import {
     marker,
     circle,
     trail,
+    locate,
     customIcon,
-    updateView,
-    updatePosition,
+    customIcon2,
+    // updateView,
+    // updatePosition,
 } from "@/Stores/map.js";
+import { icon } from "leaflet";
 import { onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
@@ -25,12 +28,22 @@ const props = defineProps({
         default: true,
         required: false,
     },
+    markerDraggable: {
+        type: Boolean,
+        default: false,
+        required: false,
+    },
     centerView: {
         type: Array,
-        default: () => [46.77911, 6.642196],
+        default: () => [46.5613, 6.6504],
         required: false,
     },
     trakable: {
+        type: Boolean,
+        default: false,
+        required: false,
+    },
+    track: {
         type: Boolean,
         default: false,
         required: false,
@@ -41,7 +54,7 @@ const emit = defineEmits(["marker-click"]);
 
 onMounted(() => {
     map.value = L.map("map")
-        .setView(props.centerView, 17)
+        .setView(props.centerView, 10)
         .setMaxZoom(19)
         .setMinZoom(10);
 
@@ -144,7 +157,7 @@ onMounted(() => {
             },
             createMarker: function (i, wp, nWps) {
                 return L.marker(wp.latLng, {
-                    draggable: props.draggable,
+                    draggable: props.markerDraggable,
                     icon: customIcon.value,
                 }).on("click", function () {
                     emit("marker-click", {
@@ -159,66 +172,109 @@ onMounted(() => {
         trail.value.setPosition("bottomleft");
 
         // find the center of the routing by calculating the coordinates of the middle point
-        var lat = 0;
-        var lng = 0;
-        waypoints.forEach((point) => {
-            lat += point.latLng.lat;
-            lng += point.latLng.lng;
-        });
+        // var lat = 0;
+        // var lng = 0;
+        // waypoints.forEach((point) => {
+        //     lat += point.latLng.lat;
+        //     lng += point.latLng.lng;
+        // });
 
-        map.value.setView([lat / waypoints.length, lng / waypoints.length]);
+        // map.value.setView([lat / waypoints.length, lng / waypoints.length]);
+
+        // calculate the zoom level to fit all the points
+        var bounds = L.latLngBounds(waypoints.map((point) => point.latLng));
+        map.value.fitBounds(bounds, { padding: [30, 30] });
     }
 
     if (props.trakable) {
-        marker.value = L.marker([0, 0], { icon: customIcon.value }).addTo(
-            map.value
-        );
+        // marker.value = L.marker([0, 0], { icon: customIcon2.value }).addTo(
+        //     map.value
+        // );
 
-        circle.value = L.circle([0, 0], {
-            color: "blue",
-            fillColor: "blue",
-            fillOpacity: 0.2,
-            radius: 50,
-        }).addTo(map.value);
+        // circle.value = L.circle([0, 0], {
+        //     color: "blue",
+        //     fillColor: "blue",
+        //     fillOpacity: 0.2,
+        //     radius: 50,
+        // }).addTo(map.value);
 
-        L.Control.Button = L.Control.extend({
-            options: {
+        // L.Control.Button = L.Control.extend({
+        //     options: {
+        //         position: "bottomright",
+        //     },
+        //     onAdd: function (map) {
+        //         var container = L.DomUtil.create(
+        //             "div",
+        //             "leaflet-bar leaflet-control"
+        //         );
+        //         var button = L.DomUtil.create(
+        //             "a",
+        //             "leaflet-control-button material-symbols-rounded",
+        //             container
+        //         );
+        //         button.textContent = "target";
+
+        //         L.DomEvent.disableClickPropagation(button); // Empêche la propagation de clics vers la carte
+        //         L.DomEvent.on(button, "click", function () {
+        //             updateView();
+        //         });
+
+        //         L.DomEvent.on(button, "mouseover", function () {
+        //             button.style.cursor = "pointer";
+        //             button.style.userSelect = "none";
+        //         });
+
+        //         container.title = "Center";
+        //         return container;
+        //     },
+        //     onRemove: function (map) {},
+        // });
+
+        // var customControl = new L.Control.Button();
+        // customControl.addTo(map.value);
+
+        // setInterval(() => {
+        //     updatePosition();
+        // }, 5000);
+
+        locate.value = L.control
+            .locate({
                 position: "bottomright",
+                setView: `${props.track ? "untilPan" : "false"}`,
+                initialZoomLevel: 17,
+                showPopup: false,
+                enableHighAccuracy: true,
+                watch: true,
+                flyTo: true,
+                icon: "material-symbols-rounded",
+                iconElementTag: "span",
+                iconLoading: "material-symbols-rounded",
+                iconElementTagLoading: "span",
+                onclick: function () {
+                    map.value.setView();
+                },
+            })
+            .addTo(map.value);
+
+        const material = document.querySelector(".leaflet-control-locate span");
+        material.innerHTML = "target";
+        material.style.height = "100%";
+        material.style.width = "100%";
+        material.style.display = "flex";
+        material.style.justifyContent = "center";
+        material.style.alignItems = "center";
+
+        locate.value.start(
+            {
+                setView: "untilPan",
+                initialZoomLevel: 17,
+                showPopup: false,
+                enableHighAccuracy: true,
+                watch: true,
+                flyTo: true,
             },
-            onAdd: function (map) {
-                var container = L.DomUtil.create(
-                    "div",
-                    "leaflet-bar leaflet-control"
-                );
-                var button = L.DomUtil.create(
-                    "a",
-                    "leaflet-control-button material-symbols-rounded",
-                    container
-                );
-                button.textContent = "target";
-
-                L.DomEvent.disableClickPropagation(button); // Empêche la propagation de clics vers la carte
-                L.DomEvent.on(button, "click", function () {
-                    updateView();
-                });
-
-                L.DomEvent.on(button, "mouseover", function () {
-                    button.style.cursor = "pointer";
-                    button.style.userSelect = "none";
-                });
-
-                container.title = "Center";
-                return container;
-            },
-            onRemove: function (map) {},
-        });
-
-        var customControl = new L.Control.Button();
-        customControl.addTo(map.value);
-
-        setInterval(() => {
-            updatePosition();
-        }, 5000);
+            true
+        );
     }
 });
 
