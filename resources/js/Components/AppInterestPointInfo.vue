@@ -36,7 +36,14 @@ const emit = defineEmits(["handleOpen"]);
         <div class="tags" v-if="!full">
             <BaseTag :tag="data.tag.name" />
         </div>
-        <PrimaryButton>Voir le site web</PrimaryButton>
+        <a
+            v-if="data.url !== '-'"
+            :href="data.url"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <PrimaryButton>Voir le site web</PrimaryButton>
+        </a>
         <BaseImgGalery :imgs="imgs" />
         <h2>Description</h2>
         <div class="tags">
