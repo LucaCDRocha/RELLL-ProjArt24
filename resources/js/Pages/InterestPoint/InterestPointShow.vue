@@ -1,6 +1,5 @@
 <script setup>
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
-import TheNav from "@/Components/TheNav.vue";
 
 const props = defineProps({
     interestPoint: {
@@ -18,6 +17,7 @@ const goBack = () => {
     <AppInterestPointInfo
         class="interest-point"
         :data="interestPoint"
+        :full="true"
         @handle-open="goBack()"
     />
 </template>

@@ -84,8 +84,27 @@ class TrailController extends Controller
      */
     public function show(string $id)
     {
-        $trail = Trail::findOrFail($id);
-        return Inertia::render('Trail/TrailIndex', ['trail' => $trail]);
+        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'themes', 'rankings');
+
+        switch ($trail->difficulty) {
+            case 1:
+                $trail->difficulty = "Facile";
+                break;
+            case 2:
+                $trail->difficulty = "Moyen";
+                break;
+            case 3:
+                $trail->difficulty = "Difficile";
+                break;
+        }
+
+        $trail->note = $trail->rankings()->avg('note');
+
+        foreach ($trail->interest_points as $point) {
+            $point->load('location', 'tag', 'imgs');
+        }
+
+        return Inertia::render('Trail/TrailShow', ['trail' => $trail]);
     }
 
     /**

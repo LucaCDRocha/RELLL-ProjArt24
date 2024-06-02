@@ -14,6 +14,10 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
+    full: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const imgs = ref([]);
@@ -33,7 +37,7 @@ const emit = defineEmits(["handleOpen"]);
     <div class="trail">
         <TheCardNav @handle-close="emit('handleOpen')" />
 
-        <div class="tags">
+        <div class="tags" v-if="!full">
             <div class="tag">
                 <BaseTag :tag="data.difficulty" :selected="true" />
             </div>
@@ -51,6 +55,14 @@ const emit = defineEmits(["handleOpen"]);
         <h1>{{ data.name }}</h1>
 
         <div class="stars">{{ data.note }}</div>
+
+        <div class="infos" v-if="!full">
+            <p>
+                <span class="material-symbols-rounded">access_time</span>
+                {{ data.time }}
+            </p>
+            <p>5 km</p>
+        </div>
 
         <div class="actions">
             <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)"

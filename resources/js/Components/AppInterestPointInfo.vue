@@ -11,6 +11,10 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
+    full: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const imgs = ref([]);
@@ -29,7 +33,7 @@ const emit = defineEmits(["handleOpen"]);
         <div class="ouvertures">
             <p>{{ data.open_season }}</p>
         </div>
-        <div class="tags">
+        <div class="tags" v-if="!full">
             <BaseTag :tag="data.tag.name" />
         </div>
         <PrimaryButton>Voir le site web</PrimaryButton>

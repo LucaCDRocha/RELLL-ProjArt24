@@ -57,5 +57,3 @@ Route::get('/my-trails', function () {
 })->middleware(['auth', 'verified'])->name('history');
 
 Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');
-
-Route::get('interest-point/{id}', [InterestPointController::class, 'show'])->name('interest-point.show');

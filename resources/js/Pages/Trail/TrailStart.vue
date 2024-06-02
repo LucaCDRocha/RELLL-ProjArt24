@@ -130,7 +130,7 @@ watch(currentPointIndex, (value) => {
                     currentPointIndex !== 0 && currentPointIndex !== lastIndex
                 "
                 class="primary"
-                @click="$inertia.visit(`/interest-point/${currentPoint.id}`)"
+                @click="$inertia.visit(`/interestPoints/${currentPoint.id}`)"
                 >Voir plus</PrimaryButton
             >
         </div>
