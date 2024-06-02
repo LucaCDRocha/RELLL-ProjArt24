@@ -33,7 +33,10 @@ const emit = defineEmits(["next", "previous"]);
             icon="arrow_forward"
             >Point suivant</BaseNavLink
         >
-        <BaseNavLink v-else @click.prevent="goBack" icon="check_circle"
+        <BaseNavLink
+            v-else
+            icon="check_circle"
+            @click.prevent="$inertia.visit(`/home`)"
             >Terminer</BaseNavLink
         >
     </div>

@@ -29,6 +29,7 @@ const goBack = () => {
     align-items: flex-start;
     width: 100vw;
     height: fit-content;
-    padding: 1rem 0rem 1rem 1rem;
+    padding: 1rem 0rem 0rem 1rem;
+    overflow: scroll;
 }
 </style>

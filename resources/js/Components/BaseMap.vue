@@ -1,16 +1,5 @@
 <script setup>
-import {
-    map,
-    marker,
-    circle,
-    trail,
-    locate,
-    customIcon,
-    customIcon2,
-    // updateView,
-    // updatePosition,
-} from "@/Stores/map.js";
-import { icon } from "leaflet";
+import { map, trail, locate, customIcon, trailInfo } from "@/Stores/map.js";
 import { onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
@@ -102,8 +91,6 @@ onMounted(() => {
                         point: elem,
                     });
                 });
-
-            // L.marker(point, { icon: customIcon.value }).addTo(map.value);
         });
     }
 
@@ -171,15 +158,9 @@ onMounted(() => {
         // change the position of the control
         trail.value.setPosition("bottomleft");
 
-        // find the center of the routing by calculating the coordinates of the middle point
-        // var lat = 0;
-        // var lng = 0;
-        // waypoints.forEach((point) => {
-        //     lat += point.latLng.lat;
-        //     lng += point.latLng.lng;
-        // });
-
-        // map.value.setView([lat / waypoints.length, lng / waypoints.length]);
+        trail.value.on("routesfound", (e) => {
+            trailInfo.value = e.routes[0];
+        });
 
         // calculate the zoom level to fit all the points
         var bounds = L.latLngBounds(waypoints.map((point) => point.latLng));
@@ -187,56 +168,6 @@ onMounted(() => {
     }
 
     if (props.trakable) {
-        // marker.value = L.marker([0, 0], { icon: customIcon2.value }).addTo(
-        //     map.value
-        // );
-
-        // circle.value = L.circle([0, 0], {
-        //     color: "blue",
-        //     fillColor: "blue",
-        //     fillOpacity: 0.2,
-        //     radius: 50,
-        // }).addTo(map.value);
-
-        // L.Control.Button = L.Control.extend({
-        //     options: {
-        //         position: "bottomright",
-        //     },
-        //     onAdd: function (map) {
-        //         var container = L.DomUtil.create(
-        //             "div",
-        //             "leaflet-bar leaflet-control"
-        //         );
-        //         var button = L.DomUtil.create(
-        //             "a",
-        //             "leaflet-control-button material-symbols-rounded",
-        //             container
-        //         );
-        //         button.textContent = "target";
-
-        //         L.DomEvent.disableClickPropagation(button); // Empêche la propagation de clics vers la carte
-        //         L.DomEvent.on(button, "click", function () {
-        //             updateView();
-        //         });
-
-        //         L.DomEvent.on(button, "mouseover", function () {
-        //             button.style.cursor = "pointer";
-        //             button.style.userSelect = "none";
-        //         });
-
-        //         container.title = "Center";
-        //         return container;
-        //     },
-        //     onRemove: function (map) {},
-        // });
-
-        // var customControl = new L.Control.Button();
-        // customControl.addTo(map.value);
-
-        // setInterval(() => {
-        //     updatePosition();
-        // }, 5000);
-
         locate.value = L.control
             .locate({
                 position: "bottomright",
@@ -279,7 +210,13 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    trail.value = null;
+    map.value = null;
+    if (locate.value) {
+        locate.value = null;
+    }
+    if (trail.value) {
+        trail.value = null;
+    }
 });
 </script>
 

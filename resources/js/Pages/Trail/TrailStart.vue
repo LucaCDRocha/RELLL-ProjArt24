@@ -5,7 +5,11 @@ import AppNavTrail from "@/Components/AppNavTrail.vue";
 import BaseMap from "@/Components/BaseMap.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseNavLink from "@/Components/BaseNavLink.vue";
-import { map } from "@/Stores/map.js";
+import {
+    trailInfo,
+    calculateDurationBetweenWaypoints,
+    flyTo,
+} from "@/Stores/map.js";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const props = defineProps({
@@ -15,15 +19,25 @@ const props = defineProps({
     },
 });
 
-const lastIndex = props.trail.interest_points.length - 1;
+const summary = ref({ time: 0, distance: 0 });
+
+const lastIndex = props.trail.interest_points.length + 1;
 
 const currentPointIndex = ref(0);
-const currentPoint = computed(
-    () => props.trail.interest_points[currentPointIndex.value]
-);
-
-watch(currentPointIndex, (value) => {
-    console.log(value);
+const currentPoint = computed(() => {
+    if (currentPointIndex.value === 0) {
+        return {
+            name: "Départ de la randonnée",
+            description: `${props.trail.description} ${props.trail.info_transport}`,
+        };
+    } else if (currentPointIndex.value === lastIndex) {
+        return {
+            name: "Arrivée de la randonnée",
+            description: `Vous êtes arrivé à destination. On espère que vous avez apprécié la randonnée.`,
+        };
+    } else {
+        return props.trail.interest_points[currentPointIndex.value - 1];
+    }
 });
 
 const next = () => {
@@ -39,38 +53,51 @@ const previous = () => {
 };
 
 if (window.location.hash) {
-    currentPointIndex.value = window.location.hash.substring(1) - 1;
+    currentPointIndex.value = parseInt(window.location.hash.substr(1));
 }
 
 onMounted(() => {
-    window.location.hash = currentPointIndex.value+1;
-    map.value.flyTo(
-        [
-            props.trail.interest_points[currentPointIndex.value].location
-                .latitude,
-            props.trail.interest_points[currentPointIndex.value].location
-                .longitude,
-        ],
-        18,
-        {
-            duration: 2, // Set the duration of the transition in seconds
-        }
-    );
+    if (currentPointIndex.value === 0) {
+        console.log(props.trail);
+        flyTo(props.trail.location_start, 18, 2);
+    } else if (currentPointIndex.value === lastIndex) {
+        flyTo(props.trail.location_end, 18, 2);
+    } else {
+        flyTo(
+            props.trail.interest_points[currentPointIndex.value - 1].location,
+            18,
+            2
+        );
+    }
+
+    setTimeout(() => {
+        summary.value = calculateDurationBetweenWaypoints(
+            trailInfo.value.instructions,
+            currentPointIndex.value,
+            currentPointIndex.value + 1
+        );
+    }, 1000);
 });
 
 watch(currentPointIndex, (value) => {
-    window.location.hash = currentPointIndex.value+1;
-    map.value.flyTo(
-        [
-            props.trail.interest_points[currentPointIndex.value].location
-                .latitude,
-            props.trail.interest_points[currentPointIndex.value].location
-                .longitude,
-        ],
-        18,
-        {
-            duration: 2, // Set the duration of the transition in seconds
-        }
+    window.location.hash = currentPointIndex.value;
+    if (currentPointIndex.value === 0) {
+        console.log(props.trail);
+        flyTo(props.trail.location_start, 18, 2);
+    } else if (currentPointIndex.value === lastIndex) {
+        flyTo(props.trail.location_end, 18, 2);
+    } else {
+        flyTo(
+            props.trail.interest_points[currentPointIndex.value - 1].location,
+            18,
+            2
+        );
+    }
+
+    summary.value = calculateDurationBetweenWaypoints(
+        trailInfo.value.instructions,
+        currentPointIndex.value,
+        currentPointIndex.value + 1
     );
 });
 </script>
@@ -80,15 +107,18 @@ watch(currentPointIndex, (value) => {
 
     <div class="info">
         <div class="info_content">
-            <p>15 minutes jusqu'au prochain</p>
-            <p>Lieu {{ currentPointIndex + 1 }}/{{ lastIndex + 1 }}</p>
+            <p>{{ summary.time }} minutes jusqu'au prochain</p>
+            <p>Lieu {{ currentPointIndex }}/{{ lastIndex }}</p>
         </div>
-        <BaseNavLink class="quit" icon="cancel" @click.prevent="$inertia.visit(`/home`)"
+        <BaseNavLink
+            class="quit"
+            icon="cancel"
+            @click.prevent="$inertia.visit(`/home`)"
             >Quitter</BaseNavLink
         >
     </div>
 
-    <BaseMap :waypoints="trail" :trakable="true" />
+    <BaseMap :waypoints="props.trail" :trakable="true" />
 
     <div class="bottom-sheet">
         <div class="content">
@@ -96,6 +126,9 @@ watch(currentPointIndex, (value) => {
             <SecondaryButton icon="volume_up">Audio guide</SecondaryButton>
             <p>{{ currentPoint.description }}</p>
             <PrimaryButton
+                v-if="
+                    currentPointIndex !== 0 && currentPointIndex !== lastIndex
+                "
                 class="primary"
                 @click="$inertia.visit(`/interest-point/${currentPoint.id}`)"
                 >Voir plus</PrimaryButton
