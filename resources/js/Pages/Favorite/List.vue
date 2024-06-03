@@ -1,9 +1,17 @@
 <script setup>
-import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import TheNav from "@/Components/TheNav.vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
 import BaseLinkList from "@/Components/BaseLinkList.vue";
+import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import BasePlainButton from "@/Components/BasePlainButton.vue";
+import NewList from "@/Pages/Favorite/NewList.vue";
+import { ref } from "vue";
+
+const isOpen = ref(false);
+const toggleBottomSheet = () => {
+    isOpen.value = !isOpen.value;
+};
 
 const listes = defineProps({
   list: {
@@ -12,16 +20,9 @@ const listes = defineProps({
     },
 });
 
-const form = useForm({ 
-  id:1
-});
 
 const { props: pageProps } = usePage();
 const successMessage = pageProps.flash?.success;
-
-const submit = () => {
-    form.get(route('bookmark.create'), {});
-};
 
 </script>
 <template>
@@ -39,8 +40,10 @@ const submit = () => {
       :link="route('bookmark.show', { id: el.id })" :numberElem="el.trails_count"/>
 
 
-    <BasePlainButton @click="submit" type="submit" icon="add_circle">Créer une nouvelle liste</BasePlainButton>
-
+    <BasePlainButton @click.prevent="toggleBottomSheet()" type="submit" icon="add_circle">Créer une nouvelle liste</BasePlainButton>
+    <BaseBottomSheet v-if="isOpen" :isOpen="isOpen" @handle-open="toggleBottomSheet()">
+      <NewList />
+    </BaseBottomSheet>
     <TheNav />
 </template>
 

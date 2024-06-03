@@ -1,15 +1,21 @@
 <script setup>
-import { useForm, Link, usePage } from '@inertiajs/vue3';
+import { useForm, Link } from '@inertiajs/vue3';
 import { ref, watch } from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import BaseCheckbox from "@/Components/BaseCheckbox.vue";
 import BasePlainButton from "@/Components/BasePlainButton.vue";
+import NewList from "@/Pages/Favorite/NewList.vue";
 
 const isOpen = ref(false);
 const toggleBottomSheet = () => {
     isOpen.value = !isOpen.value;
+};
+
+const newIsOpen = ref(false);
+const toggleBottomSheetNew = () => {
+    newIsOpen.value = !newIsOpen.value;
 };
 
 const emit = defineEmits(["handleOpen"]);
@@ -59,10 +65,13 @@ const submit = () => {
                 <BaseCheckbox :id=5 name="A refaire" :count="12" v-model="form.check_ids" />
                 <BaseCheckbox :id=6 name="Why not" :count="12" v-model="form.check_ids" />
 
-                <BasePlainButton type="button" icon="add_circle">Créer une nouvelle liste</BasePlainButton>
+                <BasePlainButton @click.prevent="toggleBottomSheetNew()" type="submit" icon="add_circle">Créer une nouvelle liste</BasePlainButton>
+    <BaseBottomSheet v-if="newIsOpen" :isOpen="newIsOpen" @handle-open="toggleBottomSheetNew()">
+      <NewList />
+    </BaseBottomSheet>
                 <br>
 
-                <Link @click.prevent="" href="route('trails.show', props.id)"
+                <Link @click.prevent="toggleBottomSheet()"
                     class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
                 Annuler</Link>
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">

@@ -1,13 +1,9 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { ref } from "vue";
-
-const isOpen = ref(true);
 
 const form = useForm({ 
     name : ''
@@ -19,7 +15,6 @@ const submit = () => {
 
 </script>
 <template>
-    <BaseBottomSheet :isOpen="isOpen">
         <div class="lists">
             <form @submit.prevent="submit">
                 <div>
@@ -35,6 +30,4 @@ const submit = () => {
 
             </form>
         </div>
-
-    </BaseBottomSheet>
 </template>
