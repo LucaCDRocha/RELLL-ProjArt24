@@ -7,6 +7,9 @@
 
     <title inertia>{{ config('app.name', 'RELLL') }}</title>
 
+    <!-- Logo -->
+    <link rel="icon" href="/img/logo/Logo_RGB_petit.png" type="image/png" sizes="64x64">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />

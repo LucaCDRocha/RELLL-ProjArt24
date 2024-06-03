@@ -1,4 +1,5 @@
 <script setup>
+import { Head } from "@inertiajs/vue3";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 
 const props = defineProps({
@@ -14,6 +15,8 @@ const goBack = () => {
 </script>
 
 <template>
+    <Head title="Point d'intérêt" />
+
     <AppInterestPointInfo
         class="interest-point"
         :data="interestPoint"

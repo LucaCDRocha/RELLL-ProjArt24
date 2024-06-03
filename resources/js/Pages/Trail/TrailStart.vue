@@ -103,7 +103,7 @@ watch(currentPointIndex, (value) => {
 </script>
 
 <template>
-    <Head title="Map" />
+    <Head title="Santier" />
 
     <div class="info">
         <div class="info_content">

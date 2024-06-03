@@ -1,4 +1,5 @@
 <script setup>
+import { Head } from "@inertiajs/vue3";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 
 const props = defineProps({
@@ -14,6 +15,8 @@ const goBack = () => {
 </script>
 
 <template>
+    <Head title="Trail" />
+
     <AppTrailInfo class="trail-info" :data="trail" :full="true" @handle-open="goBack()" />
 </template>
 

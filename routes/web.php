@@ -10,12 +10,13 @@ use App\Http\Controllers\FavoriteController;
 use App\Models\Trail;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect()->route('home');
+    // return Inertia::render('Welcome', [
+    //     'canLogin' => Route::has('login'),
+    //     'canRegister' => Route::has('register'),
+    //     'laravelVersion' => Application::VERSION,
+    //     'phpVersion' => PHP_VERSION,
+    // ]);
 });
 
 Route::get('/dashboard', function () {
@@ -32,7 +33,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('/home', [TrailController::class, 'home']);
+Route::get('/home', [TrailController::class, 'home'])->name('home');
 Route::resource("trails", TrailController::class);
 
 Route::resource("interestPoints", InterestPointController::class);

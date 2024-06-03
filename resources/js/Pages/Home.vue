@@ -48,8 +48,7 @@ const data = ref([
     <Head title="Home" />
 
     <div class="home">
-        <h1>Home</h1>
-        <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+        <ApplicationLogo />
 
         <AppCardList :datas="trails"
             >Les parcours les plus populaires</AppCardList
