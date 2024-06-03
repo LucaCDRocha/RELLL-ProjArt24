@@ -7,14 +7,6 @@ import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 
 const isOpen = ref(false);
 
-watch(isOpen, (value) => {
-    if (value) {
-        document.body.style.overflow = "hidden";
-    } else {
-        document.body.style.overflow = "auto";
-    }
-});
-
 const toggleBottomSheet = () => {
     isOpen.value = !isOpen.value;
 };

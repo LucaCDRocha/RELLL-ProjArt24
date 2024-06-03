@@ -70,8 +70,7 @@ onUnmounted(() => {
 
 <style>
 #map {
-    height: calc(100vh - 5rem);
-    height: calc(var(--vh, 1vh) * 100 - 5rem);
+    height: calc(var(--vh, 1vh) * 100 - 10rem);
     z-index: 0;
 }
 </style>

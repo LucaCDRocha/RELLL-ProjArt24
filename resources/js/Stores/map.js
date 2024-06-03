@@ -58,16 +58,13 @@ const flyTo = (location, zoom, duration) => {
 };
 
 const changeTrailMarker = (waypointId) => {
-    console.log(trailMarkers.value);
     for (let i = 0; i < trailMarkers.value.length; i++) {
         if (
             i === waypointId ||
             i === waypointId + trailMarkers.value.length / 2
         ) {
-            console.log("active");
             trailMarkers.value.at(i).setIcon(customIconActive.value);
         } else {
-            console.log("inactive");
             trailMarkers.value.at(i).setIcon(customIcon.value);
         }
     }

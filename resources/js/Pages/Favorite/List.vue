@@ -7,6 +7,7 @@ import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import BasePlainButton from "@/Components/BasePlainButton.vue";
 import NewList from "@/Pages/Favorite/NewList.vue";
 import { ref } from "vue";
+import TheHeader from "@/Components/TheHeader.vue";
 
 const isOpen = ref(false);
 const toggleBottomSheet = () => {
@@ -26,8 +27,9 @@ const successMessage = pageProps.flash?.success;
 
 </script>
 <template>
-
     <Head title="Vos listes" />
+
+    <TheHeader />
 
     <h1>Vos listes</h1>
     <BaseDivider/>
