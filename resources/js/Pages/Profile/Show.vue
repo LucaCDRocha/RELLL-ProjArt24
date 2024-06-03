@@ -70,7 +70,10 @@ const destroy = () => {
         </div>
         <BaseDivider />
 
-        <History />
+        <!-- <History /> -->
+        <PrimaryButton @click="$inertia.visit('/my-trails')"
+            >Historique</PrimaryButton
+        >
 
         <BaseDivider />
         <h2>Modifier vos informations</h2>

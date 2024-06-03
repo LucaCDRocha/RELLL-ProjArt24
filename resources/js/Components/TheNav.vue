@@ -3,10 +3,13 @@ import { ref, onMounted } from "vue";
 import BaseNavLink from "@/Components/BaseNavLink.vue";
 
 onMounted(() => {
+    console.log(window.location.pathname);
     switch (window.location.pathname) {
         case "/login":
         case "/logout":
         case "/settings":
+        case "/register":
+        case "/my-trails":
             document
                 .querySelector('a[href="/profile"]')
                 ?.querySelector("span")
@@ -19,7 +22,7 @@ onMounted(() => {
                 ?.classList.add("active");
         default:
             document
-                .querySelector('a[href="' + window.location.pathname + '"]')
+                .querySelector(`a[href="${window.location.pathname}"]`)
                 ?.querySelector("span")
                 ?.classList.add("active");
             break;
