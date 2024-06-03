@@ -54,9 +54,9 @@ Route::get('/settings', function () {
 // });
 
 //Route qui requiert authentification
-Route::get('/my-trails', function () {
-    return Inertia::render('History');
-})->middleware(['auth', 'verified'])->name('history');
+// Route::get('/my-trails', function () {
+//     return Inertia::render('History');
+// })->middleware(['auth', 'verified'])->name('history');
 
 Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');
 
