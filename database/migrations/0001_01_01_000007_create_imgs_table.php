@@ -15,8 +15,8 @@ return new class extends Migration
             $table->increments('id');
             $table->text('img_path'); // surement pas nécessaire
             // $table->file('img');
-            $table->string('source');
-            $table->integer('interest_point_id')->unsigned();
+            $table->string('source')->default('');
+            $table->integer('interest_point_id')->unsigned()->nullable();
 
             $table->foreign('interest_point_id')->references('id')->on('interest_points')
                 ->restrictOnDelete()

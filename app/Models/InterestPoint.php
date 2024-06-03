@@ -14,6 +14,7 @@ class InterestPoint extends Model
         'description',
         'url',
         'open_season',
+        'tag_id',
     ];
 
     public function trails()
