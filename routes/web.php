@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HistoricsController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\InterestPointController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TrailController;
@@ -29,6 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource("/bookmark", FavoriteController::class);
+    Route::post("/addTrail", [FavoriteController::class, 'addTrail'])->name('bookmark.addTrail');
+    Route::get('/my-trails', [HistoricsController::class, 'showHistorics']);
 });
 
 require __DIR__ . '/auth.php';
@@ -48,9 +52,9 @@ Route::get('/settings', function () {
     return Inertia::render('Settings');
 });
 
-Route::get('/favorites', function () {
-    return Inertia::render('List');
-});
+// Route::get('/favorites', function () {
+//     return Inertia::render('List');
+// });
 
 //Route qui requiert authentification
 Route::get('/my-trails', function () {

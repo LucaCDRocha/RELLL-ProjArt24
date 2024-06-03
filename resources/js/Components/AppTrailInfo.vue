@@ -8,6 +8,7 @@ import TheCardNav from "@/Components/TheCardNav.vue";
 import BaseImgGalery from "@/Components/BaseImgGalery.vue";
 import AppCardList from "@/Components/AppCardList.vue";
 import BaseMap from "@/Components/BaseMap.vue";
+import AppSaveButton from "@/Components/AppSaveButton.vue"
 
 const props = defineProps({
     data: {
@@ -68,7 +69,7 @@ const emit = defineEmits(["handleOpen"]);
             <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)"
                 >Commencer</PrimaryButton
             >
-            <SecondaryButton icon="bookmark">Enrengistrer</SecondaryButton>
+            <AppSaveButton :title="data.name" :id="data.id"/>
             <SecondaryButton icon="star">Favoris</SecondaryButton>
         </div>
 

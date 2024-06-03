@@ -17,16 +17,27 @@ class FavoriteController extends Controller
      */
     public function index()
     {
-            $userLists = Favorite::where('user_id', auth()->id())->get();
-            return Inertia::render('List', ['list' => $userLists]);
+            $userLists = Favorite::where('user_id', auth()->id())
+            ->withCount('trails')    
+            ->get();
+            return Inertia::render('Favorite/List', ['list' => $userLists]);
     }
 
+    public function allLists(){
+        $allLists = Favorite::where('user_id', auth()->id())
+            ->withCount('trails')    
+            ->get();
+        
+            return Inertia::visit(url()->previous(), [
+                'lists' => $allLists
+            ]);
+    }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return Inertia::render('Favorite/NewList');
     }
 
     /**
@@ -34,7 +45,23 @@ class FavoriteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $exists = Favorite::where('user_id', Auth::id())
+                          ->where('name', $request->name)
+                          ->exists();
+
+        if ($exists) {
+            // Si la liste existe déjà, retourner une erreur
+            return back()->withErrors(['name' => 'Vous avez déjà une liste avec ce nom.']);
+        }
+
+        // Si la liste n'existe pas, créer une nouvelle liste
+        $favorite = new Favorite();
+        $favorite->name = $request->name;
+        $favorite->user_id = Auth::id();
+        $favorite->save();
+
+        // Rediriger avec un message de succès
+        return redirect()->route('bookmark.index')->with('success', 'Liste créée avec succès.');
     }
 
     /**
@@ -42,7 +69,9 @@ class FavoriteController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $favorite = Favorite::findOrFail($id);
+        $trails = $favorite->trails()->get();
+        return Inertia::render('Favorite/OneList', ['listDetails' => $favorite, 'trailsList' => $trails]);
     }
 
     /**
@@ -50,7 +79,9 @@ class FavoriteController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $favorite = Favorite::findOrFail($id);
+        $trails = $favorite->trails()->get();
+        return Inertia::render('Favorite/EditList', ['listDetails' => $favorite, 'trailsList' => $trails]);
     }
 
     /**
@@ -58,7 +89,13 @@ class FavoriteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $favorite = Favorite::findOrFail($id);
+        foreach ($request['aSupprimer'] as $listASupprimer) {
+            dump($listASupprimer);
+            $favorite->trails()->detach($listASupprimer);
+        }
+
+        return $this->index();
     }
 
     /**
@@ -67,5 +104,39 @@ class FavoriteController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function addTrail(Request $request){
+        $userId = auth()->id();
+    $newCheckIds = $request['check_ids'];
+    $trailId = $request['trail_id'];
+
+        foreach($newCheckIds as $list) {
+            $thelist = Favorite::findOrFail($list);
+
+            $exists = $thelist->trails()->where('trail_id', $trailId)->exists();
+
+            // Si la relation n'existe pas, l'ajouter
+            if (!$exists) {
+                $thelist->trails()->attach($request['trail_id']);
+            }
+        }
+
+        $currentCheckIds = Favorite::where('user_id', $userId)
+        ->whereHas('trails', function ($query) use ($trailId) {
+            $query->where('trail_id', $trailId);
+        })
+        ->pluck('id')
+        ->toArray();
+
+        // Identifier les relations à supprimer
+    $toDetach = array_diff($currentCheckIds, $newCheckIds);
+
+    // Supprimer les relations qui n'existent plus
+    foreach ($toDetach as $list) {
+        $tag = Favorite::findOrFail($list);
+        $tag->trails()->detach($trailId);
+    }
+
+        return $this->index();
     }
 }
