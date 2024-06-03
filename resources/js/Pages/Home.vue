@@ -3,7 +3,7 @@ import { Head } from "@inertiajs/vue3";
 import { ref } from "vue";
 import TheNav from "@/Components/TheNav.vue";
 import AppCardList from "@/Components/AppCardList.vue";
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import TheHeader from "@/Components/TheHeader.vue";
 
 const props = defineProps({
     trails: {
@@ -47,16 +47,18 @@ const data = ref([
 <template>
     <Head title="Home" />
 
+    <TheHeader />
+    
     <div class="home">
-        <ApplicationLogo />
-
         <AppCardList :datas="trails"
             >Les parcours les plus populaires</AppCardList
         >
         <AppCardList :datas="trails[0].interest_points"
             >Les points d’intérêts les mieux notés</AppCardList
         >
-        <AppCardList :datas="trails[1].interest_points">Les différentes catégories</AppCardList>
+        <AppCardList :datas="trails[1].interest_points"
+            >Les différentes catégories</AppCardList
+        >
     </div>
 
     <TheNav />

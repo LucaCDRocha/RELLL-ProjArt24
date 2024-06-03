@@ -194,6 +194,8 @@ watch(currentPointIndex, (value) => {
 }
 
 .quit {
+    @apply text-red-700 dark:text-red-500;
+
     width: fit-content;
 }
 

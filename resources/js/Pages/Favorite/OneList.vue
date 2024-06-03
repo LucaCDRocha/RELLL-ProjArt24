@@ -4,6 +4,7 @@ import TheNav from "@/Components/TheNav.vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import BaseCard from "@/Components/BaseCard.vue";
+import TheHeader from "@/Components/TheHeader.vue";
 
 const items = defineProps({
     trailsList: {
@@ -24,8 +25,9 @@ const submit = () => {
 
 </script>
 <template>
-
     <Head :title="listDetails.name" />
+
+    <TheHeader/>
 
     <h1>{{ listDetails.name }}</h1>
     <Link :href="route('bookmark.index')"

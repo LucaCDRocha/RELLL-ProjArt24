@@ -37,9 +37,9 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 Route::get('/home', [TrailController::class, 'home'])->name('home');
-Route::resource("trails", TrailController::class);
+Route::resource("/trails", TrailController::class);
 
-Route::resource("interestPoints", InterestPointController::class);
+Route::resource("/interestPoints", InterestPointController::class);
 
 Route::get('/search', function () {
     return Inertia::render('Search');

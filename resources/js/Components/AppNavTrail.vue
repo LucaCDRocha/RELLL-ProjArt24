@@ -22,6 +22,7 @@ const emit = defineEmits(["next", "previous"]);
             v-if="props.index === 0"
             @click.prevent="$inertia.visit(`/home`)"
             icon="cancel"
+            class="quit"
             >Quitter</BaseNavLink
         >
         <BaseNavLink v-else @click.prevent="emit('previous')" icon="arrow_back"
@@ -55,5 +56,9 @@ div {
     padding: 1rem 0rem;
 
     z-index: 1001;
+}
+
+.quit {
+    @apply text-red-700 dark:text-red-300;
 }
 </style>
