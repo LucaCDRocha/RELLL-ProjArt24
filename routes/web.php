@@ -8,7 +8,6 @@ use App\Http\Controllers\TrailController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\FavoriteController;
 use App\Models\Trail;
 
 Route::get('/', function () {
