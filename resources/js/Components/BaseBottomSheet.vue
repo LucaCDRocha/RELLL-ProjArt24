@@ -41,6 +41,8 @@ const emit = defineEmits(["handleOpen"]);
     width: 100vw;
     height: 100vh;
 
+    transition: top 0.5s;
+
     z-index: 1000;
 }
 
@@ -48,6 +50,8 @@ const emit = defineEmits(["handleOpen"]);
     @apply bg-transparent dark:bg-transparent;
 
     top: 0;
+
+    transition: top 0.5s;
 }
 
 .base-overlay-card__content {
@@ -67,5 +71,10 @@ const emit = defineEmits(["handleOpen"]);
 
     overflow-y: scroll;
     overflow-x: hidden;
+
+    transition: top 0.5s;
+
+    box-shadow: 0 -11px 10px rgba(50, 50, 93, 0.11),
+        0 0px 5px rgba(0, 0, 0, 0.08);
 }
 </style>

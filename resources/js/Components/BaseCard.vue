@@ -2,8 +2,6 @@
 import { ref, watch } from "vue";
 import BaseTag from "@/Components/BaseTag.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 
@@ -21,18 +19,33 @@ const toggleBottomSheet = () => {
     isOpen.value = !isOpen.value;
 };
 
-defineProps({
+const props = defineProps({
     data: {
         type: Object,
         default: () => {},
     },
 });
+
+const img = ref();
+if (props.data.imgs) {
+    img.value = props.data.imgs[0].img_path;
+}else{
+    img.value = props.data.img.img_path;
+}
 </script>
 
 <template>
-    <div class="card" @click="toggleBottomSheet()">
+    <div
+        class="card"
+        @click="toggleBottomSheet()"
+        :style="{
+            background: `linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(213, 213, 213, 0.26) 24.3%, rgba(128, 128, 128, 0.75) 62.15%, #2B2B2B 100%), url(${img}) lightgray 50% / cover no-repeat`,
+        }"
+    >
         <div class="tag">
-            <BaseTag :tag="data.tag" :selected="true">{{ data.tag }}</BaseTag>
+            <BaseTag v-if="data.difficulty" :tag="data.difficulty" :selected="true">{{
+                data.difficulty
+            }}</BaseTag>
         </div>
         <p>{{ data.name }}</p>
     </div>
@@ -41,7 +54,8 @@ defineProps({
         :isOpen="isOpen"
         @handle-open="toggleBottomSheet()"
     >
-        <AppTrailInfo :data="data" @handle-open="toggleBottomSheet()" />
+        <AppTrailInfo v-if="data.note" :data="data" @handle-open="toggleBottomSheet()" />
+        <AppInterestPointInfo v-else :data="data" @handle-open="toggleBottomSheet()" />
     </BaseBottomSheet>
 </template>
 
@@ -59,10 +73,9 @@ div.card {
     border-radius: 1.75rem;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 
-    background-color: beige;
+    /* background-color: beige;
     background: linear-gradient(180deg, rgba(0, 19, 2, 0) 0%, #001a04 94.1%),
-        url("https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg")
-            rgb(247, 255, 247) 50% / cover no-repeat;
+        url("") rgb(247, 255, 247) 50% / cover no-repeat; */
 }
 
 .card .tag {

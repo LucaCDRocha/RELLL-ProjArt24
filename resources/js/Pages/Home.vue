@@ -5,6 +5,13 @@ import TheNav from "@/Components/TheNav.vue";
 import AppCardList from "@/Components/AppCardList.vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
+const props = defineProps({
+    trails: {
+        type: Array,
+        default: () => [],
+    },
+});
+
 const data = ref([
     {
         id: 1,
@@ -41,16 +48,15 @@ const data = ref([
     <Head title="Home" />
 
     <div class="home">
-        <h1>Home</h1>
-        <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+        <ApplicationLogo />
 
-        <AppCardList :datas="data"
+        <AppCardList :datas="trails"
             >Les parcours les plus populaires</AppCardList
         >
-        <AppCardList :datas="data"
+        <AppCardList :datas="trails[0].interest_points"
             >Les points d’intérêts les mieux notés</AppCardList
         >
-        <AppCardList :datas="data">Les différentes catégories</AppCardList>
+        <AppCardList :datas="trails[1].interest_points">Les différentes catégories</AppCardList>
     </div>
 
     <TheNav />

@@ -18,6 +18,7 @@ class ImgSeeder extends Seeder
             $data = JsonHelper::readJson('/jeuTest.json'); //récupère des infos dans jeuTest.json
 
             //ajout des images des sentiers
+            // TODO: faire le seeder pour les images des sentiers
             $imageTrails = collect($data['sentiers'])
                 ->pluck('image');
 

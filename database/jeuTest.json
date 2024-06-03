@@ -27,18 +27,18 @@
             "accessibilite": true,
             "info_transport": "Le départ est à la gare de Lausanne et le trajet se finit à l’arrêt du métro d’Ouchy.",
             "depart": {
-                "coordonnees": [46.31021, 6.37449]
+                "coordonnees": [46.517264, 6.629346]
             },
             "arrivee": {
-                "coordonnees": [46.30252, 6.37354]
+                "coordonnees": [46.506953, 6.626603]
             },
             "image": {
                 "source": "",
-                "url": "https://commons.wikimedia.org/wiki/File:Jardin_Botanique_25.09.11.JPG"
+                "url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Plateforme_10.jpg"
             },
             "restauration": "plusieurs restaurants ou cafés sur le parcours",
             "parking": {
-                "coordonnees": [46.31021, 6.37449]
+                "coordonnees": [46.517264, 6.629346]
             },
             "points_interet": [
                 {
@@ -69,7 +69,7 @@
                     "images": [
                         {
                             "source": "",
-                            "url": "https://commons.wikimedia.org/wiki/File:Jardin_Botanique_25.09.11.JPG"
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/9/90/Jardin_Botanique_25.09.11.JPG"
                         }
                     ]
                 },
@@ -83,7 +83,7 @@
                     "images": [
                         {
                             "source": "By Lausanne, ville verte",
-                            "url": "http://idata.over-blog.com/2/21/56/99/Mus-e-olympique/MO_cuirasse_article_1.jpg"
+                            "url": "https://idata.over-blog.com/2/21/56/99/Mus-e-olympique/MO_cuirasse_article_1.jpg"
                         }
                     ]
                 },
@@ -97,7 +97,7 @@
                     "images": [
                         {
                             "source": "Patrick Nouhailler's…, CC BY-SA 3.0, via Wikimedia Commons",
-                            "url": "https://commons.wikimedia.org/wiki/File:Lausanne_-_Lake_Side_-_Vaud,_Switzerland_-_panoramio_(44).jpg"
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Lausanne_-_Lake_Side_-_Vaud%2C_Switzerland_-_panoramio_%2844%29.jpg"
                         }
                     ]
                 },
@@ -125,7 +125,7 @@
                     "images": [
                         {
                             "source": "",
-                            "url": "https://commons.wikimedia.org/wiki/File:Serge_Lifar_bij_repetitie_van_Nederlands_Ballet,_Bestanddeelnr_912-2421.jpg"
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/3/35/Serge_Lifar_bij_repetitie_van_Nederlands_Ballet%2C_Bestanddeelnr_912-2421.jpg"
                         }
                     ]
                 },
@@ -139,7 +139,7 @@
                     "images": [
                         {
                             "source": "AlterVista, CC BY-SA 3.0, via Wikimedia Commons",
-                            "url": "https://commons.wikimedia.org/wiki/File:Lausanne_Ouchy_Skulptur_besser.JPG"
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Lausanne_Ouchy_Skulptur_besser.JPG"
                         }
                     ]
                 },
@@ -153,7 +153,7 @@
                     "images": [
                         {
                             "source": "Gzzz, CC BY-SA 4.0, via Wikimedia Commons",
-                            "url": "https://commons.wikimedia.org/wiki/File:%C3%89ole_(Clelia_Bettua).jpg"
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/6/69/%C3%89ole_%28Clelia_Bettua%29.jpg"
                         }
                     ]
                 }
