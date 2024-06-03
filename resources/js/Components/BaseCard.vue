@@ -58,7 +58,8 @@ div.card {
     align-self: center;
     justify-content: space-between;
 
-    height: 10rem;
+    height: 11rem;
+    width: 11rem;
     padding: 1rem;
     margin-bottom: 1rem;
 
@@ -79,8 +80,8 @@ div.card {
 }
 
 .card p {
-    @apply text-xl text-green-50;
+    @apply text-base text-white font-medium;
 
-    width: 10rem;
+    width: 11rem;
 }
 </style>

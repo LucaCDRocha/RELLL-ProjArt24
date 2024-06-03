@@ -15,6 +15,9 @@ export default {
             fontFamily: {
                 sans: ['Noto Sans', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                surface: '#F8FBF1',
+            },
         },
     },
 
