@@ -6,6 +6,35 @@ import BaseCard from "@/Components/BaseCard.vue";
 import TextInput from "@/Components/TextInput.vue";
 import BaseTag from "@/Components/BaseTag.vue";
 import TheHeader from "@/Components/TheHeader.vue";
+import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
+import AppTrailInfo from "@/Components/AppTrailInfo.vue";
+import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
+
+const isOpen = ref(false);
+
+const data = ref({});
+
+const BottomSheet = (e) => {
+    if (e.point.difficulty) {
+        fetch(route("trails.showJson", e.point.id))
+            .then((response) => response.json())
+            .then((datas) => {
+                data.value = datas;
+                isOpen.value = true;
+            });
+    } else {
+        fetch(route("interestPoints.showJson", e.point.id))
+            .then((response) => response.json())
+            .then((datas) => {
+                data.value = datas;
+                isOpen.value = true;
+            });
+    }
+};
+
+const closeBottomSheet = () => {
+    isOpen.value = false;
+};
 
 const props = defineProps({
     trails: {
@@ -102,12 +131,7 @@ const switchFilter = (filter) => {
         }
         return f;
     });
-    console.log(filter);
 };
-
-watch(filters, (value) => {
-    console.log(value);
-});
 </script>
 
 <template>
@@ -127,39 +151,51 @@ watch(filters, (value) => {
         />
         <h2>Sentiers</h2>
         <div>
-            <a
+            <BaseCard
                 v-for="trail in trailsResults"
                 :key="trail.id"
-                :href="`/trails/${trail.id}`"
-                ><img
-                    :src="trail.img.img_path"
-                    :alt="'Image de ' + trail.name"
-                />{{ trail.name }}
-                <BaseTag :tag="trail.difficulty" :selected="true" />
-            </a>
+                :data="trail"
+                @handle-point="BottomSheet($event)"
+            />
         </div>
 
         <h2>Points d'intérêt</h2>
         <div>
-            <a
+            <BaseCard
                 v-for="interestPoint in interestPointsResults"
                 :key="interestPoint.id"
-                :href="`/interestPoints/${interestPoint.id}`"
-                ><img
-                    :src="interestPoint.imgs[0].img_path"
-                    :alt="'Image de ' + interestPoint.name"
-                />{{ interestPoint.name }}</a
-            >
+                :data="interestPoint"
+                @handle-point="BottomSheet($event)"
+            />
         </div>
     </div>
+
+    <BaseBottomSheet
+        v-if="isOpen"
+        :isOpen="isOpen"
+        @handle-close="closeBottomSheet()"
+    >
+        <AppTrailInfo
+            v-if="data.difficulty"
+            :data="data"
+            @handle-close="closeBottomSheet()"
+            @handle-point="BottomSheet($event)"
+        />
+        <AppInterestPointInfo
+            v-else
+            :data="data"
+            @handle-close="closeBottomSheet()"
+            @handle-point="BottomSheet($event)"
+        />
+    </BaseBottomSheet>
 
     <TheNav />
 </template>
 
 <style scoped>
-    .search {
-        display: flex;
-        flex-direction: column;
-        padding: 1rem;
-    }
+.search {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
 </style>

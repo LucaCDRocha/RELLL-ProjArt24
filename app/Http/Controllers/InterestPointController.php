@@ -51,8 +51,40 @@ class InterestPointController extends Controller
      */
     public function show(string $id)
     {
-        $interestPoint = InterestPoint::findOrFail($id)->load('location', 'tag', 'imgs');
-        return Inertia::render('InterestPoint/InterestPointShow')->with('interestPoint', $interestPoint);
+        return Inertia::render('InterestPoint/InterestPointShow')->with('interestPoint', $this->getInterestPoint($id));
+    }
+
+    /**
+     * Return the InterestPoint with the id in JSON format
+     */
+    public function showJson(string $id)
+    {
+        return $this->getInterestPoint($id);
+    }
+
+    /**
+     * Get the InterestPoint with the id
+     */
+    public function getInterestPoint(string $id)
+    {
+        $interestPoint = InterestPoint::findOrFail($id)->load('location', 'tag', 'imgs', 'trails');
+
+        foreach ($interestPoint->trails as $trail) {
+            $trail->load('img');
+            switch ($trail->difficulty) {
+                case 1:
+                    $trail->difficulty = "Facile";
+                    break;
+                case 2:
+                    $trail->difficulty = "Moyen";
+                    break;
+                case 3:
+                    $trail->difficulty = "Difficile";
+                    break;
+            }
+        }
+
+        return $interestPoint;
     }
 
     /**

@@ -55,7 +55,7 @@ const previous = () => {
 };
 
 if (window.location.hash) {
-    currentPointIndex.value = parseInt(window.location.hash.substr(1));
+    currentPointIndex.value = parseInt(window.location.hash.substring(1));
 }
 
 const updateVisuelTrail = () => {
@@ -89,6 +89,8 @@ onMounted(() => {
 
 watch(currentPointIndex, (value) => {
     updateVisuelTrail();
+
+    window.location.hash = value;
 
     summary.value = calculateDurationBetweenWaypoints(
         trailInfo.value.instructions,

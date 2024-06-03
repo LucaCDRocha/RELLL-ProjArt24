@@ -4,27 +4,27 @@ import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 import BaseMap from "@/Components/BaseMap.vue";
 import { trail } from "@/Stores/map.js";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import { SwipeModal } from "@takuma-ru/vue-swipe-modal";
-import TheCardNav from "./TheCardNav.vue";
+import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 
 const isOpen = ref(false);
 
-const name = ref("Trail");
-const open_season = ref("all");
-const description = ref("Description");
-const tag = ref("test");
-const imgs = ref([]);
+const data = ref({});
 
-const data = computed(() => ({
-    name: name.value,
-    open_season: open_season.value,
-    description: description.value,
-    tag: tag.value,
-    imgs: imgs.value,
-}));
+const BottomSheet = (e) => {
+    if (e.point.difficulty) {
+        window.location.href = route("trails.show", e.point.id);
+    } else {
+        fetch(route("interestPoints.showJson", e.point.id))
+            .then((response) => response.json())
+            .then((datas) => {
+                data.value = datas;
+                isOpen.value = true;
+            });
+    }
+};
 
-const toggleBottomSheet = () => {
-    isOpen.value = !isOpen.value;
+const closeBottomSheet = () => {
+    isOpen.value = false;
 };
 
 const props = defineProps({
@@ -33,19 +33,6 @@ const props = defineProps({
         default: () => [],
     },
 });
-
-// onMounted(() => {
-//     updateView();
-// });
-
-const updateCardInfo = (e) => {
-    name.value = e.point.name;
-    open_season.value = e.point.open_season;
-    description.value = e.point.description;
-    tag.value = e.point.tag;
-    imgs.value = e.point.imgs;
-    toggleBottomSheet();
-};
 
 onUnmounted(() => {
     trail.value = null;
@@ -57,14 +44,25 @@ onUnmounted(() => {
         :trakable="true"
         :track="true"
         :points="waypoints"
-        @marker-click="updateCardInfo($event)"
+        @marker-click="BottomSheet($event)"
     />
     <BaseBottomSheet
         v-if="isOpen"
         :isOpen="isOpen"
-        @handle-open="toggleBottomSheet()"
+        @handle-close="closeBottomSheet()"
     >
-        <AppInterestPointInfo :data="data" @handle-open="toggleBottomSheet()" />
+        <AppTrailInfo
+            v-if="data.difficulty"
+            :data="data"
+            @handle-close="closeBottomSheet()"
+            @handle-point="BottomSheet($event)"
+        />
+        <AppInterestPointInfo
+            v-else
+            :data="data"
+            @handle-close="closeBottomSheet()"
+            @handle-point="BottomSheet($event)"
+        />
     </BaseBottomSheet>
 </template>
 

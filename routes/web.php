@@ -59,3 +59,9 @@ Route::get('/my-trails', function () {
 })->middleware(['auth', 'verified'])->name('history');
 
 Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');
+
+
+// API
+
+Route::get('/api/trails/{id}', [TrailController::class, 'showJson'])->name('trails.showJson');
+Route::get('/api/interestPoints/{id}', [InterestPointController::class, 'showJson'])->name('interestPoints.showJson');

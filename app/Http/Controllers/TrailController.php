@@ -84,6 +84,22 @@ class TrailController extends Controller
      */
     public function show(string $id)
     {
+        return Inertia::render('Trail/TrailShow', ['trail' => $this->getTrail($id)]);
+    }
+
+    /**
+     * Return the trail with the id in JSON format
+     */
+    public function showJson(string $id)
+    {
+        return response()->json($this->getTrail($id));
+    }
+
+    /**
+     * get the trail with the id
+     */
+    public function getTrail(string $id)
+    {
         $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'themes', 'rankings');
 
         switch ($trail->difficulty) {
@@ -104,7 +120,7 @@ class TrailController extends Controller
             $point->load('location', 'tag', 'imgs');
         }
 
-        return Inertia::render('Trail/TrailShow', ['trail' => $trail]);
+        return $trail;
     }
 
     /**
@@ -206,7 +222,7 @@ class TrailController extends Controller
 
     public function home()
     {
-        $allTrails = Trail::all()->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'themes', 'rankings');
+        $allTrails = Trail::all()->load('img');
 
         foreach ($allTrails as $trail) {
             switch ($trail->difficulty) {
@@ -220,14 +236,10 @@ class TrailController extends Controller
                     $trail->difficulty = "Difficile";
                     break;
             }
-
-            $trail->note = $trail->rankings()->avg('note');
-
-            foreach ($trail->interest_points as $point) {
-                $point->load('location', 'tag', 'imgs');
-            }
         }
-        return Inertia::render('Home', ['trails' => $allTrails]);
+
+        $allInterestPoints = InterestPoint::all()->load('imgs');
+        return Inertia::render('Home', ['trails' => $allTrails, 'interestPoints' => $allInterestPoints]);
     }
 
     public function start($id)

@@ -1,6 +1,35 @@
 <script setup>
+import { ref } from "vue";
 import { Head } from "@inertiajs/vue3";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
+import AppTrailInfo from "@/Components/AppTrailInfo.vue";
+import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
+
+const isOpen = ref(false);
+
+const data = ref({});
+
+const BottomSheet = (e) => {
+    if (e.point.difficulty) {
+        fetch(route("trails.showJson", e.point.id))
+            .then((response) => response.json())
+            .then((datas) => {
+                data.value = datas;
+                isOpen.value = true;
+            });
+    } else {
+        fetch(route("interestPoints.showJson", e.point.id))
+            .then((response) => response.json())
+            .then((datas) => {
+                data.value = datas;
+                isOpen.value = true;
+            });
+    }
+};
+
+const closeBottomSheet = () => {
+    isOpen.value = false;
+};
 
 const props = defineProps({
     interestPoint: {
@@ -21,8 +50,28 @@ const goBack = () => {
         class="interest-point"
         :data="interestPoint"
         :full="true"
-        @handle-open="goBack()"
+        @handle-close="goBack()"
+        @handle-point="BottomSheet($event)"
     />
+
+    <BaseBottomSheet
+        v-if="isOpen"
+        :isOpen="isOpen"
+        @handle-close="closeBottomSheet()"
+    >
+        <AppTrailInfo
+            v-if="data.difficulty"
+            :data="data"
+            @handle-close="closeBottomSheet()"
+            @handle-point="BottomSheet($event)"
+        />
+        <AppInterestPointInfo
+            v-else
+            :data="data"
+            @handle-close="closeBottomSheet()"
+            @handle-point="BottomSheet($event)"
+        />
+    </BaseBottomSheet>
 </template>
 
 <style scoped>

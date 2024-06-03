@@ -7,13 +7,20 @@ defineProps({
         default: () => [],
     },
 });
+
+const emit = defineEmits(["handle-point"]);
 </script>
 
 <template>
     <div>
         <h2><slot /></h2>
         <div class="cardList">
-            <BaseCard v-for="data in datas" :key="data.id" :data="data" />
+            <BaseCard
+                v-for="data in datas"
+                :key="data.id"
+                :data="data"
+                @handle-point="emit('handle-point', $event)"
+            />
         </div>
     </div>
 </template>
