@@ -148,7 +148,7 @@ watch(currentPointIndex, (value) => {
 }
 
 :deep(.leaflet-bottom) {
-    bottom: 10rem;
+    bottom: 15vh;
     right: 0.5rem;
     left: 0.5rem;
 }
@@ -160,7 +160,7 @@ watch(currentPointIndex, (value) => {
     bottom: 5rem;
     left: 0;
     width: 100%;
-    height: 15rem;
+    height: 25vh;
     padding: 1rem;
     z-index: 1000;
     overflow: scroll;

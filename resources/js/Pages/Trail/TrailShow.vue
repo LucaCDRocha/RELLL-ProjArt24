@@ -11,12 +11,7 @@ const data = ref({});
 
 const BottomSheet = (e) => {
     if (e.point.difficulty) {
-        fetch(route("trails.showJson", e.point.id))
-            .then((response) => response.json())
-            .then((datas) => {
-                data.value = datas;
-                isOpen.value = true;
-            });
+        window.location.href = route("trails.show", e.point.id);
     } else {
         fetch(route("interestPoints.showJson", e.point.id))
             .then((response) => response.json())
