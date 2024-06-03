@@ -1,9 +1,9 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import AppTrailInfo from "@/Components/AppTrailInfo.vue";
+import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 
 const props = defineProps({
-    trail: {
+    interestPoint: {
         type: Object,
         default: () => {},
     },
@@ -15,13 +15,18 @@ const goBack = () => {
 </script>
 
 <template>
-    <Head title="Trail" />
+    <Head title="Point d'intérêt" />
 
-    <AppTrailInfo class="trail-info" :data="trail" :full="true" @handle-open="goBack()" />
+    <AppInterestPointInfo
+        class="interest-point"
+        :data="interestPoint"
+        :full="true"
+        @handle-open="goBack()"
+    />
 </template>
 
 <style scoped>
-.trail-info {
+.interest-point {
     display: flex;
     flex-direction: column;
     align-items: flex-start;

@@ -8,14 +8,17 @@ use App\Http\Controllers\TrailController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\FavoriteController;
+use App\Models\Trail;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect()->route('home');
+    // return Inertia::render('Welcome', [
+    //     'canLogin' => Route::has('login'),
+    //     'canRegister' => Route::has('register'),
+    //     'laravelVersion' => Application::VERSION,
+    //     'phpVersion' => PHP_VERSION,
+    // ]);
 });
 
 Route::get('/dashboard', function () {
@@ -34,9 +37,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('/home', function () {
-    return Inertia::render('Home');
-});
+Route::get('/home', [TrailController::class, 'home'])->name('home');
 Route::resource("trails", TrailController::class);
 
 Route::resource("interestPoints", InterestPointController::class);
@@ -45,9 +46,7 @@ Route::get('/search', function () {
     return Inertia::render('Search');
 });
 
-Route::get('/map', function () {
-    return Inertia::render('Map');
-});
+Route::get('/map', [InterestPointController::class, 'map']);
 
 Route::get('/settings', function () {
     return Inertia::render('Settings');
@@ -56,3 +55,10 @@ Route::get('/settings', function () {
 // Route::get('/favorites', function () {
 //     return Inertia::render('List');
 // });
+
+//Route qui requiert authentification
+Route::get('/my-trails', function () {
+    return Inertia::render('History');
+})->middleware(['auth', 'verified'])->name('history');
+
+Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');

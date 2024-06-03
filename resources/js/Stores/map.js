@@ -3,48 +3,85 @@ import L from "leaflet";
 
 const map = ref(null);
 
-const marker = ref(null);
-
-const circle = ref(null);
-
 const trail = ref(null);
+const trailInfo = ref(null);
+
+const trailMarkers = ref([]);
+
+const locate = ref(null);
 
 const customIcon = ref(
     L.icon({
-        iconUrl: "/img/location_on.svg",
+        iconUrl: "/img/icons/location_on.svg",
         iconSize: [30, 34],
         iconAnchor: [15, 34],
     })
 );
 
-// get the position of the user
-const updatePosition = () => {
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            const { latitude, longitude } = position.coords;
-            marker.value.setLatLng([latitude, longitude]);
-            circle.value.setLatLng([latitude, longitude]);
-            circle.value.setRadius(position.coords.accuracy / 2);
-            console.log("Position updated", position.coords.accuracy / 2);
-        },
-        (error) => {
-            console.error(error);
+const customIconActive = ref(
+    L.icon({
+        iconUrl: "/img/icons/location_on_active.svg",
+        iconSize: [34, 38],
+        iconAnchor: [17, 38],
+    })
+);
+
+function calculateDurationBetweenWaypoints(
+    routeInstructions,
+    startIndex,
+    endIndex
+) {
+    let numberOfReaches = 0;
+    let time = 0;
+    let distance = 0;
+    let instructions = routeInstructions;
+    instructions.forEach((instruction) => {
+        if (numberOfReaches >= startIndex && numberOfReaches < endIndex) {
+            time += instruction.time;
+            distance += instruction.distance;
         }
-    );
+        if (instruction.type === "WaypointReached") {
+            numberOfReaches++;
+        }
+    });
+    time = Math.round(time / 60);
+    return {
+        time,
+        distance,
+    };
+}
+
+const flyTo = (location, zoom, duration) => {
+    map.value.flyTo([location.latitude, location.longitude], zoom, {
+        duration: duration, // Set the duration of the transition in seconds
+    });
 };
 
-// get the user precision location
-const updateView = () => {
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            updatePosition();
-            const { latitude, longitude } = position.coords;
-            map.value.setView([latitude, longitude], 18);
-        },
-        (error) => {
-            console.error(error);
+const changeTrailMarker = (waypointId) => {
+    console.log(trailMarkers.value);
+    for (let i = 0; i < trailMarkers.value.length; i++) {
+        if (
+            i === waypointId ||
+            i === waypointId + trailMarkers.value.length / 2
+        ) {
+            console.log("active");
+            trailMarkers.value.at(i).setIcon(customIconActive.value);
+        } else {
+            console.log("inactive");
+            trailMarkers.value.at(i).setIcon(customIcon.value);
         }
-    );
+    }
 };
 
-export { map, marker, circle, trail, customIcon, updateView, updatePosition };
+export {
+    map,
+    trail,
+    trailInfo,
+    trailMarkers,
+    customIcon,
+    customIconActive,
+    locate,
+    calculateDurationBetweenWaypoints,
+    flyTo,
+    changeTrailMarker,
+};

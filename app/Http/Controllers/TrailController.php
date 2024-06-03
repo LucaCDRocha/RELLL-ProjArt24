@@ -84,8 +84,27 @@ class TrailController extends Controller
      */
     public function show(string $id)
     {
-        $trail = Trail::findOrFail($id);
-        return Inertia::render('Trail/TrailIndex', ['trail' => $trail]);
+        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'themes', 'rankings');
+
+        switch ($trail->difficulty) {
+            case 1:
+                $trail->difficulty = "Facile";
+                break;
+            case 2:
+                $trail->difficulty = "Moyen";
+                break;
+            case 3:
+                $trail->difficulty = "Difficile";
+                break;
+        }
+
+        $trail->note = $trail->rankings()->avg('note');
+
+        foreach ($trail->interest_points as $point) {
+            $point->load('location', 'tag', 'imgs');
+        }
+
+        return Inertia::render('Trail/TrailShow', ['trail' => $trail]);
     }
 
     /**
@@ -183,5 +202,43 @@ class TrailController extends Controller
         // vérifier l'authentification du usr !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Trail::findOrFail($id)->delete();
         return redirect(route('home'));
+    }
+
+    public function home()
+    {
+        $allTrails = Trail::all()->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'themes', 'rankings');
+
+        foreach ($allTrails as $trail) {
+            switch ($trail->difficulty) {
+                case 1:
+                    $trail->difficulty = "Facile";
+                    break;
+                case 2:
+                    $trail->difficulty = "Moyen";
+                    break;
+                case 3:
+                    $trail->difficulty = "Difficile";
+                    break;
+            }
+
+            $trail->note = $trail->rankings()->avg('note');
+
+            foreach ($trail->interest_points as $point) {
+                $point->load('location', 'tag', 'imgs');
+            }
+        }
+        return Inertia::render('Home', ['trails' => $allTrails]);
+    }
+
+    public function start($id)
+    {
+        $trail = Trail::findOrFail($id)->load('interest_points', 'location_start', 'location_end', 'location_parking', 'themes', 'rankings', 'img');
+        $trail->note = $trail->rankings()->avg('note');
+
+        foreach ($trail->interest_points as $point) {
+            $point->load('location', 'tag', 'imgs');
+        }
+
+        return Inertia::render('Trail/TrailStart', ['trail' => $trail]);
     }
 }
