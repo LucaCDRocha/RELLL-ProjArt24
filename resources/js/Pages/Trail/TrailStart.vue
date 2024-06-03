@@ -6,9 +6,11 @@ import BaseMap from "@/Components/BaseMap.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseNavLink from "@/Components/BaseNavLink.vue";
 import {
+    trail,
     trailInfo,
     calculateDurationBetweenWaypoints,
     flyTo,
+    changeTrailMarker,
 } from "@/Stores/map.js";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 
@@ -56,19 +58,25 @@ if (window.location.hash) {
     currentPointIndex.value = parseInt(window.location.hash.substr(1));
 }
 
-onMounted(() => {
+const updateVisuelTrail = () => {
     if (currentPointIndex.value === 0) {
-        console.log(props.trail);
         flyTo(props.trail.location_start, 18, 2);
+        changeTrailMarker(currentPointIndex.value);
     } else if (currentPointIndex.value === lastIndex) {
         flyTo(props.trail.location_end, 18, 2);
+        changeTrailMarker(currentPointIndex.value);
     } else {
         flyTo(
             props.trail.interest_points[currentPointIndex.value - 1].location,
             18,
             2
         );
+        changeTrailMarker(currentPointIndex.value);
     }
+};
+
+onMounted(() => {
+    updateVisuelTrail();
 
     setTimeout(() => {
         summary.value = calculateDurationBetweenWaypoints(
@@ -80,19 +88,7 @@ onMounted(() => {
 });
 
 watch(currentPointIndex, (value) => {
-    window.location.hash = currentPointIndex.value;
-    if (currentPointIndex.value === 0) {
-        console.log(props.trail);
-        flyTo(props.trail.location_start, 18, 2);
-    } else if (currentPointIndex.value === lastIndex) {
-        flyTo(props.trail.location_end, 18, 2);
-    } else {
-        flyTo(
-            props.trail.interest_points[currentPointIndex.value - 1].location,
-            18,
-            2
-        );
-    }
+    updateVisuelTrail();
 
     summary.value = calculateDurationBetweenWaypoints(
         trailInfo.value.instructions,

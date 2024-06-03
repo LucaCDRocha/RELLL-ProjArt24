@@ -1,5 +1,13 @@
 <script setup>
-import { map, trail, locate, customIcon, trailInfo } from "@/Stores/map.js";
+import {
+    map,
+    trail,
+    trailMarkers,
+    locate,
+    customIcon,
+    customIconActive,
+    trailInfo,
+} from "@/Stores/map.js";
 import { onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
@@ -143,7 +151,7 @@ onMounted(() => {
                 styles: [{ color: "#6938D3", opacity: 0.8, weight: 3 }],
             },
             createMarker: function (i, wp, nWps) {
-                return L.marker(wp.latLng, {
+                const marker = L.marker(wp.latLng, {
                     draggable: props.markerDraggable,
                     icon: customIcon.value,
                 }).on("click", function () {
@@ -151,6 +159,8 @@ onMounted(() => {
                         point: wp,
                     });
                 });
+                trailMarkers.value.push(marker);
+                return marker;
             },
             show: false,
         }).addTo(map.value);
@@ -216,6 +226,9 @@ onUnmounted(() => {
     }
     if (trail.value) {
         trail.value = null;
+    }
+    if (trailMarkers.value) {
+        trailMarkers.value = [];
     }
 });
 </script>
