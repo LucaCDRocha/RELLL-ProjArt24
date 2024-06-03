@@ -8,24 +8,15 @@ onMounted(() => {
         case "/logout":
         case "/settings":
             document
-                .querySelector('a[href="/autres"]')
-                ?.querySelector("span")
-                ?.classList.add("active");
-            document
                 .querySelector('a[href="/profile"]')
                 ?.querySelector("span")
                 ?.classList.add("active");
             break;
-
-        case "/bookmark":
-        case "/favorites":
-        case "/my-trails":
-        case "/profile":
+        case "/search":
             document
-                .querySelector('a[href="/autres"]')
+                .querySelector('a[href="/home"]')
                 ?.querySelector("span")
                 ?.classList.add("active");
-
         default:
             document
                 .querySelector('a[href="' + window.location.pathname + '"]')
@@ -34,7 +25,6 @@ onMounted(() => {
             break;
     }
 });
-const isOpen = ref(false);
 </script>
 
 <template>

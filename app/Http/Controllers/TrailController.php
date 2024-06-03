@@ -241,4 +241,17 @@ class TrailController extends Controller
 
         return Inertia::render('Trail/TrailStart', ['trail' => $trail]);
     }
+
+    public function search()
+    {
+        $trails = Trail::all()
+            ->load('img', 'themes')
+            ->select('img', 'name', 'id', 'difficulty', 'themes');
+
+        $interestPoints = InterestPoint::all()
+            ->load('imgs', 'tag')
+            ->select('imgs', 'name', 'id', 'tag');
+
+        return Inertia::render('Search', ['trails' => $trails, 'interestPoints' => $interestPoints]);
+    }
 }

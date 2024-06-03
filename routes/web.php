@@ -41,9 +41,7 @@ Route::resource("/trails", TrailController::class);
 
 Route::resource("/interestPoints", InterestPointController::class);
 
-Route::get('/search', function () {
-    return Inertia::render('Search');
-});
+Route::get('/search', [TrailController::class, 'search']);
 
 Route::get('/map', [InterestPointController::class, 'map']);
 

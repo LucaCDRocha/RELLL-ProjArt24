@@ -1,9 +1,9 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import { ref } from "vue";
 import TheNav from "@/Components/TheNav.vue";
 import AppCardList from "@/Components/AppCardList.vue";
 import TheHeader from "@/Components/TheHeader.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const props = defineProps({
     trails: {
@@ -11,44 +11,17 @@ const props = defineProps({
         default: () => [],
     },
 });
-
-const data = ref([
-    {
-        id: 1,
-        name: "Château",
-        description: "Le château de Lausanne",
-        tag: "Facile",
-        is_accessible: true,
-    },
-    {
-        id: 2,
-        name: "Art en ville de Lausanne",
-        description: "Les oeuvres d'art de la ville de Lausanne",
-        tag: "Moyen",
-        is_accessible: true,
-    },
-    {
-        id: 3,
-        name: "33",
-        description: "Le parcours du 33",
-        tag: "Difficile",
-        is_accessible: false,
-    },
-    {
-        id: 4,
-        name: "33",
-        description: "Le parcours du 33",
-        tag: "oui",
-        is_accessible: false,
-    },
-]);
 </script>
 
 <template>
     <Head title="Home" />
 
     <TheHeader />
-    
+
+    <SecondaryButton @click="$inertia.visit('/search')" icon="search"
+        >Rechercher</SecondaryButton
+    >
+
     <div class="home">
         <AppCardList :datas="trails"
             >Les parcours les plus populaires</AppCardList
