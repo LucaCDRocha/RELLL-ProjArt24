@@ -8,8 +8,8 @@ const props = defineProps({
         required: true,
         type: String
     },
-    count : {
-        type : Number
+    count: {
+        type: Number
     }
 });
 
@@ -21,27 +21,38 @@ const form = defineModel({
 
 <template>
     <div class="checkboxGroup">
-        <input type="checkbox" :name="name" :value="id" :id="id" v-model="form" />
-        <label :for="id">{{ name }}</label>
+        <div>
+            <input type="checkbox" :name="name" :value="id" :id="id" v-model="form" />
+            <label :for="id">{{ name }}</label>
+        </div>
         <p v-if="count">{{ count }}</p>
     </div>
 </template>
 
 <style scoped>
-.checkboxGroup{
+.checkboxGroup {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom-width: 1px;
-    border-color: lightgray;
+    @apply border-b border-customGray;
     padding: 12px 5px;
+    width: 100%;
+}
+
+input:focus {
+    background-color: #ccc;
 }
 
 input {
-  margin: 0.4rem;
+    margin: 0.4rem;
 }
 
-p{
-    margin-left: 90%;
-    font-size: 12px;
+input:target {
+    @apply bg-error;
+}
+
+input:checked {
+    @apply bg-onSurface;
 }
 </style>

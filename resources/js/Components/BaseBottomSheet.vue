@@ -55,7 +55,7 @@ const emit = defineEmits(["handleOpen"]);
 }
 
 .base-overlay-card__content {
-    @apply bg-green-50 dark:bg-green-950;
+    @apply bg-surface dark:bg-green-950;
 
     display: flex;
 

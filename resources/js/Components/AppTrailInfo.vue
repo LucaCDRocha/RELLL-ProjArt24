@@ -8,12 +8,14 @@ import TheCardNav from "@/Components/TheCardNav.vue";
 import BaseImgGalery from "@/Components/BaseImgGalery.vue";
 import AppCardList from "@/Components/AppCardList.vue";
 import BaseMap from "@/Components/BaseMap.vue";
-import AppSaveButton from "@/Components/AppSaveButton.vue"
+import AppSaveButton from "@/Components/AppSaveButton.vue";
+import AppStarRanking from "@/Components/AppStarRanking.vue";
+import BaseAccordion from "@/Components/BaseAccordion.vue";
 
 const props = defineProps({
     data: {
         type: Object,
-        default: () => {},
+        default: () => { },
     },
     full: {
         type: Boolean,
@@ -44,18 +46,15 @@ const emit = defineEmits(["handleOpen"]);
             </div>
             <BaseDividerVert />
             <div class="tag">
-                <BaseTag
-                    v-for="theme in data.themes"
-                    :key="theme.id"
-                    :tag="theme.name"
-                    :selected="false"
-                />
+                <BaseTag v-for="theme in data.themes" :key="theme.id" :tag="theme.name" :selected="false" />
             </div>
         </div>
 
         <h1>{{ data.name }}</h1>
 
-        <div class="stars">{{ data.note }}</div>
+        <div class="stars">
+            <AppStarRanking :rating="data.note" />
+        </div>
 
         <div class="infos" v-if="!full">
             <p>
@@ -66,10 +65,8 @@ const emit = defineEmits(["handleOpen"]);
         </div>
 
         <div class="actions">
-            <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)"
-                >Commencer</PrimaryButton
-            >
-            <AppSaveButton :title="data.name" :id="data.id"/>
+            <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)">Commencer</PrimaryButton>
+            <AppSaveButton :title="data.name" :id="data.id" />
             <SecondaryButton icon="star">Favoris</SecondaryButton>
         </div>
 
@@ -77,46 +74,43 @@ const emit = defineEmits(["handleOpen"]);
 
         <h2>Description</h2>
         <div class="tag">
-            <BaseTag
-                v-for="theme in data.themes"
-                :key="theme.id"
-                :tag="theme.name"
-                :selected="false"
-            />
+            <BaseTag v-for="theme in data.themes" :key="theme.id" :tag="theme.name" :selected="false" />
         </div>
         <p>
             {{ data.description }}
         </p>
 
-        <div class="itineraire">
-            <h2>Itinéraire</h2>
-            <div class="tag">
-                <BaseTag :tag="data.difficulty" :selected="true" />
-            </div>
+        <div class="accordion">
+            <BaseAccordion title="Itinéraire" :id="1" :tag="data.difficulty" :multiple="true">
+                <div class="infos">
+                    <p>
+                        <span class="material-symbols-rounded">access_time</span>
+                        {{ data.time }}
+                    </p>
+                    <p>5 km</p>
+                </div>
+                <BaseMap :draggable="false" :waypoints="data" />
+            </BaseAccordion>
         </div>
-        <div class="infos">
-            <p>
-                <span class="material-symbols-rounded">access_time</span>
-                {{ data.time }}
-            </p>
-            <p>5 km</p>
+
+        <AppCardList :datas="data.interest_points">Points d'intérêt du sentier</AppCardList>
+
+        <div class="accordion">
+            <BaseAccordion title="Accessibilité" :id="2">
+                <div class="infos accessibilite">
+                    <span class="material-symbols-rounded">train</span>
+                    <span class="material-symbols-rounded">local_parking</span>
+                    <span class="material-symbols-rounded">accessible</span>
+                </div>
+                <p>Le sentier est accessible</p>
+            </BaseAccordion>
         </div>
-        <BaseMap :draggable="false" :waypoints="data" />
 
-        <AppCardList :datas="data.interest_points"
-            >Points d'intérêt du sentier</AppCardList
-        >
-
-        <h2>Accessibilité</h2>
-        <div class="infos accessibilite">
-            <span class="material-symbols-rounded">train</span>
-            <span class="material-symbols-rounded">local_parking</span>
-            <span class="material-symbols-rounded">accessible</span>
+        <div class="accordion">
+            <BaseAccordion title="Avis" :id="3">
+                <p>Il n'y a pas encore de commentaires</p>
+            </BaseAccordion>
         </div>
-        <p>Le sentier est accessible</p>
-
-        <h2>Avis</h2>
-        <p>Il n'y a pas encore de commentaires</p>
     </div>
 </template>
 
@@ -126,6 +120,11 @@ const emit = defineEmits(["handleOpen"]);
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
+    width: 100%;
+    height: fit-content;
+}
+
+.accordion {
     width: 100%;
     height: fit-content;
 }
@@ -140,11 +139,15 @@ const emit = defineEmits(["handleOpen"]);
     gap: 0.5rem;
 }
 
+.stars {
+    gap: 5rem;
+}
+
 .infos {
     display: flex;
-    justify-content: space-between;
-
+    gap: 2.5rem;
     width: 100%;
+    align-items: center;
     padding-right: 1rem;
 }
 
@@ -165,14 +168,6 @@ const emit = defineEmits(["handleOpen"]);
     padding-right: 1rem;
 
     overflow-x: scroll;
-}
-
-.itineraire {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-    height: fit-content;
 }
 
 #map {

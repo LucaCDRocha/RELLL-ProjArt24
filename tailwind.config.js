@@ -31,6 +31,7 @@ export default {
                 musee : '#66CDC7',
                 famille : '#F7B6ED',
                 architecture : '#E8AB73',
+                customGray : '#C3C8BC',
             },
         },
     },

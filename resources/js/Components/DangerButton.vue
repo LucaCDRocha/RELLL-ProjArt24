@@ -1,7 +1,32 @@
 <template>
-    <button
-        class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
-    >
+    <button>
         <slot />
     </button>
 </template>
+
+<style scoped>
+button {
+    @apply inline-flex items-center px-4 py-2;
+
+    @apply text-base font-medium;
+    @apply text-onPrimary dark:text-green-800;
+
+    @apply bg-error dark:bg-green-200;
+    @apply border rounded-full border-transparent shadow-sm;
+
+    @apply hover:bg-green-700 dark:hover:bg-green-100;
+    @apply hover:text-green-50 dark:hover:text-green-800;
+
+    @apply active:bg-error dark:active:bg-green-300;
+    @apply active:text-onPrimary dark:active:text-green-800;
+
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply focus:ring-green-500 dark:focus:ring-green-600 dark:focus:ring-offset-green-800;
+    @apply focus:border-green-500 dark:focus:border-green-600;
+    @apply focus:bg-green-700 dark:focus:bg-green-50;
+
+    @apply transition ease-in-out duration-150;
+
+    height: 2.5rem;
+}
+</style>
