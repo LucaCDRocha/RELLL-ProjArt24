@@ -49,19 +49,10 @@ Route::get('/settings', function () {
     return Inertia::render('Settings');
 });
 
-// Route::get('/favorites', function () {
-//     return Inertia::render('List');
-// });
-
-//Route qui requiert authentification
-// Route::get('/my-trails', function () {
-//     return Inertia::render('History');
-// })->middleware(['auth', 'verified'])->name('history');
-
 Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');
-
 
 // API
 
 Route::get('/api/trails/{id}', [TrailController::class, 'showJson'])->name('trails.showJson');
+
 Route::get('/api/interestPoints/{id}', [InterestPointController::class, 'showJson'])->name('interestPoints.showJson');
