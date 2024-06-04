@@ -9,6 +9,7 @@ import TheHeader from "@/Components/TheHeader.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
+import BaseDivider from "@/Components/BaseDivider.vue";
 
 const isOpen = ref(false);
 
@@ -42,6 +43,14 @@ const props = defineProps({
         default: () => [],
     },
     interestPoints: {
+        type: Array,
+        default: () => [],
+    },
+    filters: {
+        type: Array,
+        default: () => [],
+    },
+    difficulties: {
         type: Array,
         default: () => [],
     },
@@ -103,36 +112,58 @@ const interestPointsResults = computed(() => {
     );
 });
 
-const filters = ref([]);
-
 const filtersSelected = computed(() => {
-    return filters.value.filter((filter) => filter.selected);
+    let selected = [];
+    for (const filter of props.filters) {
+        if (filter.selected) {
+            selected.push(filter);
+        }
+    }
+    for (const difficulty of props.difficulties) {
+        if (difficulty.selected) {
+            selected.push(difficulty);
+        }
+    }
+    return selected;
 });
 
-for (const trail of props.trails) {
-    filters.value.push({ name: trail.difficulty, selected: false });
-    for (const theme of trail.themes) {
-        filters.value.push({ name: theme.name, selected: false });
+const switchFilter = (filter) => {
+    if (props.filters.find((f) => f.name === filter.name)) {
+        props.filters.find((f) => f.name === filter.name).selected =
+            !filter.selected;
     }
-}
-for (const interestPoint of props.interestPoints) {
-    filters.value.push({ name: interestPoint.tag.name, selected: false });
-}
-filters.value = filters.value.filter(
-    (filter, index, self) =>
-        index ===
-        self.findIndex(
-            (t) => t.name === filter.name && t.selected === filter.selected
-        )
+    if (props.difficulties.find((f) => f.name === filter.name)) {
+        props.difficulties.find((f) => f.name === filter.name).selected =
+            !filter.selected;
+    }
+};
+
+const store = () => {
+    // store the 5 last searches in the local storage
+    if (search.value === "") return;
+
+    let searches = JSON.parse(localStorage.getItem("searches")) || [];
+
+    if (searches.includes(search.value)) {
+        searches.splice(searches.indexOf(search.value), 1);
+    }
+
+    if (searches.length === 5) {
+        searches.shift();
+    }
+
+    searches.push(search.value);
+    localStorage.setItem("searches", JSON.stringify(searches));
+
+    searchs.value = searches.reverse();
+};
+
+const searchs = ref(
+    JSON.parse(localStorage.getItem("searches"))?.reverse() || []
 );
 
-const switchFilter = (filter) => {
-    filters.value = filters.value.map((f) => {
-        if (f.name === filter.name) {
-            f.selected = !f.selected;
-        }
-        return f;
-    });
+const goBack = () => {
+    window.history.back();
 };
 </script>
 
@@ -141,34 +172,73 @@ const switchFilter = (filter) => {
 
     <TheHeader />
 
+    <form @submit.prevent="" @change="store()" class="search-bar">
+        <span class="material-symbols-rounded" @click="goBack()">arrow_back</span>
+        <TextInput v-model="search" placeholder="Rechercher" />
+        <span class="material-symbols-rounded" @click="search = ''">close</span>
+        <button>
+            <span class="material-symbols-rounded">search</span>
+        </button>
+    </form>
+    <BaseDivider />
+
     <div class="search">
-        <h1>Search</h1>
-        <TextInput v-model="search" />
-        <BaseTag
-            v-for="filter in filters"
-            :key="filter.name"
-            :tag="filter.name"
-            :selected="filter.selected"
-            @click.prevent="switchFilter(filter)"
-        />
-        <h2>Sentiers</h2>
         <div>
-            <BaseCard
-                v-for="trail in trailsResults"
-                :key="trail.id"
-                :data="trail"
-                @handle-point="BottomSheet($event)"
+            <BaseTag
+                v-for="difficulty in props.difficulties"
+                :key="difficulty.name"
+                :tag="difficulty.name"
+                :selected="difficulty.selected"
+                @click.prevent="switchFilter(difficulty)"
+            />
+        </div>
+        <BaseDivider />
+        <div>
+            <BaseTag
+                v-for="filter in props.filters"
+                :key="filter.name"
+                :tag="filter.name"
+                :selected="filter.selected"
+                @click.prevent="switchFilter(filter)"
             />
         </div>
 
-        <h2>Points d'intérêt</h2>
-        <div>
-            <BaseCard
-                v-for="interestPoint in interestPointsResults"
-                :key="interestPoint.id"
-                :data="interestPoint"
-                @handle-point="BottomSheet($event)"
-            />
+        <div
+            class="resultats"
+            v-if="search !== '' || filtersSelected.length !== 0"
+        >
+            <h2>
+                Résultats ({{
+                    interestPointsResults.length + trailsResults.length
+                }})
+            </h2>
+            <h3>Sentiers</h3>
+            <div>
+                <BaseCard
+                    v-for="trail in trailsResults"
+                    :key="trail.id"
+                    :data="trail"
+                    @handle-point="BottomSheet($event)"
+                />
+            </div>
+
+            <h3>Points d'intérêt</h3>
+            <div>
+                <BaseCard
+                    v-for="interestPoint in interestPointsResults"
+                    :key="interestPoint.id"
+                    :data="interestPoint"
+                    @handle-point="BottomSheet($event)"
+                />
+            </div>
+        </div>
+        <div v-else>
+            <h2>Vos dernières recherches</h2>
+            <ul v-if="searchs">
+                <li v-for="sea in searchs" :key="sea" @click="search = sea">
+                    {{ sea }}
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -199,5 +269,35 @@ const switchFilter = (filter) => {
     display: flex;
     flex-direction: column;
     padding: 1rem;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    height: 4rem;
+}
+
+.search-bar > button {
+    @apply bg-green-100 dark:bg-green-800;
+    @apply text-green-500 dark:text-green-300;
+    @apply rounded-full;
+    @apply flex;
+    @apply justify-center;
+    @apply items-center;
+
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+:deep(input) {
+    @apply w-full;
+    @apply bg-transparent;
+
+    box-shadow: none;
+    border: none;
+    z-index: 1;
 }
 </style>

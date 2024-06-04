@@ -70,7 +70,7 @@ class FavoriteController extends Controller
     public function show(string $id)
     {
         $favorite = Favorite::findOrFail($id);
-        $trails = $favorite->trails()->get();
+        $trails = $favorite->trails()->get()->load('img');
         return Inertia::render('Favorite/OneList', ['listDetails' => $favorite, 'trailsList' => $trails]);
     }
 

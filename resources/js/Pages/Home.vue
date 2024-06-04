@@ -8,6 +8,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
+import BaseLinkSearch from "@/Components/BaseLinkSearch.vue";
 
 const isOpen = ref(false);
 
@@ -45,9 +46,6 @@ const props = defineProps({
         default: () => [],
     },
 });
-
-console.log(props.trails);
-console.log(props.interestPoints);
 </script>
 
 <template>
@@ -55,11 +53,14 @@ console.log(props.interestPoints);
 
     <TheHeader />
 
-    <SecondaryButton @click="$inertia.visit('/search')" icon="search"
-        >Rechercher</SecondaryButton
-    >
-
+    <BaseLinkSearch />
+    
     <div class="home">
+        <!-- <SecondaryButton @click="$inertia.visit('/search')" icon="search"
+            >Rechercher</SecondaryButton
+        > -->
+
+
         <AppCardList :datas="trails" @handle-point="BottomSheet($event)"
             >Les parcours les plus populaires</AppCardList
         >

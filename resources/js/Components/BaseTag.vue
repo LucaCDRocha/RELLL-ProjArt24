@@ -46,9 +46,9 @@ watch(
 </script>
 
 <template>
-    <a href="/show-tag" class="tag" :class="classes">
+    <div href="/show-tag" class="tag" :class="classes">
         {{ tag }}
-    </a>
+    </div>
 </template>
 
 <style scoped>
