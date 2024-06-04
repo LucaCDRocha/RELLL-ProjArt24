@@ -102,18 +102,6 @@ class TrailController extends Controller
     {
         $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'themes', 'rankings');
 
-        switch ($trail->difficulty) {
-            case 1:
-                $trail->difficulty = "Facile";
-                break;
-            case 2:
-                $trail->difficulty = "Moyen";
-                break;
-            case 3:
-                $trail->difficulty = "Difficile";
-                break;
-        }
-
         $trail->note = $trail->rankings()->avg('note');
 
         foreach ($trail->interest_points as $point) {
@@ -222,23 +210,9 @@ class TrailController extends Controller
 
     public function home()
     {
-        $allTrails = Trail::all()->load('img');
+        $allTrails = Trail::all()->load('img')->select('difficulty', 'img', 'id', 'name');
 
-        foreach ($allTrails as $trail) {
-            switch ($trail->difficulty) {
-                case 1:
-                    $trail->difficulty = "Facile";
-                    break;
-                case 2:
-                    $trail->difficulty = "Moyen";
-                    break;
-                case 3:
-                    $trail->difficulty = "Difficile";
-                    break;
-            }
-        }
-
-        $allInterestPoints = InterestPoint::all()->load('imgs');
+        $allInterestPoints = InterestPoint::all()->load('imgs')->select('imgs', 'name', 'id');
         return Inertia::render('Home', ['trails' => $allTrails, 'interestPoints' => $allInterestPoints]);
     }
 

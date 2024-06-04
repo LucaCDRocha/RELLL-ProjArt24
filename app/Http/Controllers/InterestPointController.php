@@ -71,17 +71,6 @@ class InterestPointController extends Controller
 
         foreach ($interestPoint->trails as $trail) {
             $trail->load('img');
-            switch ($trail->difficulty) {
-                case 1:
-                    $trail->difficulty = "Facile";
-                    break;
-                case 2:
-                    $trail->difficulty = "Moyen";
-                    break;
-                case 3:
-                    $trail->difficulty = "Difficile";
-                    break;
-            }
         }
 
         return $interestPoint;

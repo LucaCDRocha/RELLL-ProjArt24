@@ -45,6 +45,9 @@ const props = defineProps({
         default: () => [],
     },
 });
+
+console.log(props.trails);
+console.log(props.interestPoints);
 </script>
 
 <template>

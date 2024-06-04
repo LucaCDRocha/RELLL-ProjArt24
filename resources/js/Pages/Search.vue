@@ -47,27 +47,15 @@ const props = defineProps({
     },
 });
 
-for (const trail of props.trails) {
-    switch (trail.difficulty) {
-        case 1:
-            trail.difficulty = "Facile";
-            break;
-        case 2:
-            trail.difficulty = "Moyen";
-            break;
-        case 3:
-            trail.difficulty = "Difficile";
-            break;
-    }
-}
-
 const search = ref("");
 
 const trailsResults = computed(() => {
     let filtered = props.trails;
     if (search.value) {
         filtered = props.trails.filter((trail) =>
-            trail.name.toLowerCase().includes(search.value.toLowerCase())
+            trail.name
+                .toLowerCase()
+                .includes(search.value.toLowerCase())
         );
     }
     if (filtersSelected.value.length === 0) return filtered;
