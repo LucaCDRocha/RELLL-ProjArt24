@@ -15,12 +15,12 @@ const props = defineProps({
 
 // defini une fonction pour retourner la couleur de fond en fonction de la difficulté
 const getTagColor = (tag) => {
-    switch (tag) {
-        case "Facile":
+    switch (tag.toLowerCase()) {
+        case "facile":
             return "bg-green-100 dark:bg-green-900";
-        case "Moyen":
+        case "moyen":
             return "bg-blue-100 dark:bg-blue-900";
-        case "Difficile":
+        case "difficile":
             return "bg-red-100 dark:bg-red-900";
         default:
             return "bg-blue-900 text-green-50 dark:bg-blue-100 dark:text-green-950";
