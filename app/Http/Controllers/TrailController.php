@@ -208,14 +208,6 @@ class TrailController extends Controller
         return redirect(route('home'));
     }
 
-    public function home()
-    {
-        $allTrails = Trail::all()->load('img')->select('difficulty', 'img', 'id', 'name');
-
-        $allInterestPoints = InterestPoint::all()->load('imgs')->select('imgs', 'name', 'id');
-        return Inertia::render('Home', ['trails' => $allTrails, 'interestPoints' => $allInterestPoints]);
-    }
-
     public function start($id)
     {
         $trail = Trail::findOrFail($id)->load('interest_points', 'location_start', 'location_end', 'location_parking', 'themes', 'rankings', 'img');
@@ -226,18 +218,5 @@ class TrailController extends Controller
         }
 
         return Inertia::render('Trail/TrailStart', ['trail' => $trail]);
-    }
-
-    public function search()
-    {
-        $trails = Trail::all()
-            ->load('img', 'themes')
-            ->select('img', 'name', 'id', 'difficulty', 'themes');
-
-        $interestPoints = InterestPoint::all()
-            ->load('imgs', 'tag')
-            ->select('imgs', 'name', 'id', 'tag');
-
-        return Inertia::render('Search', ['trails' => $trails, 'interestPoints' => $interestPoints]);
     }
 }
