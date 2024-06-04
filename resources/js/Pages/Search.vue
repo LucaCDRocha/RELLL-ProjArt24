@@ -192,7 +192,6 @@ const goBack = () => {
                 @click.prevent="switchFilter(difficulty)"
             />
         </div>
-        <BaseDivider />
         <div>
             <BaseTag
                 v-for="filter in props.filters"
@@ -212,6 +211,7 @@ const goBack = () => {
                     interestPointsResults.length + trailsResults.length
                 }})
             </h2>
+            <BaseDivider />
             <h3>Sentiers</h3>
             <div>
                 <BaseCard
@@ -235,8 +235,10 @@ const goBack = () => {
         <div v-else>
             <h2>Vos dernières recherches</h2>
             <ul v-if="searchs">
+                <BaseDivider />
                 <li v-for="sea in searchs" :key="sea" @click="search = sea">
                     {{ sea }}
+                    <BaseDivider />
                 </li>
             </ul>
         </div>
