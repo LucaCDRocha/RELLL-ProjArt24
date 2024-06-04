@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
 import BaseNavLink from "@/Components/BaseNavLink.vue";
 
 onMounted(() => {

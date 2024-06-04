@@ -55,7 +55,14 @@ const trailsResults = computed(() => {
         filtered = props.trails.filter((trail) =>
             trail.name
                 .toLowerCase()
-                .includes(search.value.toLowerCase())
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .includes(
+                    search.value
+                        .toLowerCase()
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                )
         );
     }
     if (filtersSelected.value.length === 0) return filtered;
@@ -78,7 +85,14 @@ const interestPointsResults = computed(() => {
         filtered = props.interestPoints.filter((interestPoint) =>
             interestPoint.name
                 .toLowerCase()
-                .includes(search.value.toLowerCase())
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .includes(
+                    search.value
+                        .toLowerCase()
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                )
         );
     }
     if (filtersSelected.value.length === 0) return filtered;
