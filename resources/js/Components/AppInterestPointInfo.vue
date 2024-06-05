@@ -60,9 +60,6 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 
 <style scoped>
 .interest-point {
-    @apply bg-green-50 dark:bg-green-950;
-    @apply text-green-950 dark:text-green-50;
-
     display: flex;
     flex-direction: column;
     gap: 1rem;

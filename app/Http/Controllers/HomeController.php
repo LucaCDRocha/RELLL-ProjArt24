@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $allTrails = Trail::all()->load('img')->select('difficulty', 'img', 'id', 'name');
+        $allTrails = Trail::all()->load('img')->select('difficulty', 'img', 'id', 'name', 'time');
 
         $allInterestPoints = InterestPoint::all()->load('imgs')->select('imgs', 'name', 'id');
         return Inertia::render('Home', ['trails' => $allTrails, 'interestPoints' => $allInterestPoints]);
