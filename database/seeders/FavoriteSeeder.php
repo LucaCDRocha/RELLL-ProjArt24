@@ -16,7 +16,7 @@ class FavoriteSeeder extends Seeder
     {
         //liste de base pour tous les utilisateurs
         for ($i = 1; $i < 4; $i++) {
-            Favorite::create([
+            Favorite::updateOrCreate([
                 'user_id' => $i,
                 'name' => 'favoris',
             ]);
@@ -25,7 +25,7 @@ class FavoriteSeeder extends Seeder
         //listes spéciales pour un utilisateur
         $listes = ["A faire avec ma famille", "A refaire", "Why not"];
         for ($i=0; $i < count($listes); $i++) { 
-            Favorite::create([
+            Favorite::updateOrCreate([
                 'user_id' => 2,
                 'name' => $listes[$i],
                 'created_at' => now(),

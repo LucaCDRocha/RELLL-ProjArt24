@@ -23,7 +23,7 @@ class TagSeeder extends Seeder
                 ->all();
 
             foreach ($tags as $tag) {
-                Tag::create([
+                Tag::updateOrCreate([
                     'name' => $tag['name']
                 ]);
             }

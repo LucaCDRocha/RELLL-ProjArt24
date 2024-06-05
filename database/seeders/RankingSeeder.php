@@ -22,7 +22,7 @@ class RankingSeeder extends Seeder
                 $trailId = JsonHelper::getInfoByValue('trails', 'name', $ranking['trail']);
                 $userId = JsonHelper::getInfoByValue('users', 'name', $ranking['user']);
 
-                Ranking::create([
+                Ranking::updateOrCreate([
                     'note' => $ranking['note'],
                     'trail_id' => $trailId,
                     'user_id' => $userId,

@@ -29,7 +29,7 @@ class TrailsSeeder extends Seeder
 
                 $imgId = JsonHelper::getInfoByValue('imgs', 'img_path', $trail['image']['url']);
 
-                Trail::create([
+                Trail::updateOrCreate([
                     'name' => $trail['titre'],
                     'time' => $trail['duree'],
                     'description' => $trail['description'],

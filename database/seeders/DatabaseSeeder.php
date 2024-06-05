@@ -16,29 +16,9 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // création d'utilisateurs
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'email_verified_at' => now(),
-            'password' => "12345Test",
-            'is_admin' => true
-        ]);
-        User::factory()->create([
-            'name' => 'Marc',
-            'email' => 'marc@example.com',
-            'email_verified_at' => now(),
-            'password' => "12345Bob",
-            'is_admin' => false
-        ]);
-        User::factory()->create([
-            'name' => 'Sam',
-            'email' => 'sam@example.com',
-            'email_verified_at' => now(),
-            'password' => "yes1234",
-            'is_admin' => true
-        ]);
-        
+        // création d'utilisateurs tests
+        $this->call(UserSeeder::class);
+
         // création des parcours tests
         $this->call(TagSeeder::class);
         $this->call(LocationSeeder::class);
