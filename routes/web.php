@@ -1,20 +1,23 @@
 <?php
 
+use App\Http\Controllers\HistoricsController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\InterestPointController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TrailController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SearchController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect()->route('home');
+    // return Inertia::render('Welcome', [
+    //     'canLogin' => Route::has('login'),
+    //     'canRegister' => Route::has('register'),
+    //     'laravelVersion' => Application::VERSION,
+    //     'phpVersion' => PHP_VERSION,
+    // ]);
 });
 
 Route::get('/dashboard', function () {
@@ -27,34 +30,29 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource("/bookmark", FavoriteController::class);
+    Route::post("/addTrail", [FavoriteController::class, 'addTrail'])->name('bookmark.addTrail');
+    Route::get('/my-trails', [HistoricsController::class, 'showHistorics']);
 });
 
 require __DIR__ . '/auth.php';
 
-Route::get('/home', function () {
-    return Inertia::render('Home');
-});
-Route::resource("trails", TrailController::class);
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::resource("/trails", TrailController::class);
 
-Route::resource("interestPoints", InterestPointController::class);
+Route::resource("/interestPoints", InterestPointController::class);
 
-Route::get('/search', function () {
-    return Inertia::render('Search');
-});
+Route::get('/search', [SearchController::class, 'search']);
 
-Route::get('/map', function () {
-    return Inertia::render('Map');
-});
+Route::get('/map', [InterestPointController::class, 'map']);
 
 Route::get('/settings', function () {
     return Inertia::render('Settings');
 });
 
-Route::get('/favorites', function () {
-    return Inertia::render('List');
-});
+Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');
 
-//Route qui requiert authentification
-Route::get('/my-trails', function () {
-    return Inertia::render('History');
-})->middleware(['auth', 'verified'])->name('history');
+// API
+
+Route::get('/api/trails/{id}', [TrailController::class, 'showJson'])->name('trails.showJson');
+
+Route::get('/api/interestPoints/{id}', [InterestPointController::class, 'showJson'])->name('interestPoints.showJson');

@@ -18,6 +18,7 @@ class ImgSeeder extends Seeder
             $data = JsonHelper::readJson('/jeuTest.json'); //récupère des infos dans jeuTest.json
 
             //ajout des images des sentiers
+            // TODO: faire le seeder pour les images des sentiers
             $imageTrails = collect($data['sentiers'])
                 ->pluck('image');
 
@@ -46,7 +47,7 @@ class ImgSeeder extends Seeder
 
                 foreach ($images as $image) {
 
-                    Img::create([
+                    Img::updateOrCreate([
                         'interest_point_id' => $idPI,
                         'source' => $image['source'],
                         'img_path' => $image['url'],

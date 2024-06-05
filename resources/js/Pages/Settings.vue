@@ -62,11 +62,6 @@ const submit = () => {
     <div class="settings">
         <h1>Settings</h1>
 
-        <div>
-            <PrimaryButton>Toggle dark mode</PrimaryButton>
-            <SecondaryButton icon="search">Rechercher</SecondaryButton>
-        </div>
-
         <BaseToggleButton label="Theme sombre" />
 
         <BaseDivider />

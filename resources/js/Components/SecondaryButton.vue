@@ -21,11 +21,11 @@ defineProps({
 button {
     @apply inline-flex items-center px-4 py-2;
 
-    @apply font-semibold text-sm;
-    @apply text-green-800 dark:text-green-200;
+    @apply text-base font-medium;
+    @apply text-onSurface dark:text-green-200;
 
-    @apply bg-green-50 dark:bg-green-950;
-    @apply border-green-800 dark:border-green-200;
+    @apply bg-transparent dark:bg-green-950;
+    @apply border-primary dark:border-green-200;
     @apply border rounded-full shadow-sm;
 
     @apply hover:bg-green-100 dark:hover:bg-green-900;

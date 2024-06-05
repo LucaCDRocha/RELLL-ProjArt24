@@ -8,143 +8,81 @@ import TheCardNav from "@/Components/TheCardNav.vue";
 import BaseImgGalery from "@/Components/BaseImgGalery.vue";
 import AppCardList from "@/Components/AppCardList.vue";
 import BaseMap from "@/Components/BaseMap.vue";
+import AppSaveButton from "@/Components/AppSaveButton.vue";
+import AppStarRanking from "@/Components/AppStarRanking.vue";
+import BaseAccordion from "@/Components/BaseAccordion.vue";
 
-defineProps({
+const props = defineProps({
     data: {
         type: Object,
-        default: () => {},
+        default: () => { },
+    },
+    full: {
+        type: Boolean,
+        default: false,
     },
 });
 
-const dataTest = ref([
-    {
-        id: 1,
-        name: "Château",
-        description: "Le château de Lausanne",
-        tag: "Facile",
-        is_accessible: true,
-    },
-    {
-        id: 2,
-        name: "Art en ville de Lausanne",
-        description: "Les oeuvres d'art de la ville de Lausanne",
-        tag: "Moyen",
-        is_accessible: true,
-    },
-    {
-        id: 3,
-        name: "33",
-        description: "Le parcours du 33",
-        tag: "Difficile",
-        is_accessible: false,
-    },
-    {
-        id: 4,
-        name: "33",
-        description: "Le parcours du 33",
-        tag: "oui",
-        is_accessible: false,
-    },
-]);
+const tags = ref([]);
+for (const interestPoint of props.data.interest_points) {
+    for (const tag of interestPoint.tags) {
+        if (!tags.value.find((t) => t.name === tag.name)) {
+            tags.value.push(tag);
+        }
+    }
+}
 
-const imgs = ref([
-    "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg/2880px-Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/20170920_Lausanne-13.jpg/640px-20170920_Lausanne-13.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg/2880px-Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/20170920_Lausanne-13.jpg/640px-20170920_Lausanne-13.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg/2880px-Rottenburg_a.N._-_Wurmlingen_-_Kapellenberg_-_Ansicht_von_OSO_im_April_mit_Gegenlicht.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/20170920_Lausanne-13.jpg/640px-20170920_Lausanne-13.jpg",
-]);
+const imgs = ref([]);
 
-const waypoints = [
-    {
-        name: "Start",
-        latLng: L.latLng(46.77911, 6.642196),
-        info: "Starting point",
-        tags: ["tag1", "tag2"],
-    },
-    {
-        name: "Waypoint 2",
-        latLng: L.latLng(46.779657, 6.64246),
-        info: "Waypoint 2",
-        tags: ["tag3", "tag4"],
-    },
-    {
-        name: "Waypoint 3",
-        latLng: L.latLng(46.778904, 6.640619),
-        info: "Waypoint 3",
-        tags: ["tag5", "tag6"],
-    },
-    {
-        name: "Waypoint 4",
-        latLng: L.latLng(46.778527, 6.640818),
-        info: "Waypoint 4",
-        tags: ["tag7", "tag8"],
-    },
-    {
-        name: "Waypoint 5",
-        latLng: L.latLng(46.778488, 6.640374),
-        info: "Waypoint 5",
-        tags: ["tag9", "tag10"],
-    },
-    {
-        name: "Waypoint 6",
-        latLng: L.latLng(46.778659, 6.641027),
-        info: "Waypoint 6",
-        tags: ["tag11", "tag12"],
-    },
-    {
-        name: "Waypoint 7",
-        latLng: L.latLng(46.777941, 6.641481),
-        info: "Waypoint 7",
-        tags: ["tag13", "tag14"],
-    },
-    {
-        name: "End",
-        latLng: L.latLng(46.77911, 6.642196),
-        info: "Ending point",
-        tags: ["tag15", "tag16"],
-    },
-];
+imgs.value.push(props.data.img.img_path);
 
-const emit = defineEmits(["handleOpen"]);
+for (const point of props.data.interest_points) {
+    for (const img of point.imgs) {
+        imgs.value.push(img.img_path);
+    }
+}
+
+const emit = defineEmits(["handle-close", "handle-point"]);
 </script>
 
 <template>
     <div class="trail">
-        <TheCardNav @handle-close="emit('handleOpen')" />
+        <TheCardNav @handle-close="emit('handle-close')" />
 
-        <div class="tags">
+        <div class="tags" v-if="!full">
             <div class="tag">
-                <BaseTag :tag="data.tag" :selected="true">{{
-                    data.tag
-                }}</BaseTag>
+                <BaseTag :tag="data.difficulty" :selected="true" />
             </div>
             <BaseDividerVert />
             <div class="tag">
-                <BaseTag :tag="data.tag" :selected="false">{{
-                    data.tag
-                }}</BaseTag>
+                <BaseTag
+                    v-for="tag in tags"
+                    :key="tag.id"
+                    :tag="tag.name"
+                    :selected="false"
+                />
             </div>
         </div>
 
         <h1>{{ data.name }}</h1>
 
-        <div class="stars">Stars here</div>
+        <div class="stars">
+            <AppStarRanking :rating="data.note" />
+        </div>
 
-        <div class="infos">
+        <div class="infos" v-if="!full">
             <p>
                 <span class="material-symbols-rounded">access_time</span>
                 {{ data.time }}
             </p>
-            <span class="material-symbols-rounded">accessible</span>
-            <p>5 points d'intérêts</p>
+            <p>5 km</p>
         </div>
 
         <div class="actions">
-            <PrimaryButton>Commencer</PrimaryButton>
-            <SecondaryButton icon="bookmark">Enrengistrer</SecondaryButton>
+            <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)"
+                >Commencer</PrimaryButton
+            >
+            <AppSaveButton :title="data.name" :id="data.id" />
             <SecondaryButton icon="star">Favoris</SecondaryButton>
         </div>
 
@@ -152,41 +90,52 @@ const emit = defineEmits(["handleOpen"]);
 
         <h2>Description</h2>
         <div class="tag">
-            <BaseTag :tag="data.tag" :selected="false">{{ data.tag }}</BaseTag>
+            <BaseTag
+                v-for="tag in tags"
+                :key="tag.id"
+                :tag="tag.name"
+                :selected="false"
+            />
         </div>
         <p>
             {{ data.description }}
         </p>
 
-        <div class="itineraire">
-            <h2>Itinéraire</h2>
-            <div class="tag">
-                <BaseTag :tag="data.tag" :selected="true">{{
-                    data.tag
-                }}</BaseTag>
-            </div>
+        <div class="accordion">
+            <BaseAccordion title="Itinéraire" :id="1" :tag="data.difficulty" :multiple="true">
+                <div class="infos">
+                    <p>
+                        <span class="material-symbols-rounded">access_time</span>
+                        {{ data.time }}
+                    </p>
+                    <p>5 km</p>
+                </div>
+                <BaseMap :draggable="false" :waypoints="data" />
+            </BaseAccordion>
         </div>
-        <div class="infos">
-            <p>
-                <span class="material-symbols-rounded">access_time</span>
-                {{ data.time }}
-            </p>
-            <p>5 km</p>
+
+        <AppCardList
+            :datas="data.interest_points"
+            @handle-point="emit('handle-point', $event)"
+            >Points d'intérêt du sentier</AppCardList
+        >
+
+        <div class="accordion">
+            <BaseAccordion title="Accessibilité" :id="2">
+                <div class="infos accessibilite">
+                    <span class="material-symbols-rounded">train</span>
+                    <span class="material-symbols-rounded">local_parking</span>
+                    <span class="material-symbols-rounded">accessible</span>
+                </div>
+                <p>Le sentier est accessible</p>
+            </BaseAccordion>
         </div>
-        <BaseMap :draggable="false" :waypoints="waypoints" />
 
-        <AppCardList :datas="dataTest">Points d'intérêt du sentier</AppCardList>
-
-        <h2>Accessibilité</h2>
-        <div class="infos accessibilite">
-            <span class="material-symbols-rounded">train</span>
-            <span class="material-symbols-rounded">local_parking</span>
-            <span class="material-symbols-rounded">accessible</span>
+        <div class="accordion">
+            <BaseAccordion title="Avis" :id="3">
+                <p>Il n'y a pas encore de commentaires</p>
+            </BaseAccordion>
         </div>
-        <p>Le sentier est accessible</p>
-
-        <h2>Avis</h2>
-        <p>Il n'y a pas encore de commentaires</p>
     </div>
 </template>
 
@@ -196,6 +145,11 @@ const emit = defineEmits(["handleOpen"]);
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
+    width: 100%;
+    height: fit-content;
+}
+
+.accordion {
     width: 100%;
     height: fit-content;
 }
@@ -210,11 +164,15 @@ const emit = defineEmits(["handleOpen"]);
     gap: 0.5rem;
 }
 
+.stars {
+    gap: 5rem;
+}
+
 .infos {
     display: flex;
-    justify-content: space-between;
-
+    gap: 2.5rem;
     width: 100%;
+    align-items: center;
     padding-right: 1rem;
 }
 
@@ -235,14 +193,6 @@ const emit = defineEmits(["handleOpen"]);
     padding-right: 1rem;
 
     overflow-x: scroll;
-}
-
-.itineraire {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-    height: fit-content;
 }
 
 #map {

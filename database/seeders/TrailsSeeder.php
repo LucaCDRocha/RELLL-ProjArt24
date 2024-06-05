@@ -22,17 +22,6 @@ class TrailsSeeder extends Seeder
             foreach ($trails as $trail) {
 
                 $difficulte = $trail['difficulte'];
-                switch ($difficulte) {
-                    case "moyen":
-                        $difficulteId = 2;
-                        break;
-                    case "difficile":
-                        $difficulteId = 3;
-                        break;
-                    default:
-                        $difficulteId = 1;
-                        break;
-                }
 
                 $startId = JsonHelper::getLocationIdByCoordinates($trail['depart']['coordonnees']);
                 $endId = JsonHelper::getLocationIdByCoordinates($trail['arrivee']['coordonnees']);
@@ -40,11 +29,11 @@ class TrailsSeeder extends Seeder
 
                 $imgId = JsonHelper::getInfoByValue('imgs', 'img_path', $trail['image']['url']);
 
-                Trail::create([
+                Trail::updateOrCreate([
                     'name' => $trail['titre'],
                     'time' => $trail['duree'],
                     'description' => $trail['description'],
-                    'difficulty' => $difficulteId,
+                    'difficulty' => $difficulte,
                     'is_accessible' => $trail['accessibilite'],
                     'user_id' => 1,
                     'img_id' => $imgId,

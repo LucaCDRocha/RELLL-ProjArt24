@@ -18,22 +18,16 @@ class TagSeeder extends Seeder
         try {
             $data = JsonHelper::readJson('/jeuTest.json'); //récupère des infos dans jeuTest.json
 
-        // Extraire les tags uniques
-        $tags = collect($data['sentiers'])
-                    ->pluck('points_interet') //extrait les valeurs d'un attribut donné de chaque élément de la collection
-                    ->flatten(1) //aplatie la collection d'un niveau
-                    ->pluck('tag')
-                    ->unique()
-                    ->values()
-                    ->all();
+            $tags = collect($data['tags'])
+                ->values()
+                ->all();
 
-        // Insérer les tags dans la base de données
-        foreach ($tags as $tag) {
-           Tag::create([
-                'name' => $tag
-            ]);
-        }
-    } catch (\Exception $e) {
+            foreach ($tags as $tag) {
+                Tag::updateOrCreate([
+                    'name' => $tag['name']
+                ]);
+            }
+        } catch (\Exception $e) {
             $this->command->error($e->getMessage());
         }
     }

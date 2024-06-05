@@ -8,18 +8,17 @@
 button {
     @apply inline-flex items-center px-4 py-2;
 
-    @apply font-semibold text-sm;
-    @apply text-green-50 dark:text-green-800;
+    @apply text-base font-medium;
+    @apply text-onPrimary dark:text-green-800;
 
-    @apply bg-green-800 dark:bg-green-200;
-    @apply border-green-800 dark:border-green-200;
+    @apply bg-primary dark:bg-green-200;
     @apply border rounded-full border-transparent shadow-sm;
 
     @apply hover:bg-green-700 dark:hover:bg-green-100;
     @apply hover:text-green-50 dark:hover:text-green-800;
 
-    @apply active:bg-green-900 dark:active:bg-green-300;
-    @apply active:text-green-50 dark:active:text-green-800;
+    @apply active:bg-primary dark:active:bg-green-300;
+    @apply active:text-onPrimary dark:active:text-green-800;
 
     @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
     @apply focus:ring-green-500 dark:focus:ring-green-600 dark:focus:ring-offset-green-800;

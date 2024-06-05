@@ -1,6 +1,8 @@
 <script setup>
+import { computed, watch, ref } from "vue";
+
 // defini un props pour le composant avec tag qui est optionnel
-const { tag, selected } = defineProps({
+const props = defineProps({
     tag: {
         type: String,
         default: () => "None",
@@ -13,31 +15,52 @@ const { tag, selected } = defineProps({
 
 // defini une fonction pour retourner la couleur de fond en fonction de la difficulté
 const getTagColor = (tag) => {
-    switch (tag) {
-        case "Facile":
-            return "bg-green-100 dark:bg-green-900";
-        case "Moyen":
-            return "bg-blue-100 dark:bg-blue-900";
-        case "Difficile":
-            return "bg-red-100 dark:bg-red-900";
+    switch (tag.toLowerCase()) {
+        case "facile":
+            return "bg-easy dark:bg-green-900";
+        case "moyen":
+            return "bg-medium dark:bg-blue-900";
+        case "difficile":
+            return "bg-hard dark:bg-red-900";
+        case "gastronomie":
+            return "bg-gastronomie dark:bg-yellow-900";
+        case "nature":
+            return "bg-nature dark:bg-green-900";
+        case "art":
+            return "bg-art dark:bg-blue-900";
+        case "musee":
+            return "bg-musee dark:bg-red-900";
+        case "famille":
+            return "bg-family dark:bg-yellow-900";
+        case "architecture":
+            return "bg-architecture dark:bg-green-900";
         default:
-            return "bg-blue-900 text-green-50 dark:bg-blue-100 dark:text-green-950";
+            return "bg-secondary text-onSecondary dark:bg-blue-100 dark:text-green-950";
     }
 };
 
 const getClasses = (tag) => {
     const classes = {
-        "active": !selected,
+        active: !props.selected,
     };
     classes[getTagColor(tag)] = true;
     return classes;
 };
+
+const classes = ref(getClasses(props.tag));
+
+watch(
+    () => props.selected,
+    () => {
+        classes.value = getClasses(props.tag);
+    }
+);
 </script>
 
 <template>
-    <a href="/show-tag" class="tag" :class="getClasses(tag)">
+    <div class="tag" :class="classes">
         {{ tag }}
-    </a>
+    </div>
 </template>
 
 <style scoped>
@@ -47,7 +70,7 @@ const getClasses = (tag) => {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    
+
     padding: 0.2rem 0.8rem;
     border-radius: 0.35rem;
 }

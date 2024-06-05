@@ -15,6 +15,6 @@ class Tag extends Model
 
     public function interestPoints()
     {
-        return $this->hasMany(InterestPoint::class);
+        return $this->belongsToMany(InterestPoint::class);
     }
 }
