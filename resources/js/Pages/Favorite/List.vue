@@ -8,6 +8,7 @@ import BasePlainButton from "@/Components/BasePlainButton.vue";
 import NewList from "@/Pages/Favorite/NewList.vue";
 import { ref } from "vue";
 import TheHeader from "@/Components/TheHeader.vue";
+import BaseImgGrid from "@/Components/BaseImgGrid.vue";
 
 const isOpen = ref(false);
 const toggleBottomSheet = () => {
@@ -41,11 +42,12 @@ const successMessage = pageProps.flash?.success;
     <BaseLinkList v-for="el in list" :key="el.id" :name="el.name" :id="el.id" 
       :link="route('bookmark.show', { id: el.id })" :numberElem="el.trails_count"/>
 
-
     <BasePlainButton @click.prevent="toggleBottomSheet()" type="submit" icon="add_circle">Créer une nouvelle liste</BasePlainButton>
     <BaseBottomSheet v-if="isOpen" :isOpen="isOpen" @handle-open="toggleBottomSheet()">
       <NewList />
     </BaseBottomSheet>
+
+    <BaseImgGrid v-if="list.length > 0" :imgs="list" />
     <TheNav />
 </template>
 

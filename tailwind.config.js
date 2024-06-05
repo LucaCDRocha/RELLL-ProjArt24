@@ -17,6 +17,7 @@ export default {
             },
             colors: {
                 primary : '#3F6836',
+                primarySurface : '#BFEFB0',
                 secondary : '#386569',
                 surface: '#F8FBF1',
                 onPrimary: '#FFFFFF',
@@ -31,6 +32,9 @@ export default {
                 musee : '#66CDC7',
                 famille : '#F7B6ED',
                 architecture : '#E8AB73',
+                easy : '#A6CFA5',
+                medium : '#AFC3E1',
+                hard : '#DC6767',
                 customGray : '#C3C8BC',
             },
         },

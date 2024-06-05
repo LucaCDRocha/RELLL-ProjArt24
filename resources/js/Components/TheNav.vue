@@ -51,7 +51,7 @@ const isOpen = ref(false);
 
 <style scoped>
 div {
-    @apply bg-green-100 dark:bg-green-800;
+    @apply bg-surfaceVariant dark:bg-green-800;
 
     display: flex;
     justify-content: space-around;
@@ -84,9 +84,5 @@ span {
 
     border: none;
     border-radius: 1.2rem;
-}
-
-span.active {
-    @apply bg-green-300 dark:bg-green-600;
 }
 </style>

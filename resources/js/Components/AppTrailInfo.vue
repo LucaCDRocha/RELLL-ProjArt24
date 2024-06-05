@@ -46,7 +46,7 @@ const emit = defineEmits(["handleOpen"]);
             </div>
             <BaseDividerVert />
             <div class="tag">
-                <BaseTag v-for="theme in data.themes" :key="theme.id" :tag="theme.name" :selected="false" />
+                <BaseTag v-for="theme in data.themes" :key="theme.id" :tag="theme.name" :selected="true" />
             </div>
         </div>
 

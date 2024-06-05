@@ -12,3 +12,9 @@ defineProps({
         <span v-else><slot /></span>
     </label>
 </template>
+
+<style scoped>
+label {
+    @apply block font-medium text-lg;
+}
+</style>

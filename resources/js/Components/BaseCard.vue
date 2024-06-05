@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
-import BaseTag from "@/Components/BaseTag.vue";
+import AppDoubleTag from "@/Components/AppDoubleTag.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
@@ -31,9 +31,7 @@ if (props.data.imgs) {
         background: `linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(213, 213, 213, 0.26) 24.3%, rgba(128, 128, 128, 0.75) 62.15%, #2B2B2B 100%), url(${img}) lightgray 50% / cover no-repeat`,
     }">
         <div class="tag">
-            <BaseTag v-if="data.difficulty" :tag="data.difficulty" :selected="true">{{
-                data.difficulty
-                }}</BaseTag>
+            <AppDoubleTag v-if="data.difficulty" :tag="data.difficulty" :time="data.time"/>
         </div>
         <p>{{ data.name }}</p>
     </div>
