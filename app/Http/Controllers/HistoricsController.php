@@ -12,10 +12,10 @@ class HistoricsController extends Controller
     public function showHistorics(){
         $historics = Historic::where('user_id', auth()->id())->with('trail')->get();
         $trailData = $historics->map(function($historic) {
-            return $historic->trail;
+            return $historic->trail->load('img');
         });
 
-        $myTrails = Trail::where('user_id', auth()->id())->get();
+        $myTrails = Trail::where('user_id', auth()->id())->get()->load('img');
         
         return Inertia::render('History', ['historics' => $trailData, 'myTrails' => $myTrails]);
     }

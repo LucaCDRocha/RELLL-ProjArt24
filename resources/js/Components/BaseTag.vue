@@ -1,6 +1,8 @@
 <script setup>
+import { computed, watch, ref } from "vue";
+
 // defini un props pour le composant avec tag qui est optionnel
-const { tag, selected } = defineProps({
+const props = defineProps({
     tag: {
         type: String,
         default: () => "None",
@@ -39,15 +41,24 @@ const getTagColor = (tag) => {
 
 const getClasses = (tag) => {
     const classes = {
-        "active": !selected,
+        active: !props.selected,
     };
     classes[getTagColor(tag)] = true;
     return classes;
 };
+
+const classes = ref(getClasses(props.tag));
+
+watch(
+    () => props.selected,
+    () => {
+        classes.value = getClasses(props.tag);
+    }
+);
 </script>
 
 <template>
-    <div class="tag" :class="getClasses(tag)">
+    <div class="tag" :class="classes">
         {{ tag }}
     </div>
 </template>
@@ -59,7 +70,7 @@ const getClasses = (tag) => {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    
+
     padding: 0.2rem 0.8rem;
     border-radius: 0.35rem;
 }

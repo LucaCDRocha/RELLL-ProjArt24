@@ -13,15 +13,15 @@ class HistoricSeeder extends Seeder
      */
     public function run(): void
     {
-        Historic::create([
+        Historic::updateOrCreate([
             'user_id' => 2,
             'trail_id' => 1
         ]);
-        Historic::create([
+        Historic::updateOrCreate([
             'user_id' => 2,
             'trail_id' => 2
         ]);
-        Historic::create([
+        Historic::updateOrCreate([
             'user_id' => 3,
             'trail_id' => 2
         ]);

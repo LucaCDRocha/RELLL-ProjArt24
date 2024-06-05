@@ -23,6 +23,15 @@ const props = defineProps({
     },
 });
 
+const tags = ref([]);
+for (const interestPoint of props.data.interest_points) {
+    for (const tag of interestPoint.tags) {
+        if (!tags.value.find((t) => t.name === tag.name)) {
+            tags.value.push(tag);
+        }
+    }
+}
+
 const imgs = ref([]);
 
 imgs.value.push(props.data.img.img_path);
@@ -33,12 +42,12 @@ for (const point of props.data.interest_points) {
     }
 }
 
-const emit = defineEmits(["handleOpen"]);
+const emit = defineEmits(["handle-close", "handle-point"]);
 </script>
 
 <template>
     <div class="trail">
-        <TheCardNav @handle-close="emit('handleOpen')" />
+        <TheCardNav @handle-close="emit('handle-close')" />
 
         <div class="tags" v-if="!full">
             <div class="tag">
@@ -46,7 +55,12 @@ const emit = defineEmits(["handleOpen"]);
             </div>
             <BaseDividerVert />
             <div class="tag">
-                <BaseTag v-for="theme in data.themes" :key="theme.id" :tag="theme.name" :selected="true" />
+                <BaseTag
+                    v-for="tag in tags"
+                    :key="tag.id"
+                    :tag="tag.name"
+                    :selected="false"
+                />
             </div>
         </div>
 
@@ -65,7 +79,9 @@ const emit = defineEmits(["handleOpen"]);
         </div>
 
         <div class="actions">
-            <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)">Commencer</PrimaryButton>
+            <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)"
+                >Commencer</PrimaryButton
+            >
             <AppSaveButton :title="data.name" :id="data.id" />
             <SecondaryButton icon="star">Favoris</SecondaryButton>
         </div>
@@ -74,7 +90,12 @@ const emit = defineEmits(["handleOpen"]);
 
         <h2>Description</h2>
         <div class="tag">
-            <BaseTag v-for="theme in data.themes" :key="theme.id" :tag="theme.name" :selected="false" />
+            <BaseTag
+                v-for="tag in tags"
+                :key="tag.id"
+                :tag="tag.name"
+                :selected="false"
+            />
         </div>
         <p>
             {{ data.description }}
@@ -93,7 +114,11 @@ const emit = defineEmits(["handleOpen"]);
             </BaseAccordion>
         </div>
 
-        <AppCardList :datas="data.interest_points">Points d'intérêt du sentier</AppCardList>
+        <AppCardList
+            :datas="data.interest_points"
+            @handle-point="emit('handle-point', $event)"
+            >Points d'intérêt du sentier</AppCardList
+        >
 
         <div class="accordion">
             <BaseAccordion title="Accessibilité" :id="2">

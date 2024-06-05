@@ -5,12 +5,6 @@ import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 
-const isOpen = ref(false);
-
-const toggleBottomSheet = () => {
-    isOpen.value = !isOpen.value;
-};
-
 const props = defineProps({
     data: {
         type: Object,
@@ -24,21 +18,23 @@ if (props.data.imgs) {
 } else {
     img.value = props.data.img.img_path;
 }
+
+const emit = defineEmits(["handle-point"]);
 </script>
 
 <template>
-    <div class="card" @click="toggleBottomSheet()" :style="{
-        background: `linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(213, 213, 213, 0.26) 24.3%, rgba(128, 128, 128, 0.75) 62.15%, #2B2B2B 100%), url(${img}) lightgray 50% / cover no-repeat`,
-    }">
+    <div
+        class="card"
+        @click="emit('handle-point', { point: data })"
+        :style="{
+            background: `linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(213, 213, 213, 0.26) 24.3%, rgba(128, 128, 128, 0.75) 62.15%, #2B2B2B 100%), url(${img}) lightgray 50% / cover no-repeat`,
+        }"
+    >
         <div class="tag">
             <AppDoubleTag v-if="data.difficulty" :tag="data.difficulty" :time="data.time"/>
         </div>
         <p>{{ data.name }}</p>
     </div>
-    <BaseBottomSheet v-if="isOpen" :isOpen="isOpen" @handle-open="toggleBottomSheet()">
-        <AppTrailInfo v-if="data.note" :data="data" @handle-open="toggleBottomSheet()" />
-        <AppInterestPointInfo v-else :data="data" @handle-open="toggleBottomSheet()" />
-    </BaseBottomSheet>
 </template>
 
 <style scoped>

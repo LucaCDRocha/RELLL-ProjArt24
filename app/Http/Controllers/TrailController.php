@@ -6,12 +6,11 @@ use App\Http\Requests\TrailCreateRequest;
 use App\Models\Img;
 use App\Models\InterestPoint;
 use App\Models\Location;
-use App\Models\Theme;
 use App\Models\Trail;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use App\Models\Tag;
 
 class TrailController extends Controller
 {
@@ -30,8 +29,8 @@ class TrailController extends Controller
      */
     public function create()
     {
-        $allThemes = Theme::all();
-        return Inertia::render('Trail/TrailCreate', ['themes' => $allThemes]);
+        $allTags = Tag::all();
+        return Inertia::render('Trail/TrailCreate', ['themes' => $allTags]);
     }
 
     /**
@@ -84,27 +83,31 @@ class TrailController extends Controller
      */
     public function show(string $id)
     {
-        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'themes', 'rankings');
+        return Inertia::render('Trail/TrailShow', ['trail' => $this->getTrail($id)]);
+    }
 
-        switch ($trail->difficulty) {
-            case 1:
-                $trail->difficulty = "Facile";
-                break;
-            case 2:
-                $trail->difficulty = "Moyen";
-                break;
-            case 3:
-                $trail->difficulty = "Difficile";
-                break;
-        }
+    /**
+     * Return the trail with the id in JSON format
+     */
+    public function showJson(string $id)
+    {
+        return response()->json($this->getTrail($id));
+    }
+
+    /**
+     * get the trail with the id
+     */
+    public function getTrail(string $id)
+    {
+        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'rankings');
 
         $trail->note = $trail->rankings()->avg('note');
 
         foreach ($trail->interest_points as $point) {
-            $point->load('location', 'tag', 'imgs');
+            $point->load('location', 'tags', 'imgs');
         }
 
-        return Inertia::render('Trail/TrailShow', ['trail' => $trail]);
+        return $trail;
     }
 
     /**
@@ -204,39 +207,13 @@ class TrailController extends Controller
         return redirect(route('home'));
     }
 
-    public function home()
-    {
-        $allTrails = Trail::all()->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'themes', 'rankings');
-
-        foreach ($allTrails as $trail) {
-            switch ($trail->difficulty) {
-                case 1:
-                    $trail->difficulty = "Facile";
-                    break;
-                case 2:
-                    $trail->difficulty = "Moyen";
-                    break;
-                case 3:
-                    $trail->difficulty = "Difficile";
-                    break;
-            }
-
-            $trail->note = $trail->rankings()->avg('note');
-
-            foreach ($trail->interest_points as $point) {
-                $point->load('location', 'tag', 'imgs');
-            }
-        }
-        return Inertia::render('Home', ['trails' => $allTrails]);
-    }
-
     public function start($id)
     {
         $trail = Trail::findOrFail($id)->load('interest_points', 'location_start', 'location_end', 'location_parking', 'themes', 'rankings', 'img');
         $trail->note = $trail->rankings()->avg('note');
 
         foreach ($trail->interest_points as $point) {
-            $point->load('location', 'tag', 'imgs');
+            $point->load('location', 'tags', 'imgs');
         }
 
         return Inertia::render('Trail/TrailStart', ['trail' => $trail]);

@@ -12,17 +12,17 @@ const locate = ref(null);
 
 const customIcon = ref(
     L.icon({
-        iconUrl: "/img/icons/location_on.svg",
-        iconSize: [30, 34],
-        iconAnchor: [15, 34],
+        iconUrl: "/img/icons/pin.svg",
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
     })
 );
 
 const customIconActive = ref(
     L.icon({
-        iconUrl: "/img/icons/location_on_active.svg",
-        iconSize: [34, 38],
-        iconAnchor: [17, 38],
+        iconUrl: "/img/icons/pin_active.svg",
+        iconSize: [50, 50],
+        iconAnchor: [25, 50],
     })
 );
 
