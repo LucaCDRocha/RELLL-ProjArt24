@@ -106,7 +106,7 @@ const interestPointsResults = computed(() => {
     }
     if (filtersSelected.value.length === 0) return filtered;
     return filtered.filter((interestPoint) =>
-        filtersSelected.value.find(
+        filtersSelected.value.every(
             (filter) => filter.name === interestPoint.tag.name
         )
     );
@@ -173,7 +173,9 @@ const goBack = () => {
     <TheHeader />
 
     <form @submit.prevent="" @change="store()" class="search-bar">
-        <span class="material-symbols-rounded" @click="goBack()">arrow_back</span>
+        <span class="material-symbols-rounded" @click="goBack()"
+            >arrow_back</span
+        >
         <TextInput v-model="search" placeholder="Rechercher" />
         <span class="material-symbols-rounded" @click="search = ''">close</span>
         <button>
