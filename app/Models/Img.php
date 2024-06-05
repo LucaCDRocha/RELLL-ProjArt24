@@ -12,6 +12,7 @@ class Img extends Model
     protected $fillable = [
         'source',
         'img_path',
+        'interest_point_id'
     ];
 
     public function interestPoint()
