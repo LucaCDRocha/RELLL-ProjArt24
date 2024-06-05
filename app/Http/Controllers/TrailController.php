@@ -53,15 +53,7 @@ class TrailController extends Controller
 
         // Gestion du nom pour éviter les doublons
 
-        $img_id = 1; // id: 1 -> Default Image for the Trail
-        if ($request->hasFile('img')) {
-            $img = Img::create(['img_path' => ""]);
-            $path = "img/imgTrail/";
-            $file_name = "image-" . $img->id . ".jpg";
-            $img->img_path = $path . $file_name;
-            $request->img->move(public_path('img/imgTrail'), $file_name);
-            $img_id = $img->id;
-        }
+        $img_id = ImgController::storeImgTrail($request->img);
 
         /* 
             Sauvegarde d'un trail dans la BD
@@ -69,9 +61,9 @@ class TrailController extends Controller
 
         // Sauvegarde des coordonées GPS
 
-        $loc_start_id = TrailController::createLocation($request->location_start);
-        $loc_end_id = TrailController::createLocation($request->location_end);
-        $loc_parking_id = TrailController::createLocation($request->location_parking);
+        $loc_start_id = LocationController::createLocation($request->location_start);
+        $loc_end_id = LocationController::createLocation($request->location_end);
+        $loc_parking_id = LocationController::createLocation($request->location_parking);
 
         $inputs = // Enlever les default avant lancement de l'app
             [
@@ -82,7 +74,7 @@ class TrailController extends Controller
                 'is_accessible' => $request->is_accessible == 'Oui' ?: 1,
                 'info_transport' => $request->info_transport ?: "Sans transports test",
                 'user_id' => $request->user_id,
-                'img_id' => $img_id,
+                'img_id' => $img_id ?: 1,
                 'location_start_id' => $loc_start_id ?: 1,
                 'location_end_id' => $loc_end_id ?: 2,
                 'location_parking_id' => $loc_parking_id ?: 3,
@@ -113,14 +105,6 @@ class TrailController extends Controller
             $trail->interest_points()->save($interest_point);
         }
         return redirect(route('home'))->withOk("Le sentier a bien été créé ! :)");
-    }
-
-    public function createLocation($datas)
-    {
-        //     $input_loc = ['latitude' => $datas->latitude, 'longitude' => $datas->longitude];
-        //     $loc = Location::create($input_loc);
-        //     return $loc->id;
-        return false;
     }
 
     /**
