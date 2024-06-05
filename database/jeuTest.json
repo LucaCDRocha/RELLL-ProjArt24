@@ -1,13 +1,25 @@
 {
     "tags": [
         {
-            "name": "Enfants"
+            "name": "Famille"
         },
         {
-            "name": "Sculpture"
+            "name": "Art"
         },
         {
             "name": "Architecture"
+        },
+        {
+            "name": "Nature"
+        },
+        {
+            "name": "Gastronomique"
+        },
+        {
+            "name": "Musée"
+        },
+        {
+            "name": "Panorama"
         },
         {
             "name": "Historique"
@@ -39,7 +51,7 @@
                 {
                     "nom": "Plateforme 10",
                     "description": "C’est un peu le nouveau quartier des arts de Lausanne. Il est composé de plusieurs musées ainsi que de galeries extérieures. C’est une fondation de droit public soutenue par l’Etat de Vaud.",
-                    "tags": ["Musée"],
+                    "tags": ["Musée", "Art"],
                     "coordonnees": [46.518273, 6.625511],
                     "open_season": "Toutes",
                     "url": "https://plateforme10.ch",
@@ -57,7 +69,7 @@
                 {
                     "nom": "Parc de Milan",
                     "description": "Faites une pause, parcourez le jardin botanique et profitez d’une vue renversante en haut de la colline de Montriond.",
-                    "tags": ["Vue panoramique"],
+                    "tags": ["Panorama", "Nature"],
                     "coordonnees": [46.515143, 6.624853],
                     "open_season": "Primtemps, Automne",
                     "url": "-",
@@ -71,7 +83,7 @@
                 {
                     "nom": "Parc du musée olymique",
                     "description": "Plusieurs statues sur le thème des jeux olympiques ou du sport. Laissez-vous surprendre en le parcourant. Une fontaine et des activités pour les enfants sont disponibles également.",
-                    "tags": ["Art"],
+                    "tags": ["Art", "Famille"],
                     "coordonnees": [46.507901, 6.634382],
                     "open_season": "Toutes",
                     "url": "http://lausanne.over-blog.org/pages/Le_jardin_dOlympie-1560965.html",
@@ -85,7 +97,7 @@
                 {
                     "nom": "Général Guisan",
                     "description": "Le Général Henri Guisan fut le commandant en chef de l'armée suisse pendant la Seconde Guerre mondiale. Connu pour son leadership, il a renforcé la stratégie de défense nationale, notamment avec le Plan Wahlen et le Réduit national, préparant la Suisse à résister à une éventuelle invasion.",
-                    "tags": ["Sculpture"],
+                    "tags": ["Art", "Historique"],
                     "coordonnees": [46.507202, 6.62965],
                     "open_season": "Automne",
                     "url": "-",
@@ -99,7 +111,7 @@
                 {
                     "nom": "Nicolas Delémont - Femme à l’enfant",
                     "description": "Cette sculpture qui tend vers l’abstrait nous invite dans l’intimité qu’une femme peut avoir avec son enfant.",
-                    "tags": ["Sculpture"],
+                    "tags": ["Art"],
                     "coordonnees": [46.505255, 6.627512],
                     "open_season": "Toutes",
                     "url": "-",
@@ -113,7 +125,7 @@
                 {
                     "nom": "Vladimir Tchepelik – Serge Lifar",
                     "description": "Serge Lifar est un grand danseur et chorégraphe qui a terminé sa vie à Lausanne. Vladimir Tchepelik a voulu lui rendre hommage en représentant un moment phare de sa carrière.",
-                    "tags": ["Sculpture"],
+                    "tags": ["Art"],
                     "coordonnees": [46.50553, 6.627067],
                     "open_season": "Hiver",
                     "url": "-",
@@ -127,7 +139,7 @@
                 {
                     "nom": "Angel Durate – Ouverture au monde",
                     "description": "Cet artiste s’inspire de la géométrie dans ses œuvres. Cette sculpture invite les voyageurs et s’illumine aux rayons du soleil.",
-                    "tags": ["Sculpture"],
+                    "tags": ["Art"],
                     "coordonnees": [46.504836, 6.625691],
                     "open_season": "Automne, Hiver",
                     "url": "-",
@@ -179,7 +191,7 @@
                 {
                     "nom": "Théâtre Benno Besson (1898)",
                     "description": "C'était un casino pendant un siècle. Il a ensuite été transformé en une salle de spectacle et nommé d'après Benno Besson(1922-2006), un homme du Nord vaudois bien connu du monde du théâtre comme acteur et metteur en scène.",
-                    "tags": ["Théâtre"],
+                    "tags": ["Architecture", "Historique"],
                     "coordonnees": [46.779657, 6.64246],
                     "open_season": "Toutes",
                     "url": "https://www.theatrebennobesson.ch/",
@@ -197,7 +209,7 @@
                 {
                     "nom": "Temple national (1757)",
                     "description": "La chapelle urbaine Notre-Dame, mentionnée pour la première fois en 1379, a subi des modifications majeures en 1508-1509, notamment la construction d'une chapelle attenante dédiée aux saints Roch et Sébastien. En 1536, la conquête bernoise a entraîné la démolition du chœur et la réorganisation de l'église en temple protestant. Aujourd'hui, il reste principalement le clocher médiéval du XIVe siècle, rehaussé entre 1608 et 1609, avec un ensemble de cloches médiévales unique en Europe.",
-                    "tags": ["Bâtiment"],
+                    "tags": ["Architecture", "Historique"],
                     "coordonnees": [46.778904, 6.640619],
                     "open_season": "Toutes",
                     "url": "-",
@@ -215,7 +227,7 @@
                 {
                     "nom": "Hôtel de Ville (1769)",
                     "description": "Construit entre 1767 et 1773 par l'architecte Abraham Burnand, cet édifice incarne l'autonomie des autorités communales face au souverain bernois. Situé sur la place Pestalozzi, il se distingue par sa façade en pierres jaunes de Neuchâtel, rythmée par des pilastres colossaux et divers types d'ouvertures. Destiné à accueillir les halles au rez-de-chaussée, l'administration au premier étagse e[t des locaux publics et logements au second, il a été conçu à partir d'un concours collaboratif entre les architectes Béat de Hennezel et Abraham Burnand.",
-                    "tags": ["Bâtiment"],
+                    "tags": ["Architecture", "Historique"],
                     "coordonnees": [46.778527, 6.640818],
                     "open_season": "Été",
                     "url": "-",
@@ -229,7 +241,7 @@
                 {
                     "nom": "Logis de l'Aigle Royal (XVIIIe siècle)",
                     "description": "Le bâtiment de l'Aigle royal, construit au XVIIIe siècle par Béat de Hennezel, fut une auberge puis l'institut pour jeunes filles de Johann Heinrich Pestalozzi en 1806. Inscrit comme bien culturel suisse d'importance nationale, il sert aujourd'hui d'annexe à l'hôtel de ville, surnommé Hôtel de Ville no 2.",
-                    "tags": ["Bâtiment"],
+                    "tags": ["Architecture", "Historique"],
                     "coordonnees": [46.778488, 6.640374],
                     "open_season": "Toutes",
                     "url": "-",
@@ -243,7 +255,7 @@
                 {
                     "nom": "Place Pestalozzi",
                     "description": "Influencé par Jean-Jacques Rousseau, Johann Heinrich Pestalozzi consacre sa vie à l'éducation des enfants pauvres, créant des écoles modèles en Europe. En 1806, il fonde plusieurs instituts à Yverdon, dont un pour jeunes filles et un pour sourds-muets.",
-                    "tags": ["Place"],
+                    "tags": ["Historique"],
                     "coordonnees": [46.778659, 6.641027],
                     "open_season": "Toutes",
                     "url": "https://fr.wikipedia.org/wiki/Johann_Heinrich_Pestalozzi",
@@ -261,7 +273,7 @@
                 {
                     "nom": "Centre historique",
                     "description": "Observez les rues piétonnes et découvrez les vestiges de l'ancien temps",
-                    "tags": ["Bâtiment"],
+                    "tags": ["Historique"],
                     "coordonnees": [46.778659, 6.641027],
                     "open_season": "Toutes",
                     "url": "-",
@@ -275,7 +287,7 @@
                 {
                     "nom": "Château d'Yverdon (XIIIe siècle)",
                     "description": "Le château d'Yverdon, initialement habité par les seigneurs savoyards, est construit autour de 1235 par Amédée III de Montfaucon-Montbéliard. Vendu à Pierre II de Savoie en 1260, le château de plan quadrangulaire est érigé entre 1260 et 1265 pour protéger la ville. Devenu chef-lieu du bailliage d'Yverdon sous la domination bernoise en 1536, il sert de résidence aux baillis jusqu'en 1798. En 1805, la ville d'Yverdon achète le château, et Johann Heinrich Pestalozzi y installe son institut de 1805 à 1825. Le château est restauré au XXe siècle par les architectes Otto Schmid et Pierre Margot.",
-                    "tags": ["Château"],
+                    "tags": ["Architecture", "Historique"],
                     "coordonnees": [46.777941, 6.641481],
                     "open_season": "Toutes",
                     "url": "http://chateau.yverdon.ch/accueil",
