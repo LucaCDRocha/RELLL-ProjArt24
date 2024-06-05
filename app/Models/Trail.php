@@ -23,9 +23,9 @@ class Trail extends Model
         'location_parking_id',
     ];
 
-    protected $casts = [
-        'time' => 'date:hh:mm'
-    ];
+    // protected $casts = [
+    //     'time' => 'date:hh:mm'
+    // ];
 
     public function user()
     {
