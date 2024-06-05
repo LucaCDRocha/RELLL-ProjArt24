@@ -21,6 +21,15 @@ const props = defineProps({
     },
 });
 
+const tags = ref([]);
+for (const interestPoint of props.data.interest_points) {
+    for (const tag of interestPoint.tags) {
+        if (!tags.value.find((t) => t.name === tag.name)) {
+            tags.value.push(tag);
+        }
+    }
+}
+
 const imgs = ref([]);
 
 imgs.value.push(props.data.img.img_path);
@@ -45,9 +54,9 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             <BaseDividerVert />
             <div class="tag">
                 <BaseTag
-                    v-for="theme in data.themes"
-                    :key="theme.id"
-                    :tag="theme.name"
+                    v-for="tag in tags"
+                    :key="tag.id"
+                    :tag="tag.name"
                     :selected="false"
                 />
             </div>
@@ -78,9 +87,9 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <h2>Description</h2>
         <div class="tag">
             <BaseTag
-                v-for="theme in data.themes"
-                :key="theme.id"
-                :tag="theme.name"
+                v-for="tag in tags"
+                :key="tag.id"
+                :tag="tag.name"
                 :selected="false"
             />
         </div>

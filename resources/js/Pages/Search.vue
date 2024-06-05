@@ -75,16 +75,8 @@ const trailsResults = computed(() => {
         );
     }
     if (filtersSelected.value.length === 0) return filtered;
-    return filtered.filter(
-        (trail) =>
-            filtersSelected.value.find(
-                (filter) => filter.name === trail.difficulty
-            ) ||
-            trail.themes.find((theme) =>
-                filtersSelected.value.find(
-                    (filter) => filter.name === theme.name
-                )
-            )
+    return filtered.filter((trail) =>
+        filtersSelected.value.find((filter) => filter.name === trail.difficulty)
     );
 });
 
@@ -106,8 +98,8 @@ const interestPointsResults = computed(() => {
     }
     if (filtersSelected.value.length === 0) return filtered;
     return filtered.filter((interestPoint) =>
-        filtersSelected.value.every(
-            (filter) => filter.name === interestPoint.tag.name
+        filtersSelected.value.every((filter) =>
+            interestPoint.tags.find((tag) => tag.name === filter.name)
         )
     );
 });

@@ -6,12 +6,11 @@ use App\Http\Requests\TrailCreateRequest;
 use App\Models\Img;
 use App\Models\InterestPoint;
 use App\Models\Location;
-use App\Models\Theme;
 use App\Models\Trail;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use App\Models\Tag;
 
 class TrailController extends Controller
 {
@@ -30,8 +29,8 @@ class TrailController extends Controller
      */
     public function create()
     {
-        $allThemes = Theme::all();
-        return Inertia::render('Trail/TrailCreate', ['themes' => $allThemes]);
+        $allTags = Tag::all();
+        return Inertia::render('Trail/TrailCreate', ['themes' => $allTags]);
     }
 
     /**
@@ -100,12 +99,12 @@ class TrailController extends Controller
      */
     public function getTrail(string $id)
     {
-        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'themes', 'rankings');
+        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'rankings');
 
         $trail->note = $trail->rankings()->avg('note');
 
         foreach ($trail->interest_points as $point) {
-            $point->load('location', 'tag', 'imgs');
+            $point->load('location', 'tags', 'imgs');
         }
 
         return $trail;
@@ -214,7 +213,7 @@ class TrailController extends Controller
         $trail->note = $trail->rankings()->avg('note');
 
         foreach ($trail->interest_points as $point) {
-            $point->load('location', 'tag', 'imgs');
+            $point->load('location', 'tags', 'imgs');
         }
 
         return Inertia::render('Trail/TrailStart', ['trail' => $trail]);

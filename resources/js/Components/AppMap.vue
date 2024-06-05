@@ -42,8 +42,6 @@ const props = defineProps({
     },
 });
 
-console.log(props.waypoints);
-
 const filtersSelected = computed(() => {
     let selected = [];
     for (const filter of props.filters) {
@@ -81,8 +79,8 @@ const interestPointsResults = computed(() => {
     }
     if (filtersSelected.value.length === 0) return filtered;
     return filtered.filter((interestPoint) =>
-        filtersSelected.value.every(
-            (filter) => filter.name === interestPoint.tag.name
+        filtersSelected.value.every((filter) =>
+            interestPoint.tags.find((tag) => tag.name === filter.name)
         )
     );
 });
