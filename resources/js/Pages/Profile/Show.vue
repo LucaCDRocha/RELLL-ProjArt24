@@ -106,11 +106,8 @@ const destroy = () => {
     <BaseBottomSheet
         v-if="isOpen"
         :isOpen="isOpen"
-        @handle-open="toggleBottomSheet()"
+        @handle-close="toggleBottomSheet()"
     >
-        <span class="material-symbols-rounded" @click="toggleBottomSheet()"
-            >close</span
-        >
         <UpdatePasswordForm v-if="witchForm === 'password'" />
         <UpdateProfileInformationForm v-else />
     </BaseBottomSheet>
