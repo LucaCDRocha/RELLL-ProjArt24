@@ -63,7 +63,7 @@ const destroy = () => {
 
     <div class="profil">
         <div>
-            <h1>Votre rofil</h1>
+            <h1>Votre profil</h1>
             <PrimaryButton @click="$inertia.visit('/settings')"
                 >Paramètres de l'app</PrimaryButton
             >

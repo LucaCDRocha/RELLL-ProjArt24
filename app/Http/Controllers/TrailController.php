@@ -238,7 +238,7 @@ class TrailController extends Controller
 
     public function start($id)
     {
-        $trail = Trail::findOrFail($id)->load('interest_points', 'location_start', 'location_end', 'location_parking', 'themes', 'rankings', 'img');
+        $trail = Trail::findOrFail($id)->load('interest_points', 'location_start', 'location_end', 'location_parking', 'rankings', 'img');
         $trail->note = $trail->rankings()->avg('note');
 
         foreach ($trail->interest_points as $point) {
