@@ -23,12 +23,12 @@ for (const img of props.data.imgs) {
     imgs.value.push(img.img_path);
 }
 
-const emit = defineEmits(["handleOpen"]);
+const emit = defineEmits(["handle-close", "handle-point"]);
 </script>
 
 <template>
     <div class="interest-point">
-        <TheCardNav @handle-close="emit('handleOpen')" />
+        <TheCardNav @handle-close="emit('handle-close')" />
         <h1>{{ data.name }}</h1>
         <div class="ouvertures">
             <p>{{ data.open_season }}</p>
@@ -50,7 +50,11 @@ const emit = defineEmits(["handleOpen"]);
             <BaseTag :tag="data.tag.name" />
         </div>
         <p>{{ data.description }}</p>
-        <!-- <AppCardList :datas="dataTest">Les sentier ayant ce lieu</AppCardList> -->
+        <AppCardList
+            :datas="data.trails"
+            @handle-point="emit('handle-point', $event)"
+            >Les sentier ayant ce lieu</AppCardList
+        >
     </div>
 </template>
 

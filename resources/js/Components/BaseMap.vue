@@ -1,4 +1,5 @@
 <script setup>
+import { ref, watch } from "vue";
 import {
     map,
     trail,
@@ -49,6 +50,46 @@ const props = defineProps({
 
 const emit = defineEmits(["marker-click"]);
 
+const createPoints = (points) => {
+    points.forEach((elem) => {
+        const point = {
+            latLng: L.latLng(elem.location.latitude, elem.location.longitude),
+            name: elem.name,
+            open_season: elem.open_season,
+            description: elem.description,
+            tag: elem.tag,
+            imgs: elem.imgs,
+        };
+        // create a marker for each point
+        L.marker(point.latLng, { icon: customIcon.value })
+            .addTo(map.value)
+            .on("click", function () {
+                emit("marker-click", {
+                    point: elem,
+                });
+            });
+    });
+};
+
+const updatePoints = (points) => {
+    map.value.eachLayer((layer) => {
+        if (
+            layer instanceof L.Marker &&
+            layer.options.icon === customIcon.value
+        ) {
+            map.value.removeLayer(layer);
+        }
+    });
+    createPoints(points);
+};
+
+watch(
+    () => props.points,
+    (points) => {
+        updatePoints(points);
+    }
+);
+
 onMounted(() => {
     map.value = L.map("map")
         .setView(props.centerView, 10)
@@ -79,27 +120,7 @@ onMounted(() => {
     }
 
     if (props.points) {
-        props.points.forEach((elem) => {
-            const point = {
-                latLng: L.latLng(
-                    elem.location.latitude,
-                    elem.location.longitude
-                ),
-                name: elem.name,
-                open_season: elem.open_season,
-                description: elem.description,
-                tag: elem.tag,
-                imgs: elem.imgs,
-            };
-            // create a marker for each point
-            L.marker(point.latLng, { icon: customIcon.value })
-                .addTo(map.value)
-                .on("click", function () {
-                    emit("marker-click", {
-                        point: elem,
-                    });
-                });
-        });
+        createPoints(props.points);
     }
 
     if (props.waypoints) {

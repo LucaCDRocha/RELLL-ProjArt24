@@ -8,7 +8,7 @@ import TheCardNav from "@/Components/TheCardNav.vue";
 import BaseImgGalery from "@/Components/BaseImgGalery.vue";
 import AppCardList from "@/Components/AppCardList.vue";
 import BaseMap from "@/Components/BaseMap.vue";
-import AppSaveButton from "@/Components/AppSaveButton.vue"
+import AppSaveButton from "@/Components/AppSaveButton.vue";
 
 const props = defineProps({
     data: {
@@ -31,12 +31,12 @@ for (const point of props.data.interest_points) {
     }
 }
 
-const emit = defineEmits(["handleOpen"]);
+const emit = defineEmits(["handle-close", "handle-point"]);
 </script>
 
 <template>
     <div class="trail">
-        <TheCardNav @handle-close="emit('handleOpen')" />
+        <TheCardNav @handle-close="emit('handle-close')" />
 
         <div class="tags" v-if="!full">
             <div class="tag">
@@ -69,7 +69,7 @@ const emit = defineEmits(["handleOpen"]);
             <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)"
                 >Commencer</PrimaryButton
             >
-            <AppSaveButton :title="data.name" :id="data.id"/>
+            <AppSaveButton :title="data.name" :id="data.id" />
             <SecondaryButton icon="star">Favoris</SecondaryButton>
         </div>
 
@@ -103,7 +103,9 @@ const emit = defineEmits(["handleOpen"]);
         </div>
         <BaseMap :draggable="false" :waypoints="data" />
 
-        <AppCardList :datas="data.interest_points"
+        <AppCardList
+            :datas="data.interest_points"
+            @handle-point="emit('handle-point', $event)"
             >Points d'intérêt du sentier</AppCardList
         >
 

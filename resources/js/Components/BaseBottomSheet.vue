@@ -13,14 +13,14 @@ const scrollUp = (e) => {
     ).style.height = `100vh`;
 };
 
-const emit = defineEmits(["handleOpen"]);
+const emit = defineEmits(["handle-close"]);
 </script>
 
 <template>
     <div
         class="base-overlay-card"
         :open="isOpen"
-        @click.self="emit('handleOpen')"
+        @click.self="emit('handle-close')"
     >
         <div
             class="base-overlay-card__content"

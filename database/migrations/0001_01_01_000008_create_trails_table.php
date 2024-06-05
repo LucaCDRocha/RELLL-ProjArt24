@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->time('time'); // à vérifier et confirmer le type
             $table->text('description');
-            $table->integer('difficulty'); // sur une échelle de 1 à 3,
+            $table->string('difficulty'); // sur une échelle de 1 à 3,
             $table->boolean('is_accessible');
             $table->integer('user_id')->unsigned();
             $table->integer('img_id')->unsigned();

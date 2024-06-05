@@ -55,7 +55,7 @@ const previous = () => {
 };
 
 if (window.location.hash) {
-    currentPointIndex.value = parseInt(window.location.hash.substr(1));
+    currentPointIndex.value = parseInt(window.location.hash.substring(1));
 }
 
 const updateVisuelTrail = () => {
@@ -89,6 +89,8 @@ onMounted(() => {
 
 watch(currentPointIndex, (value) => {
     updateVisuelTrail();
+
+    window.location.hash = value;
 
     summary.value = calculateDurationBetweenWaypoints(
         trailInfo.value.instructions,
@@ -146,7 +148,7 @@ watch(currentPointIndex, (value) => {
 }
 
 :deep(.leaflet-bottom) {
-    bottom: 10rem;
+    bottom: 15vh;
     right: 0.5rem;
     left: 0.5rem;
 }
@@ -158,7 +160,7 @@ watch(currentPointIndex, (value) => {
     bottom: 5rem;
     left: 0;
     width: 100%;
-    height: 15rem;
+    height: 25vh;
     padding: 1rem;
     z-index: 1000;
     overflow: scroll;

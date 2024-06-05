@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Theme;
 
 class InterestPointController extends Controller
 {
@@ -51,8 +52,29 @@ class InterestPointController extends Controller
      */
     public function show(string $id)
     {
-        $interestPoint = InterestPoint::findOrFail($id)->load('location', 'tag', 'imgs');
-        return Inertia::render('InterestPoint/InterestPointShow')->with('interestPoint', $interestPoint);
+        return Inertia::render('InterestPoint/InterestPointShow')->with('interestPoint', $this->getInterestPoint($id));
+    }
+
+    /**
+     * Return the InterestPoint with the id in JSON format
+     */
+    public function showJson(string $id)
+    {
+        return $this->getInterestPoint($id);
+    }
+
+    /**
+     * Get the InterestPoint with the id
+     */
+    public function getInterestPoint(string $id)
+    {
+        $interestPoint = InterestPoint::findOrFail($id)->load('location', 'tag', 'imgs', 'trails');
+
+        foreach ($interestPoint->trails as $trail) {
+            $trail->load('img');
+        }
+
+        return $interestPoint;
     }
 
     /**
@@ -104,6 +126,21 @@ class InterestPointController extends Controller
     {
         $allInterestPoints = InterestPoint::all()->load('location', 'tag', 'imgs');
 
-        return Inertia::render('Map')->with('interestPoints', $allInterestPoints);
+        $themes = Theme::all()
+            ->select('name', 'id');
+
+        $tags = Tag::all()
+            ->select('name', 'id');
+
+        // combine themes and tags into one array
+        $filters = [];
+        foreach ($themes as $theme) {
+            $filters[] = ['name' => $theme['name'], 'selected' => false];
+        }
+        foreach ($tags as $tag) {
+            $filters[] = ['name' => $tag['name'], 'selected' => false];
+        }
+
+        return Inertia::render('Map', ['interestPoints' => $allInterestPoints, 'filters' => $filters]);
     }
 }

@@ -1,12 +1,14 @@
 <script setup>
-const notOnMap = window.location.pathname !== "/map"
+const notOnMap = window.location.pathname !== "/map";
 
-const emit = defineEmits(["handleClose"]);
+const emit = defineEmits(["handle-close"]);
 </script>
 
 <template>
     <div class="container">
-        <span class="material-symbols-rounded" @click.self="emit('handleClose')"
+        <span
+            class="material-symbols-rounded"
+            @click.self="emit('handle-close')"
             >close</span
         >
         <div v-if="notOnMap">
