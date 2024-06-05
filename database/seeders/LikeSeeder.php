@@ -27,6 +27,9 @@ class LikeSeeder extends Seeder
                 Like::updateOrCreate([
                     'user_id' => $user->id,
                     'comment_id' => $comment->id,
+                ],[
+                    'user_id' => $user->id,
+                    'comment_id' => $comment->id,
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);

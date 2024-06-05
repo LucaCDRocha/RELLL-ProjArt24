@@ -26,7 +26,6 @@ class LocationSeeder extends Seeder
                 ->all();
 
             foreach ($coordinates_depart as $coordinate) {
-                dump($coordinate);
                 $locationId = JsonHelper::getLocationIdByCoordinates($coordinate);
                 if ($locationId == null) {
                     Location::create([
