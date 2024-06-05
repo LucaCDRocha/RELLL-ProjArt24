@@ -34,7 +34,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             <p>{{ data.open_season }}</p>
         </div>
         <div class="tags" v-if="!full">
-            <BaseTag :tag="data.tag.name" />
+            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" />
         </div>
         <a
             v-if="data.url !== '-'"
@@ -47,7 +47,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <BaseImgGalery :imgs="imgs" />
         <h2>Description</h2>
         <div class="tags">
-            <BaseTag :tag="data.tag.name" />
+            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" />
         </div>
         <p>{{ data.description }}</p>
         <AppCardList

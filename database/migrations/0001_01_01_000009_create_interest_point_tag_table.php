@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('theme_trail', function (Blueprint $table) {
+        Schema::create('interest_point_tag', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('trail_id')->unsigned();
-            $table->integer('theme_id')->unsigned();
+            $table->integer('interest_point_id')->unsigned();
+            $table->integer('tag_id')->unsigned();
 
-            $table->foreign('trail_id')->references('id')->on('trails')
+            $table->foreign('interest_point_id')->references('id')->on('interest_points')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
-            $table->foreign('theme_id')->references('id')->on('themes')
+            $table->foreign('tag_id')->references('id')->on('tags')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
             $table->timestamps();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('theme_trail');
+        Schema::dropIfExists('interest_point_tag');
     }
 };

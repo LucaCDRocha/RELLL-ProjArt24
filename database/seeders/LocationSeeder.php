@@ -85,7 +85,7 @@ class LocationSeeder extends Seeder
             foreach ($coordinates as $coordinate) {
                 $locationId = JsonHelper::getLocationIdByCoordinates($coordinate);
                 if ($locationId == null) {
-                    Location::create([
+                    Location::updateOrCreate([
                         'latitude' => $coordinate[0],
                         'longitude' => $coordinate[1]
                     ]);

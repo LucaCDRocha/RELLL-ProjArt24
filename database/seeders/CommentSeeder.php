@@ -22,7 +22,7 @@ class CommentSeeder extends Seeder
                 $trailId = JsonHelper::getInfoByValue('trails', 'name', $comment['trail']);
                 $userId = JsonHelper::getInfoByValue('users', 'name', $comment['user']);
 
-                Comment::create([
+                Comment::updateOrCreate([
                     'text' => $comment['content'],
                     'trail_id' => $trailId,
                     'user_id' => $userId,

@@ -68,7 +68,7 @@ class InterestPointController extends Controller
      */
     public function getInterestPoint(string $id)
     {
-        $interestPoint = InterestPoint::findOrFail($id)->load('location', 'tag', 'imgs', 'trails');
+        $interestPoint = InterestPoint::findOrFail($id)->load('location', 'tags', 'imgs', 'trails');
 
         foreach ($interestPoint->trails as $trail) {
             $trail->load('img');
@@ -124,19 +124,13 @@ class InterestPointController extends Controller
 
     public function map()
     {
-        $allInterestPoints = InterestPoint::all()->load('location', 'tag', 'imgs');
-
-        $themes = Theme::all()
-            ->select('name', 'id');
+        $allInterestPoints = InterestPoint::all()->load('location', 'imgs', 'tags');
 
         $tags = Tag::all()
             ->select('name', 'id');
 
         // combine themes and tags into one array
         $filters = [];
-        foreach ($themes as $theme) {
-            $filters[] = ['name' => $theme['name'], 'selected' => false];
-        }
         foreach ($tags as $tag) {
             $filters[] = ['name' => $tag['name'], 'selected' => false];
         }

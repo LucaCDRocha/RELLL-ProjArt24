@@ -47,7 +47,7 @@ class ImgSeeder extends Seeder
 
                 foreach ($images as $image) {
 
-                    Img::create([
+                    Img::updateOrCreate([
                         'interest_point_id' => $idPI,
                         'source' => $image['source'],
                         'img_path' => $image['url'],
