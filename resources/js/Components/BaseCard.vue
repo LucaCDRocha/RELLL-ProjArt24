@@ -1,18 +1,21 @@
 <script setup>
-import { ref } from "vue";
-import BaseTag from "@/Components/BaseTag.vue";
+import { ref, watch } from "vue";
+import AppDoubleTag from "@/Components/AppDoubleTag.vue";
+import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
+import AppTrailInfo from "@/Components/AppTrailInfo.vue";
+import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 
 const props = defineProps({
     data: {
         type: Object,
-        default: () => {},
+        default: () => { },
     },
 });
 
 const img = ref();
 if (props.data.imgs) {
     img.value = props.data.imgs[0].img_path;
-}else{
+} else {
     img.value = props.data.img.img_path;
 }
 
@@ -28,9 +31,7 @@ const emit = defineEmits(["handle-point"]);
         }"
     >
         <div class="tag">
-            <BaseTag v-if="data.difficulty" :tag="data.difficulty" :selected="true">{{
-                data.difficulty
-            }}</BaseTag>
+            <AppDoubleTag v-if="data.difficulty" :tag="data.difficulty" :time="data.time"/>
         </div>
         <p>{{ data.name }}</p>
     </div>
@@ -43,16 +44,13 @@ div.card {
     align-self: center;
     justify-content: space-between;
 
-    height: 10rem;
+    height: 11rem;
+    width: 11rem;
     padding: 1rem;
     margin-bottom: 1rem;
 
     border-radius: 1.75rem;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-
-    /* background-color: beige;
-    background: linear-gradient(180deg, rgba(0, 19, 2, 0) 0%, #001a04 94.1%),
-        url("") rgb(247, 255, 247) 50% / cover no-repeat; */
 }
 
 .card .tag {
@@ -64,8 +62,8 @@ div.card {
 }
 
 .card p {
-    @apply text-xl text-green-50;
+    @apply text-base text-white font-medium;
 
-    width: 10rem;
+    width: 11rem;
 }
 </style>

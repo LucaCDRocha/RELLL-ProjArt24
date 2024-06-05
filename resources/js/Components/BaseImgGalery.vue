@@ -10,14 +10,16 @@ defineProps({
 <template>
     <div class="container">
         <div class="gallery">
-            <img :src="imgs[0]" :alt="'Image 1'" />
+            <div class="alone">
+                <img :src="imgs[0]" :alt="'Image 1'" /> 
+            </div>
             <div class="double">
+                <div v-for="(img, index) in imgs.slice(1)">
                 <img
-                    v-for="(img, index) in imgs.slice(1)"
                     :key="index"
                     :src="img"
                     :alt="'Image ' + (index + 2)"
-                />
+                /></div>
             </div>
         </div>
     </div>
@@ -31,17 +33,24 @@ defineProps({
 .gallery {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    height: 15rem;
-    gap: 1rem;
+    align-items: flex-start;
+    height: 15.5rem;
+    gap: 1rem; 
     overflow-x: scroll;
     padding-right: 1rem;
 }
 
+.alone{
+    flex: 0 0 fit-content;
+    height: 15.3rem;
+    width: 13.5rem;
+    width: 100%;
+}
+
 img {
-    border-radius: 0.6rem;
-    height: 15rem;
-    width: 13rem;
+    border-radius: 1.75rem;
+    width: 13.5rem;
+    height: 15.3rem;
     object-fit: cover;
 }
 
@@ -49,16 +58,21 @@ img {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: flex-start;
     flex-wrap: wrap;
-    gap: 1rem;
-    height: 15rem;
-    width: auto;
+    row-gap: 0.48rem;
+    column-gap: 1rem;
+    height: 15.5rem;
+}
+
+.double div {
+    height: 7.45rem;
+    width: 16rem;
 }
 
 .double img {
-    height: 7rem;
-    width: 15rem;
-    border-radius: 0.6rem;
-    object-fit: cover;
+    height: 7.45rem;
+    width: 16rem;
+    border-radius: 1.75rem;
 }
 </style>

@@ -3,15 +3,16 @@
 @tailwind utilities;
 
 h1 {
-    @apply text-3xl font-black;
+    @apply text-3xl font-normal;
 }
 
 h2 {
-    @apply text-2xl font-bold;
+    @apply text-2xl font-normal;
 }
 
 body {
-    @apply font-sans antialiased bg-green-50 text-green-950 dark:bg-green-950 dark:text-green-50;
+    @apply font-sans antialiased text-onSurface dark:text-green-50;
+    @apply bg-surface dark:bg-green-950;
     padding-bottom: 5rem;
 }
 

@@ -24,13 +24,23 @@ const toggleSelect = () => {
     : [...props.modelValue, props.data.id];
 
   emit('update:modelValue', updatedValue);
+
+  const img = ref();
+if (props.data.imgs) {
+    img.value = props.data.imgs[0].img_path;
+}else{
+    img.value = props.data.img.img_path;
+}
 };
 
 </script>
 
 <template>
-    <div class="card" @click="toggleSelect">
-        <div>
+    <div class="card" @click="toggleSelect"
+    :style="{
+            background: `linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(213, 213, 213, 0.26) 24.3%, rgba(128, 128, 128, 0.75) 62.15%, #2B2B2B 100%), url(${img}) lightgray 50% / cover no-repeat`,
+        }">
+        <div class="toDelete">
             <DangerButton type="button">Supprimer</DangerButton>
         </div>
         <p>{{ data.name }}</p>
@@ -44,27 +54,24 @@ div.card {
     align-self: center;
     justify-content: space-between;
 
-    height: 10rem;
+    height: 11rem;
+    width: 11rem;
     padding: 1rem;
     margin-bottom: 1rem;
 
     border-radius: 1.75rem;
-    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-
-    background-color: beige;
-    background: linear-gradient(180deg, rgba(0, 19, 2, 0) 0%, #001a04 94.1%),
-        url("https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg")
-            rgb(247, 255, 247) 50% / cover no-repeat;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);    
 }
 
 .card p {
-    @apply text-xl text-green-50;
-
-    width: 10rem;
+    @apply text-base text-white font-medium;
+    width: 11rem;
+}
+.card .toDelete {
+    display: flex;
+    flex-direction: row;
+    gap: 0.6rem;
+    justify-content: center;
 }
 
-.card button {
-    @apply bg-red-500 text-white;
-    width: fit-content;
-}
 </style>

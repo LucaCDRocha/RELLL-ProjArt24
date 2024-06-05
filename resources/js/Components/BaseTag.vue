@@ -17,13 +17,25 @@ const props = defineProps({
 const getTagColor = (tag) => {
     switch (tag.toLowerCase()) {
         case "facile":
-            return "bg-green-100 dark:bg-green-900";
+            return "bg-easy dark:bg-green-900";
         case "moyen":
-            return "bg-blue-100 dark:bg-blue-900";
+            return "bg-medium dark:bg-blue-900";
         case "difficile":
-            return "bg-red-100 dark:bg-red-900";
+            return "bg-hard dark:bg-red-900";
+        case "gastronomie":
+            return "bg-gastronomie dark:bg-yellow-900";
+        case "nature":
+            return "bg-nature dark:bg-green-900";
+        case "art":
+            return "bg-art dark:bg-blue-900";
+        case "musee":
+            return "bg-musee dark:bg-red-900";
+        case "famille":
+            return "bg-family dark:bg-yellow-900";
+        case "architecture":
+            return "bg-architecture dark:bg-green-900";
         default:
-            return "bg-blue-900 text-green-50 dark:bg-blue-100 dark:text-green-950";
+            return "bg-secondary text-onSecondary dark:bg-blue-100 dark:text-green-950";
     }
 };
 
@@ -46,7 +58,7 @@ watch(
 </script>
 
 <template>
-    <div href="/show-tag" class="tag" :class="classes">
+    <div class="tag" :class="classes">
         {{ tag }}
     </div>
 </template>

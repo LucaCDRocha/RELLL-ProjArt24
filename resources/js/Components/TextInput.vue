@@ -23,12 +23,16 @@ defineExpose({ focus: () => input.value.focus() });
 
 <style scoped>
 input {
-    @apply bg-green-50 dark:bg-green-900;
-    @apply text-green-950 dark:text-green-50;
-    @apply border-gray-300 dark:border-gray-700;
-    @apply focus:ring-1 focus:ring-green-500 dark:focus:ring-green-600;
-    @apply focus:border-green-500 dark:focus:border-green-600;
-    @apply placeholder-gray-400 dark:placeholder-gray-500;
+    @apply focus:ring-1 focus:ring-primary dark:focus:ring-green-600;
+    @apply focus:border-primary dark:focus:border-green-600;
     @apply rounded-md shadow-sm;
+    @apply bg-surfaceVariant dark:bg-green-900;
+    @apply px-4 py-5;
 }
+
+::placeholder {
+    @apply text-onSurfaceVariant dark:text-green-100;
+    @apply text-lg;
+}
+
 </style>

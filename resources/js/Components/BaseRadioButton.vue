@@ -25,3 +25,13 @@ const idName = props.option+props.name;
         {{ option }}
     </label><br>
 </template>
+
+<style scoped>
+input{
+    @apply focus:ring-1 focus:ring-primary dark:focus:ring-green-600;
+    @apply focus:border-primary dark:focus:border-green-600;
+}
+input:checked {
+    @apply bg-onSurface;
+}
+</style>
