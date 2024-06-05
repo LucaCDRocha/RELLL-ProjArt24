@@ -41,11 +41,6 @@ class Trail extends Model
         return $this->belongsTo(Location::class);
     }
 
-    public function themes()
-    {
-        return $this->belongsToMany(Theme::class);
-    }
-
     public function favorites()
     {
         return $this->belongsToMany(Favorite::class);

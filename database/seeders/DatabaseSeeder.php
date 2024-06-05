@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\InterestPoint;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -41,12 +42,11 @@ class DatabaseSeeder extends Seeder
         // création des parcours tests
         $this->call(TagSeeder::class);
         $this->call(LocationSeeder::class);
-        $this->call(ThemesSeeder::class);
         $this->call(InterestPointSeeder::class);
         $this->call(ImgSeeder::class);
         $this->call(TrailsSeeder::class);
         $this->call(InterestPointTrailSeeder::class);
-        $this->call(ThemeTrailSeeder::class);
+        $this->call(InterestPointTagSeeder::class);
 
         // création de commentaires et de notes test
         $this->call(CommentSeeder::class);

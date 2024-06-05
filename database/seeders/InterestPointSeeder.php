@@ -25,17 +25,12 @@ class InterestPointSeeder extends Seeder
                 $coordinates = $point['coordonnees'];
                 $locationId = JsonHelper::getLocationIdByCoordinates($coordinates);
 
-                $tag = $point['tag'];
-
-                $tagId = JsonHelper::getInfoByValue('tags', 'name', $tag);
-
                 InterestPoint::create([
                     'name' => $point['nom'],
                     'description' => $point['description'],
                     'open_season' => $point['open_season'],
                     'url' => $point['url'],
                     'location_id' => $locationId,
-                    'tag_id' => $tagId,
                 ]);
             }
 
