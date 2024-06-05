@@ -13,7 +13,9 @@ class InterestPoint extends Model
         'name',
         'description',
         'url',
-        'open_season',
+        'open_seasons',
+        'tag_id',
+        'location_id',
     ];
 
     public function trails()

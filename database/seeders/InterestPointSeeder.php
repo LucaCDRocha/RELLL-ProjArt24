@@ -16,10 +16,10 @@ class InterestPointSeeder extends Seeder
     {
         try {
             $data = JsonHelper::readJson('/jeuTest.json'); //récupère des infos dans jeuTest.json
-            
+
             $PIs = collect($data['sentiers'])
-            ->pluck('points_interet') //extrait les valeurs d'un attribut donné de chaque élément de la collection
-            ->flatten(1);
+                ->pluck('points_interet') //extrait les valeurs d'un attribut donné de chaque élément de la collection
+                ->flatten(1);
 
             foreach ($PIs as $point) {
                 $coordinates = $point['coordonnees'];
@@ -28,14 +28,13 @@ class InterestPointSeeder extends Seeder
                 InterestPoint::updateOrCreate([
                     'name' => $point['nom'],
                     'description' => $point['description'],
-                    'open_season' => $point['open_season'],
+                    'open_seasons' => $point['open_season'],
                     'url' => $point['url'],
                     'location_id' => $locationId,
                 ]);
             }
-
-    } catch (\Exception $e) {
-        $this->command->error($e->getMessage());
-    }
+        } catch (\Exception $e) {
+            $this->command->error($e->getMessage());
+        }
     }
 }

@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('interest_points', function (Blueprint $table) {
             $table->increments('id');
-            // $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'));
             $table->string('name');
             $table->text('description');
             $table->text('url');
-            $table->string('open_season');
+            $table->string('open_seasons');
             $table->integer('location_id')->unsigned();
 
             $table->foreign('location_id')->references('id')->on('locations')

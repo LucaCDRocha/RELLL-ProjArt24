@@ -21,11 +21,11 @@ const form = useForm({
     is_parking: '',
     location_parking: '',
     theme_id: 0,
-    img: '',
-    user_id: '',
+    img: null,
+    user_id: 1, // à changer pour récup la variable de session 
     location_start: '',
     location_end: '',
-    interest_point: ''
+    interest_points: ''
 });
 
 watch(form, (value) => {
@@ -105,8 +105,8 @@ const previousStep = () => { step.value-- }
             </div>
 
             <div>
-                <InputLabel for="info_transports" value="Si oui, veuillez décrire l’accès aux transports public" />
-                <BaseTextArea id="info_transports" class="mt-1 block w-full" v-model="form.info_transports" required
+                <InputLabel for="info_transport" value="Si oui, veuillez décrire l’accès aux transports public" />
+                <BaseTextArea id="info_transport" class="mt-1 block w-full" v-model="form.info_transports" required
                     autofocus placeholder="Description"/>
                 <InputError class="mt-2" :message="form.errors.info_transports" />
             </div>
@@ -127,7 +127,7 @@ const previousStep = () => { step.value-- }
 
             <div>
                 <InputLabel for="image" value="Veuillez choisir une photo du sentier  " />
-                <input type="file" @input="form.img = $event.target.files[0]" />
+                <input type="file" name="image" @input="form.img = $event.target.files[0]" />
                 <InputError class="mt-2" :message="form.errors.img" />
             </div>
         </section>
@@ -143,9 +143,9 @@ const previousStep = () => { step.value-- }
 
         <section v-if="step == 5">
             <div>
-                <InputLabel for="interest_point"
+                <InputLabel for="interest_points"
                     value="Veuillez choisir les lieux que vous souhaitez visiter lors du sentier" />
-                <TextInput id="interest_point" class="mt-1 block w-full" v-model="form.interest_point" required
+                <TextInput id="interest_points" class="mt-1 block w-full" v-model="form.interest_points" required
                     autofocus placeholder="Nom du lieu"/>
                 <InputError class="mt-2" :message="form.errors.interest_point" />
 
@@ -162,7 +162,7 @@ const previousStep = () => { step.value-- }
             </div>
 
             <!-- Permet de récuppérer l'id de l'utilisateur, ainsi que récupérer les points GPS rentré par l'utilisateur et les envoyer à la requette -->
-            <input type="hidden" id="user_id">
+            <input type="hidden" id="user_id" value="1">
             <input type="hidden" id="location_start">
             <input type="hidden" id="location_end">
             <input type="hidden" id="location_parking">
