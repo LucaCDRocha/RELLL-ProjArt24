@@ -22,18 +22,22 @@ const getTagColor = (tag) => {
             return "bg-medium dark:bg-blue-900";
         case "difficile":
             return "bg-hard dark:bg-red-900";
-        case "gastronomie":
-            return "bg-gastronomie dark:bg-yellow-900";
+        case "gastronomique":
+            return "bg-gastronomique dark:bg-yellow-900";
         case "nature":
             return "bg-nature dark:bg-green-900";
         case "art":
             return "bg-art dark:bg-blue-900";
-        case "musee":
+        case "musée":
             return "bg-musee dark:bg-red-900";
         case "famille":
-            return "bg-family dark:bg-yellow-900";
+            return "bg-famille dark:bg-yellow-900";
         case "architecture":
             return "bg-architecture dark:bg-green-900";
+        case "historique":
+            return "bg-historique dark:bg-blue-900";
+        case "panorama":
+            return "bg-panorama dark:bg-red-900";
         default:
             return "bg-secondary text-onSecondary dark:bg-blue-100 dark:text-green-950";
     }
@@ -76,6 +80,7 @@ watch(
 }
 
 .tag.active {
-    @apply bg-transparent border-2 border-blue-900 text-blue-900 dark:text-blue-900 dark:border-blue-900;
+    border: 0.06rem solid;
+    @apply bg-transparent border-outline dark:text-blue-900 dark:border-blue-900;
 }
 </style>

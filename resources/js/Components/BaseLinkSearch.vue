@@ -31,8 +31,8 @@ a {
 }
 
 .search-bar > span {
-    @apply bg-green-100 dark:bg-green-800;
-    @apply text-green-500 dark:text-green-300;
+    @apply bg-primarySurface dark:bg-green-800;
+    @apply text-onSurface dark:text-green-300;
     @apply rounded-full;
     @apply flex;
     @apply justify-center;
