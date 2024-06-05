@@ -56,3 +56,9 @@ Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start')
 Route::get('/api/trails/{id}', [TrailController::class, 'showJson'])->name('trails.showJson');
 
 Route::get('/api/interestPoints/{id}', [InterestPointController::class, 'showJson'])->name('interestPoints.showJson');
+
+// Maintenance
+
+Route::get('/maintenance', function () {
+    return Inertia::render('Maintenance');
+});

@@ -34,7 +34,7 @@ onMounted(() => {
     <div>
         <BaseNavLink icon="home" href="/home">Accueil</BaseNavLink>
         <BaseNavLink icon="map" href="/map">Carte</BaseNavLink>
-        <BaseNavLink icon="add_location_alt" href="/trails/create"
+        <BaseNavLink icon="add_location_alt" href="/maintenance"
             >Créer</BaseNavLink
         >
         <BaseNavLink icon="bookmark" href="/bookmark">Mes listes</BaseNavLink>
