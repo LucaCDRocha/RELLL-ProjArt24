@@ -59,7 +59,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                     v-for="tag in tags"
                     :key="tag.id"
                     :tag="tag.name"
-                    :selected="false"
+                    :selected="true"
                 />
             </div>
         </div>
@@ -94,7 +94,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                 v-for="tag in tags"
                 :key="tag.id"
                 :tag="tag.name"
-                :selected="false"
+                :selected="true"
             />
         </div>
         <p>
