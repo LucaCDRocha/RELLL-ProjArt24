@@ -23,14 +23,35 @@ class FavoriteController extends Controller
             return Inertia::render('Favorite/List', ['list' => $userLists]);
     }
 
-    public function allLists(){
-        $allLists = Favorite::where('user_id', auth()->id())
-            ->withCount('trails')    
-            ->get();
+    public function allLists(Request $request){
+            $name = $request->name;
+            $trailId = $request->trailId;
         
-            return Inertia::visit(url()->previous(), [
-                'lists' => $allLists
+            // Récupérer les favoris de l'utilisateur avec les trails associés
+            $allLists = Favorite::where('user_id', auth()->id())
+                ->with('trails:id') // Charger les trails avec uniquement leur id
+                ->get();
+        
+            // Transformer la collection pour inclure les trail_id
+            $allLists = $allLists->map(function($favorite) {
+                return [
+                    'id' => $favorite->id,
+                    'name' => $favorite->name,
+                    'trail_ids' => $favorite->trails->pluck('id') // Récupérer les trail_id
+                ];
+            });
+
+            $currentLists = Favorite::where('user_id', auth()->id())
+            ->whereHas('trails', function ($query) use ($trailId) {
+                $query->where('trail_id', $trailId);
+            })
+            ->pluck('id')
+            ->toArray();
+        
+            return Inertia::render('Favorite/MyLists', [
+                'allLists' => $allLists, 'title' => $name, 'trailId' => $trailId, 'listIds' => $currentLists
             ]);
+        
     }
     /**
      * Show the form for creating a new resource.
