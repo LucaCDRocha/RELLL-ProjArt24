@@ -53,7 +53,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <AppCardList
             :datas="data.trails"
             @handle-point="emit('handle-point', $event)"
-            >Les sentier ayant ce lieu</AppCardList
+            >Les sentiers ayant ce lieu</AppCardList
         >
     </div>
 </template>

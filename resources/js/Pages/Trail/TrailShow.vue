@@ -78,5 +78,7 @@ const goBack = () => {
     height: fit-content;
     padding: 1rem 0rem 0rem 1rem;
     overflow: scroll;
+
+    overflow-x:hidden;
 }
 </style>
