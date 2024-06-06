@@ -49,6 +49,10 @@ Route::get('/settings', function () {
     return Inertia::render('Settings');
 });
 
+Route::get('/create', function () {
+    return Inertia::render('Creation');
+});
+
 Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');
 
 // API

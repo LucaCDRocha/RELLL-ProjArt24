@@ -51,13 +51,17 @@ const props = defineProps({
         default: false,
         required: false,
     },
+    pointsDraggable: {
+        type: Boolean,
+        default: false,
+        required: false,
+    },
 });
 
 const emit = defineEmits(["marker-click", "marker-location"]);
 
 const createPoints = (points) => {
     points.forEach((elem) => {
-        console.log(elem);
         if (!elem.latLng) {
             elem.latLng = L.latLng(
                 elem.location.latitude,
@@ -67,7 +71,7 @@ const createPoints = (points) => {
         // create a marker for each point
         L.marker(elem.latLng, {
             icon: customIcon.value,
-            draggable: props.draggable,
+            draggable: props.pointsDraggable,
         })
             .addTo(map.value)
             .on("click", function () {
@@ -138,8 +142,9 @@ onMounted(() => {
     }
 
     if (props.waypoints) {
-        const waypoints = [
-            {
+        const waypoints = [];
+        if (props.waypoints.location_start) {
+            waypoints.push({
                 name: "Départ",
                 latLng: L.latLng(
                     props.waypoints.location_start.latitude,
@@ -147,31 +152,39 @@ onMounted(() => {
                 ),
                 description: "Départ",
                 tag: "Départ",
-                imgs: [props.waypoints.img.img_path],
-            },
-        ];
-        for (const point of props.waypoints.interest_points) {
-            waypoints.push({
-                name: point.name,
-                latLng: L.latLng(
-                    point.location.latitude,
-                    point.location.longitude
-                ),
-                description: point.description,
-                tag: point.tag,
-                imgs: point.imgs,
+                imgs: [
+                    props.waypoints.img.img_path
+                        ? props.waypoints.img.img_path
+                        : "",
+                ],
             });
         }
-        waypoints.push({
-            name: "Arrivée",
-            latLng: L.latLng(
-                props.waypoints.location_end.latitude,
-                props.waypoints.location_end.longitude
-            ),
-            description: "Arrivée",
-            tag: "Arrivée",
-            imgs: [props.waypoints.img.img_path],
-        });
+        if (props.waypoints.interest_points) {
+            for (const point of props.waypoints.interest_points) {
+                waypoints.push({
+                    name: point.name,
+                    latLng: L.latLng(
+                        point.location.latitude,
+                        point.location.longitude
+                    ),
+                    description: point.description,
+                    tag: point.tag,
+                    imgs: point.imgs,
+                });
+            }
+        }
+        if (props.waypoints.location_end) {
+            waypoints.push({
+                name: "Arrivée",
+                latLng: L.latLng(
+                    props.waypoints.location_end.latitude,
+                    props.waypoints.location_end.longitude
+                ),
+                description: "Arrivée",
+                tag: "Arrivée",
+                imgs: [props.waypoints.img.img_path],
+            });
+        }
 
         trail.value = L.Routing.control({
             waypoints: waypoints,
@@ -207,9 +220,13 @@ onMounted(() => {
             trailInfo.value = e.routes[0];
         });
 
+        // delete the button showing info of the trail
+
         // calculate the zoom level to fit all the points
         var bounds = L.latLngBounds(waypoints.map((point) => point.latLng));
-        map.value.fitBounds(bounds, { padding: [30, 30] });
+        if (bounds.isValid()) {
+            map.value.fitBounds(bounds, { padding: [30, 30] });
+        }
     }
 
     if (props.trakable) {
@@ -257,7 +274,6 @@ onMounted(() => {
     if (props.selectable) {
         map.value.on("click", function (e) {
             // make a if statement to remove the previous marker
-            console.log();
             map.value.eachLayer((layer) => {
                 if (
                     layer instanceof L.Marker &&
@@ -300,4 +316,8 @@ onUnmounted(() => {
     <div id="map"></div>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.leaflet-routing-container) {
+    display: none;
+}
+</style>

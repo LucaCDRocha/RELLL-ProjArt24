@@ -40,6 +40,10 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    track: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const filtersSelected = computed(() => {
@@ -97,34 +101,34 @@ onUnmounted(() => {
         <button>
             <span class="material-symbols-rounded">search</span>
         </button>
+        <DropDown>
+            <template #trigger>
+                <span class="material-symbols-rounded">filter_list</span>
+            </template>
+            <template #content>
+                <div class="p-2">
+                    <h2 class="text-lg font-bold">Filtres</h2>
+                    <BaseDivider />
+                    <div class="flex flex-col gap-2">
+                        <BaseTag
+                            v-for="filter in props.filters"
+                            :key="filter.name"
+                            :tag="filter.name"
+                            :selected="filter.selected"
+                            @click.prevent="switchFilter(filter)"
+                        />
+                    </div>
+                </div>
+            </template>
+        </DropDown>
     </form>
     <BaseDivider />
 
-    <DropDown>
-        <template #trigger>
-            <span class="material-symbols-rounded">filter_list</span>
-        </template>
-        <template #content>
-            <div class="p-2">
-                <h2 class="text-lg font-bold">Filtres</h2>
-                <BaseDivider />
-                <div class="flex flex-col gap-2">
-                    <BaseTag
-                        v-for="filter in props.filters"
-                        :key="filter.name"
-                        :tag="filter.name"
-                        :selected="filter.selected"
-                        @click.prevent="switchFilter(filter)"
-                    />
-                </div>
-            </div>
-        </template>
-    </DropDown>
-
     <BaseMap
-        :trakable="true"
-        :track="true"
+        :trakable="props.track"
+        :track="props.track"
         :points="interestPointsResults"
+        :waypoints="[]"
         @marker-click="BottomSheet($event)"
     />
     <BaseBottomSheet
@@ -157,7 +161,7 @@ onUnmounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 1rem 0rem;
     gap: 1rem;
     height: 4rem;
 }
@@ -186,9 +190,9 @@ onUnmounted(() => {
 :deep(.trigger) {
     @apply bg-green-50 dark:bg-green-900;
 
-    position: fixed;
-    top: 10rem;
-    right: 0.5rem;
+    position: absolute;
+    top: 3rem;
+    right: 1rem;
     cursor: pointer;
 
     display: flex;
@@ -200,5 +204,10 @@ onUnmounted(() => {
     height: 2rem;
     width: 2rem;
     z-index: 1000;
+}
+
+:deep(.content) {
+    z-index: 1003;
+    top: 5.4rem;
 }
 </style>

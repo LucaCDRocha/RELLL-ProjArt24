@@ -20,6 +20,13 @@ onMounted(() => {
                 .querySelector('a[href="/home"]')
                 ?.querySelector("span")
                 ?.classList.add("active");
+            break;
+        case "/trails/create":
+            document
+                .querySelector('a[href="/create"]')
+                ?.querySelector("span")
+                ?.classList.add("active");
+            break;
         default:
             document
                 .querySelector(`a[href="${window.location.pathname}"]`)
@@ -34,9 +41,7 @@ onMounted(() => {
     <div>
         <BaseNavLink icon="home" href="/home">Accueil</BaseNavLink>
         <BaseNavLink icon="map" href="/map">Carte</BaseNavLink>
-        <BaseNavLink icon="add_location_alt" href="/create-trail"
-            >Créer</BaseNavLink
-        >
+        <BaseNavLink icon="add_location_alt" href="/create">Créer</BaseNavLink>
         <BaseNavLink icon="bookmark" href="/bookmark">Mes listes</BaseNavLink>
         <BaseNavLink icon="account_circle" href="/profile">Profil</BaseNavLink>
     </div>

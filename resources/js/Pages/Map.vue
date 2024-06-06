@@ -30,4 +30,9 @@ const props = defineProps({
     <TheNav />
 </template>
 
-<style scoped></style>
+<style scoped>
+#map {
+    height: calc(var(--vh, 1vh) * 100 - 14.06rem);
+    z-index: 0;
+}
+</style>

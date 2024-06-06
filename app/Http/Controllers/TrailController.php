@@ -29,8 +29,9 @@ class TrailController extends Controller
      */
     public function create()
     {
-        $allTags = Tag::all();
-        return Inertia::render('Trail/TrailCreate', ['themes' => $allTags]);
+        $interestPoints = InterestPoint::all()->load('location', 'imgs', 'tags');
+        $filters = Tag::all();
+        return Inertia::render('Trail/TrailCreate', ['interestPoints' => $interestPoints, 'filters' => $filters]);
     }
 
     /**
@@ -48,6 +49,7 @@ class TrailController extends Controller
 
     public function store(TrailCreateRequest $request)
     {
+        dd($request->all());
         // Sauvegarde d'une image dans la BD
 
         // Gestion du nom pour éviter les doublons

@@ -14,6 +14,45 @@ import BaseDivider from "@/Components/BaseDivider.vue";
 import { map, customIcon } from "@/Stores/map.js";
 import TheHeader from "@/Components/TheHeader.vue";
 import TheNav from "@/Components/TheNav.vue";
+import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
+import AppTrailInfo from "@/Components/AppTrailInfo.vue";
+import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
+import AppMap from "@/Components/AppMap.vue";
+
+const props = defineProps({
+    interestPoints: {
+        type: Array,
+        default: () => [],
+    },
+    auth: {
+        type: Object,
+        default: () => {},
+    },
+    filters: {
+        type: Array,
+        default: () => [],
+    },
+});
+const isOpen = ref(false);
+
+const data = ref({});
+
+const BottomSheet = (e) => {
+    if (e.point.difficulty) {
+        window.location.href = route("trails.show", e.point.id);
+    } else {
+        fetch(route("interestPoints.showJson", e.point.id))
+            .then((response) => response.json())
+            .then((datas) => {
+                data.value = datas;
+                isOpen.value = true;
+            });
+    }
+};
+
+const closeBottomSheet = () => {
+    isOpen.value = false;
+};
 
 const form = useForm({
     name: "",
@@ -24,12 +63,12 @@ const form = useForm({
     near_transport: "",
     info_transports: "",
     is_parking: "",
-    location_parking: {},
+    location_parking: null,
     img: null,
-    user_id: 1, // à changer pour récup la variable de session
-    location_start: {},
-    location_end: {},
-    interest_points: "",
+    user_id: props.auth.user.id, // get the current user id
+    location_start: null,
+    location_end: null,
+    interest_points: null,
 });
 
 watch(form, (value) => {
@@ -62,6 +101,7 @@ const positionStart = ref(null);
 const locationStart = (e) => {
     console.log("locationStart", e.point);
     positionStart.value = e.point;
+    waypoints.value = { location_start: e.point };
     form.location_start = e.point;
 };
 
@@ -70,6 +110,7 @@ const positionEnd = ref(null);
 const locationEnd = (e) => {
     console.log("locationEnd", e.point);
     positionEnd.value = e.point;
+    waypoints.value = { location_end: e.point };
     form.location_end = e.point;
 };
 
@@ -142,6 +183,12 @@ const placeMarker = (adresse) => {
         );
 };
 
+// path of points
+const waypoints = ref({
+    interest_points: [],
+});
+
+// TODO: remove that
 watch(step, (value) => {
     window.location.hash = value;
 });
@@ -259,7 +306,6 @@ onMounted(() => {
                     id="info_transport"
                     class="mt-1 block w-full"
                     v-model="form.info_transports"
-                    required
                     placeholder="Description"
                 />
                 <InputError
@@ -311,7 +357,6 @@ onMounted(() => {
                     id="depart"
                     class="mt-1 block w-full"
                     v-model="textStart"
-                    required
                     placeholder="Nom de la rue, numéro, ville"
                     @change="placeMarker($event.target.value)"
                 />
@@ -321,6 +366,7 @@ onMounted(() => {
                     :selectable="true"
                     :draggable="true"
                     :points="positionStart ? [positionStart] : []"
+                    :pointsDraggable="true"
                     @marker-location="locationStart($event)"
                 />
                 <InputError
@@ -332,7 +378,7 @@ onMounted(() => {
 
         <section v-if="step == 5">
             <div>
-                <InputLabel
+                <!-- <InputLabel
                     for="interest_points"
                     value="Veuillez choisir les lieux que vous souhaitez visiter lors du sentier"
                 />
@@ -340,7 +386,6 @@ onMounted(() => {
                     id="interest_points"
                     class="mt-1 block w-full"
                     v-model="form.interest_points"
-                    required
                     placeholder="Nom du lieu"
                 />
                 <InputError
@@ -349,6 +394,32 @@ onMounted(() => {
                 />
 
                 <SecondaryButton>Créer un lieu</SecondaryButton>
+
+                <BaseMap
+                    :draggable="true"
+                    :points="props.interestPoints"
+                    :waypoints="waypoints"
+                    @marker-click="BottomSheet($event)"
+                />
+                <BaseBottomSheet
+                    v-if="isOpen"
+                    :isOpen="isOpen"
+                    @handle-close="closeBottomSheet()"
+                >
+                    <AppTrailInfo
+                        v-if="data.difficulty"
+                        :data="data"
+                        @handle-close="closeBottomSheet()"
+                        @handle-point="BottomSheet($event)"
+                    />
+                    <AppInterestPointInfo
+                        v-else
+                        :data="data"
+                        @handle-close="closeBottomSheet()"
+                        @handle-point="BottomSheet($event)"
+                    />
+                </BaseBottomSheet> -->
+                <AppMap :waypoints="interestPoints" :filters="filters" :track="false" />
             </div>
         </section>
 
@@ -362,7 +433,6 @@ onMounted(() => {
                     id="arrivee"
                     class="mt-1 block w-full"
                     v-model="textEnd"
-                    required
                     placeholder="Nom de la rue, numéro, ville"
                     @change="placeMarker($event.target.value)"
                 />
@@ -371,6 +441,7 @@ onMounted(() => {
                     :selectable="true"
                     :draggable="true"
                     :points="positionEnd ? [positionEnd] : []"
+                    :pointsDraggable="true"
                     @marker-location="locationEnd($event)"
                 />
                 <InputError class="mt-2" :message="form.errors.location_end" />
@@ -407,7 +478,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-#map {
+:deep(#map) {
     height: 400px;
     width: 100%;
 }
@@ -436,7 +507,7 @@ form section {
     z-index: 10;
 }
 
-.title{
+.title {
     padding: 1rem;
 }
 </style>
