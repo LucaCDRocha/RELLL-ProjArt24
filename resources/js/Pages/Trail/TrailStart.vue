@@ -154,7 +154,7 @@ watch(currentPointIndex, (value) => {
 }
 
 .bottom-sheet {
-    @apply bg-green-50 dark:bg-green-950;
+    @apply bg-surface dark:bg-darkSurface;
 
     position: fixed;
     bottom: 5rem;
@@ -177,8 +177,7 @@ watch(currentPointIndex, (value) => {
 }
 
 .info {
-    @apply bg-green-50 dark:bg-green-950;
-    @apply ring ring-black ring-opacity-30 dark:ring-opacity-30;
+    @apply bg-surface dark:bg-darkSurface;
 
     position: fixed;
     top: 1rem;
@@ -196,7 +195,7 @@ watch(currentPointIndex, (value) => {
 }
 
 .quit {
-    @apply text-red-700 dark:text-red-500;
+    @apply text-error dark:text-darkError;
 
     width: fit-content;
 }

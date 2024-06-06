@@ -28,10 +28,11 @@ const idName = props.option+props.name;
 
 <style scoped>
 input{
-    @apply focus:ring-1 focus:ring-primary dark:focus:ring-green-600;
-    @apply focus:border-primary dark:focus:border-green-600;
+    @apply dark:bg-transparent dark:border-darkOnSurface;
+    @apply focus:ring-1 focus:ring-primary dark:focus:ring-darkPrimary;
+    @apply focus:border-primary dark:focus:border-darkPrimary;
 }
 input:checked {
-    @apply bg-onSurface;
+    @apply bg-onSurface dark:bg-darkOnSurface;
 }
 </style>

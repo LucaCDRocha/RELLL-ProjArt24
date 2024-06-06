@@ -44,6 +44,7 @@ span {
 }
 
 span.active {
-    @apply bg-primarySurface dark:bg-green-600;
+    @apply bg-primarySurface dark:bg-darkPrimarySurface;
+    @apply dark:text-darkOnPrimary;      
 }
 </style>

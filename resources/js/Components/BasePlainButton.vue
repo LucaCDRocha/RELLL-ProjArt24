@@ -21,9 +21,9 @@ defineProps({
 button {
     @apply inline-flex items-center px-4 py-2;
 
-    @apply text-onSurface dark:text-green-200;
+    @apply text-onSurface dark:text-darkOnSurface;
 
-    @apply bg-transparent dark:bg-green-950;
+    @apply bg-transparent dark:bg-transparent;
 
     height: 2.5rem;
     gap: 0.5rem;

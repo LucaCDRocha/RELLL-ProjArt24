@@ -4,7 +4,7 @@
 
 <style scoped>
 div {
-    @apply bg-gray-300 dark:bg-gray-700;
+    @apply bg-customGray dark:bg-darkCustomGray;
     
     width: 0.06rem;
     height: 1rem;
