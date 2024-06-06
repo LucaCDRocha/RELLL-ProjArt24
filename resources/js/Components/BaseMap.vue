@@ -46,26 +46,40 @@ const props = defineProps({
         default: false,
         required: false,
     },
+    selectable: {
+        type: Boolean,
+        default: false,
+        required: false,
+    },
 });
 
-const emit = defineEmits(["marker-click"]);
+const emit = defineEmits(["marker-click", "marker-location"]);
 
 const createPoints = (points) => {
     points.forEach((elem) => {
-        const point = {
-            latLng: L.latLng(elem.location.latitude, elem.location.longitude),
-            name: elem.name,
-            open_season: elem.open_season,
-            description: elem.description,
-            tag: elem.tag,
-            imgs: elem.imgs,
-        };
+        console.log(elem);
+        if (!elem.latLng) {
+            elem.latLng = L.latLng(
+                elem.location.latitude,
+                elem.location.longitude
+            );
+        }
         // create a marker for each point
-        L.marker(point.latLng, { icon: customIcon.value })
+        L.marker(elem.latLng, {
+            icon: customIcon.value,
+            draggable: props.draggable,
+        })
             .addTo(map.value)
             .on("click", function () {
                 emit("marker-click", {
                     point: elem,
+                });
+            })
+            .on("dragend", function (e) {
+                emit("marker-location", {
+                    point: {
+                        latLng: e.target.getLatLng(),
+                    },
                 });
             });
     });
@@ -237,6 +251,34 @@ onMounted(() => {
             },
             true
         );
+    }
+
+    // make that we can click on the map and create a marker that we can move
+    if (props.selectable) {
+        map.value.on("click", function (e) {
+            // make a if statement to remove the previous marker
+            console.log();
+            map.value.eachLayer((layer) => {
+                if (
+                    layer instanceof L.Marker &&
+                    layer.options.icon === customIcon.value
+                ) {
+                    map.value.removeLayer(layer);
+                }
+            });
+
+            createPoints([
+                {
+                    latLng: e.latlng,
+                },
+            ]);
+
+            emit("marker-location", {
+                point: {
+                    latLng: e.latlng,
+                },
+            });
+        });
     }
 });
 
