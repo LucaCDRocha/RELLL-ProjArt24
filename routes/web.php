@@ -8,7 +8,10 @@ use App\Http\Controllers\TrailController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\RankingController;
 use App\Http\Controllers\SearchController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return redirect()->route('home');
@@ -32,6 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::resource("/bookmark", FavoriteController::class);
     Route::post("/addTrail", [FavoriteController::class, 'addTrail'])->name('bookmark.addTrail');
     Route::get('/my-trails', [HistoricsController::class, 'showHistorics']);
+    Route::get('/rankTrail/{id}', [RankingController::class, 'create']);
+    Route::post('/rankTrail', [RankingController::class, 'store'])->name('rank.store');
+
+    // API
+
+    Route::get("/api/likecomment/{comment_id}/}", [LikeController::class, ''])->name('like.addDelete');
 });
 
 require __DIR__ . '/auth.php';

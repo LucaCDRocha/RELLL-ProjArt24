@@ -9,13 +9,15 @@ class LikeController extends Controller
 {
     //
 
-    public static function likeComment($user_id, $comment_id)
+    public static function likeOrUnlikeComment(Request $request)
     {
-        Like::create(['user_id' => $user_id], $comment_id);
-    }
-
-    public static function unLikeComment($id)
-    {
-        Like::findOrFail($id)->delete();
+        $user_id = $request->user()->id;
+        $like = Like::where('user_id', '=', $user_id)->where('comment_id', '=', $request->comment_id);
+        if (is_null($like)) {
+            Like::create(['user_id' => $user_id], $request->comment_id);
+        } else {
+            $like->delete();
+        }
+        return response()->json();
     }
 }
