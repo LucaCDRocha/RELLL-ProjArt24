@@ -11,8 +11,8 @@ h2 {
 }
 
 body {
-    @apply font-sans antialiased text-onSurface dark:text-green-50;
-    @apply bg-surface dark:bg-green-950;
+    @apply font-sans antialiased text-onSurface dark:text-darkOnSurface;
+    @apply bg-surface dark:bg-darkSurface;
     padding-bottom: 5rem;
 }
 
