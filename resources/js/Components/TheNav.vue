@@ -53,6 +53,8 @@ div {
     left: 0;
     right: 0;
     padding: 1rem 0rem;
+
+    z-index: 1000;
 }
 
 a {

@@ -14,6 +14,11 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 <style scoped>
 .the-header {
+    @apply bg-surface;
+
+    position: sticky;
+    top: 0;
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -160,8 +160,10 @@ onMounted(() => {
     <TheHeader />
 
     <form @submit.prevent="submit">
-        <h2>Création d'un sentier - {{ step }}/6</h2>
-        <p><span>*</span> Champs obligatoires</p>
+        <div class="title">
+            <h2>Création d'un sentier - {{ step }}/6</h2>
+            <p><span>*</span> Champs obligatoires</p>
+        </div>
         <section v-if="step == 1">
             <div>
                 <InputLabel for="name" value="Quel est le nom du sentier ? *" />
@@ -421,6 +423,8 @@ onMounted(() => {
 }
 
 .nav {
+    @apply bg-surface;
+
     position: fixed;
     bottom: 5rem;
 
@@ -431,5 +435,18 @@ onMounted(() => {
     padding: 1rem;
     width: 100vw;
     box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+form section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 1rem 7rem 1rem;
+    z-index: 10;
+}
+
+.title{
+    padding: 1rem;
 }
 </style>
