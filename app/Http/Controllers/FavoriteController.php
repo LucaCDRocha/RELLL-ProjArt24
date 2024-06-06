@@ -80,7 +80,7 @@ class FavoriteController extends Controller
     public function edit(string $id)
     {
         $favorite = Favorite::findOrFail($id);
-        $trails = $favorite->trails()->get();
+        $trails = $favorite->trails()->get()->load('img');
         return Inertia::render('Favorite/EditList', ['listDetails' => $favorite, 'trailsList' => $trails]);
     }
 

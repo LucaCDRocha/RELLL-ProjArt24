@@ -35,7 +35,8 @@ const successMessage = pageProps.flash?.success;
 
     <TheHeader />
 
-    <h1>Vos listes</h1>
+    <div class = "lists" >
+    <h2>Vos listes</h2>
     <BaseDivider />
 
     <div v-if="successMessage" class="alert alert-success">
@@ -57,19 +58,22 @@ const successMessage = pageProps.flash?.success;
         icon="add_circle"
         >Créer une nouvelle liste</BasePlainButton
     >
-    <BaseBottomSheet
-        v-if="isOpen"
-        :isOpen="isOpen"
-        @handle-close="toggleBottomSheet()"
-    >
-        <NewList />
-    </BaseBottomSheet>
+
+    </div>
 
     <!-- <BaseImgGrid v-if="list.length > 0" :imgs="list" /> -->
     <TheNav />
 </template>
 
 <style scoped>
+.lists {
+    padding: 1rem 0rem 0rem 1rem;
+}
+
+.lists h2 {
+    margin-top: 0.35rem;
+    margin-bottom: 1.75rem;
+}
 .alert {
     padding: 1rem;
     margin-bottom: 1rem;

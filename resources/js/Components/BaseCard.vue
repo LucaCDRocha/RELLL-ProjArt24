@@ -17,7 +17,7 @@ if (props.data.imgs) {
     img.value = props.data.imgs[0].img_path;
 } else {
     img.value = props.data.img.img_path;
-}
+};
 
 const emit = defineEmits(["handle-point"]);
 </script>
@@ -44,8 +44,8 @@ div.card {
     align-self: center;
     justify-content: space-between;
 
-    height: 11rem;
-    width: 11rem;
+    height: 9.5rem;
+    width: 9.5rem;
     padding: 1rem;
     margin-bottom: 1rem;
 
@@ -64,6 +64,6 @@ div.card {
 .card p {
     @apply text-base text-onPrimary font-medium;
 
-    width: 11rem;
+    width: 9rem;
 }
 </style>

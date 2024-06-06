@@ -29,35 +29,46 @@ const submit = () => {
 
     <TheHeader/>
 
-    <h1>{{ listDetails.name }}</h1>
-    <Link :href="route('bookmark.index')"
-        class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
+    <div class="oneList">
+        <div class="title">
+    <h2>{{ listDetails.name }}</h2>
+    <!-- <Link :href="route('bookmark.index')"
+        class="underline text-sm font-medium text-onSurface dark:text-onSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
     Retour
-    </Link>
+    </Link> -->
 
     <SecondaryButton @click="submit" class="ms-4" icon="edit">
                     Modifier
     </SecondaryButton>
-
-    <BaseDivider />
-
+</div>
     <div class="trailsList">
         <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
         <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
         <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
         <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
     </div>
+</div>
 
     <TheNav />
 </template>
 
 <style scoped>
+.oneList {
+    padding: 1rem 1rem 0rem 1rem;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.25rem;
+    margin-bottom: 2.25rem;
+}
+
 div.trailsList {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    height: 100%;
-    gap: 1rem;
-    padding-right: 1rem;
+    column-gap: 1.25rem;
 }
 </style>
