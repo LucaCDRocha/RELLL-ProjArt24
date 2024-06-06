@@ -104,7 +104,6 @@ const placeMarker = (adresse) => {
             if (data.length > 0) {
                 const point = data[0];
                 const latLng = L.latLng(point.lat, point.lon);
-                form.location_parking = latLng;
                 switch (step.value) {
                     case 3:
                         locationParking({ point: { latLng } });
@@ -172,7 +171,6 @@ onMounted(() => {
                     class="mt-1 block w-full"
                     v-model="form.name"
                     required
-                    autofocus
                     autocomplete="name"
                     placeholder="Nom du sentier"
                 />
@@ -190,7 +188,6 @@ onMounted(() => {
                     class="mt-1 block w-full"
                     v-model="form.description"
                     required
-                    autofocus
                     placeholder="Description"
                 />
                 <InputError class="mt-2" :message="form.errors.description" />
@@ -263,7 +260,6 @@ onMounted(() => {
                     class="mt-1 block w-full"
                     v-model="form.info_transports"
                     required
-                    autofocus
                     placeholder="Description"
                 />
                 <InputError
@@ -293,7 +289,6 @@ onMounted(() => {
                 class="mt-1 block w-full"
                 v-model="textParking"
                 required
-                autofocus
                 placeholder="Nom de la rue, numéro, ville"
                 @change="placeMarker($event.target.value)"
             />
@@ -317,12 +312,9 @@ onMounted(() => {
                     class="mt-1 block w-full"
                     v-model="textStart"
                     required
-                    autofocus
                     placeholder="Nom de la rue, numéro, ville"
                     @change="placeMarker($event.target.value)"
                 />
-
-                <BaseDivider />
 
                 <BaseMap
                     v-if="step === 4"
@@ -349,7 +341,6 @@ onMounted(() => {
                     class="mt-1 block w-full"
                     v-model="form.interest_points"
                     required
-                    autofocus
                     placeholder="Nom du lieu"
                 />
                 <InputError
@@ -372,7 +363,6 @@ onMounted(() => {
                     class="mt-1 block w-full"
                     v-model="textEnd"
                     required
-                    autofocus
                     placeholder="Nom de la rue, numéro, ville"
                     @change="placeMarker($event.target.value)"
                 />
