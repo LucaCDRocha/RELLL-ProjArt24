@@ -6,6 +6,7 @@ import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { nextTick, ref } from 'vue';
 
 const confirmingUserDeletion = ref(false);
@@ -35,22 +36,32 @@ const closeModal = () => {
 
     form.reset();
 };
+
+const emit = defineEmits(["handle-close"]);
+
 </script>
 
 <template>
-    <section class="space-y-6">
+    <section class="px-4 py-2">
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Delete Account</h2>
+            <h2>Voulez-vous vraiment supprimer votre compte ?</h2>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting
-                your account, please download any data or information that you wish to retain.
+            <p>
+                Toutes vos données seront perdues.
             </p>
+            <div class="choices">
+                <a
+                        @click="deleteUser"
+                class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >
+                    Supprimer le compte</a>
+                <PrimaryButton @click.self="emit('handle-close')">Non, annuler</PrimaryButton>
+            </div>
         </header>
 
-        <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
+        
 
-        <Modal :show="confirmingUserDeletion" @close="closeModal">
+        <!-- <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                     Are you sure you want to delete your account?
@@ -89,7 +100,21 @@ const closeModal = () => {
                         Delete Account
                     </DangerButton>
                 </div>
-            </div>
-        </Modal>
+            </div> 
+        </Modal>-->
     </section>
 </template>
+
+<style scoped>
+    header {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .choices {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+</style>

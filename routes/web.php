@@ -23,18 +23,17 @@ Route::get('/', function () {
     // ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource("/bookmark", FavoriteController::class);
     Route::post("/addTrail", [FavoriteController::class, 'addTrail'])->name('bookmark.addTrail');
-    Route::get('/my-trails', [HistoricsController::class, 'showHistorics']);
+    Route::get('/my-trails', [HistoricsController::class, 'showHistorics'])->name('my_trails');
     Route::get('/rankTrail/{id}', [RankingController::class, 'create']);
     Route::post('/rankTrail', [RankingController::class, 'store'])->name('rank.store');
 
@@ -44,6 +43,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+ Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::resource("/trails", TrailController::class);
@@ -54,8 +54,8 @@ Route::get('/search', [SearchController::class, 'search']);
 
 Route::get('/map', [InterestPointController::class, 'map']);
 
-Route::get('/settings', function () {
-    return Inertia::render('Settings');
+Route::get('/about', function () {
+    return Inertia::render('About');
 });
 
 Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');
