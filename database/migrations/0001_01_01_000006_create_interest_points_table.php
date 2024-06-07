@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
-            $table->text('url');
+            $table->text('url')->nullable();
             $table->string('open_seasons');
             $table->integer('location_id')->unsigned();
 

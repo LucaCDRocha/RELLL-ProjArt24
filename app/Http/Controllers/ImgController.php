@@ -10,15 +10,14 @@ class ImgController extends Controller
     /*
         Return id
     */
-    public static function storeImgTrail($request)
+    public static function storeImgTrail($picture)
     {
-        $img_id = 1; // id: 1 -> Default Image for the Trail
-        if (empty($request->img)) {
+        if (!is_null($picture)) {
             $img = Img::create(['img_path' => ""]);
             $path = "img/imgTrail/";
             $file_name = "image-Trail-" . $img->id . ".jpg";
             $img->img_path = $path . $file_name;
-            $request->img->move(public_path('img/imgTrail'), $file_name);
+            $picture->move(public_path('img/imgTrail'), $file_name);
             $img_id = $img->id;
             return $img_id;
         }

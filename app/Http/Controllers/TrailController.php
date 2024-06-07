@@ -49,7 +49,6 @@ class TrailController extends Controller
 
     public function store(TrailCreateRequest $request)
     {
-        dd($request->all());
         // Sauvegarde d'une image dans la BD
 
         // Gestion du nom pour éviter les doublons
@@ -61,24 +60,23 @@ class TrailController extends Controller
         */
 
         // Sauvegarde des coordonées GPS
-
         $loc_start_id = LocationController::createLocation($request->location_start);
         $loc_end_id = LocationController::createLocation($request->location_end);
         $loc_parking_id = LocationController::createLocation($request->location_parking);
 
         $inputs = // Enlever les default avant lancement de l'app
             [
-                'name' => $request->name ?: "test",
+                'name' => $request->name,
                 'time' => TrailController::getTimeTrail($request->time),
-                'description' => $request->description ?: "description test",
-                'difficulty' => $request->difficulty ?: 1,
-                'is_accessible' => $request->is_accessible == 'Oui' ?: 1,
-                'info_transport' => $request->info_transport ?: "Sans transports test",
+                'description' => $request->description,
+                'difficulty' => $request->difficulty,
+                'is_accessible' => $request->is_accessible == 'Oui' ? 0 : 1,
+                'info_transport' => $request->info_transport,
                 'user_id' => $request->user_id,
-                'img_id' => $img_id ?: 1,
-                'location_start_id' => $loc_start_id ?: 1,
-                'location_end_id' => $loc_end_id ?: 2,
-                'location_parking_id' => $loc_parking_id ?: 3,
+                'img_id' => $img_id,
+                'location_start_id' => $loc_start_id,
+                'location_end_id' => $loc_end_id,
+                'location_parking_id' => $loc_parking_id,
             ];
 
         $trail = Trail::create($inputs);
@@ -89,20 +87,10 @@ class TrailController extends Controller
         */
 
         // le String doit arriver comme suit Latitude,Longitude;Latitude,Longitude;Latitude,Longitude;...
-        $interest_points = [];
-        $rawLocations = explode(';', $request->interest_points);
-        $i = 0;
-        foreach ($rawLocations as $rawLocation) {
-            $array = explode(',', $rawLocation);
-            $latitude = $array[0];
-            $longitude = $array[1];
-            $interest_points[$i] = ['longitude' => $longitude, 'latitude' => $latitude];
-            $i++;
-        }
+        $interest_points = $request->interest_points;
 
         foreach ($interest_points as $point) {
-            $loc = Location::where('latitude', '=', $point['latitude'])->where('longitude', '=', $point['longitude'])->first();
-            $interest_point = InterestPoint::where('location_id', '=', $loc->id)->first();
+            $interest_point = InterestPoint::findOrFail($point['id']);
             $trail->interest_points()->save($interest_point);
         }
         return redirect(route('home'))->withOk("Le sentier a bien été créé ! :)");

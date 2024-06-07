@@ -4,22 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\InterestPoint;
 use App\Models\Location;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
     //
-    public static function createLocation($string_rqt)
+    public static function createLocation($arr_loc)
     {
-        $id = null;
-        $datas = explode(',', $string_rqt); // actuellement, à voir dans le futur
         $location = Location::create([
-            'latitude' => $datas[0],
-            'longitude' => $datas[1]
+            'latitude' => $arr_loc['latLng']['lat'],
+            'longitude' => $arr_loc['latLng']['lng']
         ]);
-        $id = $location->id;
 
-        return $id;
+        return $location->id;
     }
 
     /*
@@ -27,20 +25,18 @@ class LocationController extends Controller
         Test if the location send by the form is still the same as the location logged in the DB for this IP
         If not, it create a new Location and return the new ID
     */
-    public static function tryIdLocationOrNew($id_IP, $string)
+    public static function tryIdLocationOrNew($id_IP, $arr_loc)
     {
-
         $interest_point = InterestPoint::findOrFail($id_IP);
         $id = $interest_point->location_id;
 
-        $datas = explode(',', $string); // À changer plus tard une fois la map faite
-        $loc = Location::where('latitude', '=', $datas[0])->where('longitude', '=', $datas[1])->first();
+        $loc = Location::where('latitude', '=', $arr_loc['latLng']['lat'])->where('longitude', '=', $arr_loc['latLng']['lng'])->first();
         if ($loc) {
             if ($loc->id == $id) {
                 return $id;
             }
         } else {
-            $new_loc = Location::create(['latitude' => $datas[0], 'longitude' => $datas[1]]);
+            $new_loc = Location::create(['latitude' => $arr_loc['latLng']['lat'], 'longitude' => $arr_loc['latLng']['lng']]);
             $id = $new_loc->id;
         }
         return $id;
