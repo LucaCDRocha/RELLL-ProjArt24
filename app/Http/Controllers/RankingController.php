@@ -24,19 +24,19 @@ class RankingController extends Controller
     }
 
 
-    public function create()
+    public function create($id)
     {
-        return Inertia::render('Interaction/RankTrail');
+        return Inertia::render('Interaction/RankTrail', ['trail_id' => $id]);
     }
 
     public function store(Request $request)
     {
-        $inputs = ['note' => $request->note, 'trail_id' => $request->trail_id, 'user_id' => $request->user()->id];
-        if (isNull($request->comment)) {
-            Comment::create(['trail_id' => $request->trail_id, 'user_id' => Auth::id(), 'text', $request->comment]);
+        $inputs = ['note' => $request->rank, 'trail_id' => $request->trail_id, 'user_id' => $request->user()->id];
+        if (!isNull($request->comment)) {
+            Comment::create(['text' => $request->comment, 'user_id' => $request->user()->id, 'trail_id' => $request->trail_id]);
         }
         Ranking::create($inputs);
-        return Inertia::render("home");
+        return redirect()->route('home');
     }
 
     public static function unRank($id)
