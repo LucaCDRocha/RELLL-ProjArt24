@@ -33,11 +33,9 @@ watch(form, (value) => {
 })
 
 const submit = () => {
-    console.log("test");
-    // acitver la fonction Store de TrailController
     form.post(route('trails.store'), {
     });
-};
+}
 
 const thematiques = defineProps({
     themes: {
