@@ -45,46 +45,83 @@ const submit = () => {
 
 <template>
     <Head title="Rank" />
-    <h1>Votre avis sur le sentier</h1>
-    <small>* Champs obligatoires</small>
-    <form @submit.prevent="submit()">
+    <div class="rank">
         <div>
-            <InputLabel
-                for="rank"
-                value="Quelle est votre note sur le sentier ? *"
-            />
+            <h1>Votre avis sur le sentier</h1>
+            <small>* Champs obligatoires</small>
+        </div>
+        <form @submit.prevent="submit()">
             <div>
-                <span
-                    v-for="num in 5"
-                    :key="num"
-                    @click="rankStars(num)"
-                    class="material-symbols-rounded"
-                    :class="{ 'full-star': num <= rank }"
-                    >star</span
-                >
+                <InputLabel
+                    for="rank"
+                    value="Quelle est votre note sur le sentier ? *"
+                />
+                <div class="stars">
+                    <span
+                        v-for="num in 5"
+                        :key="num"
+                        @click="rankStars(num)"
+                        class="material-symbols-rounded"
+                        :class="{ 'full-star': num <= rank }"
+                        >star</span
+                    >
+                </div>
+                <InputError class="mt-2" :message="form.errors.rank" />
             </div>
-            <InputError class="mt-2" :message="form.errors.rank" />
-        </div>
-        <div>
-            <InputLabel
-                for="comment"
-                value="Quelle est votre avis sur le sentier ?"
-            />
-            <BaseTextArea
-                id="comment"
-                class="mt-1 block w-full"
-                v-model="form.comment"
-                placeholder="Comment"
-            ></BaseTextArea>
-            <InputError class="mt-2" :message="form.errors.comment" />
-        </div>
-        <a href="/home">annuler</a>
-        <PrimaryButton>Valider</PrimaryButton>
-    </form>
+            <div>
+                <InputLabel
+                    for="comment"
+                    value="Quelle est votre avis sur le sentier ?"
+                />
+                <BaseTextArea
+                    id="comment"
+                    class="mt-1 block w-full"
+                    v-model="form.comment"
+                    placeholder="Comment"
+                ></BaseTextArea>
+                <InputError class="mt-2" :message="form.errors.comment" />
+            </div>
+            <div class="actions">
+                <a href="/home">annuler</a>
+                <PrimaryButton>Valider</PrimaryButton>
+            </div>
+        </form>
+    </div>
 </template>
 
 <style scoped>
 .full-star {
     font-variation-settings: "FILL" 1;
 }
+
+.material-symbols-rounded {
+    @apply text-5xl
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+}
+
+.rank {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    align-items: center;
+} 
 </style>

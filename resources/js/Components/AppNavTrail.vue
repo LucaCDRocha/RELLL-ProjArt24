@@ -26,9 +26,6 @@ const closeBottomSheet = () => {
 };
 
 const id = window.location.href.split("/").pop().split("#")[0];
-console.log(id);
-
-const wantRank = ref(false);
 
 const emit = defineEmits(["next", "previous"]);
 </script>
@@ -61,10 +58,12 @@ const emit = defineEmits(["next", "previous"]);
         @handle-close="closeBottomSheet()"
         class="base-overlay-card"
     >
-        <div>
-            <h1>Bravo !</h1>
-            <p>Vous avez terminé le sentier !</p>
+        <div class="content">
             <div>
+                <h1>Bravo !</h1>
+                <p>Vous avez terminé le sentier !</p>
+            </div>
+            <div class="buttons">
                 <a href="/home">Quitter</a>
                 <PrimaryButton
                     @click.prevent="$inertia.visit(`/rankTrail/${id}`)"
@@ -95,8 +94,25 @@ const emit = defineEmits(["next", "previous"]);
 }
 
 .base-overlay-card {
-    @apply bg-surface dark:bg-darkSurface;
-
     z-index: 1004;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    width: 100%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    align-items: center;
+}
+
+:deep(.base-overlay-card__content) {
+    height: 15rem;
 }
 </style>

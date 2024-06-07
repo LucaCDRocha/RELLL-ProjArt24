@@ -36,7 +36,7 @@ class RankingController extends Controller
             Comment::create(['text' => $request->comment, 'user_id' => $request->user()->id, 'trail_id' => $request->trail_id]);
         }
         Ranking::create($inputs);
-        return redirect()->route('home');
+        return Inertia::render('Interaction/SuccessRank');
     }
 
     public static function unRank($id)
