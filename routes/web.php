@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource("/bookmark", FavoriteController::class);
     Route::post("/addTrail", [FavoriteController::class, 'addTrail'])->name('bookmark.addTrail');
-    Route::get('/my-trails', [HistoricsController::class, 'showHistorics']);
+    Route::get('/my-trails', [HistoricsController::class, 'showHistorics'])->name('my_trails');
 });
 
 require __DIR__ . '/auth.php';
