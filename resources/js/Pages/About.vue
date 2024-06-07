@@ -1,5 +1,5 @@
 <script setup>
-import { Head, useForm, usePage } from "@inertiajs/vue3";
+import { Head, useForm, usePage, Link } from "@inertiajs/vue3";
 import TheNav from "@/Components/TheNav.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
@@ -27,11 +27,11 @@ const team = [
         photo: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg"
     }, {
         name: "Elodie Perring",
-        title: "Responsable UX/Design",
+        title: "Responsable UX/UI design",
         photo: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg"
     }, {
         name: "Lucas Tschaler",
-        title: "Responsable de la communication externe",
+        title: "UX/UI design et communication externe",
         photo: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg"
     }
 ]
@@ -40,7 +40,8 @@ const user = usePage().props.auth.user;
 const form = useForm({
     object: '',
     message: '',
-    reply_mail: user ? user.email : ''
+    reply_mail: user ? user.email : '',
+    name: user ? user.name : '',
 });
 
 watch(form, (value) => {
@@ -57,19 +58,21 @@ const submit = () => {
 
 <template>
 
-    <Head title="Settings" />
+    <Head title="Contacter" />
 
-    <div class="settings">
-        <h1>Settings</h1>
-
-        <BaseToggleButton label="Theme sombre" />
-
+    <div class="about">
+        <!-- <Link
+            href="{{ route('profile.show') }}"
+            class="underline text-sm text-customGray dark:text-darkCustomGray hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >
+                <span class="material-symbols-rounded"> arrow_back </span></Link
+                >         -->
         <BaseDivider />
 
         <div class="infos">
-            <h2>Informations sur l'application</h2>
+            <h3>Informations sur l'application</h3>
             <p>Cette application a été réalisée dans le cadre du projet d’articulation en 2ème année d’ingénierie des
-                médias à la HEIG-VD.</p>
+                médias à la HEIG-VD, en 2024.</p>
             <div class="team">
                 <BaseTeamInfos v-for="member in team" :key="member.name" :name="member.name" :title="member.title" :img="member.photo" />
             </div>
@@ -78,31 +81,37 @@ const submit = () => {
         <BaseDivider />
 
         <div class="contact">
-            <h2>Nous contacter</h2>
+            <h3>Nous contacter</h3>
             <form @submit.prevent="submit">
                 <div>
-                    <InputLabel for="mail" value="Email pour correspondance" />
+                    <InputLabel for="mail" value="Quel est votre nom ?" />
+                    <TextInput type="text" id="nom" class="mt-1 block w-full" v-model="form.name" required
+                        autofocus placeholder="Nom" />
+                    <InputError class="mt-2" :message="form.errors.name" />
+                </div>
+                <div>
+                    <InputLabel for="mail" value="Quel est votre adresse e-mail ?" />
                     <TextInput type="email" id="mail" class="mt-1 block w-full" v-model="form.reply_mail" required
-                        autofocus placeholder="Email" />
+                        autofocus placeholder="email@exemple.ch" />
                     <InputError class="mt-2" :message="form.errors.reply_mail" />
                 </div>
 
                 <div>
-                    <InputLabel for="object" value="Objet de votre message" />
+                    <InputLabel for="object" value="Quel est l'objet du message ?" />
                     <TextInput id="object" class="mt-1 block w-full" v-model="form.object" required autofocus
                         placeholder="Objet" />
                     <InputError class="mt-2" :message="form.errors.object" />
                 </div>
 
                 <div>
-                    <InputLabel for="message" value="Votre message" />
+                    <InputLabel for="message" value="Quel est votre message ?" />
                     <BaseTextArea id="message" class="mt-1 block w-full" v-model="form.message" required autofocus
                         placeholder="Message" />
                     <InputError class="mt-2" :message="form.errors.message" />
                 </div>
 
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Contacter
+                <PrimaryButton class="contactButton" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Nous contacter
                 </PrimaryButton>
             </form>
         </div>
@@ -113,26 +122,43 @@ const submit = () => {
 </template>
 
 <style scoped>
-.settings {
+.about {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-
     padding: 1rem;
 }
 
-div {
+.contact form {
     display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-.infos, .contact, .contact div {
+.contactButton {
+    width: fit-content;
+    margin-left: auto;
+}
+
+.about h3 {
+    font-size: 1.375rem;
+}
+
+.infos{
+    display: flex;
     flex-direction: column;
+    gap: 1rem;
+}
+
+.infos p{
+    @apply text-base font-medium;
 }
 
 .team {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items:baseline;
+    justify-content: center;
 }
 </style>
