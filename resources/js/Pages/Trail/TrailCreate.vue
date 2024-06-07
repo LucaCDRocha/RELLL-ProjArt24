@@ -14,9 +14,6 @@ import BaseDivider from "@/Components/BaseDivider.vue";
 import { map, customIcon } from "@/Stores/map.js";
 import TheHeader from "@/Components/TheHeader.vue";
 import TheNav from "@/Components/TheNav.vue";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import AppTrailInfo from "@/Components/AppTrailInfo.vue";
-import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 import AppMap from "@/Components/AppMap.vue";
 
 const props = defineProps({
@@ -33,26 +30,6 @@ const props = defineProps({
         default: () => [],
     },
 });
-const isOpen = ref(false);
-
-const data = ref({});
-
-const BottomSheet = (e) => {
-    if (e.point.difficulty) {
-        window.location.href = route("trails.show", e.point.id);
-    } else {
-        fetch(route("interestPoints.showJson", e.point.id))
-            .then((response) => response.json())
-            .then((datas) => {
-                data.value = datas;
-                isOpen.value = true;
-            });
-    }
-};
-
-const closeBottomSheet = () => {
-    isOpen.value = false;
-};
 
 const form = useForm({
     name: "",
@@ -76,9 +53,11 @@ watch(form, (value) => {
 });
 
 const submit = () => {
-    console.log("test");
-    // acitver la fonction Store de TrailController
-    form.post(route("trails.store"), {});
+    if (step.value === 6 && !form.interest_points) {
+        return;
+    } else {
+        form.post(route("trails.store"), {});
+    }
 };
 
 const difficulties = [
@@ -90,6 +69,15 @@ const difficulties = [
 //affichage du formulaire en plusieurs pages
 const step = ref(1);
 const nextStep = () => {
+    if (step.value === 4 && form.location_start === null) {
+        return;
+    }
+    if (step.value === 5 && form.location_end === null) {
+        return;
+    }
+    if (step.value === 6 && form.interest_points === null) {
+        return;
+    }
     step.value++;
 };
 const previousStep = () => {
@@ -101,7 +89,10 @@ const positionStart = ref(null);
 const locationStart = (e) => {
     console.log("locationStart", e.point);
     positionStart.value = e.point;
-    waypoints.value = { location_start: e.point };
+    waypoints.value.location_start = {
+        latitude: e.point.latLng.lat,
+        longitude: e.point.latLng.lng,
+    };
     form.location_start = e.point;
 };
 
@@ -110,7 +101,10 @@ const positionEnd = ref(null);
 const locationEnd = (e) => {
     console.log("locationEnd", e.point);
     positionEnd.value = e.point;
-    waypoints.value = { location_end: e.point };
+    waypoints.value.location_end = {
+        latitude: e.point.latLng.lat,
+        longitude: e.point.latLng.lng,
+    };
     form.location_end = e.point;
 };
 
@@ -188,6 +182,35 @@ const waypoints = ref({
     interest_points: [],
 });
 
+const addPoint = (point) => {
+    if (waypoints.value.interest_points.find((p) => p.id === point.point.id)) {
+        // remove the point if it's already added
+        console.log("remove", point);
+        waypoints.value.interest_points =
+            waypoints.value.interest_points.filter(
+                (p) => p.id !== point.point.id
+            );
+    } else {
+        waypoints.value.interest_points.push({
+            id: point.point.id,
+            name: point.point.name,
+            location: point.point.location,
+            description: point.point.description,
+            tag: point.point.tag,
+            imgs: point.point.imgs,
+        });
+    }
+};
+
+const way = ref(waypoints.value);
+watch(
+    waypoints,
+    (value) => {
+        way.value = waypoints.value;
+        form.interest_points = value.interest_points;
+    },
+    { deep: true }
+);
 // TODO: remove that
 watch(step, (value) => {
     window.location.hash = value;
@@ -343,6 +366,7 @@ onMounted(() => {
                 :selectable="true"
                 :draggable="true"
                 :points="positionParking ? [positionParking] : []"
+                :pointsDraggable="true"
                 @marker-location="locationParking($event)"
             />
         </section>
@@ -351,7 +375,7 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="depart"
-                    value="Veuillez choisir un lieu de départ du sentier"
+                    value="Veuillez choisir un lieu de départ du sentier *"
                 />
                 <TextInput
                     id="depart"
@@ -378,56 +402,9 @@ onMounted(() => {
 
         <section v-if="step == 5">
             <div>
-                <!-- <InputLabel
-                    for="interest_points"
-                    value="Veuillez choisir les lieux que vous souhaitez visiter lors du sentier"
-                />
-                <TextInput
-                    id="interest_points"
-                    class="mt-1 block w-full"
-                    v-model="form.interest_points"
-                    placeholder="Nom du lieu"
-                />
-                <InputError
-                    class="mt-2"
-                    :message="form.errors.interest_point"
-                />
-
-                <SecondaryButton>Créer un lieu</SecondaryButton>
-
-                <BaseMap
-                    :draggable="true"
-                    :points="props.interestPoints"
-                    :waypoints="waypoints"
-                    @marker-click="BottomSheet($event)"
-                />
-                <BaseBottomSheet
-                    v-if="isOpen"
-                    :isOpen="isOpen"
-                    @handle-close="closeBottomSheet()"
-                >
-                    <AppTrailInfo
-                        v-if="data.difficulty"
-                        :data="data"
-                        @handle-close="closeBottomSheet()"
-                        @handle-point="BottomSheet($event)"
-                    />
-                    <AppInterestPointInfo
-                        v-else
-                        :data="data"
-                        @handle-close="closeBottomSheet()"
-                        @handle-point="BottomSheet($event)"
-                    />
-                </BaseBottomSheet> -->
-                <AppMap :waypoints="interestPoints" :filters="filters" :track="false" />
-            </div>
-        </section>
-
-        <section v-if="step == 6">
-            <div>
                 <InputLabel
                     for="arrivee"
-                    value="Veuillez choisir un lieu d'arrivée du sentier"
+                    value="Veuillez choisir un lieu d'arrivée du sentier *"
                 />
                 <TextInput
                     id="arrivee"
@@ -437,7 +414,7 @@ onMounted(() => {
                     @change="placeMarker($event.target.value)"
                 />
                 <BaseMap
-                    v-if="step === 6"
+                    v-if="step === 5"
                     :selectable="true"
                     :draggable="true"
                     :points="positionEnd ? [positionEnd] : []"
@@ -455,20 +432,38 @@ onMounted(() => {
             <input type="hidden" id="time" />
             <!-- Je te laisse mettre en place le code permettant de remplir les inputs de données -->
         </section>
+
+        <section v-if="step == 6">
+            <div>
+                <InputLabel
+                    for="interest_points"
+                    value="Veuillez choisir les lieux que vous souhaitez visiter lors du sentier *"
+                />
+                <small
+                    >Veuillez les choisir dans l'ordre que vous souhaitez
+                    réaliser le parcous</small
+                >
+                <AppMap
+                    v-if="step === 6"
+                    :points="interestPoints"
+                    :filters="filters"
+                    :track="false"
+                    :waypoints="waypoints"
+                    :toBounds="false"
+                    @add-point="addPoint($event)"
+                />
+            </div>
+        </section>
+
         <div class="nav">
             <a v-if="step > 1" @click.prevent="previousStep()" href=""
                 >Revenir en arrière</a
             >
-            <a v-else href="/home">Annuler</a>
+            <a v-else href="/create">Annuler</a>
             <PrimaryButton v-if="step < 6" @click.prevent="nextStep()">
                 Prochaine étape
             </PrimaryButton>
-            <PrimaryButton
-                v-else
-                class="ms-4"
-                :class="{ 'opacity-25': form.processing }"
-                :disabled="form.processing"
-            >
+            <PrimaryButton v-else class="ms-4" @click.prevent="submit()">
                 Sauver
             </PrimaryButton>
         </div>

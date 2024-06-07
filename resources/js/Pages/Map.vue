@@ -25,7 +25,7 @@ const props = defineProps({
     <TheHeader />
 
     <!-- <BaseLinkSearch /> -->
-    <AppMap :waypoints="interestPoints" :filters="filters" />
+    <AppMap :points="interestPoints" :filters="filters" />
 
     <TheNav />
 </template>

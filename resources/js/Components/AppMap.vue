@@ -1,10 +1,11 @@
 <script setup>
-import { computed, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 import BaseMap from "@/Components/BaseMap.vue";
 import { trail } from "@/Stores/map.js";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
+import AppInterestPointAddTrail from "@/Components/AppInterestPointAddTrail.vue";
 import TextInput from "@/Components/TextInput.vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
 import DropDown from "@/Components/Dropdown.vue";
@@ -23,6 +24,11 @@ const BottomSheet = (e) => {
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
+                isAdded.value = props.waypoints.interest_points.find(
+                    (point) => point.id === data.value.id
+                )
+                    ? true
+                    : false;
             });
     }
 };
@@ -32,7 +38,7 @@ const closeBottomSheet = () => {
 };
 
 const props = defineProps({
-    waypoints: {
+    points: {
         type: Array,
         default: () => [],
     },
@@ -43,6 +49,16 @@ const props = defineProps({
     track: {
         type: Boolean,
         default: true,
+    },
+    waypoints: {
+        type: Object,
+        default: () => {},
+        required: false,
+    },
+    toBounds: {
+        type: Boolean,
+        default: true,
+        required: false,
     },
 });
 
@@ -66,9 +82,9 @@ const switchFilter = (filter) => {
 const search = ref("");
 
 const interestPointsResults = computed(() => {
-    let filtered = props.waypoints;
+    let filtered = props.points;
     if (search.value) {
-        filtered = props.waypoints.filter((interestPoint) =>
+        filtered = props.points.filter((interestPoint) =>
             interestPoint.name
                 .toLowerCase()
                 .normalize("NFD")
@@ -89,9 +105,23 @@ const interestPointsResults = computed(() => {
     );
 });
 
+const isAdded = ref(false);
+if (props.waypoints) {
+    watch(props.waypoints, () => {
+        console.log("appmap", props.waypoints);
+        isAdded.value = props.waypoints.interest_points.find(
+            (point) => point.id === data.value.id
+        )
+            ? true
+            : false;
+    });
+}
+
 onUnmounted(() => {
     trail.value = null;
 });
+
+const emit = defineEmits(["add-point"]);
 </script>
 
 <template>
@@ -128,7 +158,8 @@ onUnmounted(() => {
         :trakable="props.track"
         :track="props.track"
         :points="interestPointsResults"
-        :waypoints="[]"
+        :waypoints="props.waypoints"
+        :toBounds="props.toBounds"
         @marker-click="BottomSheet($event)"
     />
     <BaseBottomSheet
@@ -136,8 +167,16 @@ onUnmounted(() => {
         :isOpen="isOpen"
         @handle-close="closeBottomSheet()"
     >
+        <AppInterestPointAddTrail
+            v-if="props.waypoints"
+            :data="data"
+            :isAllreadyAdded="isAdded"
+            @handle-close="closeBottomSheet()"
+            @handle-point="BottomSheet($event)"
+            @add-point="emit('add-point', $event)"
+        />
         <AppTrailInfo
-            v-if="data.difficulty"
+            v-else-if="data.difficulty"
             :data="data"
             @handle-close="closeBottomSheet()"
             @handle-point="BottomSheet($event)"

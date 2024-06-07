@@ -56,6 +56,11 @@ const props = defineProps({
         default: false,
         required: false,
     },
+    toBounds: {
+        type: Boolean,
+        default: true,
+        required: false,
+    },
 });
 
 const emit = defineEmits(["marker-click", "marker-location"]);
@@ -101,11 +106,110 @@ const updatePoints = (points) => {
     createPoints(points);
 };
 
+const createWaypoints = (dataWay) => {
+    if (trail.value) {
+        trail.value.remove();
+    }
+
+    const waypoints = [];
+    if (dataWay.location_start) {
+        waypoints.push({
+            name: "Départ",
+            latLng: L.latLng(
+                dataWay.location_start.latitude,
+                dataWay.location_start.longitude
+            ),
+            description: "Départ",
+            tag: "Départ",
+        });
+    }
+    if (dataWay.interest_points) {
+        for (const point of dataWay.interest_points) {
+            waypoints.push({
+                id: point.id,
+                name: point.name,
+                latLng: L.latLng(
+                    point.location.latitude,
+                    point.location.longitude
+                ),
+                description: point.description,
+                tag: point.tag,
+                imgs: point.imgs,
+            });
+        }
+    }
+    if (dataWay.location_end) {
+        waypoints.push({
+            name: "Arrivée",
+            latLng: L.latLng(
+                dataWay.location_end.latitude,
+                dataWay.location_end.longitude
+            ),
+            description: "Arrivée",
+            tag: "Arrivée",
+        });
+    }
+
+    trail.value = L.Routing.control({
+        waypoints: waypoints,
+        router: new L.Routing.OSRMv1({
+            serviceUrl: "https://routing.openstreetmap.de/routed-foot/route/v1",
+        }),
+        routeWhileDragging: true,
+        draggableWaypoints: false,
+        addWaypoints: false,
+        lineOptions: {
+            styles: [{ color: "#6938D3", opacity: 0.8, weight: 3 }],
+        },
+        createMarker: function (i, wp, nWps) {
+            const marker = L.marker(wp.latLng, {
+                draggable: props.markerDraggable,
+                icon: customIcon.value,
+            }).on("click", function () {
+                if (wp.name === "Départ" || wp.name === "Arrivée") {
+                    return;
+                } else {
+                    emit("marker-click", {
+                        point: wp,
+                    });
+                }
+            });
+            trailMarkers.value.push(marker);
+            return marker;
+        },
+        show: false,
+    }).addTo(map.value);
+
+    // change the position of the control
+    trail.value.setPosition("bottomleft");
+
+    trail.value.on("routesfound", (e) => {
+        trailInfo.value = e.routes[0];
+    });
+
+    if (props.toBounds) {
+        // calculate the zoom level to fit all the points
+        var bounds = L.latLngBounds(waypoints.map((point) => point.latLng));
+        if (bounds.isValid()) {
+            map.value.fitBounds(bounds, { padding: [30, 30] });
+        }
+    }
+};
+
 watch(
     () => props.points,
     (points) => {
         updatePoints(points);
     }
+);
+
+watch(
+    () => props.waypoints,
+    (waypoints) => {
+        console.log("baseMap", waypoints);
+        createWaypoints(waypoints);
+    },
+    { deep: true }
 );
 
 onMounted(() => {
@@ -142,91 +246,7 @@ onMounted(() => {
     }
 
     if (props.waypoints) {
-        const waypoints = [];
-        if (props.waypoints.location_start) {
-            waypoints.push({
-                name: "Départ",
-                latLng: L.latLng(
-                    props.waypoints.location_start.latitude,
-                    props.waypoints.location_start.longitude
-                ),
-                description: "Départ",
-                tag: "Départ",
-                imgs: [
-                    props.waypoints.img.img_path
-                        ? props.waypoints.img.img_path
-                        : "",
-                ],
-            });
-        }
-        if (props.waypoints.interest_points) {
-            for (const point of props.waypoints.interest_points) {
-                waypoints.push({
-                    name: point.name,
-                    latLng: L.latLng(
-                        point.location.latitude,
-                        point.location.longitude
-                    ),
-                    description: point.description,
-                    tag: point.tag,
-                    imgs: point.imgs,
-                });
-            }
-        }
-        if (props.waypoints.location_end) {
-            waypoints.push({
-                name: "Arrivée",
-                latLng: L.latLng(
-                    props.waypoints.location_end.latitude,
-                    props.waypoints.location_end.longitude
-                ),
-                description: "Arrivée",
-                tag: "Arrivée",
-                imgs: [props.waypoints.img.img_path],
-            });
-        }
-
-        trail.value = L.Routing.control({
-            waypoints: waypoints,
-            router: new L.Routing.OSRMv1({
-                serviceUrl:
-                    "https://routing.openstreetmap.de/routed-foot/route/v1",
-            }),
-            routeWhileDragging: true,
-            draggableWaypoints: false,
-            addWaypoints: false,
-            lineOptions: {
-                styles: [{ color: "#6938D3", opacity: 0.8, weight: 3 }],
-            },
-            createMarker: function (i, wp, nWps) {
-                const marker = L.marker(wp.latLng, {
-                    draggable: props.markerDraggable,
-                    icon: customIcon.value,
-                }).on("click", function () {
-                    emit("marker-click", {
-                        point: wp,
-                    });
-                });
-                trailMarkers.value.push(marker);
-                return marker;
-            },
-            show: false,
-        }).addTo(map.value);
-
-        // change the position of the control
-        trail.value.setPosition("bottomleft");
-
-        trail.value.on("routesfound", (e) => {
-            trailInfo.value = e.routes[0];
-        });
-
-        // delete the button showing info of the trail
-
-        // calculate the zoom level to fit all the points
-        var bounds = L.latLngBounds(waypoints.map((point) => point.latLng));
-        if (bounds.isValid()) {
-            map.value.fitBounds(bounds, { padding: [30, 30] });
-        }
+        createWaypoints(props.waypoints);
     }
 
     if (props.trakable) {
@@ -303,7 +323,6 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    map.value = null;
     if (locate.value) {
         locate.value = null;
     }
