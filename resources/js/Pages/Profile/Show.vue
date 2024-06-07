@@ -63,7 +63,13 @@ const edit = () => {
 };
 
 const destroy = () => {
-    form.delete(route("profile.destroy"), {});
+    witchForm.value = "delete";
+    toggleBottomSheet();
+    // form.delete(route("profile.destroy"), {});
+};
+
+const closeBottomSheet = () => {
+    isOpen.value = false;
 };
 
 </script>
@@ -116,22 +122,25 @@ const destroy = () => {
         </div>
         <BaseDivider v-if="user" />
 
-         <History v-if="user" :historics="historics" :myTrail="myTrails"/>
+         <History v-if="user" :historics="historics" :myTrails="myTrails"/>
 
          <BaseDivider v-if="user" />
         <div v-if="user" class="destroy">
-            <Link
-                :href="route('profile.destroy')"
+            <a
+                href="" @click.prevent="destroy()"
+                
                     class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
                 >
                 Supprimer votre compte
-                </Link>
+        </a>
             <PrimaryButton @click="$inertia.visit('/about')" class="contactButton">Nous contacter</PrimaryButton>
         </div>
     </div>
 
     <BaseBottomSheet v-if="isOpen" :isOpen="isOpen" @handle-close="toggleBottomSheet()">
         <UpdatePasswordForm v-if="witchForm === 'password'" />
+        <DeleteUserForm v-else-if="witchForm === 'delete'"
+        @handle-close="closeBottomSheet()"/>
         <UpdateProfileInformationForm v-else />
     </BaseBottomSheet>
 

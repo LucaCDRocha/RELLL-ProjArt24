@@ -20,8 +20,6 @@ class ProfileController extends Controller
      */
     public function show(Request $request): Response
     {
-
-
         if ($request->user()) {
             $historics = Historic::where('user_id', auth()->id())->with('trail')->get();
             $trailData = $historics->map(function ($historic) {
@@ -38,8 +36,6 @@ class ProfileController extends Controller
             ]);
         }
         return Inertia::render('Profile/Show');
-        ;
-
     }
 
     public function edit(Request $request): Response
@@ -71,9 +67,9 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
+        // $request->validate([
+        //     'password' => ['required', 'current_password'],
+        // ]);
 
         $user = $request->user();
 
