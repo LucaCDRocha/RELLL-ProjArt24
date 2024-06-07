@@ -10,7 +10,9 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'content',
+        'text',
+        'trail_id',
+        'user_id',
     ];
 
     public function trail()

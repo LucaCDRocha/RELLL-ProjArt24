@@ -166,7 +166,8 @@ watch(currentPointIndex, (value) => {
     overflow: scroll;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
-    box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 -11px 10px rgba(50, 50, 93, 0.11),
+        0 0px 5px rgba(0, 0, 0, 0.08);
 }
 
 .content {

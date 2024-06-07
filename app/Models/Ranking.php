@@ -10,7 +10,9 @@ class Ranking extends Model
     use HasFactory;
 
     protected $fillable = [
-        'note'
+        'note',
+        'trail_id',
+        'user_id',
     ];
 
     public function trail()
