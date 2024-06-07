@@ -218,16 +218,13 @@ onMounted(() => {
         </div>
         <section v-if="step === 1">
             <div>
-                <InputLabel
-                    for="name"
-                    value="Veuillez choisir le nom du lieu *"
-                />
+                <InputLabel for="name" value="Quel est le nom du lieu ? *" />
                 <TextInput
                     id="name"
                     class="mt-1 block w-full"
                     v-model="form.name"
                     required
-                    placeholder="Nom du lieu"
+                    placeholder="Plateforme 10"
                 />
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
@@ -242,7 +239,7 @@ onMounted(() => {
                     class="mt-1 block w-full"
                     v-model="form.description"
                     required
-                    placeholder="Description"
+                    placeholder="C’est un peu le nouveau quartier ..."
                 />
                 <InputError class="mt-2" :message="form.errors.description" />
             </div>
@@ -257,7 +254,7 @@ onMounted(() => {
                     class="mt-1 block w-full"
                     v-model="form.url"
                     required
-                    placeholder="URL du site web"
+                    placeholder="https://plateforme10.ch"
                 />
                 <InputError class="mt-2" :message="form.errors.url_point" />
             </div>
@@ -267,7 +264,7 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="tag"
-                    value="Veuillez indiquer le tag du lieu *"
+                    value="Le(s)quel(s) de ces tags correspondent au lieu ? *"
                 />
                 <BaseTag
                     v-for="tag in props.tags"
@@ -296,7 +293,7 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="imgs"
-                    value="Veuillez choisir des photos pour le lieu *"
+                    value="Ajoutez une ou plusieurs images du lieu *"
                 />
                 <input
                     id="imgs"
@@ -313,13 +310,13 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="coordonnees"
-                    value="Veuillez choisir le lieu"
+                    value="Sélectionnez la position du lieu sur la carte ou entrez l'adresse. *"
                 />
                 <TextInput
                     id="depart"
                     class="mt-1 block w-full"
                     v-model="textPoint"
-                    placeholder="Nom de la rue, numéro, ville"
+                    placeholder="Pl. de la gare 16, Lausanne"
                     @change="placeMarker($event.target.value)"
                 />
 
