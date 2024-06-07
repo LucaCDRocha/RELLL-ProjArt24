@@ -1,14 +1,16 @@
 <script setup>
+import { ref } from "vue";
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import TheNav from "@/Components/TheNav.vue";
-import BaseDivider from "@/Components/BaseDivider.vue";
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import BaseCard from "@/Components/BaseCard.vue";
+import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
+import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 import TheHeader from "@/Components/TheHeader.vue";
 
 const items = defineProps({
     trailsList: {
-        type: Object,
+        type: Array,
         default: () => [],
     },
     listDetails: {
@@ -23,6 +25,23 @@ const submit = () => {
     form.get(route('bookmark.edit', { id: items.listDetails.id }), {});
 };
 
+const isOpen = ref(false);
+
+const data = ref({});
+
+const BottomSheet = (e) => {
+        fetch(route("trails.showJson", e.id))
+            .then((response) => response.json())
+            .then((datas) => {
+                data.value = datas;
+                isOpen.value = true;
+            });
+    };
+
+const closeBottomSheet = () => {
+    isOpen.value = false;
+};
+
 </script>
 <template>
     <Head :title="listDetails.name" />
@@ -30,25 +49,37 @@ const submit = () => {
     <TheHeader/>
 
     <div class="oneList">
-        <div class="title">
-    <h2>{{ listDetails.name }}</h2>
+        
+      <div class="title">
+<h2>{{ listDetails.name }}</h2>
     <!-- <Link :href="route('bookmark.index')"
         class="underline text-sm font-medium text-onSurface dark:text-onSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
     Retour
     </Link> -->
-
     <SecondaryButton @click="submit" class="ms-4" icon="edit">
                     Modifier
     </SecondaryButton>
+
+    
 </div>
     <div class="trailsList">
-        <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
-        <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
-        <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
-        <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
-    </div>
+        <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail" @click="BottomSheet(trail)"></BaseCard>
+    </div> 
+
+
 </div>
 
+        <BaseBottomSheet
+        v-if="isOpen"
+        :isOpen="isOpen"
+        @handle-close="closeBottomSheet()"
+    >
+        <AppTrailInfo
+            :data="data"
+            @handle-close="closeBottomSheet()"
+            @handle-point="BottomSheet($event)"
+        />
+    </BaseBottomSheet>
     <TheNav />
 </template>
 
