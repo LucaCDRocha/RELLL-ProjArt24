@@ -1,4 +1,6 @@
 <script setup>
+import { onMounted } from 'vue';
+
 const props = defineProps({
     id: {
         type: Number,
@@ -10,6 +12,10 @@ const props = defineProps({
     },
     count: {
         type: Number,
+    },
+    checked: {
+        type: Boolean,
+        default: false,
     },
 });
 
@@ -33,6 +39,12 @@ const preventClickPropagation = (event) => {
     // Prevent the click event from bubbling up to the parent div
     event.stopPropagation();
 };
+
+onMounted(() => {
+    if (props.checked) {
+        form.value.push(props.id);
+    }
+});
 </script>
 
 <template>

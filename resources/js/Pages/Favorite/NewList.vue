@@ -14,7 +14,9 @@ const emit = defineEmits(["send"]);
 
 const submit = () => {
     form.post(route("bookmark.store"), {});
-    emit("send");
+    setTimeout(() => {
+        emit("send");
+    }, 1000);
 };
 </script>
 <template>

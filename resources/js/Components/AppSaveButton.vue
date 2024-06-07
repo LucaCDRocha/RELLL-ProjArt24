@@ -37,7 +37,7 @@ console.log(props);
         :isOpen="isOpen"
         @handle-close="toggleBottomSheet()"
     >
-        <MyLists :trailId="props.id" :title="props.title" />
+        <MyLists :trailId="props.id" :title="props.title" @handle-open="toggleBottomSheet()" />
     </BaseBottomSheet>
 </template>
 

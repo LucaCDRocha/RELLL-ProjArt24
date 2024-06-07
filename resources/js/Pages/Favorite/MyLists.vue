@@ -36,7 +36,7 @@ const fetching = async () => {
             allLists.value = datas.allLists;
             listIds.value = datas.listIds;
             title.value = datas.title;
-            trailId.value = datas.trailId;
+            trailId.value = parseInt(datas.trailId);
         });
 };
 
@@ -58,18 +58,20 @@ watch(form, (value) => {
     console.log(form);
 });
 
+const emit = defineEmits(["handleOpen"]);
 const submit = () => {
     console.log(form);
     form.post(route("bookmark.addTrail"), {});
+    emit("handleOpen");
 };
-
-const emit = defineEmits(["handleOpen"]);
 </script>
 
 <template>
     <div>
         <div class="lists">
-            <h3>A quelle liste voulez-vous ajouter le sentier {{ title }} ?</h3>
+            <h3>
+                Dans quelle(s) liste(s) voulez-vous le sentier {{ title }} ?
+            </h3>
             <form @submit.prevent="submit">
                 <BaseCheckbox
                     v-for="list in allLists"
@@ -77,6 +79,7 @@ const emit = defineEmits(["handleOpen"]);
                     :id="list.id"
                     :name="list.name"
                     :count="list.trail_ids?.length ?? 0"
+                    :checked="list.trail_ids?.includes(trailId)"
                     v-model="form.check_ids"
                 />
 
@@ -112,7 +115,7 @@ const emit = defineEmits(["handleOpen"]);
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                     >
-                        Ajouter
+                        Valider
                     </PrimaryButton>
                 </div>
             </form>

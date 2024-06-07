@@ -170,6 +170,6 @@ class FavoriteController extends Controller
             $tag->trails()->detach($trailId);
         }
 
-        return $this->index();
+        return;
     }
 }
