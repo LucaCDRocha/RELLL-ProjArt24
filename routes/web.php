@@ -25,7 +25,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -35,6 +34,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+ Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::resource("/trails", TrailController::class);
@@ -45,8 +45,8 @@ Route::get('/search', [SearchController::class, 'search']);
 
 Route::get('/map', [InterestPointController::class, 'map']);
 
-Route::get('/settings', function () {
-    return Inertia::render('Settings');
+Route::get('/about', function () {
+    return Inertia::render('About');
 });
 
 Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');
