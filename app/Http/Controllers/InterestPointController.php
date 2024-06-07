@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Img;
 use App\Models\InterestPoint;
 use App\Models\Location;
 use App\Models\Tag;
@@ -24,8 +25,7 @@ class InterestPointController extends Controller
      */
     public function create()
     {
-        $allTags = Tag::all();
-        return Inertia::render('InterestPoint/InterestPointCreate', ['tags' => $allTags]);
+        return Inertia::render('InterestPoint/InterestPointCreate', ['tags' => Tag::all()]);
     }
 
     /**
@@ -33,18 +33,30 @@ class InterestPointController extends Controller
      */
     public function store(Request $request)
     {
+
+        $id_loc = LocationController::createLocation($request->location);
+        $seasons = is_array($request->seasons) ? implode(',', $request->seasons) : $request->seasons;
+
         // Creation New InterestPoint
-        $IP_inputs = $request->except('location', 'tag');
+        $IP_inputs = [
+            'name' => $request->name ?: "Test/Erreur",
+            'description' => $request->description ?: "Test/erreur",
+            'url' => $request->url ?: "Test/Erreur",
+            'open_seasons' => $seasons ?: "Test/Erreur",
+            'location_id' => $id_loc ?: "1",
+            'tag_id' => $request->tag_id ?: "1",
+
+        ];
+
         $interestPoint = InterestPoint::create($IP_inputs);
 
-        // FOREIGN KEY - Tag
-        $tag = Tag::where('name', $request->tag);
-        $interestPoint->tag()->save($tag);
+        // Gestion des images
 
-        // FOREIGN KEY - Location
-        $input_loc = ['latitude' => $request->location->latitude, 'longitude' => $request->location->longitude];
-        $loc = Location::create($input_loc);
-        $interestPoint->location()->save($loc);
+        foreach ($request->imgs as $picture) {
+            ImgController::storeImgInterestPoint($picture, $interestPoint->id);
+        }
+
+        return "Ok";
     }
 
     /**
@@ -82,7 +94,12 @@ class InterestPointController extends Controller
      */
     public function edit(string $id)
     {
-        return Inertia::render('InterestPoint/InterestPointEdit')->with(InterestPoint::findOrFail($id));
+        $loc = Location::findOrFail(InterestPoint::findOrFail($id)->location_id);
+        $imgs = Img::where('interest_point_id', '=', $id)->get();
+        return Inertia::render('InterestPoint/InterestPointEdit', [
+            'interest_point' => InterestPoint::findOrFail($id), 'tags' => Tag::all(), 'imgs' => $imgs,
+            'location' => ['latitude' => $loc->latitude, 'longitude' => $loc->longitude]
+        ]);
     }
 
     /**
@@ -90,27 +107,32 @@ class InterestPointController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $interest_point = InterestPoint::findOrFail($id);
-        $new_inputs = $request->except('location', 'tag');
+        $interestPoint = InterestPoint::findOrFail($id);
 
 
-        // FOREIGN KEY - Tag
-        $tag = Tag::where('name', $request->tag)->id;
-        if (!$tag->id == $interest_point->tag_id) {
-            $interest_point->tag()->detach();
-            $interest_point->tag()->save($tag);
+        $loc_id = LocationController::tryIdLocationOrNew($id, $request->location);
+
+
+        $seasons = is_array($request->seasons) ? implode(',', $request->seasons) : $request->seasons;
+
+        // Creation New InterestPoint
+        $IP_inputs = [
+            'name' => $request->name,
+            'description' => $request->description,
+            'url' => $request->url,
+            'open_seasons' => $seasons,
+            'location_id' => $loc_id,
+            'tag_id' => $request->tag_id,
+
+        ];
+
+        if (sizeof($request->imgs) > 0) {
+            dd("on rentre");
+            ImgController::updateImgsInterestPoints($request->imgs, $id);
         }
+        $interestPoint->update($IP_inputs);
 
-        // FOREIGN KEY - Location
-        $loc = Location::where('latitude', $request->location->latitude)->where('longitude', $request->location->longitude);
-        if (is_null($loc)) {
-            $loc = Location::create(['latitude' => $request->location->latitude, 'longitude' => $request->location->longitude]);
-            $interest_point->location()->delete();
-            $interest_point->location()->save($loc);
-        }
-
-        $interest_point->update($new_inputs);
-        return redirect(route('home'))->withOk("Le point d'intérêts a bien été modifié :)");
+        return $request->imgs;
     }
 
     /**

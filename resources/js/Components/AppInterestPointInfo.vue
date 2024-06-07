@@ -34,7 +34,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             <p>{{ data.open_season }}</p>
         </div>
         <div class="tags" v-if="!full">
-            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" />
+            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />
         </div>
         <a
             v-if="data.url !== '-'"
@@ -47,13 +47,13 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <BaseImgGalery :imgs="imgs" />
         <h2>Description</h2>
         <div class="tags">
-            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" />
+            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />
         </div>
         <p>{{ data.description }}</p>
         <AppCardList
             :datas="data.trails"
             @handle-point="emit('handle-point', $event)"
-            >Les sentier ayant ce lieu</AppCardList
+            >Les sentiers ayant ce lieu</AppCardList
         >
     </div>
 </template>

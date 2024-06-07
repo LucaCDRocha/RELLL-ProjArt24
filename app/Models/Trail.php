@@ -16,7 +16,16 @@ class Trail extends Model
         'difficulty',
         'is_accessible',
         'info_transport',
+        'user_id',
+        'img_id',
+        'location_start_id',
+        'location_end_id',
+        'location_parking_id',
     ];
+
+    // protected $casts = [
+    //     'time' => 'date:hh:mm'
+    // ];
 
     public function user()
     {
@@ -61,7 +70,8 @@ class Trail extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function interest_points() {
+    public function interest_points()
+    {
         return $this->belongsToMany(InterestPoint::class);
     }
 }

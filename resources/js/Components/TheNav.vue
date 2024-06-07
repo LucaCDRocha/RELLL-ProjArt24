@@ -34,7 +34,7 @@ onMounted(() => {
     <div>
         <BaseNavLink icon="home" href="/home">Accueil</BaseNavLink>
         <BaseNavLink icon="map" href="/map">Carte</BaseNavLink>
-        <BaseNavLink icon="add_location_alt" href="/create-trail"
+        <BaseNavLink icon="add_location_alt" href="/maintenance"
             >Créer</BaseNavLink
         >
         <BaseNavLink icon="bookmark" href="/bookmark">Mes listes</BaseNavLink>
@@ -44,7 +44,7 @@ onMounted(() => {
 
 <style scoped>
 div {
-    @apply bg-surfaceVariant dark:bg-green-800;
+    @apply bg-surfaceVariant dark:bg-darkSurfaceVariant;
 
     display: flex;
     justify-content: space-around;

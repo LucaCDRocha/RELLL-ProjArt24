@@ -30,7 +30,6 @@ class JsonHelper
         if ($location) {
             return $location->id;
         } else {
-            dump("Location not found for coordinates: [{$coordinates[0]}, {$coordinates[1]}]");
             return null;
         }
     }
@@ -44,7 +43,6 @@ class JsonHelper
         if ($data) {
             return $data->id;
         } else {
-            dump("Data not found for: {$data}]");
             return null;
         }
     }

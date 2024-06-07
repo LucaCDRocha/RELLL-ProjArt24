@@ -16,11 +16,11 @@ const { tag, time } = defineProps({
 const getTagColor = (tag) => {
     switch (tag.toLowerCase()) {
         case "facile":
-            return "bg-easy dark:bg-green-900";
+            return "bg-easy ";
         case "moyen":
-            return "bg-medium dark:bg-blue-900";
+            return "bg-medium";
         case "difficile":
-            return "bg-hard dark:bg-red-900";
+            return "bg-hard";
     }
 };
 
@@ -51,13 +51,14 @@ const getClasses = (tag) => {
     justify-content: center;
     align-items: center;
     padding: 0.2rem 0.8rem;
+    @apply dark:text-darkSurface;
 }
 .tag{
     border-top-left-radius: 0.35rem;
     border-top-right-radius: 0.35rem;
 }
 .time{
-    @apply bg-onPrimary dark:bg-green-950;
+    @apply bg-onPrimary dark:bg-white;
     @apply text-xs;
     border-bottom-left-radius: 0.35rem;
     border-bottom-right-radius: 0.35rem;

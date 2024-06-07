@@ -63,7 +63,7 @@ const destroy = () => {
 
     <div class="profil">
         <div>
-            <h1>Votre rofil</h1>
+            <h1>Votre profil</h1>
             <PrimaryButton @click="$inertia.visit('/settings')"
                 >Paramètres de l'app</PrimaryButton
             >
@@ -106,11 +106,8 @@ const destroy = () => {
     <BaseBottomSheet
         v-if="isOpen"
         :isOpen="isOpen"
-        @handle-open="toggleBottomSheet()"
+        @handle-close="toggleBottomSheet()"
     >
-        <span class="material-symbols-rounded" @click="toggleBottomSheet()"
-            >close</span
-        >
         <UpdatePasswordForm v-if="witchForm === 'password'" />
         <UpdateProfileInformationForm v-else />
     </BaseBottomSheet>

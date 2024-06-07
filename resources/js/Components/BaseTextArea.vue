@@ -26,15 +26,15 @@ defineExpose({ focus: () => input.value.focus() });
 
 <style scoped>
 textarea{
-    @apply focus:ring-1 focus:ring-primary dark:focus:ring-green-600;
-    @apply focus:border-primary dark:focus:border-green-600;
+    @apply focus:ring-1 focus:ring-primary dark:focus:ring-darkPrimary;
+    @apply focus:border-primary dark:focus:border-darkPrimary;
     @apply rounded-md shadow-sm;
-    @apply bg-surfaceVariant dark:bg-green-900;
+    @apply bg-surfaceVariant dark:bg-darkSurfaceVariant;
     @apply px-4 py-5;
 }
 
-::placeholder {
-    @apply text-onSurfaceVariant dark:text-green-100;
+textarea::placeholder {
+    @apply text-onSurfaceVariant dark:text-darkOnSurfaceVariant;
     @apply text-lg;
 }
 </style>

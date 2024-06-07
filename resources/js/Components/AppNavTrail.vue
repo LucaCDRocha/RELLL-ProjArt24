@@ -45,7 +45,7 @@ const emit = defineEmits(["next", "previous"]);
 
 <style scoped>
 div {
-    @apply bg-green-200 dark:bg-green-800;
+    @apply bg-surfaceVariant dark:bg-darkSurfaceVariant;
 
     display: flex;
     justify-content: space-around;
@@ -59,6 +59,6 @@ div {
 }
 
 .quit {
-    @apply text-red-700 dark:text-red-300;
+    @apply text-error dark:text-darkError;
 }
 </style>

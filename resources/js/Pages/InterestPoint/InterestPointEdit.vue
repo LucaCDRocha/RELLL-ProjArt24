@@ -21,26 +21,36 @@ const form = useForm({
     tag_id: 0
 });
 
-watch(form, (value) => {
-    console.log(form);
-})
+// watch(form, (value) => {
+//     console.log(form);
+// })
 
 const submit = () => {
-    console.log("test");
-    // acitver la fonction Store de TrailController
-    form.post(route('interestPoints.store'), {
+    form.put(route('interestPoints.update', [props.interest_point.id]), {
     });
 };
 
-const tagsList = defineProps({
+const props = defineProps({
     tags: {
         type: Array,
         default: () => [],
     },
+    interest_point: {
+        type: Object,
+        default: () => {},
+    },
+    imgs: { // Pas utiliser encore
+        type: Array,
+        default: () => [],
+    },
+    location: {
+        type: Array,
+        default: () => [],
+    }
 }
 );
 
-const tagsMap = tagsList.tags.map((tag) => {
+const tagsMap = props.tags.map((tag) => {
     return { id: tag.id, name: tag.name }
 })
 
@@ -52,15 +62,35 @@ const seasons = [
     { id: 5, name: 'Toutes' }]
 
 const handleFileInput = (event) => {
-  form.imgs = event.target.files;// Array.from(event.target.files);
-  console.log(form.imgs);
+  form.imgs = event.target.files;
+}
+
+// function updateName(event) {
+//   // Update the form.name with the new value from the input
+//   form.value.name = event.target.value;
+// }
+
+const getOldDatas = () => {
+form.name = props.interest_point.name;
+form.description = props.interest_point.description;
+form.url = props.interest_point.url;
+form.tag_id = props.interest_point.tag_id;
+form.seasons = props.interest_point.open_seasons;
+form.location = props.location.latitude + ","+ props.location.longitude;
 }
 
 
 //affichage du formulaire en plusieurs pages
 const step = ref(1);
-const nextStep = () => { step.value++ }
+const nextStep = () => { step.value++ ;
+    // if (!form.name) { // a modifier
+    //     errors.push("Le nom est requis");
+    //     return false;
+    // }
+}
 const previousStep = () => { step.value-- }
+
+getOldDatas();
 
 </script>
 
@@ -72,7 +102,7 @@ const previousStep = () => { step.value-- }
         <section v-if="step == 1">
             <div>
                 <InputLabel for="name" value="Veuillez choisir le nom du lieu" />
-                <TextInput id="name" class="mt-1 block w-full" v-model="form.name" required autofocus
+                <TextInput id="name" class="mt-1 block w-full" v-model="form.name" @input="updateName" required autofocus
                     placeholder="Nom du lieu"/>
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
@@ -86,7 +116,7 @@ const previousStep = () => { step.value-- }
 
             <div>
                 <InputLabel for="url" value="Veuillez mettre le site web du lieu" />
-                <TextInput id="url" class="mt-1 block w-full" v-model="form.url" required autofocus
+                <TextInput id="url" class="mt-1 block w-full"  v-model="form.url" required autofocus
                     placeholder="URL du site web"/>
                 <InputError class="mt-2" :message="form.errors.url_point" />
             </div>
@@ -106,7 +136,7 @@ const previousStep = () => { step.value-- }
             </div>
 
             <div>
-                <InputLabel for="imgs" value="Veuillez choisir des photos pour le lieu  " />
+                <InputLabel for="imgs" value="Changez les photos pour ce lieu" />
                 <input name="imgs[]" type="file" @input="handleFileInput" multiple />
                 <InputError class="mt-2" :message="form.errors.imgs" />
             </div>
@@ -115,7 +145,7 @@ const previousStep = () => { step.value-- }
         <section v-if="step == 3">
             <div>
                 <InputLabel for="coordonnees" value="Veuillez choisir le lieu" />
-                <TextInput id="coordonnees" class="mt-1 block w-full" v-model="form.location" required autofocus />
+                <TextInput id="coordonnees" class="mt-1 block w-full"  v-model="form.location" required autofocus />
                 <InputError class="mt-2" :message="form.errors.location" />
             </div>
         </section>

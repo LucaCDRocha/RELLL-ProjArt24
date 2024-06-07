@@ -50,7 +50,7 @@ defineProps({
 
 /* Style pour l'icone du switch */
 .slider {
-    @apply bg-primary dark:bg-green-500;
+    @apply bg-primary  ;
 
     position: absolute;
     cursor: pointer;
@@ -64,7 +64,7 @@ defineProps({
 
 /* Style pour l'icone lorsqu'elle est cochez */
 .slider:before {
-    @apply bg-onPrimary dark:bg-green-100;
+    @apply bg-onPrimary;
 
     content: "";
     position: absolute;

@@ -13,18 +13,17 @@ return new class extends Migration
     {
         Schema::create('trails', function (Blueprint $table) {
             $table->increments('id');
-            // $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'));
             $table->string('name');
             $table->time('time'); // à vérifier et confirmer le type
             $table->text('description');
             $table->string('difficulty'); // sur une échelle de 1 à 3,
             $table->boolean('is_accessible');
+            $table->string('info_transport')->nullable();
             $table->integer('user_id')->unsigned();
             $table->integer('img_id')->unsigned();
             $table->integer('location_start_id')->unsigned();
             $table->integer('location_end_id')->unsigned();
             $table->integer('location_parking_id')->unsigned();
-            $table->string('info_transport');
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('restrict')
