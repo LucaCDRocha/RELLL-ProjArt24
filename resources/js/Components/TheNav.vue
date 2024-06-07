@@ -22,6 +22,7 @@ onMounted(() => {
                 ?.classList.add("active");
             break;
         case "/trails/create":
+        case "/interestPoints/create":
             document
                 .querySelector('a[href="/create"]')
                 ?.querySelector("span")

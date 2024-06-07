@@ -34,6 +34,8 @@ class InterestPointController extends Controller
     public function store(Request $request)
     {
 
+        dd($request->all());
+
         $id_loc = LocationController::createLocation($request->location);
         $seasons = is_array($request->seasons) ? implode(',', $request->seasons) : $request->seasons;
 

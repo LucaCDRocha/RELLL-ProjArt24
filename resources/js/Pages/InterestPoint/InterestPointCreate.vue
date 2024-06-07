@@ -1,136 +1,389 @@
 <script setup>
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import BaseRadioButtonGroup from '@/Components/BaseRadioButtonGroup.vue';
-import BaseTextArea from '@/Components/BaseTextArea.vue';
-import BaseSelect from '@/Components/BaseSelect.vue';
-import BaseMultipleSelect from '@/Components/BaseMultipleSelect.vue';
-import { Head, useForm } from '@inertiajs/vue3';
-import { watch, ref } from 'vue';
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+import BaseRadioButtonGroup from "@/Components/BaseRadioButtonGroup.vue";
+import BaseTextArea from "@/Components/BaseTextArea.vue";
+import BaseSelect from "@/Components/BaseSelect.vue";
+import BaseMultipleSelect from "@/Components/BaseMultipleSelect.vue";
+import { Head, useForm } from "@inertiajs/vue3";
+import { watch, ref, computed, onMounted } from "vue";
+import TheNav from "@/Components/TheNav.vue";
+import TheHeader from "@/Components/TheHeader.vue";
+import BaseTag from "@/Components/BaseTag.vue";
+import BaseMap from "@/Components/BaseMap.vue";
+import { customIcon, map } from "@/Stores/map.js";
 
 const form = useForm({
-    name: '',
-    description: '',
-    url: '',
-    seasons : [],
+    name: "",
+    description: "",
+    url: "",
+    seasons: [],
+    tags: [],
     imgs: [],
-    location: '',
-    tag_id: 0
+    location: null,
 });
 
 watch(form, (value) => {
     console.log(form);
-})
+});
 
 const submit = () => {
     console.log("test");
     // acitver la fonction Store de TrailController
-    form.post(route('interestPoints.store'), {
-    });
+    form.post(route("interestPoints.store"), {});
 };
 
-const tagsList = defineProps({
+const props = defineProps({
     tags: {
         type: Array,
         default: () => [],
     },
-}
-);
+});
+const tagsSelected = computed(() => {
+    let selected = [];
+    for (const tag of props.tags) {
+        if (tag.selected) {
+            selected.push(tag);
+        }
+    }
+    return selected;
+});
+const switchTag = (tag) => {
+    if (props.tags.find((f) => f.name === tag.name)) {
+        props.tags.find((f) => f.name === tag.name).selected = !tag.selected;
+    }
+};
+watch(tagsSelected, (value) => {
+    form.tags = value;
+});
 
-const tagsMap = tagsList.tags.map((tag) => {
-    return { id: tag.id, name: tag.name }
-})
-
-const seasons = [
-    { id: 1, name: 'Printemps' },
-    { id: 2, name: 'Eté' },
-    { id: 3, name: 'Automne' },
-    { id: 4, name: 'Hiver' },
-    { id: 5, name: 'Toutes' }]
+const seasons = ref([
+    { name: "Printemps", selected: false },
+    { name: "Eté", selected: false },
+    { name: "Automne", selected: false },
+    { name: "Hiver", selected: false },
+    // { name: "Toutes", selected: false },
+]);
+const seasonsSelected = computed(() => {
+    let selected = [];
+    for (const season of seasons.value) {
+        if (season.selected) {
+            selected.push(season);
+        }
+    }
+    return selected;
+});
+const switchSeason = (season) => {
+    if (seasons.value.find((f) => f.name === season.name)) {
+        seasons.value.find((f) => f.name === season.name).selected =
+            !season.selected;
+    }
+};
+watch(seasonsSelected, (value) => {
+    form.seasons = value;
+});
 
 const handleFileInput = (event) => {
-  form.imgs = event.target.files;// Array.from(event.target.files);
-  console.log(form.imgs);
-}
+    form.imgs = event.target.files; // Array.from(event.target.files);
+    console.log(form.imgs);
+};
 
+const textPoint = ref("");
+const positionPoint = ref(null);
+const locationPoint = (e) => {
+    console.log("locationPoint", e.point);
+    positionPoint.value = e.point;
+    form.location = e.point;
+};
+
+const placeMarker = (adresse) => {
+    if (adresse === "") return;
+
+    // remove previous marker
+    map.value.eachLayer((layer) => {
+        if (
+            layer instanceof L.Marker &&
+            layer.options.icon === customIcon.value
+        ) {
+            map.value.removeLayer(layer);
+        }
+    });
+
+    fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+            adresse
+        )}&format=json`
+    )
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.length > 0) {
+                const point = data[0];
+                const latLng = L.latLng(point.lat, point.lon);
+                locationPoint({ point: { latLng } });
+                L.marker(latLng, {
+                    icon: customIcon.value,
+                    draggable: true,
+                })
+                    .addTo(map.value)
+                    .on("dragend", function (e) {
+                        locationPoint({ point: { latLng } });
+                    });
+            } else {
+                alert("Adresse introuvable");
+            }
+        })
+        .catch((error) =>
+            console.error("Erreur lors de la recherche de l'adresse:", error)
+        );
+};
 
 //affichage du formulaire en plusieurs pages
 const step = ref(1);
-const nextStep = () => { step.value++ }
-const previousStep = () => { step.value-- }
+const nextStep = () => {
+    switch (step.value) {
+        case 1:
+            if (form.name === "") {
+                form.errors.name = "Le nom du lieu est obligatoire";
+            } else {
+                form.errors.name = "";
+            }
+            if (form.description === "") {
+                form.errors.description =
+                    "La description du lieu est obligatoire";
+            } else {
+                form.errors.description = "";
+            }
+            if (form.errors.name === "" && form.errors.description === "") {
+                step.value++;
+            }
+            break;
 
+        case 2:
+            if (tagsSelected.value.length === 0) {
+                form.errors.tag_id = "Le tag du lieu est obligatoire";
+            } else {
+                form.errors.tag_id = "";
+            }
+            if (seasonsSelected.value.length === 0) {
+                form.errors.seasons = "Les saisons du lieu sont obligatoires";
+            } else {
+                form.errors.seasons = "";
+            }
+            if (form.imgs.length === 0) {
+                form.errors.imgs = "Les images du lieu sont obligatoires";
+            } else {
+                form.errors.imgs = "";
+            }
+            if (
+                form.errors.tag_id === "" &&
+                form.errors.seasons === "" &&
+                form.errors.imgs === ""
+            ) {
+                step.value++;
+            }
+            break;
+
+        default:
+            break;
+    }
+};
+const previousStep = () => {
+    step.value--;
+};
+
+// TODO: remove that
+watch(step, (value) => {
+    window.location.hash = value;
+});
+
+onMounted(() => {
+    if (window.location.hash) {
+        step.value = parseInt(window.location.hash.replace("#", ""));
+    }
+});
 </script>
 
 <template>
-
     <Head title="Créer un lieu" />
+
+    <TheHeader />
+
     <form @submit.prevent="submit">
-        <p>Création d'un lieu - {{ step }} / 3</p>
-        <section v-if="step == 1">
+        <div class="title">
+            <h1>Création d'un lieu - {{ step }}/3</h1>
+            <small><span>*</span> Champs obligatoires</small>
+        </div>
+        <section v-if="step === 1">
             <div>
-                <InputLabel for="name" value="Veuillez choisir le nom du lieu" />
-                <TextInput id="name" class="mt-1 block w-full" v-model="form.name" required autofocus
-                    placeholder="Nom du lieu"/>
+                <InputLabel
+                    for="name"
+                    value="Veuillez choisir le nom du lieu *"
+                />
+                <TextInput
+                    id="name"
+                    class="mt-1 block w-full"
+                    v-model="form.name"
+                    required
+                    placeholder="Nom du lieu"
+                />
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
             <div>
-                <InputLabel for="description" value="Veuillez mettre une description du lieu" />
-                <BaseTextArea id="description" class="mt-1 block w-full" v-model="form.description" required
-                    autofocus placeholder="Description" />
+                <InputLabel
+                    for="description"
+                    value="Veuillez mettre une description du lieu *"
+                />
+                <BaseTextArea
+                    id="description"
+                    class="mt-1 block w-full"
+                    v-model="form.description"
+                    required
+                    placeholder="Description"
+                />
                 <InputError class="mt-2" :message="form.errors.description" />
             </div>
 
             <div>
-                <InputLabel for="url" value="Veuillez mettre le site web du lieu" />
-                <TextInput id="url" class="mt-1 block w-full" v-model="form.url" required autofocus
-                    placeholder="URL du site web"/>
+                <InputLabel
+                    for="url"
+                    value="Veuillez mettre le site web du lieu"
+                />
+                <TextInput
+                    id="url"
+                    class="mt-1 block w-full"
+                    v-model="form.url"
+                    required
+                    placeholder="URL du site web"
+                />
                 <InputError class="mt-2" :message="form.errors.url_point" />
-            </div>
-
-            <div>
-                <InputLabel for="tag" value="Veuillez indiquer le tag du lieu" />
-                <BaseSelect name="tag" :options="tagsMap" v-model="form.tag_id" />
-                <InputError class="mt-2" :message="form.errors.tag_id" />
             </div>
         </section>
 
-        <section v-if="step == 2">
+        <section v-if="step === 2">
             <div>
-                <InputLabel for="season" value="Veuillez indiquer la période d’ouverture (saison)" />
-                <BaseMultipleSelect name="season" :options="seasons" v-model="form.seasons"/>
-                <InputError class="mt-2" :message="form.errors.seasons" />
+                <InputLabel
+                    for="tag"
+                    value="Veuillez indiquer le tag du lieu *"
+                />
+                <BaseTag
+                    v-for="tag in props.tags"
+                    :key="tag.name"
+                    :tag="tag.name"
+                    :selected="tag.selected"
+                    @click.prevent="switchTag(tag)"
+                />
+                <InputError class="mt-2" :message="form.errors.tag_id" />
             </div>
 
             <div>
-                <InputLabel for="imgs" value="Veuillez choisir des photos pour le lieu  " />
-                <input name="imgs[]" type="file" @input="handleFileInput" multiple />
+                <InputLabel
+                    for="season"
+                    value="Pendant quels saisons le lieu est ouvert ? *"
+                />
+                <BaseTag
+                    v-for="season in seasons"
+                    :key="season.name"
+                    :tag="season.name"
+                    :selected="season.selected"
+                    @click.prevent="switchSeason(season)"
+                />
+                <InputError class="mt-2" :message="form.errors.seasons" />
+            </div>
+            <div>
+                <InputLabel
+                    for="imgs"
+                    value="Veuillez choisir des photos pour le lieu *"
+                />
+                <input
+                    id="imgs"
+                    name="imgs[]"
+                    type="file"
+                    @input="handleFileInput"
+                    multiple
+                />
                 <InputError class="mt-2" :message="form.errors.imgs" />
             </div>
         </section>
 
-        <section v-if="step == 3">
+        <section v-if="step === 3">
             <div>
-                <InputLabel for="coordonnees" value="Veuillez choisir le lieu" />
-                <TextInput id="coordonnees" class="mt-1 block w-full" v-model="form.location" required autofocus />
+                <InputLabel
+                    for="coordonnees"
+                    value="Veuillez choisir le lieu"
+                />
+                <TextInput
+                    id="depart"
+                    class="mt-1 block w-full"
+                    v-model="textPoint"
+                    placeholder="Nom de la rue, numéro, ville"
+                    @change="placeMarker($event.target.value)"
+                />
+
+                <BaseMap
+                    v-if="step === 3"
+                    :selectable="true"
+                    :draggable="true"
+                    :points="positionPoint ? [positionPoint] : []"
+                    :pointsDraggable="true"
+                    @marker-location="locationPoint($event)"
+                />
                 <InputError class="mt-2" :message="form.errors.location" />
             </div>
         </section>
         <div>
-            <a v-if="step > 1" @click.prevent="previousStep()" href="">Revenir en arrière</a>
-            <PrimaryButton v-if="step < 3" @click.prevent="nextStep()">
-                Prochaine étape
-            </PrimaryButton>
-            <PrimaryButton v-else class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Sauver
-            </PrimaryButton>
+            <div class="nav">
+                <a v-if="step > 1" @click.prevent="previousStep()" href=""
+                    >Revenir en arrière</a
+                >
+                <a v-else href="/create">Annuler</a>
+                <PrimaryButton v-if="step < 3" @click.prevent="nextStep()">
+                    Prochaine étape
+                </PrimaryButton>
+                <PrimaryButton v-else class="ms-4" @click.prevent="submit()">
+                    Sauver
+                </PrimaryButton>
+            </div>
         </div>
     </form>
 
-
+    <TheNav />
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(#map) {
+    height: 400px;
+    width: 100%;
+}
+
+.nav {
+    @apply bg-surface;
+
+    position: fixed;
+    bottom: 5rem;
+
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    width: 100vw;
+    box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+form section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 1rem 7rem 1rem;
+    z-index: 10;
+}
+
+.title {
+    padding: 1rem;
+}
+</style>

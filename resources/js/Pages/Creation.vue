@@ -24,7 +24,9 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
             </p>
             <div class="creation_action">
                 <span class="material-symbols-rounded">add_location_alt</span>
-                <SecondaryButton icon="add_circle"
+                <SecondaryButton
+                    icon="add_circle"
+                    @click="$inertia.visit('/interestPoints/create')"
                     >Créer un lieu</SecondaryButton
                 >
             </div>

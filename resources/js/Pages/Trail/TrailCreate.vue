@@ -230,10 +230,10 @@ onMounted(() => {
 
     <form @submit.prevent="submit">
         <div class="title">
-            <h2>Création d'un sentier - {{ step }}/6</h2>
-            <p><span>*</span> Champs obligatoires</p>
+            <h1>Création d'un sentier - {{ step }}/6</h1>
+            <small><span>*</span> Champs obligatoires</small>
         </div>
-        <section v-if="step == 1">
+        <section v-if="step === 1">
             <div>
                 <InputLabel for="name" value="Quel est le nom du sentier ? *" />
                 <TextInput
@@ -290,7 +290,7 @@ onMounted(() => {
             </div>
         </section>
 
-        <section v-if="step == 2">
+        <section v-if="step === 2">
             <div>
                 <InputLabel
                     for="is_accessible"
@@ -338,7 +338,7 @@ onMounted(() => {
             </div>
         </section>
 
-        <section v-if="step == 3">
+        <section v-if="step === 3">
             <div>
                 <InputLabel
                     for="is_parking"
@@ -371,7 +371,7 @@ onMounted(() => {
             />
         </section>
 
-        <section v-if="step == 4">
+        <section v-if="step === 4">
             <div>
                 <InputLabel
                     for="depart"
@@ -400,7 +400,7 @@ onMounted(() => {
             </div>
         </section>
 
-        <section v-if="step == 5">
+        <section v-if="step === 5">
             <div>
                 <InputLabel
                     for="arrivee"
@@ -433,7 +433,7 @@ onMounted(() => {
             <!-- Je te laisse mettre en place le code permettant de remplir les inputs de données -->
         </section>
 
-        <section v-if="step == 6">
+        <section v-if="step === 6">
             <div>
                 <InputLabel
                     for="interest_points"
