@@ -18,6 +18,10 @@ class LikeController extends Controller
         } else {
             $like->delete();
         }
-        return response()->json();
+        return response()->json(
+            [
+                'message' => 'success'
+            ]
+        );
     }
 }

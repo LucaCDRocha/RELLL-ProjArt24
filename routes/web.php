@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
 
     // API
 
-    Route::get("/api/likecomment/{comment_id}/}", [LikeController::class, 'likeOrUnlikeComment'])->name('like.addDelete');
+    Route::get("/api/likecomment/{comment_id}", [LikeController::class, 'likeOrUnlikeComment'])->name('like.addDelete');
 });
 
 require __DIR__ . '/auth.php';
