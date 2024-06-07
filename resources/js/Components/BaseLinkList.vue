@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
     <a :href="`${link}`">
         <div class="element">
-            <div>
+            <div class="details">
                 <p>{{ name }}</p>
                 <p v-if="numberElem">({{ numberElem }})</p>
             </div>
@@ -36,8 +36,12 @@ const props = defineProps({
         border-bottom-width: 1px;
         @apply border-b border-customGray dark:border-darkCustomGray;
         padding: 12px 5px;
+        margin-right: 1rem;
     }
     div{
         display: flex;
+    }
+    div.details{
+        gap: 0.25rem;
     }
 </style>

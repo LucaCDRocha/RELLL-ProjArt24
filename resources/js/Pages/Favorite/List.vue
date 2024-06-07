@@ -52,13 +52,6 @@ const successMessage = pageProps.flash?.success;
         :numberElem="el.trails_count"
     />
 
-    <BasePlainButton
-        @click.prevent="toggleBottomSheet()"
-        type="submit"
-        icon="add_circle"
-        >Créer une nouvelle liste</BasePlainButton
-    >
-
     </div>
 
     <!-- <BaseImgGrid v-if="list.length > 0" :imgs="list" /> -->

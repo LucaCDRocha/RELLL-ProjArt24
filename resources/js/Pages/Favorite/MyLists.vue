@@ -1,6 +1,6 @@
 <script setup>
 import { useForm, Link } from "@inertiajs/vue3";
-import { ref, watch, onMounted } from "vue";
+import { ref, watch } from "vue";
 import BaseCheckbox from "@/Components/BaseCheckbox.vue";
 import BasePlainButton from "@/Components/BasePlainButton.vue";
 import NewList from "@/Pages/Favorite/NewList.vue";
@@ -23,8 +23,6 @@ const props = defineProps({
         type: Array
     }
 });
-
- console.log(props.listIds);
 
 const newIsOpen = ref(false);
 const toggleBottomSheetNew = () => {
@@ -52,7 +50,7 @@ const emit = defineEmits(["handleOpen"]);
 <template>
     <div>
         <div class="lists">
-            <h2>A quelle liste voulez-vous ajouter le sentier {{ title }} ?</h2>
+            <h3>A quelle liste voulez-vous ajouter le sentier {{ title }} ?</h3>
             <form @submit.prevent="submit">
 
                 <BaseCheckbox v-for="list in allLists"
@@ -81,6 +79,7 @@ const emit = defineEmits(["handleOpen"]);
                     <NewList />
                 </BaseBottomSheet>
 
+                <div class="finalLinks">
                 <Link
                     href=""
                     @click.prevent="toggleBottomSheet()"
@@ -95,6 +94,7 @@ const emit = defineEmits(["handleOpen"]);
                 >
                     Ajouter
                 </PrimaryButton>
+            </div>
             </form>
         </div>
     </div>
@@ -103,5 +103,18 @@ const emit = defineEmits(["handleOpen"]);
 
 
 <style scoped>
-/* Your component-specific styles go here */
+div.lists{
+    padding: 1rem 1rem 0rem 1rem;
+}
+
+.lists h3 {
+    font-size: 1.375rem;
+}
+
+div.finalLinks{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    align-items: center;
+}
 </style>
