@@ -31,9 +31,12 @@ watch(form, (value) => {
 });
 
 const submit = () => {
-    console.log("test");
-    // acitver la fonction Store de TrailController
-    form.post(route("interestPoints.store"), {});
+    if (form.location === null) {
+        form.errors.location = "La position du lieu est obligatoire";
+    } else {
+        form.errors.location = "";
+        form.post(route("interestPoints.store"), {});
+    }
 };
 
 const props = defineProps({
@@ -239,7 +242,7 @@ onMounted(() => {
                     class="mt-1 block w-full"
                     v-model="form.description"
                     required
-                    placeholder="C’est un peu le nouveau quartier ..."
+                    placeholder="C’est un peu le nouveau quartier..."
                 />
                 <InputError class="mt-2" :message="form.errors.description" />
             </div>
@@ -312,6 +315,7 @@ onMounted(() => {
                     for="coordonnees"
                     value="Sélectionnez la position du lieu sur la carte ou entrez l'adresse. *"
                 />
+                <InputError class="mt-2" :message="form.errors.location" />
                 <TextInput
                     id="depart"
                     class="mt-1 block w-full"
@@ -328,7 +332,6 @@ onMounted(() => {
                     :pointsDraggable="true"
                     @marker-location="locationPoint($event)"
                 />
-                <InputError class="mt-2" :message="form.errors.location" />
             </div>
         </section>
         <div>

@@ -54,8 +54,9 @@ watch(form, (value) => {
 
 const submit = () => {
     if (step.value === 6 && !form.interest_points) {
-        return;
+        form.errors.interest_points = "Veuillez choisir des points d'intérêts";
     } else {
+        form.errors.interest_points = "";
         form.post(route("trails.store"), {});
     }
 };
@@ -69,16 +70,113 @@ const difficulties = [
 //affichage du formulaire en plusieurs pages
 const step = ref(1);
 const nextStep = () => {
-    if (step.value === 4 && form.location_start === null) {
-        return;
+    switch (step.value) {
+        case 1:
+            if (form.name === "") {
+                form.errors.name = "Le nom du sentier est obligatoire";
+            } else {
+                form.errors.name = "";
+            }
+            if (form.description === "") {
+                form.errors.description =
+                    "La description du sentier est obligatoire";
+            } else {
+                form.errors.description = "";
+            }
+            if (form.img === null) {
+                form.errors.img = "L'image du sentier est obligatoire";
+            } else {
+                form.errors.img = "";
+            }
+            if (form.difficulty === 0) {
+                form.errors.difficulty =
+                    "La difficulté du sentier est obligatoire";
+            } else {
+                form.errors.difficulty = "";
+            }
+            if (
+                form.errors.name === "" &&
+                form.errors.description === "" &&
+                form.errors.img === "" &&
+                form.errors.difficulty === ""
+            ) {
+                step.value++;
+            }
+            break;
+        case 2:
+            if (form.is_accessible === "") {
+                form.errors.is_accessible =
+                    "L'accessibilité du sentier est obligatoire";
+            } else {
+                form.errors.is_accessible = "";
+            }
+            if (form.near_transport === "") {
+                form.errors.near_transport =
+                    "La proximité des transports publics est obligatoire";
+            } else {
+                form.errors.near_transport = "";
+            }
+            if (form.near_transport === "Oui" && form.info_transports === "") {
+                form.errors.info_transports =
+                    "Les informations sur les transports publics sont obligatoires";
+            } else {
+                form.errors.info_transports = "";
+            }
+            if (
+                form.errors.is_accessible === "" &&
+                form.errors.near_transport === "" &&
+                form.errors.info_transports === ""
+            ) {
+                step.value++;
+            }
+            break;
+        case 3:
+            if (form.is_parking === "") {
+                form.errors.is_parking =
+                    "La proximité d'un parking est obligatoire";
+            } else {
+                form.errors.is_parking = "";
+            }
+            if (form.is_parking === "Oui" && form.location_parking === null) {
+                form.errors.location_parking =
+                    "La position du parking est obligatoire";
+            } else {
+                form.errors.location_parking = "";
+            }
+            if (
+                form.errors.is_parking === "" &&
+                form.errors.location_parking === ""
+            ) {
+                step.value++;
+            }
+            break;
+        case 4:
+            if (form.location_start === null) {
+                form.errors.location_start =
+                    "La position du point de départ est obligatoire";
+            } else {
+                form.errors.location_start = "";
+            }
+            if (form.errors.location_start === "") {
+                step.value++;
+            }
+            break;
+        case 5:
+            if (form.location_end === null) {
+                form.errors.location_end =
+                    "La position du point d'arrivée est obligatoire";
+            } else {
+                form.errors.location_end = "";
+            }
+            if (form.errors.location_end === "") {
+                step.value++;
+            }
+            break;
+        case 6:
+
+        default:
+            break;
     }
-    if (step.value === 5 && form.location_end === null) {
-        return;
-    }
-    if (step.value === 6 && form.interest_points === null) {
-        return;
-    }
-    step.value++;
 };
 const previousStep = () => {
     step.value--;
@@ -242,7 +340,7 @@ onMounted(() => {
                     v-model="form.name"
                     required
                     autocomplete="name"
-                    placeholder="Nom du sentier"
+                    placeholder="Art en ville de Lausanne"
                 />
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
@@ -258,9 +356,22 @@ onMounted(() => {
                     class="mt-1 block w-full"
                     v-model="form.description"
                     required
-                    placeholder="Description"
+                    placeholder="C’est un peu le nouveau quartier..."
                 />
                 <InputError class="mt-2" :message="form.errors.description" />
+            </div>
+
+            <div>
+                <InputLabel
+                    for="image"
+                    value="Ajoutez une photo du sentier *"
+                />
+                <input
+                    type="file"
+                    name="image"
+                    @input="form.img = $event.target.files[0]"
+                />
+                <InputError class="mt-2" :message="form.errors.img" />
             </div>
 
             <div>
@@ -275,26 +386,13 @@ onMounted(() => {
                 />
                 <InputError class="mt-2" :message="form.errors.difficulty" />
             </div>
-
-            <div>
-                <InputLabel
-                    for="image"
-                    value="Veuillez choisir une photo du sentier *"
-                />
-                <input
-                    type="file"
-                    name="image"
-                    @input="form.img = $event.target.files[0]"
-                />
-                <InputError class="mt-2" :message="form.errors.img" />
-            </div>
         </section>
 
         <section v-if="step === 2">
             <div>
                 <InputLabel
                     for="is_accessible"
-                    value="Est-ce que le sentier est accessible aux chaises roulantes ?"
+                    value="Est-ce que le sentier est accessible en chaises roulantes ? *"
                 />
                 <BaseRadioButtonGroup
                     name="is_accessible"
@@ -307,7 +405,7 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="near_transport"
-                    value="Est-ce que le sentier est accessible en transports public ?"
+                    value="Est-ce que le sentier est proche des transports public ? *"
                 />
                 <BaseRadioButtonGroup
                     name="near_transport"
@@ -320,16 +418,16 @@ onMounted(() => {
                 />
             </div>
 
-            <div>
+            <div v-if="form.near_transport === 'Oui'">
                 <InputLabel
                     for="info_transport"
-                    value="Si oui, à quoi ressemble l'accès en transports publics ?"
+                    value="Si oui, à quoi ressemble l'accès aux transports publics ? *"
                 />
                 <BaseTextArea
                     id="info_transport"
                     class="mt-1 block w-full"
                     v-model="form.info_transports"
-                    placeholder="Description"
+                    placeholder="Le départ est à la gare de..."
                 />
                 <InputError
                     class="mt-2"
@@ -342,7 +440,7 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="is_parking"
-                    value="Est-ce qu’il y a un parking proche du sentier ?"
+                    value="Est-ce qu’il y a un parking proche du sentier ? *"
                 />
                 <BaseRadioButtonGroup
                     name="is_parking"
@@ -352,36 +450,48 @@ onMounted(() => {
                 <InputError class="mt-2" :message="form.errors.is_parking" />
             </div>
 
-            <TextInput
-                v-if="step === 3 && form.is_parking === 'Oui'"
-                id="depart"
-                class="mt-1 block w-full"
-                v-model="textParking"
-                required
-                placeholder="Nom de la rue, numéro, ville"
-                @change="placeMarker($event.target.value)"
-            />
-            <BaseMap
-                v-if="step === 3 && form.is_parking === 'Oui'"
-                :selectable="true"
-                :draggable="true"
-                :points="positionParking ? [positionParking] : []"
-                :pointsDraggable="true"
-                @marker-location="locationParking($event)"
-            />
+            <div v-if="step === 3 && form.is_parking === 'Oui'">
+                <InputLabel
+                    for="parking"
+                    value="Sélectionnez la position du lieu sur la carte ou entrez l'adresse. *"
+                />
+                <InputError
+                    class="mt-2"
+                    :message="form.errors.location_parking"
+                />
+                <TextInput
+                    id="parking"
+                    class="mt-1 block w-full"
+                    v-model="textParking"
+                    required
+                    placeholder="Pl. de la gare 16, Lausanne"
+                    @change="placeMarker($event.target.value)"
+                />
+                <BaseMap
+                    :selectable="true"
+                    :draggable="true"
+                    :points="positionParking ? [positionParking] : []"
+                    :pointsDraggable="true"
+                    @marker-location="locationParking($event)"
+                />
+            </div>
         </section>
 
         <section v-if="step === 4">
             <div>
                 <InputLabel
                     for="depart"
-                    value="Veuillez choisir un lieu de départ du sentier *"
+                    value="Sélectionnez le point de départ du sentier sur la carte ou entrez l'adresse. *"
+                />
+                <InputError
+                    class="mt-2"
+                    :message="form.errors.location_start"
                 />
                 <TextInput
                     id="depart"
                     class="mt-1 block w-full"
                     v-model="textStart"
-                    placeholder="Nom de la rue, numéro, ville"
+                    placeholder="Pl. de la gare 16, Lausanne"
                     @change="placeMarker($event.target.value)"
                 />
 
@@ -393,10 +503,6 @@ onMounted(() => {
                     :pointsDraggable="true"
                     @marker-location="locationStart($event)"
                 />
-                <InputError
-                    class="mt-2"
-                    :message="form.errors.location_start"
-                />
             </div>
         </section>
 
@@ -404,13 +510,14 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="arrivee"
-                    value="Veuillez choisir un lieu d'arrivée du sentier *"
+                    value="Sélectionnez le point d'arrivée du sentier sur la carte ou entrez l'adresse. *"
                 />
+                <InputError class="mt-2" :message="form.errors.location_end" />
                 <TextInput
                     id="arrivee"
                     class="mt-1 block w-full"
                     v-model="textEnd"
-                    placeholder="Nom de la rue, numéro, ville"
+                    placeholder="Pl. de la gare 16, Lausanne"
                     @change="placeMarker($event.target.value)"
                 />
                 <BaseMap
@@ -421,7 +528,6 @@ onMounted(() => {
                     :pointsDraggable="true"
                     @marker-location="locationEnd($event)"
                 />
-                <InputError class="mt-2" :message="form.errors.location_end" />
             </div>
 
             <!-- Permet de récuppérer l'id de l'utilisateur, ainsi que récupérer les points GPS rentré par l'utilisateur et les envoyer à la requette -->
@@ -443,6 +549,10 @@ onMounted(() => {
                     >Veuillez les choisir dans l'ordre que vous souhaitez
                     réaliser le parcous</small
                 >
+                <InputError
+                    class="mt-2"
+                    :message="form.errors.interest_points"
+                />
                 <AppMap
                     v-if="step === 6"
                     :points="interestPoints"

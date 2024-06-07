@@ -126,7 +126,7 @@ const emit = defineEmits(["add-point"]);
 
 <template>
     <form @submit.prevent="" class="search-bar">
-        <TextInput v-model="search" placeholder="Rechercher" />
+        <TextInput v-model="search" placeholder="Rechercher un lieu" />
         <span class="material-symbols-rounded" @click="search = ''">close</span>
         <button>
             <span class="material-symbols-rounded">search</span>
