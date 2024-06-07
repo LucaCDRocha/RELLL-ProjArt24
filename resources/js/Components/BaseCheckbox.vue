@@ -1,42 +1,50 @@
 <script setup>
 const props = defineProps({
     id: {
+        type: Number,
         required: true,
-        type: Number
     },
     name: {
+        type: String,
         required: true,
-        type: String
     },
     count: {
-        type: Number
-    }
+        type: Number,
+    },
 });
 
 const form = defineModel({
-    type: Array,
-    required: true
-})
+    key: "form",
+    default: [],
+});
 
 const toggleCheckbox = (event) => {
-    const checkbox = event.currentTarget.querySelector('input[type="checkbox"]');
+    const checkbox = event.currentTarget.querySelector(
+        'input[type="checkbox"]'
+    );
     checkbox.checked = !checkbox.checked;
 
     // Trigger the change event manually to update the v-model
-    const changeEvent = new Event('change', { bubbles: true });
+    const changeEvent = new Event("change", { bubbles: true });
     checkbox.dispatchEvent(changeEvent);
-}
+};
 
 const preventClickPropagation = (event) => {
     // Prevent the click event from bubbling up to the parent div
     event.stopPropagation();
-}
+};
 </script>
 
 <template>
     <div class="checkboxGroup" @click="toggleCheckbox">
         <div @click="preventClickPropagation">
-            <input type="checkbox" :name="name" :value="id" :id="id" v-model="form" />
+            <input
+                type="checkbox"
+                :name="name"
+                :value="id"
+                :id="id"
+                v-model="form"
+            />
             <label :for="id">{{ name }}</label>
         </div>
         <p v-if="count" class="count">{{ count }}</p>

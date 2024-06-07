@@ -6,6 +6,7 @@ import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import MyLists from "@/Pages/Favorite/MyLists.vue";
 
 const isOpen = ref(false);
+
 const toggleBottomSheet = () => {
     isOpen.value = !isOpen.value;
 };
@@ -18,19 +19,25 @@ const props = defineProps({
     id: {
         type: Number,
         required: true,
-    }
+    },
 });
 
+console.log(props);
 </script>
 
 <template>
-    <Link :href="route('bookmark.allLists', { name : title, trailId : id })">
+    <!-- <Link :href="route('bookmark.allLists', { name: title, trailId: id })"> -->
     <SecondaryButton icon="bookmark" @click="toggleBottomSheet()">
-        Enregistrer</SecondaryButton>
-    </Link>
+        Enregistrer</SecondaryButton
+    >
+    <!-- </Link> -->
 
-    <BaseBottomSheet v-if="isOpen" :isOpen="isOpen" @handle-close="toggleBottomSheet()">
-        <MyLists />
+    <BaseBottomSheet
+        v-if="isOpen"
+        :isOpen="isOpen"
+        @handle-close="toggleBottomSheet()"
+    >
+        <MyLists :trailId="props.id" :title="props.title" />
     </BaseBottomSheet>
 </template>
 

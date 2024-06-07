@@ -89,8 +89,11 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)"
                 >Commencer</PrimaryButton
             >
-            <AppSaveButton v-if="isUserLoggedIn" :title="data.name" :id="data.id" />
-            <SecondaryButton icon="star">Favoris</SecondaryButton>
+            <AppSaveButton
+                v-if="isUserLoggedIn"
+                :title="data.name"
+                :id="data.id"
+            />
         </div>
 
         <BaseImgGalery :imgs="imgs" />

@@ -13,25 +13,45 @@ const props = defineProps({
         required: true,
     },
     trailId: {
-        type: String,
+        type: Number,
         required: true,
     },
-    allLists: {
-        type: Object
-    },
-    listIds: {
-        type: Array
-    }
 });
 
-const newIsOpen = ref(false);
-const toggleBottomSheetNew = () => {
-    newIsOpen.value = !newIsOpen.value;
+const title = ref(props.title);
+const allLists = ref([]);
+const listIds = ref([]);
+const trailId = ref(props.trailId);
+
+const fetching = async () => {
+    fetch(
+        route("bookmark.allLists", {
+            trailId: trailId.value,
+            name: title.value,
+        })
+    )
+        .then((response) => response.json())
+        .then((datas) => {
+            console.log(datas);
+            allLists.value = datas.allLists;
+            listIds.value = datas.listIds;
+            title.value = datas.title;
+            trailId.value = datas.trailId;
+        });
+};
+
+fetching();
+
+const isOpen = ref(false);
+const toggleBottomSheet = () => {
+    fetching().then(() => {
+        isOpen.value = !isOpen.value;
+    });
 };
 
 const form = useForm({
-    trail_id: props.trailId,
-    check_ids: props.listIds,
+    trail_id: trailId.value,
+    check_ids: listIds.value,
 });
 
 watch(form, (value) => {
@@ -44,7 +64,6 @@ const submit = () => {
 };
 
 const emit = defineEmits(["handleOpen"]);
-
 </script>
 
 <template>
@@ -52,58 +71,57 @@ const emit = defineEmits(["handleOpen"]);
         <div class="lists">
             <h3>A quelle liste voulez-vous ajouter le sentier {{ title }} ?</h3>
             <form @submit.prevent="submit">
-
-                <BaseCheckbox v-for="list in allLists"
+                <BaseCheckbox
+                    v-for="list in allLists"
+                    :key="list.id"
                     :id="list.id"
                     :name="list.name"
-                    :count="list.trail_ids.length"
+                    :count="list.trail_ids?.length ?? 0"
                     v-model="form.check_ids"
                 />
-                
+
                 <BasePlainButton
-                    @click.prevent="toggleBottomSheetNew()"
+                    @click.prevent="toggleBottomSheet()"
                     type="submit"
                     icon="add_circle"
                     >Créer une nouvelle liste</BasePlainButton
                 >
                 <BaseBottomSheet
-                    v-if="newIsOpen"
-                    :isOpen="newIsOpen"
-                    @handle-close="toggleBottomSheetNew()"
+                    v-if="isOpen"
+                    :isOpen="isOpen"
+                    @handle-close="toggleBottomSheet()"
                 >
                     <span
                         class="material-symbols-rounded"
-                        @click="toggleBottomSheetNew()"
+                        @click="toggleBottomSheet()"
                         >close</span
                     >
-                    <NewList />
+                    <NewList @send="toggleBottomSheet()" />
                 </BaseBottomSheet>
 
                 <div class="finalLinks">
-                <Link
-                    href=""
-                    @click.prevent="toggleBottomSheet()"
-                    class="underline text-sm font-medium text-onSurface dark:text-onSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
-                >
-                    Annuler</Link
-                >
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Ajouter
-                </PrimaryButton>
-            </div>
+                    <Link
+                        href=""
+                        @click.prevent="toggleBottomSheet()"
+                        class="underline text-sm font-medium text-onSurface dark:text-onSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                    >
+                        Annuler</Link
+                    >
+                    <PrimaryButton
+                        class="ms-4"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                    >
+                        Ajouter
+                    </PrimaryButton>
+                </div>
             </form>
         </div>
     </div>
 </template>
 
-
-
 <style scoped>
-div.lists{
+div.lists {
     padding: 1rem 1rem 0rem 1rem;
 }
 
@@ -111,7 +129,7 @@ div.lists{
     font-size: 1.375rem;
 }
 
-div.finalLinks{
+div.finalLinks {
     display: flex;
     justify-content: flex-end;
     margin-top: 1rem;
