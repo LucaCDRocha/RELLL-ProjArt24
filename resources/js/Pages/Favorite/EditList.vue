@@ -27,9 +27,9 @@ watch(form, (value) => {
 
 const submit = () => {
     form.put(route("bookmark.update", { id: items.listDetails.id }), {})
-    setTimeout(() => {
-        history.back();
-    }, 1000);
+    // setTimeout(() => {
+    //     history.back();
+    // }, 1000);
 };
 </script>
 <template>

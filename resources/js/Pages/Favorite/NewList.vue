@@ -22,7 +22,7 @@ const submit = () => {
 <template>
     <div class="lists">
         <form @submit.prevent="submit">
-            <div>
+            <div class="input">
                 <InputLabel
                     for="name"
                     value="Quel est le nom de votre liste ?"
@@ -35,17 +35,43 @@ const submit = () => {
                     autofocus
                     placeholder="Nom de la liste"
                 />
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError :message="form.errors.name" />
             </div>
 
             <PrimaryButton
                 type="submit"
-                class="ms-4"
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
+                >Valider</PrimaryButton
             >
-                Valider
-            </PrimaryButton>
         </form>
     </div>
 </template>
+
+<style scoped>
+
+.lists {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    width: 100%;
+    padding: 1rem 2rem 1rem 1rem;
+}
+
+.lists form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+    width: 100%;
+}
+</style>

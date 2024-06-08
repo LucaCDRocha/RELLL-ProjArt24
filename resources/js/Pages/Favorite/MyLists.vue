@@ -125,7 +125,7 @@ const submit = () => {
 
 <style scoped>
 div.lists {
-    padding: 1rem 1rem 0rem 1rem;
+    padding: 0rem 1rem 1rem 0rem;
 }
 
 .lists h3 {

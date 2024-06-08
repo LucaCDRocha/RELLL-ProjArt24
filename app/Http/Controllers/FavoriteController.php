@@ -127,7 +127,7 @@ class FavoriteController extends Controller
         }
 
         // make that this controller not open a new page
-        return Redirect::back();
+        return Inertia::render('Favorite/OneList', ['listDetails' => $favorite]);
     }
 
     /**
