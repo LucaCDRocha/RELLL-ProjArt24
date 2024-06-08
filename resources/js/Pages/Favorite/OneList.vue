@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from "vue";
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from "@inertiajs/vue3";
 import TheNav from "@/Components/TheNav.vue";
-import SecondaryButton from '@/Components/SecondaryButton.vue';
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseCard from "@/Components/BaseCard.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
@@ -16,13 +16,13 @@ const items = defineProps({
     listDetails: {
         type: Object,
         default: () => [],
-    }
+    },
 });
-const form = useForm({ 
-    id : items.listDetails.id
+const form = useForm({
+    id: items.listDetails.id,
 });
 const submit = () => {
-    form.get(route('bookmark.edit', { id: items.listDetails.id }), {});
+    form.get(route("bookmark.edit", { id: items.listDetails.id }), {});
 };
 
 const isOpen = ref(false);
@@ -30,46 +30,48 @@ const isOpen = ref(false);
 const data = ref({});
 
 const BottomSheet = (e) => {
-        fetch(route("trails.showJson", e.id))
-            .then((response) => response.json())
-            .then((datas) => {
-                data.value = datas;
-                isOpen.value = true;
-            });
-    };
+    fetch(route("trails.showJson", e.id))
+        .then((response) => response.json())
+        .then((datas) => {
+            data.value = datas;
+            isOpen.value = true;
+        });
+};
 
 const closeBottomSheet = () => {
     isOpen.value = false;
 };
-
 </script>
 <template>
     <Head :title="listDetails.name" />
 
-    <TheHeader/>
+    <TheHeader />
 
     <div class="oneList">
-        
-      <div class="title">
-<h2>{{ listDetails.name }}</h2>
-    <!-- <Link :href="route('bookmark.index')"
-        class="underline text-sm font-medium text-onSurface dark:text-onSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
-    Retour
-    </Link> -->
-    <SecondaryButton @click="submit" class="ms-4" icon="edit">
+        <div class="title">
+            <h2>{{ listDetails.name }}</h2>
+            <div>
+                <Link
+                    :href="route('bookmark.index')"
+                    class="underline text-sm font-medium text-onSurface dark:text-onSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                    >Retour</Link
+                >
+                <SecondaryButton @click="submit" class="ms-4" icon="edit">
                     Modifier
-    </SecondaryButton>
+                </SecondaryButton>
+            </div>
+        </div>
+        <div class="trailsList">
+            <BaseCard
+                v-for="trail in trailsList"
+                :key="trail.id"
+                :data="trail"
+                @click="BottomSheet(trail)"
+            ></BaseCard>
+        </div>
+    </div>
 
-    
-</div>
-    <div class="trailsList">
-        <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail" @click="BottomSheet(trail)"></BaseCard>
-    </div> 
-
-
-</div>
-
-        <BaseBottomSheet
+    <BaseBottomSheet
         v-if="isOpen"
         :isOpen="isOpen"
         @handle-close="closeBottomSheet()"

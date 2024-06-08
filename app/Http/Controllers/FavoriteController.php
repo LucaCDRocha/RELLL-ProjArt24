@@ -123,11 +123,11 @@ class FavoriteController extends Controller
     {
         $favorite = Favorite::findOrFail($id);
         foreach ($request['aSupprimer'] as $listASupprimer) {
-            dump($listASupprimer);
             $favorite->trails()->detach($listASupprimer);
         }
 
-        return $this->index();
+        // make that this controller not open a new page
+        return Redirect::back();
     }
 
     /**
