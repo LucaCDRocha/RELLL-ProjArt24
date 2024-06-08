@@ -7,6 +7,9 @@ import BaseCard from "@/Components/BaseCard.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 import TheHeader from "@/Components/TheHeader.vue";
+import DangerButton from "@/Components/DangerButton.vue";
+import Modal from "@/Components/Modal.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const items = defineProps({
     trailsList: {
@@ -23,6 +26,15 @@ const form = useForm({
 });
 const submit = () => {
     form.get(route("bookmark.edit", { id: items.listDetails.id }), {});
+};
+
+const deleteList = () => {
+    form.delete(route("bookmark.destroy", { id: items.listDetails.id }), {});
+};
+
+const showModal = ref(false);
+const openModal = () => {
+    showModal.value = !showModal.value;
 };
 
 const isOpen = ref(false);
@@ -49,7 +61,7 @@ const closeBottomSheet = () => {
 
     <div class="oneList">
         <div class="title">
-            <h2>{{ listDetails.name }}</h2>
+            <h1>{{ listDetails.name }}</h1>
             <div>
                 <Link
                     :href="route('bookmark.index')"
@@ -69,7 +81,22 @@ const closeBottomSheet = () => {
                 @click="BottomSheet(trail)"
             ></BaseCard>
         </div>
+        <DangerButton @click="openModal()" icon="delete">
+            Supprimer
+        </DangerButton>
     </div>
+
+    <Modal :show="showModal" @close="openModal()">
+        <div class="confirmation-modal">
+            <h2>Voulez-vous vraiment supprimer cette liste ?</h2>
+            <div class="actions">
+                <a @click.prevent="deleteList()"> Supprimer la liste </a>
+                <PrimaryButton @click="openModal()">
+                    Non, annuler
+                </PrimaryButton>
+            </div>
+        </div>
+    </Modal>
 
     <BaseBottomSheet
         v-if="isOpen"
@@ -103,5 +130,26 @@ div.trailsList {
     flex-direction: row;
     flex-wrap: wrap;
     column-gap: 1.25rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.confirmation-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.actions a {
+    @apply text-red-500 dark:text-red-400;
 }
 </style>

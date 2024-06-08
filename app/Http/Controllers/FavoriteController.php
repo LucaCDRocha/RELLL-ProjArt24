@@ -135,8 +135,16 @@ class FavoriteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $favorite = Favorite::findOrFail($id);
+        // detach all trails from the list
+        $favorite->trails()->detach();
+        // delete the list
+        $favorite->delete();
+
+        // Rediriger avec un message de succès
+        return redirect()->route('bookmark.index')->with('success', 'Liste supprimée avec succès.');
     }
+
     public function addTrail(Request $request)
     {
         $userId = auth()->id();
