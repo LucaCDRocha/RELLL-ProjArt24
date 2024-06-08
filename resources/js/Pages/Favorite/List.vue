@@ -9,16 +9,13 @@ import NewList from "@/Pages/Favorite/NewList.vue";
 import { ref, watch } from "vue";
 import TheHeader from "@/Components/TheHeader.vue";
 import BaseImgGrid from "@/Components/BaseImgGrid.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const isOpen = ref(false);
 
 const toggleBottomSheet = () => {
     isOpen.value = !isOpen.value;
 };
-
-watch(isOpen, (value) => {
-    console.log(value);
-});
 
 const listes = defineProps({
     list: {
@@ -35,24 +32,36 @@ const successMessage = pageProps.flash?.success;
 
     <TheHeader />
 
-    <div class = "lists" >
-    <h2>Vos listes</h2>
-    <BaseDivider />
+    <div class="lists">
+        <div class="title">
+            <h2>Vos listes</h2>
+            <SecondaryButton icon="add_circle" @click="toggleBottomSheet()"
+                >Ajouter une liste</SecondaryButton
+            >
+        </div>
+        <BaseDivider />
 
-    <div v-if="successMessage" class="alert alert-success">
-        {{ successMessage }}
+        <div v-if="successMessage" class="alert alert-success">
+            {{ successMessage }}
+        </div>
+
+        <BaseLinkList
+            v-for="el in list"
+            :key="el.id"
+            :name="el.name"
+            :id="el.id"
+            :link="route('bookmark.show', { id: el.id })"
+            :numberElem="el.trails_count"
+        />
     </div>
 
-    <BaseLinkList
-        v-for="el in list"
-        :key="el.id"
-        :name="el.name"
-        :id="el.id"
-        :link="route('bookmark.show', { id: el.id })"
-        :numberElem="el.trails_count"
-    />
-
-    </div>
+    <BaseBottomSheet
+        v-if="isOpen"
+        :isOpen="isOpen"
+        @handle-close="toggleBottomSheet()"
+    >
+        <NewList @send="toggleBottomSheet()" />
+    </BaseBottomSheet>
 
     <!-- <BaseImgGrid v-if="list.length > 0" :imgs="list" /> -->
     <TheNav />
@@ -63,10 +72,6 @@ const successMessage = pageProps.flash?.success;
     padding: 1rem 0rem 0rem 1rem;
 }
 
-.lists h2 {
-    margin-top: 0.35rem;
-    margin-bottom: 1.75rem;
-}
 .alert {
     padding: 1rem;
     margin-bottom: 1rem;
@@ -78,5 +83,14 @@ const successMessage = pageProps.flash?.success;
     color: #155724;
     background-color: #d4edda;
     border-color: #c3e6cb;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.25rem;
+    margin-bottom: 2.25rem;
+    padding-right: 1rem;
 }
 </style>
