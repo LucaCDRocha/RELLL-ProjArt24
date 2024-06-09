@@ -19,14 +19,14 @@ defineProps({
 
 <style scoped>
 button {
-    @apply inline-flex items-center px-4 py-2;
+    @apply inline-flex items-center px-2 py-2;
 
-    @apply text-onSurface dark:text-darkOnSurface;
+    @apply text-base text-onSurface dark:text-darkOnSurface;
 
     @apply bg-transparent dark:bg-transparent;
 
     height: 2.5rem;
-    gap: 0.5rem;
+    gap: 0.6rem;
     width: 100%;
 }
 </style>

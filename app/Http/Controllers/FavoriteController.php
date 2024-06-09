@@ -17,20 +17,50 @@ class FavoriteController extends Controller
      */
     public function index()
     {
-            $userLists = Favorite::where('user_id', auth()->id())
-            ->withCount('trails')    
+        $userLists = Favorite::where('user_id', auth()->id())
+            ->withCount('trails')
             ->get();
-            return Inertia::render('Favorite/List', ['list' => $userLists]);
+        return Inertia::render('Favorite/List', ['list' => $userLists]);
     }
 
-    public function allLists(){
+    public function allLists(Request $request)
+    {
+        $name = $request->name;
+        $trailId = $request->trailId;
+
+        // Récupérer les favoris de l'utilisateur avec les trails associés
         $allLists = Favorite::where('user_id', auth()->id())
-            ->withCount('trails')    
+            ->with('trails:id') // Charger les trails avec uniquement leur id
             ->get();
-        
-            return Inertia::visit(url()->previous(), [
-                'lists' => $allLists
-            ]);
+
+        // Transformer la collection pour inclure les trail_id
+        $allLists = $allLists->map(function ($favorite) {
+            return [
+                'id' => $favorite->id,
+                'name' => $favorite->name,
+                'trail_ids' => $favorite->trails->pluck('id') // Récupérer les trail_id
+            ];
+        });
+
+        $currentLists = Favorite::where('user_id', auth()->id())
+            ->whereHas('trails', function ($query) use ($trailId) {
+                $query->where('trail_id', $trailId);
+            })
+            ->pluck('id')
+            ->toArray();
+
+        // return Inertia::render('Favorite/MyLists', [
+        //     'allLists' => $allLists, 'title' => $name, 'trailId' => $trailId, 'listIds' => $currentLists
+        // ]);
+
+        return response()->json(
+            [
+                'allLists' => $allLists,
+                'title' => $name,
+                'trailId' => $trailId,
+                'listIds' => $currentLists
+            ]
+        );
     }
     /**
      * Show the form for creating a new resource.
@@ -46,8 +76,8 @@ class FavoriteController extends Controller
     public function store(Request $request)
     {
         $exists = Favorite::where('user_id', Auth::id())
-                          ->where('name', $request->name)
-                          ->exists();
+            ->where('name', $request->name)
+            ->exists();
 
         if ($exists) {
             // Si la liste existe déjà, retourner une erreur
@@ -61,7 +91,8 @@ class FavoriteController extends Controller
         $favorite->save();
 
         // Rediriger avec un message de succès
-        return redirect()->route('bookmark.index')->with('success', 'Liste créée avec succès.');
+        // return redirect()->route('bookmark.index')->with('success', 'Liste créée avec succès.');
+        return;
     }
 
     /**
@@ -70,6 +101,7 @@ class FavoriteController extends Controller
     public function show(string $id)
     {
         $favorite = Favorite::findOrFail($id);
+
         $trails = $favorite->trails()->get()->load('img');
         return Inertia::render('Favorite/OneList', ['listDetails' => $favorite, 'trailsList' => $trails]);
     }
@@ -80,7 +112,7 @@ class FavoriteController extends Controller
     public function edit(string $id)
     {
         $favorite = Favorite::findOrFail($id);
-        $trails = $favorite->trails()->get();
+        $trails = $favorite->trails()->get()->load('img');
         return Inertia::render('Favorite/EditList', ['listDetails' => $favorite, 'trailsList' => $trails]);
     }
 
@@ -91,11 +123,11 @@ class FavoriteController extends Controller
     {
         $favorite = Favorite::findOrFail($id);
         foreach ($request['aSupprimer'] as $listASupprimer) {
-            dump($listASupprimer);
             $favorite->trails()->detach($listASupprimer);
         }
 
-        return $this->index();
+        // make that this controller not open a new page
+        return Inertia::render('Favorite/OneList', ['listDetails' => $favorite]);
     }
 
     /**
@@ -103,14 +135,23 @@ class FavoriteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
-    public function addTrail(Request $request){
-        $userId = auth()->id();
-    $newCheckIds = $request['check_ids'];
-    $trailId = $request['trail_id'];
+        $favorite = Favorite::findOrFail($id);
+        // detach all trails from the list
+        $favorite->trails()->detach();
+        // delete the list
+        $favorite->delete();
 
-        foreach($newCheckIds as $list) {
+        // Rediriger avec un message de succès
+        return redirect()->route('bookmark.index')->with('success', 'Liste supprimée avec succès.');
+    }
+
+    public function addTrail(Request $request)
+    {
+        $userId = auth()->id();
+        $newCheckIds = $request['check_ids'];
+        $trailId = $request['trail_id'];
+
+        foreach ($newCheckIds as $list) {
             $thelist = Favorite::findOrFail($list);
 
             $exists = $thelist->trails()->where('trail_id', $trailId)->exists();
@@ -122,21 +163,21 @@ class FavoriteController extends Controller
         }
 
         $currentCheckIds = Favorite::where('user_id', $userId)
-        ->whereHas('trails', function ($query) use ($trailId) {
-            $query->where('trail_id', $trailId);
-        })
-        ->pluck('id')
-        ->toArray();
+            ->whereHas('trails', function ($query) use ($trailId) {
+                $query->where('trail_id', $trailId);
+            })
+            ->pluck('id')
+            ->toArray();
 
         // Identifier les relations à supprimer
-    $toDetach = array_diff($currentCheckIds, $newCheckIds);
+        $toDetach = array_diff($currentCheckIds, $newCheckIds);
 
-    // Supprimer les relations qui n'existent plus
-    foreach ($toDetach as $list) {
-        $tag = Favorite::findOrFail($list);
-        $tag->trails()->detach($trailId);
-    }
+        // Supprimer les relations qui n'existent plus
+        foreach ($toDetach as $list) {
+            $tag = Favorite::findOrFail($list);
+            $tag->trails()->detach($trailId);
+        }
 
-        return $this->index();
+        return;
     }
 }

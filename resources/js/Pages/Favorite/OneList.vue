@@ -1,63 +1,155 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref } from "vue";
+import { Head, Link, useForm } from "@inertiajs/vue3";
 import TheNav from "@/Components/TheNav.vue";
-import BaseDivider from "@/Components/BaseDivider.vue";
-import SecondaryButton from '@/Components/SecondaryButton.vue';
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseCard from "@/Components/BaseCard.vue";
+import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
+import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 import TheHeader from "@/Components/TheHeader.vue";
+import DangerButton from "@/Components/DangerButton.vue";
+import Modal from "@/Components/Modal.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const items = defineProps({
     trailsList: {
-        type: Object,
+        type: Array,
         default: () => [],
     },
     listDetails: {
         type: Object,
         default: () => [],
-    }
+    },
 });
-const form = useForm({ 
-    id : items.listDetails.id
+const form = useForm({
+    id: items.listDetails.id,
 });
 const submit = () => {
-    form.get(route('bookmark.edit', { id: items.listDetails.id }), {});
+    form.get(route("bookmark.edit", { id: items.listDetails.id }), {});
 };
 
+const deleteList = () => {
+    form.delete(route("bookmark.destroy", { id: items.listDetails.id }), {});
+};
+
+const showModal = ref(false);
+const openModal = () => {
+    showModal.value = !showModal.value;
+};
+
+const isOpen = ref(false);
+
+const data = ref({});
+
+const BottomSheet = (e) => {
+    fetch(route("trails.showJson", e.id))
+        .then((response) => response.json())
+        .then((datas) => {
+            data.value = datas;
+            isOpen.value = true;
+        });
+};
+
+const closeBottomSheet = () => {
+    isOpen.value = false;
+};
 </script>
 <template>
     <Head :title="listDetails.name" />
 
-    <TheHeader/>
+    <TheHeader />
 
-    <h1>{{ listDetails.name }}</h1>
-    <Link :href="route('bookmark.index')"
-        class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
-    Retour
-    </Link>
-
-    <SecondaryButton @click="submit" class="ms-4" icon="edit">
+    <div class="oneList">
+        <div class="title">
+            <h1>{{ listDetails.name }}</h1>
+            <div>
+                <Link
+                    :href="route('bookmark.index')"
+                    class="underline text-sm font-medium text-onSurface dark:text-onSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                    >Retour</Link
+                >
+                <SecondaryButton @click="submit" class="ms-4" icon="edit">
                     Modifier
-    </SecondaryButton>
-
-    <BaseDivider />
-
-    <div class="trailsList">
-        <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
-        <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
-        <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
-        <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail"></BaseCard>
+                </SecondaryButton>
+            </div>
+        </div>
+        <div class="trailsList">
+            <BaseCard
+                v-for="trail in trailsList"
+                :key="trail.id"
+                :data="trail"
+                @click="BottomSheet(trail)"
+            ></BaseCard>
+        </div>
+        <DangerButton @click="openModal()" icon="delete">
+            Supprimer
+        </DangerButton>
     </div>
 
+    <Modal :show="showModal" @close="openModal()">
+        <div class="confirmation-modal">
+            <h2>Voulez-vous vraiment supprimer cette liste ?</h2>
+            <div class="actions">
+                <a @click.prevent="deleteList()"> Supprimer la liste </a>
+                <PrimaryButton @click="openModal()">
+                    Non, annuler
+                </PrimaryButton>
+            </div>
+        </div>
+    </Modal>
+
+    <BaseBottomSheet
+        v-if="isOpen"
+        :isOpen="isOpen"
+        @handle-close="closeBottomSheet()"
+    >
+        <AppTrailInfo
+            :data="data"
+            @handle-close="closeBottomSheet()"
+            @handle-point="BottomSheet($event)"
+        />
+    </BaseBottomSheet>
     <TheNav />
 </template>
 
 <style scoped>
+.oneList {
+    padding: 1rem 1rem 0rem 1rem;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.25rem;
+    margin-bottom: 2.25rem;
+}
+
 div.trailsList {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    height: 100%;
+    column-gap: 1.25rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
     gap: 1rem;
-    padding-right: 1rem;
+    margin-top: 1rem;
+}
+
+.confirmation-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.actions a {
+    @apply text-red-500 dark:text-red-400;
 }
 </style>

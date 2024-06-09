@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import { usePage } from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseTag from "@/Components/BaseTag.vue";
@@ -31,6 +32,9 @@ for (const interestPoint of props.data.interest_points) {
         }
     }
 }
+
+const user = usePage().props.auth.user;
+const isUserLoggedIn = user && Object.keys(user).length > 0;
 
 const imgs = ref([]);
 
@@ -84,8 +88,11 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)"
                 >Commencer</PrimaryButton
             >
-            <AppSaveButton :title="data.name" :id="data.id" />
-            <SecondaryButton icon="star">Favoris</SecondaryButton>
+            <AppSaveButton
+                v-if="isUserLoggedIn"
+                :title="data.name"
+                :id="data.id"
+            />
         </div>
 
         <BaseImgGalery :imgs="imgs" />

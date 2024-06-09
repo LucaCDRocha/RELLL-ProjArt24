@@ -9,16 +9,13 @@ import NewList from "@/Pages/Favorite/NewList.vue";
 import { ref, watch } from "vue";
 import TheHeader from "@/Components/TheHeader.vue";
 import BaseImgGrid from "@/Components/BaseImgGrid.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const isOpen = ref(false);
 
 const toggleBottomSheet = () => {
     isOpen.value = !isOpen.value;
 };
-
-watch(isOpen, (value) => {
-    console.log(value);
-});
 
 const listes = defineProps({
     list: {
@@ -35,34 +32,35 @@ const successMessage = pageProps.flash?.success;
 
     <TheHeader />
 
-    <h1>Vos listes</h1>
-    <BaseDivider />
+    <div class="lists">
+        <div class="title">
+            <h2>Vos listes</h2>
+            <SecondaryButton icon="add_circle" @click="toggleBottomSheet()"
+                >Ajouter une liste</SecondaryButton
+            >
+        </div>
+        <BaseDivider />
 
-    <div v-if="successMessage" class="alert alert-success">
-        {{ successMessage }}
+        <div v-if="successMessage" class="alert alert-success">
+            {{ successMessage }}
+        </div>
+
+        <BaseLinkList
+            v-for="el in list"
+            :key="el.id"
+            :name="el.name"
+            :id="el.id"
+            :link="route('bookmark.show', { id: el.id })"
+            :numberElem="el.trails_count"
+        />
     </div>
 
-    <BaseLinkList
-        v-for="el in list"
-        :key="el.id"
-        :name="el.name"
-        :id="el.id"
-        :link="route('bookmark.show', { id: el.id })"
-        :numberElem="el.trails_count"
-    />
-
-    <BasePlainButton
-        @click.prevent="toggleBottomSheet()"
-        type="submit"
-        icon="add_circle"
-        >Créer une nouvelle liste</BasePlainButton
-    >
     <BaseBottomSheet
         v-if="isOpen"
         :isOpen="isOpen"
         @handle-close="toggleBottomSheet()"
     >
-        <NewList />
+        <NewList @send="toggleBottomSheet()" />
     </BaseBottomSheet>
 
     <!-- <BaseImgGrid v-if="list.length > 0" :imgs="list" /> -->
@@ -70,6 +68,10 @@ const successMessage = pageProps.flash?.success;
 </template>
 
 <style scoped>
+.lists {
+    padding: 1rem 0rem 0rem 1rem;
+}
+
 .alert {
     padding: 1rem;
     margin-bottom: 1rem;
@@ -81,5 +83,14 @@ const successMessage = pageProps.flash?.success;
     color: #155724;
     background-color: #d4edda;
     border-color: #c3e6cb;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.25rem;
+    margin-bottom: 2.25rem;
+    padding-right: 1rem;
 }
 </style>
