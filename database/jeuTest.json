@@ -50,7 +50,7 @@
             "points_interet": [
                 {
                     "nom": "Plateforme 10",
-                    "description": "C’est un peu le nouveau quartier des arts de Lausanne. Il est composé de plusieurs musées ainsi que de galeries extérieures. C’est une fondation de droit public soutenue par l’Etat de Vaud.",
+                    "description": "C’est le nouveau quartier des arts de Lausanne. Il est composé de plusieurs musées ainsi que de galeries extérieures. Il s'agit d'une fondation de droit public soutenue par l’Etat de Vaud.",
                     "tags": ["Musée", "Art"],
                     "coordonnees": [46.518273, 6.625511],
                     "open_season": "Toutes",
@@ -138,7 +138,7 @@
                 },
                 {
                     "nom": "Angel Durate – Ouverture au monde",
-                    "description": "Cet artiste s’inspire de la géométrie dans ses œuvres. Cette sculpture invite les voyageurs et s’illumine aux rayons du soleil.",
+                    "description": "Cet artiste s’inspire de la géométrie dans ses œuvres. Cette sculpture incite ses spectateurs à voyager et s’illumine aux rayons du soleil.",
                     "tags": ["Art"],
                     "coordonnees": [46.504836, 6.625691],
                     "open_season": "Automne, Hiver",
@@ -168,11 +168,11 @@
         },
         {
             "titre": "L'Histoire d'Yverdon-les-Bains",
-            "description": "Connaissez-vous l'histoire de la ville d'Yverdon ? Apprenez-en plus à travrs notre chemin",
+            "description": "Connaissez-vous l'histoire de la ville d'Yverdon ? Apprenez-en plus à travers notre chemin",
             "duree": "00:30:00",
             "difficulte": "Facile",
             "accessibilite": true,
-            "info_transport": "C'est une boucle depuis l'arrêt du bus Yverdon, Théâtre Benno Besson des bus 604 et 605'.",
+            "info_transport": "Ce parcours est une boucle depuis l'arrêt du bus Yverdon, Théâtre Benno Besson des bus 604 et 605'.",
             "depart": {
                 "coordonnees": [46.77911, 6.642196]
             },
@@ -190,7 +190,7 @@
             "points_interet": [
                 {
                     "nom": "Théâtre Benno Besson (1898)",
-                    "description": "C'était un casino pendant un siècle. Il a ensuite été transformé en une salle de spectacle et nommé d'après Benno Besson(1922-2006), un homme du Nord vaudois bien connu du monde du théâtre comme acteur et metteur en scène.",
+                    "description": "Le bâtiment a été un casino pendant un siècle. Il a ensuite été transformé en une salle de spectacle et baptisé en hommage à Benno Besson(1922-2006), un homme du Nord vaudois bien connu du monde du théâtre comme acteur et metteur en scène.",
                     "tags": ["Architecture", "Historique"],
                     "coordonnees": [46.779657, 6.64246],
                     "open_season": "Toutes",
@@ -226,7 +226,7 @@
                 },
                 {
                     "nom": "Hôtel de Ville (1769)",
-                    "description": "Construit entre 1767 et 1773 par l'architecte Abraham Burnand, cet édifice incarne l'autonomie des autorités communales face au souverain bernois. Situé sur la place Pestalozzi, il se distingue par sa façade en pierres jaunes de Neuchâtel, rythmée par des pilastres colossaux et divers types d'ouvertures. Destiné à accueillir les halles au rez-de-chaussée, l'administration au premier étagse e[t des locaux publics et logements au second, il a été conçu à partir d'un concours collaboratif entre les architectes Béat de Hennezel et Abraham Burnand.",
+                    "description": "Construit entre 1767 et 1773 par l'architecte Abraham Burnand, cet édifice incarne l'autonomie des autorités communales face au souverain bernois. Situé sur la place Pestalozzi, il se distingue par sa façade en pierres jaunes de Neuchâtel, rythmée par des pilastres colossaux et divers types d'ouvertures. Destiné à accueillir les halles au rez-de-chaussée, l'administration au premier étagse et des locaux publics et logements au second, il a été conçu à partir d'un concours collaboratif entre les architectes Béat de Hennezel et Abraham Burnand.",
                     "tags": ["Architecture", "Historique"],
                     "coordonnees": [46.778527, 6.640818],
                     "open_season": "Été",

@@ -57,7 +57,7 @@ const isAdmin = isUserLoggedIn && isUserAdmin;
 
 <style scoped>
 div {
-    @apply bg-surfaceVariant dark:bg-green-800;
+    @apply bg-surfaceVariant dark:bg-darkSurfaceVariant;
 
     display: flex;
     justify-content: space-around;

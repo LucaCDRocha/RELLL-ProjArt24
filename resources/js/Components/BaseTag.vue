@@ -17,25 +17,29 @@ const props = defineProps({
 const getTagColor = (tag) => {
     switch (tag.toLowerCase()) {
         case "facile":
-            return "bg-easy dark:bg-green-900";
+            return "bg-easy";
         case "moyen":
-            return "bg-medium dark:bg-blue-900";
+            return "bg-medium";
         case "difficile":
-            return "bg-hard dark:bg-red-900";
-        case "gastronomie":
-            return "bg-gastronomie dark:bg-yellow-900";
+            return "bg-hard";
+        case "gastronomique":
+            return "bg-gastronomique";
         case "nature":
-            return "bg-nature dark:bg-green-900";
+            return "bg-nature";
         case "art":
-            return "bg-art dark:bg-blue-900";
-        case "musee":
-            return "bg-musee dark:bg-red-900";
+            return "bg-art";
+        case "musée":
+            return "bg-musee";
         case "famille":
-            return "bg-family dark:bg-yellow-900";
+            return "bg-famille";
         case "architecture":
-            return "bg-architecture dark:bg-green-900";
+            return "bg-architecture";
+        case "historique":
+            return "bg-historique";
+        case "panorama":
+            return "bg-panorama";
         default:
-            return "bg-secondary text-onSecondary dark:bg-blue-100 dark:text-green-950";
+            return "bg-secondary text-onSecondary dark:bg-darkSecondary dark:text-dakrOnSecondary";
     }
 };
 
@@ -65,7 +69,7 @@ watch(
 
 <style scoped>
 .tag {
-    @apply text-sm;
+    @apply text-sm dark:text-darkSurface;
 
     display: inline-flex;
     justify-content: center;
@@ -76,6 +80,7 @@ watch(
 }
 
 .tag.active {
-    @apply bg-transparent border-2 border-blue-900 text-blue-900 dark:text-blue-900 dark:border-blue-900;
+    border: 0.06rem solid;
+    @apply bg-transparent border-outline dark:text-darkOnSurface;
 }
 </style>

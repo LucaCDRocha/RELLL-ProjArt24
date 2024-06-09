@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from "vue";
-import { Head } from "@inertiajs/vue3";
 import TheNav from "@/Components/TheNav.vue";
 import AppCardList from "@/Components/AppCardList.vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
@@ -37,18 +36,18 @@ const closeBottomSheet = () => {
 const datas = defineProps({
     historics: {
         type: Array,
+        required: false,
         default: () => [],
     },
     myTrails: {
         type: Array,
+        required: false,
         default: () => [],
     },
 });
 </script>
 
 <template>
-    <Head title="Historique" />
-    <h1>Votre historique de sentiers</h1>
     <AppCardList
         :datas="historics"
         @handle-close="closeBottomSheet()"

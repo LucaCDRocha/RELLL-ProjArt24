@@ -22,10 +22,10 @@ button {
     @apply inline-flex items-center px-4 py-2;
 
     @apply text-base font-medium;
-    @apply text-onSurface dark:text-green-200;
+    @apply text-onSurface dark:text-darkOnSurface;
 
-    @apply bg-transparent dark:bg-green-950;
-    @apply border-primary dark:border-green-200;
+    @apply bg-transparent dark:bg-darkSurfaceVariant;
+    @apply border-primary dark:border-darkPrimary;
     @apply border rounded-full shadow-sm;
 
     @apply hover:bg-green-100 dark:hover:bg-green-900;

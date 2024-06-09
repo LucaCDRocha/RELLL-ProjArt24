@@ -47,7 +47,7 @@ const emit = defineEmits(["handle-close"]);
 }
 
 .base-overlay-card[open] {
-    @apply bg-transparent dark:bg-transparent;
+    background-color: rgba(0, 0, 0, 0.20);
 
     top: 0;
 
@@ -55,12 +55,12 @@ const emit = defineEmits(["handle-close"]);
 }
 
 .base-overlay-card__content {
-    @apply bg-surface dark:bg-green-950;
+    @apply bg-surface dark:bg-darkSurface;
 
     display: flex;
 
     position: fixed;
-    top: 50vh;
+    bottom: 0;
     padding: 1rem 0rem 1rem 1rem;
 
     border-top-left-radius: 2rem;

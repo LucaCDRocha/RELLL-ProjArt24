@@ -15,7 +15,7 @@ import BaseAccordion from "@/Components/BaseAccordion.vue";
 const props = defineProps({
     data: {
         type: Object,
-        default: () => { },
+        default: () => {},
     },
     full: {
         type: Boolean,
@@ -53,13 +53,15 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             <div class="tag">
                 <BaseTag :tag="data.difficulty" :selected="true" />
             </div>
-            <BaseDividerVert />
+
+            <BaseDividerVert style="padding-left: 0.06rem;" />
+
             <div class="tag">
                 <BaseTag
                     v-for="tag in tags"
                     :key="tag.id"
                     :tag="tag.name"
-                    :selected="false"
+                    :selected="true"
                 />
             </div>
         </div>
@@ -89,12 +91,12 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <BaseImgGalery :imgs="imgs" />
 
         <h2>Description</h2>
-        <div class="tag">
+        <div class="tags">
             <BaseTag
                 v-for="tag in tags"
                 :key="tag.id"
                 :tag="tag.name"
-                :selected="false"
+                :selected="true"
             />
         </div>
         <p>
@@ -102,10 +104,17 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         </p>
 
         <div class="accordion">
-            <BaseAccordion title="Itinéraire" :id="1" :tag="data.difficulty" :multiple="true">
+            <BaseAccordion
+                title="Itinéraire"
+                :id="1"
+                :tag="data.difficulty"
+                :multiple="true"
+            >
                 <div class="infos">
                     <p>
-                        <span class="material-symbols-rounded">access_time</span>
+                        <span class="material-symbols-rounded"
+                            >access_time</span
+                        >
                         {{ data.time }}
                     </p>
                     <p>5 km</p>
@@ -157,6 +166,8 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 .tags {
     display: flex;
     gap: 0.5rem;
+    max-width: 100%;
+    overflow-x: scroll;
 }
 
 .tag {

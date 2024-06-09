@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import BaseNavLink from "@/Components/BaseNavLink.vue";
+import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const props = defineProps({
     index: {
@@ -13,11 +15,23 @@ const props = defineProps({
     },
 });
 
+const isOpen = ref(false);
+
+const BottomSheet = (e) => {
+    isOpen.value = true;
+};
+
+const closeBottomSheet = () => {
+    isOpen.value = false;
+};
+
+const id = window.location.href.split("/").pop().split("#")[0];
+
 const emit = defineEmits(["next", "previous"]);
 </script>
 
 <template>
-    <div>
+    <div class="nav">
         <BaseNavLink
             v-if="props.index === 0"
             @click.prevent="$inertia.visit(`/home`)"
@@ -34,18 +48,35 @@ const emit = defineEmits(["next", "previous"]);
             icon="arrow_forward"
             >Point suivant</BaseNavLink
         >
-        <BaseNavLink
-            v-else
-            icon="check_circle"
-            @click.prevent="$inertia.visit(`/home`)"
+        <BaseNavLink v-else icon="check_circle" @click.prevent="BottomSheet()"
             >Terminer</BaseNavLink
         >
     </div>
+    <BaseBottomSheet
+        v-if="isOpen"
+        :isOpen="isOpen"
+        @handle-close="closeBottomSheet()"
+        class="base-overlay-card"
+    >
+        <div class="content">
+            <div>
+                <h1>Bravo !</h1>
+                <p>Vous avez terminé le sentier !</p>
+            </div>
+            <div class="buttons">
+                <a href="/home">Quitter</a>
+                <PrimaryButton
+                    @click.prevent="$inertia.visit(`/rankTrail/${id}`)"
+                    >Noter le sentier</PrimaryButton
+                >
+            </div>
+        </div>
+    </BaseBottomSheet>
 </template>
 
 <style scoped>
-div {
-    @apply bg-green-200 dark:bg-green-800;
+.nav {
+    @apply bg-surfaceVariant dark:bg-darkSurfaceVariant;
 
     display: flex;
     justify-content: space-around;
@@ -59,6 +90,29 @@ div {
 }
 
 .quit {
-    @apply text-red-700 dark:text-red-300;
+    @apply text-error dark:text-darkError;
+}
+
+.base-overlay-card {
+    z-index: 1004;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    width: 100%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    align-items: center;
+}
+
+:deep(.base-overlay-card__content) {
+    height: 15rem;
 }
 </style>

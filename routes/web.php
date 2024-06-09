@@ -8,7 +8,10 @@ use App\Http\Controllers\TrailController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\RankingController;
 use App\Http\Controllers\SearchController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return redirect()->route('home');
@@ -20,19 +23,18 @@ Route::get('/', function () {
     // ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource("/bookmark", FavoriteController::class);
     Route::post("/addTrail", [FavoriteController::class, 'addTrail'])->name('bookmark.addTrail');
-    Route::get('/my-trails', [HistoricsController::class, 'showHistorics']);
+    Route::get('/my-trails', [HistoricsController::class, 'showHistorics'])->name('my_trails');
 
     Route::middleware('is_admin')->group(function () {
         Route::get('/create', function () {
@@ -41,9 +43,17 @@ Route::middleware('auth')->group(function () {
         Route::resource("/trails", TrailController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
         Route::resource("/interestPoints", InterestPointController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
     });
+    
+    Route::get('/rankTrail/{id}', [RankingController::class, 'create']);
+    Route::post('/rankTrail', [RankingController::class, 'store'])->name('rank.store');
+
+    // API
+
+    Route::get("/api/likecomment/{comment_id}", [LikeController::class, 'likeOrUnlikeComment'])->name('like.addDelete');
 });
 
 require __DIR__ . '/auth.php';
+ Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::resource("/trails", TrailController::class)->only(['index', 'show']);
@@ -54,8 +64,8 @@ Route::get('/search', [SearchController::class, 'search']);
 
 Route::get('/map', [InterestPointController::class, 'map']);
 
-Route::get('/settings', function () {
-    return Inertia::render('Settings');
+Route::get('/about', function () {
+    return Inertia::render('About');
 });
 
 
@@ -66,3 +76,9 @@ Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start')
 Route::get('/api/trails/{id}', [TrailController::class, 'showJson'])->name('trails.showJson');
 
 Route::get('/api/interestPoints/{id}', [InterestPointController::class, 'showJson'])->name('interestPoints.showJson');
+
+// Maintenance
+
+Route::get('/maintenance', function () {
+    return Inertia::render('Maintenance');
+});

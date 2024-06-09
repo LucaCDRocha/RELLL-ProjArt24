@@ -28,6 +28,9 @@ class FavoriteSeeder extends Seeder
             Favorite::updateOrCreate([
                 'user_id' => 2,
                 'name' => $listes[$i],
+            ],[
+                'user_id' => 2,
+                'name' => $listes[$i],
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

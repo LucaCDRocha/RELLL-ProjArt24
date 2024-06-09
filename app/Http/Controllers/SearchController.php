@@ -13,7 +13,7 @@ class SearchController extends Controller
     {
         $trails = Trail::all()
             ->load('img')
-            ->select('img', 'name', 'id', 'difficulty');
+            ->select('img', 'name', 'id', 'difficulty', 'time');
 
         $interestPoints = InterestPoint::all()
             ->load('imgs', 'tags')

@@ -29,9 +29,9 @@ select {
     -webkit-appearance: none; /* Safari */
 
     @apply bg-transparent dark:bg-transparent;
-    @apply border-secondary dark:border-gray-700;
-    @apply focus:ring-1 focus:ring-primary dark:focus:ring-green-600;
-    @apply focus:border-primary dark:focus:border-green-600;
+    @apply border-secondary dark:border-darkSecondary;
+    @apply focus:ring-1 focus:ring-primary dark:focus:ring-darkPrimary;
+    @apply focus:border-primary dark:focus:border-darkPrimary;
     @apply rounded-md shadow-sm;
 }
 
@@ -40,11 +40,11 @@ select:focus {
 }
 
 option:hover {
-    @apply bg-customGray; /* Gray background for hovered option */
+    @apply bg-customGray dark:bg-darkCustomGray; /* Gray background for hovered option */
 }
 
 option{
-    @apply bg-surfaceVariant; 
-    @apply border-primary;
+    @apply bg-surfaceVariant dark:bg-darkSurfaceVariant; 
+    @apply border-primary dark:border-darkPrimary;
 }
 </style>

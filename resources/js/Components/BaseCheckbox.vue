@@ -35,7 +35,7 @@ const form = defineModel({
     align-items: center;
     justify-content: space-between;
     border-bottom-width: 1px;
-    @apply border-b border-customGray;
+    @apply border-b border-customGray dark:border-darkCustomGray;
     padding: 12px 5px;
     width: 100%;
 }
@@ -53,6 +53,6 @@ input:target {
 }
 
 input:checked {
-    @apply bg-onSurface;
+    @apply bg-onSurface dark:bg-darkOnSurface;
 }
 </style>

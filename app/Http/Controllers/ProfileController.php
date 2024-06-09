@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Trail;
+use App\Models\Historic;
 
 class ProfileController extends Controller
 {
@@ -18,10 +20,22 @@ class ProfileController extends Controller
      */
     public function show(Request $request): Response
     {
-        return Inertia::render('Profile/Show', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
-        ]);
+        if ($request->user()) {
+            $historics = Historic::where('user_id', auth()->id())->with('trail')->get();
+            $trailData = $historics->map(function ($historic) {
+                return $historic->trail->load('img');
+            });
+
+            $myTrails = Trail::where('user_id', auth()->id())->get()->load('img');
+
+            return Inertia::render('Profile/Show', [
+                'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+                'status' => session('status'),
+                'historics' => $trailData,
+                'myTrails' => $myTrails
+            ]);
+        }
+        return Inertia::render('Profile/Show');
     }
 
     public function edit(Request $request): Response
@@ -53,9 +67,9 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
+        // $request->validate([
+        //     'password' => ['required', 'current_password'],
+        // ]);
 
         $user = $request->user();
 

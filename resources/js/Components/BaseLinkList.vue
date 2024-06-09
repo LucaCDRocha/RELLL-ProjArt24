@@ -34,7 +34,7 @@ const props = defineProps({
     div.element {
         justify-content: space-between;
         border-bottom-width: 1px;
-        border-color: lightgray;
+        @apply border-b border-customGray dark:border-darkCustomGray;
         padding: 12px 5px;
     }
     div{

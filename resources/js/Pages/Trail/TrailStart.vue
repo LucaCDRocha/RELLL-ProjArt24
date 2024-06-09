@@ -154,7 +154,7 @@ watch(currentPointIndex, (value) => {
 }
 
 .bottom-sheet {
-    @apply bg-green-50 dark:bg-green-950;
+    @apply bg-surface dark:bg-darkSurface;
 
     position: fixed;
     bottom: 5rem;
@@ -166,7 +166,8 @@ watch(currentPointIndex, (value) => {
     overflow: scroll;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
-    box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 -11px 10px rgba(50, 50, 93, 0.11),
+        0 0px 5px rgba(0, 0, 0, 0.08);
 }
 
 .content {
@@ -177,8 +178,7 @@ watch(currentPointIndex, (value) => {
 }
 
 .info {
-    @apply bg-green-50 dark:bg-green-950;
-    @apply ring ring-black ring-opacity-30 dark:ring-opacity-30;
+    @apply bg-surface dark:bg-darkSurface;
 
     position: fixed;
     top: 1rem;
@@ -196,7 +196,7 @@ watch(currentPointIndex, (value) => {
 }
 
 .quit {
-    @apply text-red-700 dark:text-red-500;
+    @apply text-error dark:text-darkError;
 
     width: fit-content;
 }

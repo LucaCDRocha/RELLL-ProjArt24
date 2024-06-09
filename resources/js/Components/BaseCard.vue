@@ -63,7 +63,7 @@ div.card {
 }
 
 .card p {
-    @apply text-base text-white font-medium;
+    @apply text-base text-onPrimary font-medium;
 
     width: 11rem;
 }

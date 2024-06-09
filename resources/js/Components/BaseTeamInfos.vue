@@ -19,19 +19,26 @@ const props = defineProps({
         <div class="teamCard">
             <img :src="img" alt="">
             <p class="name">{{ name }}</p>
-            <p>{{ title }}</p>
+            <p class="title">{{ title }}</p>
         </div>
 </template>
 
 <style scoped>
     .teamCard {
+        display: flex;
         padding: 12px 5px;
-        width: 30%;
+        width: 40%;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .name{
-        font-weight: bold;
+    @apply text-base font-medium text-center;
+    }
+
+    .title{
+        @apply text-xs font-medium text-center;
     }
 
     img {

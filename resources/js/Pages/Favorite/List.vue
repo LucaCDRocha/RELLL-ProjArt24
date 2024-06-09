@@ -1,31 +1,34 @@
 <script setup>
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, usePage } from "@inertiajs/vue3";
 import TheNav from "@/Components/TheNav.vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
 import BaseLinkList from "@/Components/BaseLinkList.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import BasePlainButton from "@/Components/BasePlainButton.vue";
 import NewList from "@/Pages/Favorite/NewList.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import TheHeader from "@/Components/TheHeader.vue";
 import BaseImgGrid from "@/Components/BaseImgGrid.vue";
 
 const isOpen = ref(false);
+
 const toggleBottomSheet = () => {
     isOpen.value = !isOpen.value;
 };
 
+watch(isOpen, (value) => {
+    console.log(value);
+});
+
 const listes = defineProps({
-  list: {
-    type: Array,
-      default: () => [],
+    list: {
+        type: Array,
+        default: () => [],
     },
 });
 
-
 const { props: pageProps } = usePage();
 const successMessage = pageProps.flash?.success;
-
 </script>
 <template>
     <Head title="Vos listes" />
@@ -33,34 +36,50 @@ const successMessage = pageProps.flash?.success;
     <TheHeader />
 
     <h1>Vos listes</h1>
-    <BaseDivider/>
+    <BaseDivider />
 
     <div v-if="successMessage" class="alert alert-success">
-      {{ successMessage }}
+        {{ successMessage }}
     </div>
-        
-    <BaseLinkList v-for="el in list" :key="el.id" :name="el.name" :id="el.id" 
-      :link="route('bookmark.show', { id: el.id })" :numberElem="el.trails_count"/>
 
-    <BasePlainButton @click.prevent="toggleBottomSheet()" type="submit" icon="add_circle">Créer une nouvelle liste</BasePlainButton>
-    <BaseBottomSheet v-if="isOpen" :isOpen="isOpen" @handle-open="toggleBottomSheet()">
-      <NewList />
+    <BaseLinkList
+        v-for="el in list"
+        :key="el.id"
+        :name="el.name"
+        :id="el.id"
+        :link="route('bookmark.show', { id: el.id })"
+        :numberElem="el.trails_count"
+    />
+
+    <BasePlainButton
+        @click.prevent="toggleBottomSheet()"
+        type="submit"
+        icon="add_circle"
+        >Créer une nouvelle liste</BasePlainButton
+    >
+    <BaseBottomSheet
+        v-if="isOpen"
+        :isOpen="isOpen"
+        @handle-close="toggleBottomSheet()"
+    >
+        <NewList />
     </BaseBottomSheet>
 
-    <BaseImgGrid v-if="list.length > 0" :imgs="list" />
+    <!-- <BaseImgGrid v-if="list.length > 0" :imgs="list" /> -->
     <TheNav />
 </template>
 
 <style scoped>
 .alert {
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
 }
 
 .alert-success {
-  color: #155724;
-  background-color: #d4edda;
-  border-color: #c3e6cb;
-}</style>
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+</style>
