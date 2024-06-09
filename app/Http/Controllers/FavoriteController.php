@@ -126,8 +126,10 @@ class FavoriteController extends Controller
             $favorite->trails()->detach($listASupprimer);
         }
 
+        $trails = $favorite->trails()->get()->load('img');
+
         // make that this controller not open a new page
-        return Inertia::render('Favorite/OneList', ['listDetails' => $favorite]);
+        return Inertia::render('Favorite/OneList', ['listDetails' => $favorite, 'trailsList' => $trails]);
     }
 
     /**
