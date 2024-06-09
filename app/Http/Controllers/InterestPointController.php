@@ -58,14 +58,12 @@ class InterestPointController extends Controller
             'location_id' => $id_loc,
 
         ];
-
         $interestPoint = InterestPoint::create($IP_inputs);
 
         $tags = $request->tags;
         foreach ($tags as $tag) {
-            $tag = Tag::where('name', $tag)->first();
-
-            $tag->interestPoints()->attach($interestPoint->id);
+            $tagDB = Tag::where('name', $tag['name'])->first();
+            $interestPoint->tags()->attach($tagDB->id);
         }
         // Gestion des images
 
