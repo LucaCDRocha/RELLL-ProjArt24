@@ -31,7 +31,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <TheCardNav @handle-close="emit('handle-close')" />
         <h1>{{ data.name }}</h1>
         <div class="ouvertures">
-            <p>{{ data.open_season }}</p>
+            <p>{{ data.open_seasons }}</p>
         </div>
         <div class="tags" v-if="!full">
             <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />

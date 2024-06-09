@@ -58,8 +58,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                 <BaseTag :tag="data.difficulty" :selected="true" />
             </div>
 
-            <!-- TODO: faire visible le BaseDivider en changant le css de cette page -->
-            <BaseDividerVert />
+            <BaseDividerVert style="padding-left: 0.06rem;" />
 
             <div class="tag">
                 <BaseTag
@@ -73,7 +72,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 
         <h1>{{ data.name }}</h1>
 
-        <div class="stars">
+        <div class="stars" v-if="data.note">
             <AppStarRanking :rating="data.note" />
         </div>
 
@@ -174,7 +173,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 .tags {
     display: flex;
     gap: 0.5rem;
-    width: 100%;
+    max-width: 100%;
     overflow-x: scroll;
 }
 

@@ -28,7 +28,7 @@ defineProps({
 .toggle-button {
     display: flex;
     flex-direction: row;
-    gap: 0.5rem;
+    justify-content: space-between;
     align-items: center;
 }
 

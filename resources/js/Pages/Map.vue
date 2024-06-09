@@ -25,9 +25,14 @@ const props = defineProps({
     <TheHeader />
 
     <!-- <BaseLinkSearch /> -->
-    <AppMap :waypoints="interestPoints" :filters="filters" />
+    <AppMap :points="interestPoints" :filters="filters" />
 
     <TheNav />
 </template>
 
-<style scoped></style>
+<style scoped>
+#map {
+    height: calc(var(--vh, 1vh) * 100 - 14.06rem);
+    z-index: 0;
+}
+</style>

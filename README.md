@@ -1,5 +1,7 @@
 # Introduction
-Ce projet est un application web pour des sentiers culturels. Il est développé dans le cadre du cours de Projet d'articulation 2024 à la HEIG-VD.
+![Logo de VaudSentiers](public/img/logo/Logo_RGB_Blanc_grand.png)
+
+Ce projet est une application web pour des sentiers culturels. Il est développé dans le cadre du Projet d'articulation 2024 à la HEIG-VD.
 
 # Installation dev
 
@@ -73,3 +75,61 @@ Ouvrir un deuxième terminal et lancer les commandes suivantes dans cet ordre un
 $ php artisan serve
 $ npm run dev
 ```
+
+# Installation de production
+## Prérequis
+- Serveur web (Apache, Nginx, etc.)
+- PHP >= 8.2
+- MySQL
+
+## Installation
+1. Clonez le projet dans le répertoire de votre choix :
+```bash
+$ git clone https://github.com/LucaCDRocha/RELLL-ProjArt24.git
+```
+
+2. Déplacez-vous dans le répertoire du projet :
+```bash
+$ cd RELLL-ProjArt24
+```
+
+3. Installez les dépendances PHP avec Composer :
+```bash
+$ composer install --no-dev --optimize-autoloader
+```
+
+4. Installez les dépendances JavaScript avec npm :
+```bash
+$ npm install --production
+```
+
+5. Copiez le fichier `.env.example` en `.env` :
+```bash
+$ cp .env.example .env
+```
+
+6. Générez une clé pour l'application :
+```bash
+$ php artisan key:generate
+```
+
+7. Configurez les informations de connexion à la base de données dans le fichier `.env`.
+
+8. Migrez les tables de la base de données :
+```bash
+$ php artisan migrate --force
+```
+
+9. Remplissez la base de données avec les données initiales :
+```bash
+$ php artisan db:seed --force
+```
+
+10. Compilez les assets pour la production :
+```bash
+$ npm run prod
+```
+
+11. Configurez votre serveur web pour qu'il pointe vers le répertoire `public` du projet.
+
+12. Lancez l'application en accédant à l'URL de votre serveur web.
