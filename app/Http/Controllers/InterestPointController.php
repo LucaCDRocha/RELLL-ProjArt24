@@ -36,17 +36,16 @@ class InterestPointController extends Controller
     public function store(Request $request)
     {
         $id_loc = LocationController::createLocation($request->location);
+
         $seasons = $request->seasons;
         if (sizeof($seasons) == 4) {
             $seasons = "toutes";
         } else {
             $seasons = "";
-            for ($i = 0; $i < sizeof($request->seasons); $i++) {
-                $seasons .= $request->seasons[$i]['name'];
-                if (!$i == 3) {
-                    $seasons .= ",";
-                }
+            foreach ($request->seasons as $season) {
+                $seasons .= $season['name'] . ', ';
             }
+            $seasons = substr($seasons, 0, -2);
         }
 
         // Creation New InterestPoint
