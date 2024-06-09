@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('img_id')->unsigned();
             $table->integer('location_start_id')->unsigned();
             $table->integer('location_end_id')->unsigned();
-            $table->integer('location_parking_id')->unsigned();
+            $table->integer('location_parking_id')->unsigned()->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('restrict')

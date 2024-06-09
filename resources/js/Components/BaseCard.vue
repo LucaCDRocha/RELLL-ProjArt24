@@ -1,14 +1,11 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import AppDoubleTag from "@/Components/AppDoubleTag.vue";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import AppTrailInfo from "@/Components/AppTrailInfo.vue";
-import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 
 const props = defineProps({
     data: {
         type: Object,
-        default: () => { },
+        default: () => {},
     },
 });
 
@@ -16,7 +13,7 @@ const img = ref();
 if (props.data.imgs) {
     img.value = props.data.imgs[0].img_path;
 } else {
-    img.value = props.data.img.img_path;
+    img.value = props.data.img.img_path
 }
 
 const emit = defineEmits(["handle-point"]);
@@ -31,7 +28,11 @@ const emit = defineEmits(["handle-point"]);
         }"
     >
         <div class="tag">
-            <AppDoubleTag v-if="data.difficulty" :tag="data.difficulty" :time="data.time"/>
+            <AppDoubleTag
+                v-if="data.difficulty"
+                :tag="data.difficulty"
+                :time="data.time"
+            />
         </div>
         <p>{{ data.name }}</p>
     </div>

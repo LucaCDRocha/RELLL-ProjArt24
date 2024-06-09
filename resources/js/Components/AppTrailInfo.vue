@@ -66,7 +66,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 
         <h1>{{ data.name }}</h1>
 
-        <div class="stars">
+        <div class="stars" v-if="data.note">
             <AppStarRanking :rating="data.note" />
         </div>
 

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Img;
 
 return new class extends Migration
 {
@@ -30,6 +31,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // remove images from a folder
+        $imgs = Img::all();
+        foreach ($imgs as $img) {
+            unlink(public_path($img->img_path));
+        }
         Schema::dropIfExists('imgs');
     }
 };

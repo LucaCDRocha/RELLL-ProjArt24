@@ -24,11 +24,13 @@ const BottomSheet = (e) => {
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
-                isAdded.value = props.waypoints.interest_points.find(
-                    (point) => point.id === data.value.id
-                )
-                    ? true
-                    : false;
+                if (props.waypoints) {
+                    isAdded.value = props.waypoints.interest_points.find(
+                        (point) => point.id === data.value.id
+                    )
+                        ? true
+                        : false;
+                }
             });
     }
 };

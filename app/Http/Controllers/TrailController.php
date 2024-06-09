@@ -38,13 +38,13 @@ class TrailController extends Controller
      * Store a newly created resource in storage.
      */
 
-    public function getTimeTrail($interest_points)
+    public function getTimeTrail($time)
     {
-        /*
-            À implementer 
-        */
-
-        return now();
+        // transforme le temps ($time qui est en secondes) en time format
+        $hours = floor($time / 3600);
+        $minutes = floor(($time / 60) % 60);
+        $seconds = $time % 60;
+        return $hours . ':' . $minutes . ':' . $seconds;
     }
 
     public function store(TrailCreateRequest $request)
@@ -62,21 +62,34 @@ class TrailController extends Controller
         // Sauvegarde des coordonées GPS
         $loc_start_id = LocationController::createLocation($request->location_start);
         $loc_end_id = LocationController::createLocation($request->location_end);
-        $loc_parking_id = LocationController::createLocation($request->location_parking);
+        $loc_parking_id = null;
+        if ($request->location_parking !== null) {
+            $loc_parking_id = LocationController::createLocation($request->location_parking);
+        }
+
+        // changement des valeurs de la difficulté
+        $difficulty = '';
+        if ($request->difficulty == '1') {
+            $difficulty = 'Facile';
+        } elseif ($request->difficulty == '2') {
+            $difficulty = 'Moyen';
+        } else {
+            $difficulty = 'Difficile';
+        }
 
         $inputs = // Enlever les default avant lancement de l'app
             [
                 'name' => $request->name,
                 'time' => TrailController::getTimeTrail($request->time),
                 'description' => $request->description,
-                'difficulty' => $request->difficulty,
+                'difficulty' => $difficulty,
                 'is_accessible' => $request->is_accessible == 'Oui' ? 0 : 1,
                 'info_transport' => $request->info_transport,
                 'user_id' => $request->user_id,
                 'img_id' => $img_id,
                 'location_start_id' => $loc_start_id,
                 'location_end_id' => $loc_end_id,
-                'location_parking_id' => $loc_parking_id,
+                'location_parking_id' => $loc_parking_id ? $loc_parking_id : null,
             ];
 
         $trail = Trail::create($inputs);
@@ -93,7 +106,7 @@ class TrailController extends Controller
             $interest_point = InterestPoint::findOrFail($point['id']);
             $trail->interest_points()->save($interest_point);
         }
-        return redirect(route('home'))->withOk("Le sentier a bien été créé ! :)");
+        return redirect()->route('home');
     }
 
     /**
@@ -228,7 +241,7 @@ class TrailController extends Controller
 
     public function start($id)
     {
-        $trail = Trail::findOrFail($id)->load('interest_points', 'location_start', 'location_end', 'location_parking', 'themes', 'rankings', 'img');
+        $trail = Trail::findOrFail($id)->load('interest_points', 'location_start', 'location_end', 'location_parking', 'rankings', 'img');
         $trail->note = $trail->rankings()->avg('note');
 
         foreach ($trail->interest_points as $point) {

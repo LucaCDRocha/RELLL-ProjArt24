@@ -24,7 +24,8 @@ const props = defineProps({
 const imgs = ref([]);
 
 for (const img of props.data.imgs) {
-    imgs.value.push(img.img_path);
+    if (img.img_path.includes("http")) imgs.value.push(img.img_path);
+    else imgs.value.push(`${img.img_path}`);
 }
 
 const textButton = computed(() => {

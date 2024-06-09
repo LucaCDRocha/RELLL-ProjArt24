@@ -15,6 +15,7 @@ import { map, customIcon } from "@/Stores/map.js";
 import TheHeader from "@/Components/TheHeader.vue";
 import TheNav from "@/Components/TheNav.vue";
 import AppMap from "@/Components/AppMap.vue";
+import { trailInfo } from "@/Stores/map.js";
 
 const props = defineProps({
     interestPoints: {
@@ -57,6 +58,8 @@ const submit = () => {
         form.errors.interest_points = "Veuillez choisir des points d'intérêts";
     } else {
         form.errors.interest_points = "";
+        console.log(trailInfo.value.summary.totalTime);
+        form.time = trailInfo.value.summary.totalTime;
         form.post(route("trails.store"), {});
     }
 };

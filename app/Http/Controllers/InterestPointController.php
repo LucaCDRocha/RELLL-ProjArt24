@@ -9,6 +9,8 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Theme;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\ImgController;
 
 class InterestPointController extends Controller
 {
@@ -33,7 +35,6 @@ class InterestPointController extends Controller
      */
     public function store(Request $request)
     {
-
         $id_loc = LocationController::createLocation($request->location);
         $seasons = $request->seasons;
         if (sizeof($seasons) == 4) {
@@ -52,7 +53,7 @@ class InterestPointController extends Controller
         $IP_inputs = [
             'name' => $request->name,
             'description' => $request->description,
-            'url' => $request->url,
+            'url' => $request->url ? $request->url : '-',
             'open_seasons' => $seasons,
             'location_id' => $id_loc,
 
@@ -60,13 +61,19 @@ class InterestPointController extends Controller
 
         $interestPoint = InterestPoint::create($IP_inputs);
 
+        $tags = $request->tags;
+        foreach ($tags as $tag) {
+            $tag = Tag::where('name', $tag)->first();
+
+            $tag->interestPoints()->attach($interestPoint->id);
+        }
         // Gestion des images
 
         foreach ($request->imgs as $picture) {
             ImgController::storeImgInterestPoint($picture, $interestPoint->id);
         }
         // TODO : changer le 'home' en la vue confirmation de création IP
-        return Inertia::render('home');
+        return redirect()->route('home');
     }
 
     /**
