@@ -31,9 +31,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     Route::resource("/bookmark", FavoriteController::class);
     Route::post("/addTrail", [FavoriteController::class, 'addTrail'])->name('bookmark.addTrail');
     Route::get('/my-trails', [HistoricsController::class, 'showHistorics'])->name('my_trails');
+
+    Route::middleware('is_admin')->group(function () {
+        Route::get('/create', function () {
+            return Inertia::render('Creation');
+        });
+        Route::resource("/trails", TrailController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+        Route::resource("/interestPoints", InterestPointController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    });
+    
     Route::get('/rankTrail/{id}', [RankingController::class, 'create']);
     Route::post('/rankTrail', [RankingController::class, 'store'])->name('rank.store');
 
@@ -46,9 +56,9 @@ require __DIR__ . '/auth.php';
  Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
-Route::resource("/trails", TrailController::class);
+Route::resource("/trails", TrailController::class)->only(['index', 'show']);
 
-Route::resource("/interestPoints", InterestPointController::class);
+Route::resource("/interestPoints", InterestPointController::class)->only(['index', 'show']);
 
 Route::get('/search', [SearchController::class, 'search']);
 
@@ -57,6 +67,7 @@ Route::get('/map', [InterestPointController::class, 'map']);
 Route::get('/about', function () {
     return Inertia::render('About');
 });
+
 
 Route::get('trail-start/{id}', [TrailController::class, 'start'])->name('start');
 

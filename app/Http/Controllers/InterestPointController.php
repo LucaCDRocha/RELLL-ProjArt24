@@ -9,6 +9,8 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Theme;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\ImgController;
 
 class InterestPointController extends Controller
 {
@@ -33,30 +35,42 @@ class InterestPointController extends Controller
      */
     public function store(Request $request)
     {
-
         $id_loc = LocationController::createLocation($request->location);
-        $seasons = is_array($request->seasons) ? implode(',', $request->seasons) : $request->seasons;
+
+        $seasons = $request->seasons;
+        if (sizeof($seasons) == 4) {
+            $seasons = "toutes";
+        } else {
+            $seasons = "";
+            foreach ($request->seasons as $season) {
+                $seasons .= $season['name'] . ', ';
+            }
+            $seasons = substr($seasons, 0, -2);
+        }
 
         // Creation New InterestPoint
         $IP_inputs = [
-            'name' => $request->name ?: "Test/Erreur",
-            'description' => $request->description ?: "Test/erreur",
-            'url' => $request->url ?: "Test/Erreur",
-            'open_seasons' => $seasons ?: "Test/Erreur",
-            'location_id' => $id_loc ?: "1",
-            'tag_id' => $request->tag_id ?: "1",
+            'name' => $request->name,
+            'description' => $request->description,
+            'url' => $request->url ? $request->url : '-',
+            'open_seasons' => $seasons,
+            'location_id' => $id_loc,
 
         ];
-
         $interestPoint = InterestPoint::create($IP_inputs);
 
+        $tags = $request->tags;
+        foreach ($tags as $tag) {
+            $tagDB = Tag::where('name', $tag['name'])->first();
+            $interestPoint->tags()->attach($tagDB->id);
+        }
         // Gestion des images
 
         foreach ($request->imgs as $picture) {
             ImgController::storeImgInterestPoint($picture, $interestPoint->id);
         }
-
-        return "Ok";
+        // TODO : changer le 'home' en la vue confirmation de création IP
+        return redirect()->route('home');
     }
 
     /**

@@ -64,10 +64,10 @@ const open = ref(false);
             <div
                 v-show="open"
                 class="absolute z-50 mt-2 rounded-md shadow-lg"
-                :class="[widthClass, alignmentClasses]"
+                :class="[widthClass, alignmentClasses, 'content']"
                 style="display: none"
             >
-                <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
+                <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="[contentClasses, 'content']">
                     <slot name="content" />
                 </div>
             </div>

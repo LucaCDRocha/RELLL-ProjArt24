@@ -43,7 +43,7 @@ const emit = defineEmits(["handle-close"]);
 
     transition: top 0.5s;
 
-    z-index: 1000;
+    z-index: 1003;
 }
 
 .base-overlay-card[open] {

@@ -1,4 +1,5 @@
 <script setup>
+import { usePage } from "@inertiajs/vue3";
 import { onMounted } from "vue";
 import BaseNavLink from "@/Components/BaseNavLink.vue";
 
@@ -20,6 +21,14 @@ onMounted(() => {
                 .querySelector('a[href="/home"]')
                 ?.querySelector("span")
                 ?.classList.add("active");
+            break;
+        case "/trails/create":
+        case "/interestPoints/create":
+            document
+                .querySelector('a[href="/create"]')
+                ?.querySelector("span")
+                ?.classList.add("active");
+            break;
         default:
             document
                 .querySelector(`a[href="${window.location.pathname}"]`)
@@ -28,15 +37,19 @@ onMounted(() => {
             break;
     }
 });
+
+const user = usePage().props.auth.user;
+const isUserLoggedIn = user && Object.keys(user).length > 0;
+const isUserAdmin = user && user.is_admin === 1;
+
+const isAdmin = isUserLoggedIn && isUserAdmin;
 </script>
 
 <template>
     <div>
         <BaseNavLink icon="home" href="/home">Accueil</BaseNavLink>
         <BaseNavLink icon="map" href="/map">Carte</BaseNavLink>
-        <BaseNavLink icon="add_location_alt" href="/maintenance"
-            >Créer</BaseNavLink
-        >
+        <BaseNavLink v-if="isAdmin" icon="add_location_alt" href="/create">Créer</BaseNavLink>
         <BaseNavLink icon="bookmark" href="/bookmark">Mes listes</BaseNavLink>
         <BaseNavLink icon="account_circle" href="/profile">Profil</BaseNavLink>
     </div>
@@ -53,6 +66,8 @@ div {
     left: 0;
     right: 0;
     padding: 1rem 0rem;
+
+    z-index: 1000;
 }
 
 a {

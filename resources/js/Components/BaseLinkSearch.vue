@@ -9,7 +9,7 @@ const no = ref("");
 <template>
     <a href="/search">
         <div class="search-bar">
-            <p>Rechercher</p>
+            <p>Rechercher des lieux ou sentiers</p>
             <span class="material-symbols-rounded">search</span>
         </div>
         <BaseDivider />

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch, computed } from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import BaseTag from "@/Components/BaseTag.vue";
 import BaseImgGalery from "@/Components/BaseImgGalery.vue";
@@ -15,15 +15,28 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    isAllreadyAdded: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const imgs = ref([]);
 
 for (const img of props.data.imgs) {
-    imgs.value.push(img.img_path);
+    if (img.img_path.includes("http")) imgs.value.push(img.img_path);
+    else imgs.value.push(`${img.img_path}`);
 }
 
-const emit = defineEmits(["handle-close", "handle-point"]);
+const textButton = computed(() => {
+    if (props.isAllreadyAdded) {
+        return "Ajouté";
+    } else {
+        return "Ajouter ce lieu";
+    }
+});
+
+const emit = defineEmits(["handle-close", "handle-point", "add-point"]);
 </script>
 
 <template>
@@ -34,27 +47,21 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             <p>{{ data.open_seasons }}</p>
         </div>
         <div class="tags" v-if="!full">
-            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />
+            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" />
         </div>
-        <a
-            v-if="data.url !== '-'"
-            :href="data.url"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <PrimaryButton
+            class="button"
+            @click.prevent="emit('add-point', { point: data })"
+            >{{ textButton }}</PrimaryButton
         >
-            <PrimaryButton>Voir le site web</PrimaryButton>
-        </a>
+
         <BaseImgGalery :imgs="imgs" />
         <h2>Description</h2>
         <div class="tags">
-            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />
+            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" />
         </div>
         <p>{{ data.description }}</p>
-        <AppCardList
-            :datas="data.trails"
-            @handle-point="emit('handle-point', $event)"
-            >Les sentiers ayant ce lieu</AppCardList
-        >
     </div>
 </template>
 
@@ -79,5 +86,9 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 
     width: 100%;
     padding-right: 1rem;
+}
+
+.button {
+    align-self: flex-end;
 }
 </style>
