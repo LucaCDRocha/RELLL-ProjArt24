@@ -1,7 +1,10 @@
 <script setup>
 import BaseDivider from "@/Components/BaseDivider.vue";
 import DropDown from "@/Components/Dropdown.vue";
-import { usePage } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
+import { ref } from "vue";
+import Modal from "@/Components/Modal.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const notOnMap = window.location.pathname !== "/map";
 
@@ -20,8 +23,9 @@ const props = defineProps({
     },
 });
 
-const isUserLoggedIn = usePage().props.auth.user;
-const isUserAdmin = isUserLoggedIn && user.is_admin === 1;
+const user = usePage().props.auth.user;
+const isUserLoggedIn = user && Object.keys(user).length > 0;
+const isUserAdmin = user && user.is_admin === 1;
 
 const share = () => {
     let url = window.location.origin;
@@ -45,6 +49,41 @@ const share = () => {
             .then(() => console.log("Successful share", url, title, text))
             .catch((error) => console.log("Error sharing", error));
     }
+};
+
+const print = () => {
+    window.print();
+};
+
+const report = () => {
+    if (props.trailId) {
+        window.location.href = `/trails/${props.trailId}/report`;
+    } else if (props.interestPointId) {
+        window.location.href = `/interestPoints/${props.interestPointId}/report`;
+    }
+};
+
+const showModal = ref(false);
+const openModal = () => {
+    showModal.value = !showModal.value;
+};
+
+const deleteItem = () => {
+    const form = useForm({
+        id: props.trailId || props.interestPointId,
+    });
+    if (props.trailId) {
+        form.delete(route("trails.destroy", { id: props.trailId }), {});
+    } else if (props.interestPointId) {
+        form.delete(
+            route("interestPoints.destroy", { id: props.interestPointId }),
+            {}
+        );
+    }
+    openModal();
+    // setTimeout(() => {
+    //     window.location.href = "/home";
+    // }, 1000);
 };
 
 const emit = defineEmits(["handle-close"]);
@@ -71,7 +110,7 @@ const emit = defineEmits(["handle-close"]);
                             <span class="material-symbols-rounded">edit</span>
                             Modifier
                         </p>
-                        <p v-if="isUserLoggedIn">
+                        <p v-if="isUserLoggedIn && props.trailId">
                             <span class="material-symbols-rounded"
                                 >bookmark</span
                             >
@@ -81,15 +120,15 @@ const emit = defineEmits(["handle-close"]);
                             <span class="material-symbols-rounded">share</span>
                             Partager
                         </p>
-                        <p>
+                        <p v-if="props.trailId" @click="print()">
                             <span class="material-symbols-rounded">print</span>
                             Imprimer
                         </p>
-                        <p v-if="!isUserAdmin">
+                        <p v-if="!isUserAdmin" @click="report()">
                             <span class="material-symbols-rounded">flag</span>
                             Signaler
                         </p>
-                        <p v-if="isUserAdmin">
+                        <p v-if="isUserAdmin" @click="openModal()">
                             <span class="material-symbols-rounded">delete</span>
                             Supprimer
                         </p>
@@ -101,6 +140,22 @@ const emit = defineEmits(["handle-close"]);
             <span class="material-symbols-rounded">drag_handle</span>
         </div>
     </div>
+    <Modal :show="showModal" @close="openModal()">
+        <div class="confirmation-modal">
+            <h2>
+                Voulez-vous vraiment supprimer ce
+                {{ props.trailId ? "sentier" : "point" }} ?
+            </h2>
+            <div class="actions">
+                <a @click.prevent="deleteItem()">
+                    Supprimer le {{ props.trailId ? "sentier" : "point" }}
+                </a>
+                <PrimaryButton @click="openModal()">
+                    Non, annuler
+                </PrimaryButton>
+            </div>
+        </div>
+    </Modal>
 </template>
 
 <style scoped>
@@ -151,5 +206,17 @@ span.material-symbols-rounded {
     gap: 0.5rem;
     align-items: center;
     padding: 0.8rem 0.5rem;
+}
+
+.confirmation-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.actions a {
+    @apply text-red-500 dark:text-red-400;
 }
 </style>

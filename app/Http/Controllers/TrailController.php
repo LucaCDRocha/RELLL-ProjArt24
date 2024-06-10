@@ -83,7 +83,7 @@ class TrailController extends Controller
                 'time' => TrailController::getTimeTrail($request->time),
                 'description' => $request->description,
                 'difficulty' => $difficulty,
-                'is_accessible' => $request->is_accessible == 'Oui' ? 0 : 1,
+                'is_accessible' => $request->is_accessible == 'Oui' ? 1 : 0,
                 'info_transport' => $request->info_transport,
                 'user_id' => $request->user_id,
                 'img_id' => $img_id,
@@ -236,9 +236,24 @@ class TrailController extends Controller
      */
     public function destroy(string $id)
     {
-        // vérifier l'authentification du usr !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Trail::findOrFail($id)->delete();
-        return redirect(route('home'));
+        $trail = Trail::findOrFail($id)->load('img');
+
+        $trail->favorites()->detach();
+        $trail->historics()->delete();
+
+        $trail->rankings()->delete();
+        $trail->comments()->delete();
+
+        $trail->interest_points()->detach();
+
+        if (file_exists(public_path($trail->img->img_path))) {
+            unlink(public_path($trail->img->img_path));
+        }
+        $trail->delete();
+        // Suppression des images en cascade
+        $trail->img()->delete();
+
+        return redirect()->route('home');
     }
 
     public function start($id)
