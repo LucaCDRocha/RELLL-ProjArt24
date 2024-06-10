@@ -1,8 +1,7 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseTag from "@/Components/BaseTag.vue";
 import BaseDividerVert from "@/Components/BaseDividerVert.vue";
 import TheCardNav from "@/Components/TheCardNav.vue";
@@ -13,6 +12,7 @@ import AppSaveButton from "@/Components/AppSaveButton.vue";
 import AppStarRanking from "@/Components/AppStarRanking.vue";
 import BaseAccordion from "@/Components/BaseAccordion.vue";
 import { convertTime, convertDate } from "@/Helpers/timeHelper.js";
+import { trailInfo } from "@/Stores/map";
 
 const props = defineProps({
     data: {
@@ -49,25 +49,81 @@ for (const point of props.data.interest_points) {
     }
 }
 
+const trailDistance = ref(0);
+onMounted(() => {
+    setTimeout(() => {
+        trailDistance.value =
+            Math.round((trailInfo.value.summary.totalDistance / 1000) * 10) /
+            10;
+    }, 1000);
+});
+
 const emit = defineEmits(["handle-close", "handle-point"]);
 </script>
 
 <template>
     <div class="trail">
-        <TheCardNav
-            @handle-close="emit('handle-close')"
-            :is-full="full"
-            :trail-id="data.id"
-        />
+        <div class="header">
+            <TheCardNav
+                @handle-close="emit('handle-close')"
+                :is-full="full"
+                :trail-id="data.id"
+            />
 
-        <div class="tags" v-if="!full">
-            <div class="tag">
-                <BaseTag :tag="data.difficulty" :selected="true" />
+            <div class="tags" v-if="!full">
+                <div class="tag">
+                    <BaseTag :tag="data.difficulty" :selected="true" />
+                </div>
+
+                <BaseDividerVert style="padding-left: 0.06rem" />
+
+                <div class="tag">
+                    <BaseTag
+                        v-for="tag in tags"
+                        :key="tag.id"
+                        :tag="tag.name"
+                        :selected="true"
+                    />
+                </div>
             </div>
 
-            <BaseDividerVert style="padding-left: 0.06rem" />
+            <div>
+                <h1>{{ data.name }}</h1>
 
-            <div class="tag">
+                <div class="stars" v-if="data.note">
+                    <AppStarRanking :rating="data.note" />
+                </div>
+            </div>
+
+            <div class="infos" v-if="!full">
+                <p>
+                    <span class="material-symbols-rounded">access_time</span>
+                    {{ data.time }}
+                </p>
+                <span class="material-symbols-rounded" v-if="data.is_accessible"
+                    >accessible</span
+                >
+                <p>{{ data.interest_points.length }} lieux</p>
+            </div>
+
+            <div class="actions">
+                <PrimaryButton
+                    @click="$inertia.visit(`/trail-start/${data.id}`)"
+                    >Commencer</PrimaryButton
+                >
+                <AppSaveButton
+                    v-if="isUserLoggedIn"
+                    :title="data.name"
+                    :id="data.id"
+                />
+            </div>
+
+            <BaseImgGalery :imgs="imgs" />
+        </div>
+
+        <div class="desciption">
+            <h2>Description</h2>
+            <div class="tags">
                 <BaseTag
                     v-for="tag in tags"
                     :key="tag.id"
@@ -75,52 +131,10 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                     :selected="true"
                 />
             </div>
-        </div>
-
-        <div>
-            <h1>{{ data.name }}</h1>
-
-            <div class="stars" v-if="data.note">
-                <AppStarRanking :rating="data.note" />
-            </div>
-        </div>
-
-        <div class="infos" v-if="!full">
             <p>
-                <span class="material-symbols-rounded">access_time</span>
-                {{ data.time }}
+                {{ data.description }}
             </p>
-            <span class="material-symbols-rounded" v-if="data.is_accessible"
-                >accessible</span
-            >
-            <p>{{ data.interest_points.length }} lieux</p>
         </div>
-
-        <div class="actions">
-            <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)"
-                >Commencer</PrimaryButton
-            >
-            <AppSaveButton
-                v-if="isUserLoggedIn"
-                :title="data.name"
-                :id="data.id"
-            />
-        </div>
-
-        <BaseImgGalery :imgs="imgs" />
-
-        <h2>Description</h2>
-        <div class="tags">
-            <BaseTag
-                v-for="tag in tags"
-                :key="tag.id"
-                :tag="tag.name"
-                :selected="true"
-            />
-        </div>
-        <p>
-            {{ data.description }}
-        </p>
 
         <div class="accordion">
             <BaseAccordion
@@ -129,55 +143,62 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                 :tag="data.difficulty"
                 :multiple="true"
             >
-                <div class="infos">
-                    <p>
-                        <span class="material-symbols-rounded"
-                            >access_time</span
-                        >
-                        {{ data.time }}
-                    </p>
-                    <p>5 km</p>
+                <div class="content">
+                    <div class="infos">
+                        <p>
+                            <span class="material-symbols-rounded"
+                                >access_time</span
+                            >
+                            {{ data.time }}
+                        </p>
+                        <p>{{ trailDistance }} km</p>
+                    </div>
+                    <BaseMap :draggable="false" :waypoints="data" />
                 </div>
-                <BaseMap :draggable="false" :waypoints="data" />
             </BaseAccordion>
         </div>
 
         <AppCardList
             :datas="data.interest_points"
             @handle-point="emit('handle-point', $event)"
-            >Les {{ data.interest_points.length }} lieux présents dans ce sentier</AppCardList
+            >Les {{ data.interest_points.length }} lieux présents dans ce
+            sentier</AppCardList
         >
 
         <div class="accordion">
             <BaseAccordion title="Accessibilité" :id="2">
-                <div class="infos accessibilite">
-                    <span
-                        class="material-symbols-rounded"
-                        v-if="data.info_transports"
-                        >train</span
-                    >
-                    <span
-                        class="material-symbols-rounded"
-                        v-if="data.location_parking_id"
-                        >local_parking</span
-                    >
-                    <span
-                        class="material-symbols-rounded"
-                        v-if="data.is_accessible"
-                        >accessible</span
-                    >
+                <div class="content">
+                    <div class="infos accessibilite">
+                        <span
+                            class="material-symbols-rounded"
+                            v-if="data.info_transports"
+                            >train</span
+                        >
+                        <span
+                            class="material-symbols-rounded"
+                            v-if="data.location_parking_id"
+                            >local_parking</span
+                        >
+                        <span
+                            class="material-symbols-rounded"
+                            v-if="data.is_accessible"
+                            >accessible</span
+                        >
+                    </div>
+                    <p v-if="data.info_transports">{{ data.info_transports }}</p>
                 </div>
-                <p>{{ data.info_transports }}</p>
             </BaseAccordion>
         </div>
 
         <div class="accordion">
             <BaseAccordion title="Avis" :id="3">
-                <p>Il n'y a pas encore de commentaires</p>
+                <div class="content">
+                    <p>Il n'y a pas encore de commentaires</p>
+                </div>
             </BaseAccordion>
         </div>
 
-        <div>
+        <div class="information">
             <h2>Informations sur le sentier</h2>
             <p>
                 Ce sentier a été créé par {{ data.user.name }} le
@@ -192,10 +213,18 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 .trail {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
     align-items: flex-start;
     width: 100%;
     height: fit-content;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .accordion {
@@ -238,7 +267,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 }
 
 .accessibilite span {
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 .actions {
@@ -255,5 +284,34 @@ const emit = defineEmits(["handle-close", "handle-point"]);
     height: 20rem;
     width: calc(100% - 1rem);
     border-radius: 1rem;
+}
+
+.desciption {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    width: 100%;
+    height: fit-content;
+}
+
+.desciption p {
+    padding-right: 1rem;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1rem;
+}
+
+.information {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    width: 100%;
+    height: fit-content;
 }
 </style>
