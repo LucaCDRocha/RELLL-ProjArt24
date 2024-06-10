@@ -14,7 +14,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 <style scoped>
 .the-header {
-    @apply bg-surface;
+    @apply bg-surface dark:bg-darkSurface;
 
     position: sticky;
     top: 0;
