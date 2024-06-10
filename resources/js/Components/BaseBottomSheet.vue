@@ -11,9 +11,10 @@ const scrollUp = (e) => {
     document.querySelector(
         ".base-overlay-card__content"
     ).style.height = `100vh`;
+    emit("handle-full");
 };
 
-const emit = defineEmits(["handle-close"]);
+const emit = defineEmits(["handle-close", 'handle-full']);
 </script>
 
 <template>

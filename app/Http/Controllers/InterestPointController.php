@@ -95,7 +95,6 @@ class InterestPointController extends Controller
     public function getInterestPoint(string $id)
     {
         $interestPoint = InterestPoint::findOrFail($id)->load('location', 'tags', 'imgs', 'trails');
-
         foreach ($interestPoint->trails as $trail) {
             $trail->load('img');
         }

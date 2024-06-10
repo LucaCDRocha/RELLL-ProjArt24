@@ -12,6 +12,7 @@ import BaseMap from "@/Components/BaseMap.vue";
 import AppSaveButton from "@/Components/AppSaveButton.vue";
 import AppStarRanking from "@/Components/AppStarRanking.vue";
 import BaseAccordion from "@/Components/BaseAccordion.vue";
+import { convertTime, convertDate } from "@/Helpers/timeHelper.js";
 
 const props = defineProps({
     data: {
@@ -23,6 +24,8 @@ const props = defineProps({
         default: false,
     },
 });
+
+props.data.time = convertTime(props.data.time);
 
 const tags = ref([]);
 for (const interestPoint of props.data.interest_points) {
@@ -51,14 +54,18 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 
 <template>
     <div class="trail">
-        <TheCardNav @handle-close="emit('handle-close')" />
+        <TheCardNav
+            @handle-close="emit('handle-close')"
+            :is-full="full"
+            :trail-id="data.id"
+        />
 
         <div class="tags" v-if="!full">
             <div class="tag">
                 <BaseTag :tag="data.difficulty" :selected="true" />
             </div>
 
-            <BaseDividerVert style="padding-left: 0.06rem;" />
+            <BaseDividerVert style="padding-left: 0.06rem" />
 
             <div class="tag">
                 <BaseTag
@@ -70,10 +77,12 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             </div>
         </div>
 
-        <h1>{{ data.name }}</h1>
+        <div>
+            <h1>{{ data.name }}</h1>
 
-        <div class="stars" v-if="data.note">
-            <AppStarRanking :rating="data.note" />
+            <div class="stars" v-if="data.note">
+                <AppStarRanking :rating="data.note" />
+            </div>
         </div>
 
         <div class="infos" v-if="!full">
@@ -81,7 +90,10 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                 <span class="material-symbols-rounded">access_time</span>
                 {{ data.time }}
             </p>
-            <p>5 km</p>
+            <span class="material-symbols-rounded" v-if="data.is_accessible"
+                >accessible</span
+            >
+            <p>{{ data.interest_points.length }} lieux</p>
         </div>
 
         <div class="actions">
@@ -133,17 +145,29 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <AppCardList
             :datas="data.interest_points"
             @handle-point="emit('handle-point', $event)"
-            >Points d'intérêt du sentier</AppCardList
+            >Les {{ data.interest_points.length }} lieux présents dans ce sentier</AppCardList
         >
 
         <div class="accordion">
             <BaseAccordion title="Accessibilité" :id="2">
                 <div class="infos accessibilite">
-                    <span class="material-symbols-rounded">train</span>
-                    <span class="material-symbols-rounded">local_parking</span>
-                    <span class="material-symbols-rounded">accessible</span>
+                    <span
+                        class="material-symbols-rounded"
+                        v-if="data.info_transports"
+                        >train</span
+                    >
+                    <span
+                        class="material-symbols-rounded"
+                        v-if="data.location_parking_id"
+                        >local_parking</span
+                    >
+                    <span
+                        class="material-symbols-rounded"
+                        v-if="data.is_accessible"
+                        >accessible</span
+                    >
                 </div>
-                <p>Le sentier est accessible</p>
+                <p>{{ data.info_transports }}</p>
             </BaseAccordion>
         </div>
 
@@ -151,6 +175,15 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             <BaseAccordion title="Avis" :id="3">
                 <p>Il n'y a pas encore de commentaires</p>
             </BaseAccordion>
+        </div>
+
+        <div>
+            <h2>Informations sur le sentier</h2>
+            <p>
+                Ce sentier a été créé par {{ data.user.name }} le
+                {{ convertDate(data.created_at) }}
+            </p>
+            <p>Dernière modification le {{ convertDate(data.updated_at) }}</p>
         </div>
     </div>
 </template>
@@ -192,6 +225,11 @@ const emit = defineEmits(["handle-close", "handle-point"]);
     width: 100%;
     align-items: center;
     padding-right: 1rem;
+}
+
+.infos p {
+    display: flex;
+    gap: 0.2rem;
 }
 
 .accessibilite {

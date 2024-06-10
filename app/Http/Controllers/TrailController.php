@@ -130,7 +130,9 @@ class TrailController extends Controller
      */
     public function getTrail(string $id)
     {
-        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'rankings');
+        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'rankings', 'user');
+
+        $trail->user->makeHidden('email', 'email_verified_at', 'password', 'remember_token', 'created_at', 'updated_at', 'is_admin');
 
         $trail->note = $trail->rankings()->avg('note');
 

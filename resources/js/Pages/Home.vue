@@ -34,6 +34,12 @@ const BottomSheet = (e) => {
 
 const closeBottomSheet = () => {
     isOpen.value = false;
+    full.value = false;
+};
+
+const full = ref(false);
+const toggleFull = () => {
+    full.value = true;
 };
 
 const props = defineProps({
@@ -54,12 +60,11 @@ const props = defineProps({
     <TheHeader />
 
     <BaseLinkSearch />
-    
+
     <div class="home">
         <!-- <SecondaryButton @click="$inertia.visit('/search')" icon="search"
             >Rechercher</SecondaryButton
         > -->
-
 
         <AppCardList :datas="trails" @handle-point="BottomSheet($event)"
             >Les parcours les plus populaires</AppCardList
@@ -78,16 +83,19 @@ const props = defineProps({
         v-if="isOpen"
         :isOpen="isOpen"
         @handle-close="closeBottomSheet()"
+        @handle-full="toggleFull()"
     >
         <AppTrailInfo
             v-if="data.difficulty"
             :data="data"
+            :full="full"
             @handle-close="closeBottomSheet()"
             @handle-point="BottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
+            :full="full"
             @handle-close="closeBottomSheet()"
             @handle-point="BottomSheet($event)"
         />

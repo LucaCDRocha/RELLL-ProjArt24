@@ -5,6 +5,7 @@ import BaseTag from "@/Components/BaseTag.vue";
 import BaseImgGalery from "@/Components/BaseImgGalery.vue";
 import TheCardNav from "@/Components/TheCardNav.vue";
 import AppCardList from "@/Components/AppCardList.vue";
+import { convertDate } from "@/Helpers/timeHelper.js";
 
 const props = defineProps({
     data: {
@@ -28,16 +29,27 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 
 <template>
     <div class="interest-point">
-        <TheCardNav @handle-close="emit('handle-close')" />
-        <h1>{{ data.name }}</h1>
-        <div class="ouvertures">
-            <p>{{ data.open_seasons }}</p>
-        </div>
+        <TheCardNav
+            @handle-close="emit('handle-close')"
+            :is-full="full"
+            :interest-point-id="data.id"
+        />
         <div class="tags" v-if="!full">
-            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />
+            <BaseTag
+                v-for="tag in data.tags"
+                :key="tag.id"
+                :tag="tag.name"
+                :selected="true"
+            />
+        </div>
+        <div>
+            <h1>{{ data.name }}</h1>
+            <div class="ouvertures">
+                <p>{{ data.open_seasons }}</p>
+            </div>
         </div>
         <a
-            v-if="data.url !== '-'"
+            v-if="data.url !== '-' && full"
             :href="data.url"
             target="_blank"
             rel="noopener noreferrer"
@@ -47,14 +59,25 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <BaseImgGalery :imgs="imgs" />
         <h2>Description</h2>
         <div class="tags">
-            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />
+            <BaseTag
+                v-for="tag in data.tags"
+                :key="tag.id"
+                :tag="tag.name"
+                :selected="true"
+            />
         </div>
         <p>{{ data.description }}</p>
         <AppCardList
             :datas="data.trails"
             @handle-point="emit('handle-point', $event)"
-            >Les sentiers ayant ce lieu</AppCardList
+            >Les sentiers menant à ce lieu</AppCardList
         >
+
+        <div>
+            <h2>Informations sur le sentier</h2>
+            <p>Ce sentier a été créé le {{ convertDate(data.created_at) }}</p>
+            <p>Dernière modification le {{ convertDate(data.updated_at) }}</p>
+        </div>
     </div>
 </template>
 

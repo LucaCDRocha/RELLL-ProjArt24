@@ -24,6 +24,12 @@ const BottomSheet = (e) => {
 
 const closeBottomSheet = () => {
     isOpen.value = false;
+    full.value = false;
+};
+
+const full = ref(false);
+const toggleFull = () => {
+    full.value = true;
 };
 
 const props = defineProps({
@@ -53,16 +59,19 @@ const goBack = () => {
         v-if="isOpen"
         :isOpen="isOpen"
         @handle-close="closeBottomSheet()"
+        @handle-full="toggleFull()"
     >
         <AppTrailInfo
             v-if="data.difficulty"
             :data="data"
+            :full="full"
             @handle-close="closeBottomSheet()"
             @handle-point="BottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
+            :full="full"
             @handle-close="closeBottomSheet()"
             @handle-point="BottomSheet($event)"
         />
