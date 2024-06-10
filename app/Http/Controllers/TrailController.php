@@ -130,7 +130,43 @@ class TrailController extends Controller
      */
     public function getTrail(string $id)
     {
-        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'rankings', 'user');
+        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'rankings', 'user', 'comments');
+
+        foreach ($trail->comments as $comment) {
+            $comment->load('user', 'likes');
+
+            $comment->user->makeHidden('email', 'email_verified_at', 'password', 'remember_token', 'created_at', 'updated_at', 'is_admin');
+        }
+
+        $reactions = [];
+        foreach ($trail->rankings as $ranking) {
+            $ranking->load('user');
+
+            $reaction = [
+                'user' => $ranking->user,
+                'ranking' => $ranking,
+                'comment' => $trail->comments()->where('user_id', $ranking->user_id)->first(),
+            ];
+
+            if ($reaction['comment'] !== null) {
+                $reaction['comment']->load('likes');
+            }
+
+            $reactions[] = $reaction;
+
+            $ranking->user->makeHidden('email', 'email_verified_at', 'password', 'remember_token', 'created_at', 'updated_at', 'is_admin');
+        }
+
+        // order the reactions by likes
+        usort($reactions, function ($a, $b) {
+            if ($a['comment'] === null) {
+                return 1;
+            } else {
+                return count($b['comment']->likes) <=> count($a['comment']->likes);
+            }
+        });
+
+        $trail['reactions'] = $reactions;
 
         $trail->user->makeHidden('email', 'email_verified_at', 'password', 'remember_token', 'created_at', 'updated_at', 'is_admin');
 
@@ -236,7 +272,7 @@ class TrailController extends Controller
      */
     public function destroy(string $id)
     {
-        $trail = Trail::findOrFail($id)->load('img','comments');
+        $trail = Trail::findOrFail($id)->load('img', 'comments');
 
         $trail->favorites()->detach();
         $trail->historics()->delete();

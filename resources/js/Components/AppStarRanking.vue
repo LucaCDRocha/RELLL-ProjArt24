@@ -38,7 +38,7 @@ export default {
 
 <style scoped>
 span {
-    font-size: 1rem;
+    font-size: 1.3rem;
 }
 
 .full-star {

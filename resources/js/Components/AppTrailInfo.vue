@@ -11,7 +11,12 @@ import BaseMap from "@/Components/BaseMap.vue";
 import AppSaveButton from "@/Components/AppSaveButton.vue";
 import AppStarRanking from "@/Components/AppStarRanking.vue";
 import BaseAccordion from "@/Components/BaseAccordion.vue";
-import { convertTime, convertDate } from "@/Helpers/timeHelper.js";
+import AppReviewCard from "@/Components/AppReviewCard.vue";
+import {
+    convertTime,
+    convertDate,
+    getTimeDifference,
+} from "@/Helpers/timeHelper.js";
 import { trailInfo } from "@/Stores/map";
 
 const props = defineProps({
@@ -185,15 +190,23 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                             >accessible</span
                         >
                     </div>
-                    <p v-if="data.info_transports">{{ data.info_transports }}</p>
+                    <p v-if="data.info_transports">
+                        {{ data.info_transports }}
+                    </p>
                 </div>
             </BaseAccordion>
         </div>
 
         <div class="accordion">
-            <BaseAccordion title="Avis" :id="3">
+            <BaseAccordion
+                :title="`Avis (${data['reactions'].length})`"
+                :id="3"
+            >
                 <div class="content">
-                    <p>Il n'y a pas encore de commentaires</p>
+                    <p v-if="!data['reactions']">
+                        Il n'y a pas encore de commentaires
+                    </p>
+                    <AppReviewCard v-else v-for="data in data['reactions']" :key="data.user.id" :data="data" />
                 </div>
             </BaseAccordion>
         </div>
@@ -282,7 +295,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 
 #map {
     height: 20rem;
-    width: calc(100% - 1rem);
+    width: 100%;
     border-radius: 1rem;
 }
 
@@ -313,5 +326,9 @@ const emit = defineEmits(["handle-close", "handle-point"]);
     align-items: flex-start;
     width: 100%;
     height: fit-content;
+}
+
+.accordion{
+    padding-right: 1rem;
 }
 </style>
