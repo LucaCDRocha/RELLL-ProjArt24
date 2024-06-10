@@ -17,7 +17,7 @@ const props = defineProps({
 
 const isOpen = ref(false);
 
-const BottomSheet = (e) => {
+const bottomSheet = (e) => {
     isOpen.value = true;
 };
 
@@ -48,7 +48,7 @@ const emit = defineEmits(["next", "previous"]);
             icon="arrow_forward"
             >Point suivant</BaseNavLink
         >
-        <BaseNavLink v-else icon="check_circle" @click.prevent="BottomSheet()"
+        <BaseNavLink v-else icon="check_circle" @click.prevent="bottomSheet()"
             >Terminer</BaseNavLink
         >
     </div>

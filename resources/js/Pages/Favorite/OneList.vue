@@ -41,12 +41,16 @@ const isOpen = ref(false);
 
 const data = ref({});
 
-const BottomSheet = (e) => {
+const bottomSheet = (e) => {
     fetch(route("trails.showJson", e.id))
         .then((response) => response.json())
         .then((datas) => {
             data.value = datas;
             isOpen.value = true;
+            const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
         });
 };
 
@@ -78,7 +82,7 @@ const closeBottomSheet = () => {
                 v-for="trail in trailsList"
                 :key="trail.id"
                 :data="trail"
-                @click="BottomSheet(trail)"
+                @click="bottomSheet(trail)"
             ></BaseCard>
         </div>
         <DangerButton @click="openModal()" icon="delete">
@@ -106,7 +110,7 @@ const closeBottomSheet = () => {
         <AppTrailInfo
             :data="data"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
     </BaseBottomSheet>
     <TheNav />

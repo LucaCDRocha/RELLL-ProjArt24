@@ -14,13 +14,17 @@ const isOpen = ref(false);
 
 const data = ref({});
 
-const BottomSheet = (e) => {
+const bottomSheet = (e) => {
     if (e.point.difficulty) {
         fetch(route("trails.showJson", e.point.id))
             .then((response) => response.json())
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     } else {
         fetch(route("interestPoints.showJson", e.point.id))
@@ -28,6 +32,10 @@ const BottomSheet = (e) => {
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     }
 };
@@ -66,15 +74,17 @@ const props = defineProps({
             >Rechercher</SecondaryButton
         > -->
 
-        <AppCardList :datas="trails" @handle-point="BottomSheet($event)"
+        <AppCardList :datas="trails" @handle-point="bottomSheet($event)"
             >Les parcours les plus populaires</AppCardList
         >
-        <AppCardList :datas="interestPoints" @handle-point="BottomSheet($event)"
+        <AppCardList
+            :datas="interestPoints"
+            @handle-point="bottomSheet($event)"
             >Les points d’intérêts les mieux notés</AppCardList
         >
         <!-- <AppCardList
             :datas="trails[1].interest_points"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet()($event)"
             >Les différentes catégories</AppCardList
         > -->
     </div>
@@ -90,14 +100,14 @@ const props = defineProps({
             :data="data"
             :full="full"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
             :full="full"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
     </BaseBottomSheet>
 

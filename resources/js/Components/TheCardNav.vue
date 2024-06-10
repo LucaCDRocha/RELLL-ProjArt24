@@ -77,12 +77,8 @@ const emit = defineEmits(["handle-close"]);
                             >
                             Enregistrer
                         </p>
-                        <p>
-                            <span
-                                class="material-symbols-rounded"
-                                @click="share()"
-                                >share</span
-                            >
+                        <p @click="share()">
+                            <span class="material-symbols-rounded">share</span>
                             Partager
                         </p>
                         <p>

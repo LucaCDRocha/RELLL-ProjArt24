@@ -9,7 +9,7 @@ const isOpen = ref(false);
 
 const data = ref({});
 
-const BottomSheet = (e) => {
+const bottomSheet = (e) => {
     if (e.point.difficulty) {
         window.location.href = route("trails.show", e.point.id);
     } else {
@@ -18,6 +18,10 @@ const BottomSheet = (e) => {
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     }
 };
@@ -52,7 +56,7 @@ const goBack = () => {
         :data="trail"
         :full="true"
         @handle-close="goBack()"
-        @handle-point="BottomSheet($event)"
+        @handle-point="bottomSheet($event)"
     />
 
     <BaseBottomSheet
@@ -66,14 +70,14 @@ const goBack = () => {
             :data="data"
             :full="full"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
             :full="full"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
     </BaseBottomSheet>
 </template>
@@ -88,6 +92,6 @@ const goBack = () => {
     padding: 1rem 0rem 0rem 1rem;
     overflow: scroll;
 
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
 </style>
