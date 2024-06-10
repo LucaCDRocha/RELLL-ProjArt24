@@ -11,6 +11,8 @@ use Inertia\Inertia;
 use App\Models\Theme;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ImgController;
+use App\Http\Requests\InterestPointCreateRequest;
+use App\Http\Requests\InterestPointUpdateRequest;
 
 class InterestPointController extends Controller
 {
@@ -33,7 +35,7 @@ class InterestPointController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InterestPointCreateRequest $request)
     {
         $id_loc = LocationController::createLocation($request->location);
 
@@ -119,7 +121,7 @@ class InterestPointController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(InterestPointUpdateRequest $request, string $id)
     {
         $interestPoint = InterestPoint::findOrFail($id);
 
