@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
     isOpen: {
         type: Boolean,
         default: false,

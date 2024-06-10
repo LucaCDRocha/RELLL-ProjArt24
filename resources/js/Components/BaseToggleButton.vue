@@ -3,7 +3,7 @@ import useDarkMode from "@/Composables/darkMode.js";
 
 const { isDarkMode, toggleDarkMode } = useDarkMode();
 
-defineProps({
+const props = defineProps({
     label: {
         type: String,
     },

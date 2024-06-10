@@ -10,6 +10,7 @@ import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
 import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
+import { map } from "leaflet";
 
 const isOpen = ref(false);
 
@@ -58,6 +59,18 @@ const props = defineProps({
 
 const search = ref("");
 
+props.trails.forEach((trail) => {
+    const tags = [];
+    for (const interestPoint of trail.interest_points) {
+        interestPoint.forEach(element => {
+            tags.push(element);
+        });
+    }
+    const uniqueTags = [...new Set(tags)];
+    trail.interest_points = uniqueTags;
+});
+
+
 const trailsResults = computed(() => {
     let filtered = props.trails;
     if (search.value) {
@@ -75,10 +88,22 @@ const trailsResults = computed(() => {
         );
     }
     if (filtersSelected.value.length === 0) return filtered;
+    if (filtersSelected.value.length === 1 ){
+        return filtered.filter((trail) =>
+            filtersSelected.value.find((filter) => filter.name === trail.difficulty)
+        );
+    }
+    const activeTagsFilters = filtersSelected.value.filter(
+            (filter) => filter.name !== "Facile" && filter.name !== "Moyen" && filter.name !== "Difficile"
+        );
     return filtered.filter((trail) =>
         filtersSelected.value.find((filter) => filter.name === trail.difficulty)
-    );
-});
+     && activeTagsFilters.every((filter) =>
+            {
+                return trail.interest_points.find((tag) => tag === filter.name)
+            }
+        ));
+})
 
 const interestPointsResults = computed(() => {
     let filtered = props.interestPoints;
@@ -127,6 +152,20 @@ const switchFilter = (filter) => {
     if (props.difficulties.find((f) => f.name === filter.name)) {
         props.difficulties.find((f) => f.name === filter.name).selected =
             !filter.selected;
+        // Désélectionner toutes les difficultés
+        for (const difficulty of props.difficulties) {
+            if(difficulty.name !== filter.name && difficulty.selected)
+            difficulty.selected = !filter.selected;
+        }
+        
+    }
+    if (filter.name === "Tout désélectionner") {
+        for (const filter of props.filters) {
+            filter.selected = false;
+        }
+        for (const difficulty of props.difficulties) {
+            difficulty.selected = false;
+        }
     }
 };
 
@@ -184,6 +223,7 @@ const goBack = () => {
                 :tag="difficulty.name"
                 :selected="difficulty.selected"
                 @click.prevent="switchFilter(difficulty)"
+                class="cursor-pointer"
             />
         </div>
         <div>
@@ -193,6 +233,15 @@ const goBack = () => {
                 :tag="filter.name"
                 :selected="filter.selected"
                 @click.prevent="switchFilter(filter)"
+                class="cursor-pointer"
+            />
+        </div>
+        <div>
+            <BaseTag
+                tag="Tout désélectionner"
+                :selected="false"
+                @click.prevent="switchFilter({ name: 'Tout désélectionner' })"
+                class="cursor-pointer"
             />
         </div>
 
@@ -207,7 +256,7 @@ const goBack = () => {
             </h2>
             <BaseDivider />
             <h3>Sentiers</h3>
-            <div>
+            <div class="trailsList">
                 <BaseCard
                     v-for="trail in trailsResults"
                     :key="trail.id"
@@ -217,7 +266,7 @@ const goBack = () => {
             </div>
 
             <h3>Points d'intérêt</h3>
-            <div>
+            <div class="trailsList">
                 <BaseCard
                     v-for="interestPoint in interestPointsResults"
                     :key="interestPoint.id"
@@ -295,5 +344,12 @@ const goBack = () => {
     box-shadow: none;
     border: none;
     z-index: 1;
+}
+
+div.trailsList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 1.25rem;
 }
 </style>
