@@ -21,7 +21,9 @@ class ProfileController extends Controller
     public function show(Request $request): Response
     {
         if ($request->user()) {
-            $historics = Historic::where('user_id', auth()->id())->with('trail')->get();
+            $historics = Historic::where('user_id', auth()->id())->with('trail')
+            ->orderBy('updated_at', 'desc')
+            ->get();
             $trailData = $historics->map(function ($historic) {
                 return $historic->trail->load('img');
             });
