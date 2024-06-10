@@ -202,11 +202,19 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                 :title="`Avis (${data['reactions'].length})`"
                 :id="3"
             >
-                <div class="content">
-                    <p v-if="!data['reactions']">
-                        Il n'y a pas encore de commentaires
-                    </p>
-                    <AppReviewCard v-else v-for="data in data['reactions']" :key="data.user.id" :data="data" />
+                <div v-if="!data['reactions']" class="content">
+                    <p>Il n'y a pas encore de commentaires</p>
+                </div>
+                <div v-else class="content">
+                    <div class="note_stars">
+                        <p>{{ Math.floor(data.note * 10) / 10 }}</p>
+                        <AppStarRanking :rating="data.note" />
+                    </div>
+                    <AppReviewCard
+                        v-for="data in data['reactions']"
+                        :key="data.user.id"
+                        :data="data"
+                    />
                 </div>
             </BaseAccordion>
         </div>
@@ -328,7 +336,12 @@ const emit = defineEmits(["handle-close", "handle-point"]);
     height: fit-content;
 }
 
-.accordion{
+.accordion {
     padding-right: 1rem;
+}
+
+.note_stars {
+    display: flex;
+    gap: 0.5rem;
 }
 </style>
