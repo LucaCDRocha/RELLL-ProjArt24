@@ -137,6 +137,7 @@ watch(currentPointIndex, (value) => {
     <AppNavTrail
         :index="currentPointIndex"
         :last-index="lastIndex"
+        :trail_id="props.trail.id"
         @next="next()"
         @previous="previous()"
     />

@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::resource("/bookmark", FavoriteController::class);
     Route::post("/addTrail", [FavoriteController::class, 'addTrail'])->name('bookmark.addTrail');
     Route::get('/allLists', [FavoriteController::class, 'allLists'])->name('bookmark.allLists');
-    Route::get('/my-trails', [HistoricsController::class, 'showHistorics'])->name('my_trails');
+    Route::post('/saveTrail', [HistoricsController::class, 'save'])->name('saveTrail');
 
     Route::middleware('is_admin')->group(function () {
         Route::get('/create', function () {

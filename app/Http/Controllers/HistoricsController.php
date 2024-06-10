@@ -9,14 +9,16 @@ use Inertia\Inertia;
 
 class HistoricsController extends Controller
 {
-    public function showHistorics(){
-        $historics = Historic::where('user_id', auth()->id())->with('trail')->get();
-        $trailData = $historics->map(function($historic) {
-            return $historic->trail->load('img');
-        });
-
-        $myTrails = Trail::where('user_id', auth()->id())->get()->load('img');
-        
-        return Inertia::render('History', ['historics' => $trailData, 'myTrails' => $myTrails]);
+    public function save(Request $request){
+        if(Historic::where('user_id', auth()->id())->where('trail_id', $request->trail_id)->exists()){
+            $historic = Historic::where('user_id', auth()->id())->where('trail_id', $request->trail_id)->first();
+            $historic->touch();
+        } else{
+        $historic = new Historic();
+        $historic->user_id = auth()->id();
+        $historic->trail_id = $request->trail_id;
+        $historic->save();
+        }
+        return;
     }
 }
