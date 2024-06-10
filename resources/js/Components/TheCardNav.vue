@@ -212,8 +212,15 @@ span.material-symbols-rounded {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     gap: 2rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }
 
 .actions a {

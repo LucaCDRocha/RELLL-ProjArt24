@@ -236,13 +236,16 @@ class TrailController extends Controller
      */
     public function destroy(string $id)
     {
-        $trail = Trail::findOrFail($id)->load('img');
+        $trail = Trail::findOrFail($id)->load('img','comments');
 
         $trail->favorites()->detach();
         $trail->historics()->delete();
 
         $trail->rankings()->delete();
-        $trail->comments()->delete();
+        foreach ($trail->comments as $comment) {
+            $comment->likes()->delete();
+            $comment->delete();
+        }
 
         $trail->interest_points()->detach();
 
