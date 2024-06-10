@@ -61,7 +61,7 @@ Route::resource("/trails", TrailController::class)->only(['index', 'show']);
 
 Route::resource("/interestPoints", InterestPointController::class)->only(['index', 'show']);
 
-Route::get('/search', [SearchController::class, 'search']);
+Route::get('/search/{tag_id?}', [SearchController::class, 'search'])->name('search');
 
 Route::get('/map', [InterestPointController::class, 'map']);
 

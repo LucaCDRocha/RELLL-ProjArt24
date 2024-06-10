@@ -81,9 +81,9 @@ const deleteItem = () => {
         );
     }
     openModal();
-    // setTimeout(() => {
-    //     window.location.href = "/home";
-    // }, 1000);
+    setTimeout(() => {
+        window.location.href = "/home";
+    }, 1000);
 };
 
 const emit = defineEmits(["handle-close"]);

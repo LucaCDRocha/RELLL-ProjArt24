@@ -59,6 +59,10 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    tags: {
+        type: Array,
+        default: () => [],
+    },
 });
 </script>
 
@@ -70,23 +74,27 @@ const props = defineProps({
     <BaseLinkSearch />
 
     <div class="home">
-        <!-- <SecondaryButton @click="$inertia.visit('/search')" icon="search"
-            >Rechercher</SecondaryButton
-        > -->
-
         <AppCardList :datas="trails" @handle-point="bottomSheet($event)"
-            >Les parcours les plus populaires</AppCardList
+            >Les sentiers les plus populaires</AppCardList
         >
-        <AppCardList
-            :datas="interestPoints"
-            @handle-point="bottomSheet($event)"
-            >Les points d’intérêts les mieux notés</AppCardList
+        <AppCardList :datas="interestPoints" @handle-point="bottomSheet($event)"
+            >Les lieux les plus récents</AppCardList
         >
-        <!-- <AppCardList
-            :datas="trails[1].interest_points"
-            @handle-point="bottomSheet()($event)"
-            >Les différentes catégories</AppCardList
-        > -->
+
+        <h2>Les différents thèmes</h2>
+        <div class="tags">
+            <a
+                v-for="tag in tags"
+                :key="tag.id"
+                :class="`bg-${tag.name
+                    .toLowerCase()
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')}`"
+                :href="route('search', tag.id)"
+            >
+                {{ tag.name }}
+            </a>
+        </div>
     </div>
 
     <BaseBottomSheet
@@ -117,5 +125,32 @@ const props = defineProps({
 <style scoped>
 .home {
     padding: 1rem 0rem 0rem 1rem;
+}
+
+.tags {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-top: 1.25rem;
+    margin-bottom: 2.25rem;
+    align-content: flex-start;
+
+    height: 12rem;
+    width: 100%;
+    overflow: auto;
+    scrollbar-width: thin;
+}
+
+.tags a {
+    display: flex;
+    width: 11.1875rem;
+    height: 5.3125rem;
+    padding: 0.625rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    border-radius: 0.3125rem;
 }
 </style>
