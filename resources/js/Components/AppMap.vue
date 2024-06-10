@@ -79,6 +79,11 @@ const switchFilter = (filter) => {
         props.filters.find((f) => f.name === filter.name).selected =
             !filter.selected;
     }
+    if (filter.name === "Tout désélectionner") {
+        for (const filter of props.filters) {
+            filter.selected = false;
+        }
+    }
 };
 
 const search = ref("");
@@ -148,6 +153,12 @@ const emit = defineEmits(["add-point"]);
                             :tag="filter.name"
                             :selected="filter.selected"
                             @click.prevent="switchFilter(filter)"
+                        />
+                        <BaseTag
+                            tag="Tout désélectionner"
+                            :selected="false"
+                            @click.prevent="switchFilter({ name: 'Tout désélectionner' })"
+                            class="cursor-pointer"
                         />
                     </div>
                 </div>
