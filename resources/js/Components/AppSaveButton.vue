@@ -21,23 +21,38 @@ const props = defineProps({
         required: true,
     },
 });
-
-console.log(props);
+const isSave = ref(false);
+const isSaved = (e) => {
+    console.log(e.allLists);
+    e.allLists.find((list) => list.trail_ids.includes(props.id))
+        ? (isSave.value = true)
+        : (isSave.value = false);
+    console.log(isSave.value);
+};
 </script>
 
 <template>
     <!-- <Link :href="route('bookmark.allLists', { name: title, trailId: id })"> -->
-    <SecondaryButton icon="bookmark" @click="toggleBottomSheet()">
+    <SecondaryButton
+        icon="bookmark"
+        @click="toggleBottomSheet()"
+        :class="{ active: isSave }"
+    >
         Enregistrer</SecondaryButton
     >
     <!-- </Link> -->
 
     <BaseBottomSheet
-        v-if="isOpen"
+        v-show="isOpen"
         :isOpen="isOpen"
         @handle-close="toggleBottomSheet()"
     >
-        <MyLists :trailId="props.id" :title="props.title" @handle-open="toggleBottomSheet()" />
+        <MyLists
+            :trailId="props.id"
+            :title="props.title"
+            @handle-open="toggleBottomSheet()"
+            @emit-lists="isSaved($event)"
+        />
     </BaseBottomSheet>
 </template>
 
@@ -49,5 +64,9 @@ console.log(props);
     align-items: flex-start;
     width: 100%;
     height: fit-content;
+}
+
+.active :deep(.material-symbols-rounded) {
+    font-variation-settings: "FILL" 1;
 }
 </style>

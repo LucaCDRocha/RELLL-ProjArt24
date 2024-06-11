@@ -12,7 +12,6 @@ const props = defineProps({
     },
 });
 
-console.log(props.data);
 const likes = ref(props.data.comment ? props.data.comment.likes.length : 0);
 const user = usePage().props.auth.user;
 const hasUserLiked = ref(
