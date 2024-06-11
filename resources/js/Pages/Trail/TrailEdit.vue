@@ -2,7 +2,6 @@
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import BaseRadioButtonGroup from "@/Components/BaseRadioButtonGroup.vue";
 import BaseTextArea from "@/Components/BaseTextArea.vue";
@@ -10,13 +9,12 @@ import BaseSelect from "@/Components/BaseSelect.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import { watch, ref, onMounted } from "vue";
 import BaseMap from "@/Components/BaseMap.vue";
-import BaseDivider from "@/Components/BaseDivider.vue";
 import { map, customIcon } from "@/Stores/map.js";
 import TheHeader from "@/Components/TheHeader.vue";
 import TheNav from "@/Components/TheNav.vue";
 import AppMap from "@/Components/AppMap.vue";
 import { trailInfo } from "@/Stores/map.js";
-import { latLng } from "leaflet";
+import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
     interestPoints: {
@@ -76,8 +74,13 @@ const submit = () => {
     } else {
         form.errors.interest_points = "";
         form.time = trailInfo.value.summary.totalTime;
-        form.put(route('trails.update', [props.trail.id]), {
-        });
+        // form.put(route('trails.update', [props.trail.id]), {
+        // });
+        router.post(route('trails.update', [props.trail.id]), {
+        _method: "PUT",
+        // decompose the form
+        ...form,
+    });
     }
 };
 

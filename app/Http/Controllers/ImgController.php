@@ -73,13 +73,16 @@ class ImgController extends Controller
 
     public static function updateImgTrail($picture, $id)
     {
-        dd($picture);
         if (getimagesize($picture)) {
             $trail = Trail::findOrFail($id);
             $old_picture = Img::findOrFail($trail->img_id);
-            unlink(public_path($old_picture->img_path));
+
+            if (!filter_var($old_picture->img_path, FILTER_VALIDATE_URL)) {
+                unlink(public_path($old_picture->img_path));
+            }
             $new_img_id = ImgController::storeImgTrail($picture);
             $trail->img_id = $new_img_id;
+            $trail->save();
             return true;
         } else {
             return false;

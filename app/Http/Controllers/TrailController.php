@@ -240,7 +240,6 @@ class TrailController extends Controller
         if ($request->img) {
             ImgController::updateImgTrail($request->img, $trail->id);
         }
-
         /* 
             Sauvegarde d'un trail dans la BD
         */
