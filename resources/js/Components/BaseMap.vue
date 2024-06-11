@@ -7,6 +7,8 @@ import {
     locate,
     customIcon,
     customIconActive,
+    customIconEnd,
+    customIconStart,
     trailInfo,
 } from "@/Stores/map.js";
 import { onMounted, onUnmounted } from "vue";
@@ -164,7 +166,12 @@ const createWaypoints = (dataWay) => {
         createMarker: function (i, wp, nWps) {
             const marker = L.marker(wp.latLng, {
                 draggable: props.markerDraggable,
-                icon: customIcon.value,
+                icon:
+                    wp.name === "Départ"
+                        ? customIconStart.value
+                        : wp.name === "Arrivée"
+                        ? customIconEnd.value
+                        : customIcon.value,
             }).on("click", function () {
                 if (wp.name === "Départ" || wp.name === "Arrivée") {
                     return;
