@@ -18,7 +18,7 @@ export default {
 </script>
 
 <template>
-    <div class="flex items-center space-x-1">
+    <div class="flex items-center">
         <template v-for="index in 5" :key="index">
             <span
                 v-if="index <= integerRating"

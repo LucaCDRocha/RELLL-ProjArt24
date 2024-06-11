@@ -48,13 +48,17 @@ const like = (commentId) => {
                 </div>
             </div>
             <SecondaryButton
-                v-if="data.comment !== null"
+                v-if="data.comment !== null && user"
                 @click="like(data.comment.id)"
                 class="like"
                 :class="{ active: hasUserLiked }"
                 icon="thumb_up"
                 >{{ likes }}</SecondaryButton
             >
+            <div class="no-button-like" v-else>
+                <span class="material-symbols-rounded">thumb_up</span>
+                <p>{{ likes }}</p>
+            </div>
         </div>
         <p v-if="data.comment !== null">{{ data.comment.text }}</p>
     </div>
@@ -70,7 +74,7 @@ const like = (commentId) => {
 .action {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.5rem;
     width: 100%;
 }
@@ -94,5 +98,11 @@ const like = (commentId) => {
 
 .like.active :deep(.material-symbols-rounded) {
     font-variation-settings: "FILL" 1;
+}
+
+.no-button-like{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
 }
 </style>
