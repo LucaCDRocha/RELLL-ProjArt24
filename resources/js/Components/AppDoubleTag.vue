@@ -1,7 +1,7 @@
 <script setup>
 import { convertTime } from '@/Helpers/timeHelper';
 // defini un props pour le composant avec tag qui est optionnel
-const { tag, time } = defineProps({
+const props = defineProps({
     tag: {
         type: String,
         default: () => "None",

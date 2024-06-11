@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
     imgs: {
         type: Array,
         required: true,

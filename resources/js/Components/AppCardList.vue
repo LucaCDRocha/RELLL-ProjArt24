@@ -1,7 +1,7 @@
 <script setup>
 import BaseCard from "@/Components/BaseCard.vue";
 
-defineProps({
+const props = defineProps({
     datas: {
         type: Array,
         default: () => [],
