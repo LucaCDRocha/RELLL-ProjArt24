@@ -75,6 +75,20 @@ const updateVisuelTrail = () => {
     }
 };
 
+// read a summary at loud
+const synth = window.speechSynthesis;
+const utterThis = computed(() => {
+    return new SpeechSynthesisUtterance(currentPoint.value.description);
+});
+const toggleReading = () => {
+    console.log("start reading", currentPoint.value.description);
+    if (synth.speaking) {
+        synth.cancel();
+    } else {
+        synth.speak(utterThis.value);
+    }
+};
+
 onMounted(() => {
     updateVisuelTrail();
 
@@ -121,7 +135,9 @@ watch(currentPointIndex, (value) => {
     <div class="bottom-sheet">
         <div class="content">
             <h1>{{ currentPoint.name }}</h1>
-            <SecondaryButton icon="volume_up">Audio guide</SecondaryButton>
+            <SecondaryButton icon="volume_up" @click="toggleReading()"
+                >Audio guide</SecondaryButton
+            >
             <p>{{ currentPoint.description }}</p>
             <PrimaryButton
                 v-if="
