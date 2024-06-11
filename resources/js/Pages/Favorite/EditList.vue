@@ -26,7 +26,7 @@ watch(form, (value) => {
 });
 
 const submit = () => {
-    form.put(route("bookmark.update", { id: items.listDetails.id }), {})
+    form.put(route("bookmark.update", { id: items.listDetails.id }), {});
     // setTimeout(() => {
     //     history.back();
     // }, 1000);
@@ -46,7 +46,12 @@ const submit = () => {
                     >Retour</Link
                 >
 
-                <PrimaryButton @click="submit" class="ms-4" icon="edit">
+                <PrimaryButton
+                    @click="submit"
+                    class="ms-4"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                >
                     Valider
                 </PrimaryButton>
             </div>

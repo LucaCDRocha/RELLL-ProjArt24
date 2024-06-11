@@ -343,7 +343,13 @@ onMounted(() => {
                 <PrimaryButton v-if="step < 3" @click.prevent="nextStep()">
                     Prochaine étape
                 </PrimaryButton>
-                <PrimaryButton v-else class="ms-4" @click.prevent="submit()">
+                <PrimaryButton
+                    v-else
+                    class="ms-4"
+                    @click.prevent="submit()"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                >
                     Sauver
                 </PrimaryButton>
             </div>
