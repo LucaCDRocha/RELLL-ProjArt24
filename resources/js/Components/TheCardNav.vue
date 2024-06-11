@@ -5,6 +5,7 @@ import { useForm, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 import Modal from "@/Components/Modal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import AppSaveButton from "@/Components/AppSaveButton.vue";
 
 const notOnMap = window.location.pathname !== "/map";
 
@@ -15,6 +16,10 @@ const props = defineProps({
     },
     trailId: {
         type: Number,
+        default: null,
+    },
+    trailTitle: {
+        type: String,
         default: null,
     },
     interestPointId: {
@@ -110,12 +115,12 @@ const emit = defineEmits(["handle-close"]);
                             <span class="material-symbols-rounded">edit</span>
                             Modifier
                         </p>
-                        <p v-if="isUserLoggedIn && props.trailId">
-                            <span class="material-symbols-rounded"
-                                >bookmark</span
-                            >
-                            Enregistrer
-                        </p>
+                        <AppSaveButton
+                            v-if="isUserLoggedIn && props.trailId"
+                            :title="props.trailTitle"
+                            :id="props.trailId"
+                            :in-dropdown="true"
+                        />
                         <p @click="share()">
                             <span class="material-symbols-rounded">share</span>
                             Partager
@@ -225,5 +230,9 @@ span.material-symbols-rounded {
 
 .actions a {
     @apply text-red-500 dark:text-red-400;
+}
+
+p {
+    cursor: pointer;
 }
 </style>

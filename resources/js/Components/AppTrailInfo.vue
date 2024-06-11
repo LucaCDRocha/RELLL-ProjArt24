@@ -73,6 +73,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                 @handle-close="emit('handle-close')"
                 :is-full="full"
                 :trail-id="data.id"
+                :trail-title="data.name"
             />
 
             <div class="tags" v-if="!full">
