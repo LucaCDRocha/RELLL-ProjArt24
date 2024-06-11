@@ -33,7 +33,6 @@ const fetching = async () => {
     )
         .then((response) => response.json())
         .then((datas) => {
-            console.log(datas);
             allLists.value = datas.allLists;
             listIds.value = datas.listIds;
             title.value = datas.title;
@@ -61,10 +60,6 @@ const toggleBottomSheet = () => {
 const form = useForm({
     trail_id: trailId.value,
     check_ids: listIds.value,
-});
-
-watch(form, (value) => {
-    console.log(form);
 });
 
 const emit = defineEmits(["handleOpen", "emit-lists"]);

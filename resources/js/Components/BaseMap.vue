@@ -206,7 +206,6 @@ watch(
 watch(
     () => props.waypoints,
     (waypoints) => {
-        console.log("baseMap", waypoints);
         createWaypoints(waypoints);
     },
     { deep: true }

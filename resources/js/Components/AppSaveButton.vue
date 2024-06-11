@@ -23,11 +23,9 @@ const props = defineProps({
 });
 const isSave = ref(false);
 const isSaved = (e) => {
-    console.log(e.allLists);
     e.allLists.find((list) => list.trail_ids.includes(props.id))
         ? (isSave.value = true)
         : (isSave.value = false);
-    console.log(isSave.value);
 };
 </script>
 

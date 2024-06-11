@@ -27,10 +27,6 @@ const rankStars = (e) => {
     form.rank = e;
 };
 
-watch(form, (value) => {
-    console.log(form);
-});
-
 const submit = () => {
     if (form.rank === 0) {
         form.errors.rank = "Veuillez donner une note au sentier";

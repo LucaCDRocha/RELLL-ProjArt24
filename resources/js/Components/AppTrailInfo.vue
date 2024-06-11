@@ -44,8 +44,6 @@ for (const interestPoint of props.data.interest_points) {
 const user = usePage().props.auth.user;
 const isUserLoggedIn = user && Object.keys(user).length > 0;
 
-console.log(props.data.info_transport);
-
 const imgs = ref([]);
 
 imgs.value.push(props.data.img.img_path);

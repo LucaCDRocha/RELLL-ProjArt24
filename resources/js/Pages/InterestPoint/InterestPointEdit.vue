@@ -21,10 +21,6 @@ const form = useForm({
     tag_id: 0
 });
 
-// watch(form, (value) => {
-//     console.log(form);
-// })
-
 const submit = () => {
     form.put(route('interestPoints.update', [props.interest_point.id]), {
     });

@@ -26,7 +26,6 @@ const like = (commentId) => {
     fetch(`/api/likecomment/${commentId}/${user.id}`)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
             likes.value = data.likes;
             hasUserLiked.value = !hasUserLiked.value;
         });

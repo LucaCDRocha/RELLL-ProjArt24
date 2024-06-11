@@ -44,12 +44,7 @@ const form = useForm({
     name: user ? user.name : '',
 });
 
-watch(form, (value) => {
-    console.log(form);
-})
-
 const submit = () => {
-    console.log("test");
     form.post(route('settings'), {
     });
 };

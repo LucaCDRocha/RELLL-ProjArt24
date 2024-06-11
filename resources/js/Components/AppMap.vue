@@ -114,7 +114,6 @@ const interestPointsResults = computed(() => {
 const isAdded = ref(false);
 if (props.waypoints) {
     watch(props.waypoints, () => {
-        console.log("appmap", props.waypoints);
         isAdded.value = props.waypoints.interest_points.find(
             (point) => point.id === data.value.id
         )
