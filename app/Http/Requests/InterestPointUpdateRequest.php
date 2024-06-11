@@ -27,7 +27,6 @@ class InterestPointUpdateRequest extends FormRequest
             // 'url' => 'url',
             'tags' => 'required| min:1',
             'seasons' => 'required| min:1',
-            'imgs' => 'mimes:jpg,jpeg,png',
         ];
     }
 }

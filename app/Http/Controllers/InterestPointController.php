@@ -67,10 +67,14 @@ class InterestPointController extends Controller
             $interestPoint->tags()->attach($tagDB->id);
         }
         // Gestion des images
-
         foreach ($request->imgs as $picture) {
-            ImgController::storeImgInterestPoint($picture, $interestPoint->id);
+            // Si l'image est corrompu, le point d'interet n'est finalement pas crée
+            if (!ImgController::storeImgInterestPoint($picture, $interestPoint->id)) {
+                $interestPoint->tags()->detach();
+                $interestPoint->delete();
+            };
         }
+
         // TODO : changer le 'home' en la vue confirmation de création IP
         return redirect()->route('home');
     }
@@ -143,12 +147,13 @@ class InterestPointController extends Controller
         ];
 
         if (sizeof($request->imgs) > 0) {
-            dd("on rentre");
-            ImgController::updateImgsInterestPoints($request->imgs, $id);
+            if (!ImgController::updateImgsInterestPoints($request->imgs, $id)) {
+                return Inertia::render("Une des images que vous avez uploadé n'est pas valide");
+            };
         }
         $interestPoint->update($IP_inputs);
 
-        return $request->imgs;
+        return Inertia::render("home");
     }
 
     /**

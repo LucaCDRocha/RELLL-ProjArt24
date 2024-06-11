@@ -24,10 +24,9 @@ class InterestPointCreateRequest extends FormRequest
         return [
             'name' => 'required|min:2',
             'description' => 'required|max:255',
-            // 'url' => 'url',
+            'url' => 'url|nullable',
             'tags' => 'required| min:1',
             'seasons' => 'required| min:1',
-            'imgs' => 'required|mimes:jpeg,png,jpg',
         ];
     }
 }

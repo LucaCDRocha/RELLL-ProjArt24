@@ -149,17 +149,21 @@ class TrailController extends Controller
      */
     public function edit(string $id)
     {
-        $trail = Trail::findOrFail($id);
-        $interestPoints = InterestPoint::all()->load('location', 'imgs', 'tags');
-        $filters = Tag::all();
-        $imgTrail = Img::findOrFail($trail->img_id);
-        return Inertia::render('Trail/TrailEdit', ['trail' => $trail, 'interestPoints' => $interestPoints, 'filters' => $filters, 'imgTrail' => $imgTrail]);
+        $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points');
+
+        $interest_points = InterestPoint::all()->load('imgs', 'tags', 'location');
+
+        foreach ($trail->interest_points as $interest_point) {
+            $interest_point->load('location');
+        }
+
+        return Inertia::render('Trail/TrailEdit', ['trail' => $trail, 'interestPoints' => $interest_points]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(TrailUpdateRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
         // $trail = Trail::findOrFail($id);
         // $new_Inputs = $request->except('location_start', 'location_end', 'location_parking', 'interest_points');
@@ -229,19 +233,12 @@ class TrailController extends Controller
         //     $img = Img::create($request->img);
         //     $trail->img()->save($img);
         // }
-
         // V2.0
         $trail = Trail::findOrFail($id);
-        // Sauvegarde d'une image dans la BD
 
-        // Gestion du nom pour éviter les doublons
-        $img_id = null;
+        // Supprime l'ancienne photo et modofie la FK dans trail
         if ($request->img) {
-            $trail->img()->delete(Img::findOrFail($trail->img_id));
-            $img_id = ImgController::storeImgTrail($request->img);
-        }
-        if ($img_id) {
-            $new_inputs['img_id'] = $img_id;
+            ImgController::updateImgTrail($request->img, $trail->id);
         }
 
         /* 
@@ -250,6 +247,7 @@ class TrailController extends Controller
 
         // Sauvegarde des coordonées GPS
         $loc_start = Location::findOrFail($trail->location_start_id);
+
         if (
             $loc_start->latitude != $request->location_start['latLng']['lat'] ||
             $loc_start->longitude != $request->location_start['latLng']['lng']
@@ -288,7 +286,7 @@ class TrailController extends Controller
             $difficulty = 'Difficile';
         }
 
-        $new_inputs = // Enlever les default avant lancement de l'app
+        $new_inputs =
             [
                 'name' => $request->name,
                 'time' => TrailController::getTimeTrail($request->time),

@@ -26,7 +26,6 @@ class TrailCreateRequest extends FormRequest
             'description' => 'required|max:255',
             'difficulty' => 'required| in:1,2,3', // Facile, Moyen, Difficle
             'info_transport' => 'max:255',
-            'img' => 'required|file|mimes:jpeg,png,jpg',
             'info_transport' => 'max:255',
             'is_accessible' => 'required',
         ];
