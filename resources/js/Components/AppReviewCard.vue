@@ -71,7 +71,7 @@ const like = (commentId) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
     width: 100%;
 }
 

@@ -21,7 +21,7 @@ const emit = defineEmits(["handle-point"]);
 
 <template>
     <div
-        class="card"
+        class="card cursor-pointer"
         @click="emit('handle-point', { point: data })"
         :style="{
             background: `linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(213, 213, 213, 0.26) 24.3%, rgba(128, 128, 128, 0.75) 62.15%, #2B2B2B 100%), url(${img}) lightgray 50% / cover no-repeat`,

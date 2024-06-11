@@ -151,6 +151,7 @@ const emit = defineEmits(["add-point"]);
                             :key="filter.name"
                             :tag="filter.name"
                             :selected="filter.selected"
+                            class="cursor-pointer"
                             @click.prevent="switchFilter(filter)"
                         />
                     </div>

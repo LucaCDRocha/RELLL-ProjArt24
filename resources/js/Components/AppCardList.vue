@@ -33,6 +33,10 @@ div {
     width: 100%;
 }
 
+div h2 {
+    padding-right: 1rem;
+}
+
 div.cardList {
     display: flex;
     flex-direction: row;

@@ -139,7 +139,6 @@ const props = defineProps({
     height: 12rem;
     width: 100%;
     overflow: auto;
-    scrollbar-width: thin;
 }
 
 .tags a {

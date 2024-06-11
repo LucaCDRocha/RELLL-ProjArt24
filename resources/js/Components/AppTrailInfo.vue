@@ -96,6 +96,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                 <h1>{{ data.name }}</h1>
 
                 <div class="stars" v-if="data.note">
+                    <p>{{ Math.round(data.note * 10) / 10 }}</p>
                     <AppStarRanking :rating="data.note" />
                 </div>
             </div>
@@ -158,7 +159,10 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                         </p>
                         <p>{{ trailDistance }} km</p>
                     </div>
-                    <BaseMap :draggable="false" :waypoints="data" />
+                    <BaseMap
+                        :draggable="false"
+                        :waypoints="data"
+                    />
                 </div>
             </BaseAccordion>
         </div>
@@ -200,13 +204,14 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <div class="accordion">
             <BaseAccordion
                 :title="`Avis (${data['reactions'].length})`"
+                :active="!data['reactions']"
                 :id="3"
             >
                 <div v-if="!data['reactions']" class="content">
                     <p>Il n'y a pas encore de commentaires</p>
                 </div>
                 <div v-else class="content">
-                    <div class="note_stars">
+                    <div class="stars">
                         <p>{{ Math.floor(data.note * 10) / 10 }}</p>
                         <AppStarRanking :rating="data.note" />
                     </div>
@@ -266,7 +271,8 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 }
 
 .stars {
-    gap: 5rem;
+    gap: 0.5rem;
+    display: flex;
 }
 
 .infos {
@@ -340,8 +346,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
     padding-right: 1rem;
 }
 
-.note_stars {
-    display: flex;
-    gap: 0.5rem;
+.header h1 {
+    padding-right: 1rem;
 }
 </style>
