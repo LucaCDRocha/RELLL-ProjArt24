@@ -13,7 +13,7 @@ const decimalRating = computed(() => props.rating - Math.floor(props.rating));
 </script>
 
 <template>
-    <div class="flex items-center space-x-1">
+    <div class="flex items-center">
         <template v-for="index in 5" :key="index">
             <span v-if="index <= integerRating" class="material-symbols-rounded full-star">star</span>
             <span v-else-if="index === integerRating + 1 && decimalRating >= 0.5" class="material-symbols-rounded">
@@ -26,7 +26,7 @@ const decimalRating = computed(() => props.rating - Math.floor(props.rating));
 
 <style scoped>
 span {
-    font-size: 1rem;
+    font-size: 1.3rem;
 }
 
 .full-star {

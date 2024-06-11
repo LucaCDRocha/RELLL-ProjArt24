@@ -46,17 +46,17 @@ const isAdmin = isUserLoggedIn && isUserAdmin;
 </script>
 
 <template>
-    <div>
+    <nav>
         <BaseNavLink icon="home" href="/home">Accueil</BaseNavLink>
         <BaseNavLink icon="map" href="/map">Carte</BaseNavLink>
         <BaseNavLink v-if="isAdmin" icon="add_location_alt" href="/create">Créer</BaseNavLink>
         <BaseNavLink icon="bookmark" href="/bookmark">Mes listes</BaseNavLink>
         <BaseNavLink icon="account_circle" href="/profile">Profil</BaseNavLink>
-    </div>
+    </nav>
 </template>
 
 <style scoped>
-div {
+nav {
     @apply bg-surfaceVariant dark:bg-darkSurfaceVariant;
 
     display: flex;

@@ -26,10 +26,6 @@ const form = useForm({
     location: null,
 });
 
-watch(form, (value) => {
-    console.log(form);
-});
-
 const submit = () => {
     if (form.location === null) {
         form.errors.location = "La position du lieu est obligatoire";
@@ -91,13 +87,11 @@ watch(seasonsSelected, (value) => {
 
 const handleFileInput = (event) => {
     form.imgs = event.target.files; // Array.from(event.target.files);
-    console.log(form.imgs);
 };
 
 const textPoint = ref("");
 const positionPoint = ref(null);
 const locationPoint = (e) => {
-    console.log("locationPoint", e.point);
     positionPoint.value = e.point;
     form.location = e.point;
 };
@@ -343,7 +337,13 @@ onMounted(() => {
                 <PrimaryButton v-if="step < 3" @click.prevent="nextStep()">
                     Prochaine étape
                 </PrimaryButton>
-                <PrimaryButton v-else class="ms-4" @click.prevent="submit()">
+                <PrimaryButton
+                    v-else
+                    class="ms-4"
+                    @click.prevent="submit()"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                >
                     Sauver
                 </PrimaryButton>
             </div>

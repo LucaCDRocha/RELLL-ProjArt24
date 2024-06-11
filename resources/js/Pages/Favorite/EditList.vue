@@ -21,15 +21,8 @@ const form = useForm({
     aSupprimer: [],
 });
 
-watch(form, (value) => {
-    console.log(form);
-});
-
 const submit = () => {
-    form.put(route("bookmark.update", { id: items.listDetails.id }), {})
-    // setTimeout(() => {
-    //     history.back();
-    // }, 1000);
+    form.put(route("bookmark.update", { id: items.listDetails.id }), {});
 };
 </script>
 <template>
@@ -46,7 +39,12 @@ const submit = () => {
                     >Retour</Link
                 >
 
-                <PrimaryButton @click="submit" class="ms-4" icon="edit">
+                <PrimaryButton
+                    @click="submit"
+                    class="ms-4"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                >
                     Valider
                 </PrimaryButton>
             </div>

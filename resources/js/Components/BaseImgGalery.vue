@@ -11,15 +11,16 @@ const props = defineProps({
     <div class="container">
         <div class="gallery">
             <div class="alone">
-                <img :src="imgs[0]" :alt="'Image 1'" /> 
+                <img :src="imgs[0]" :alt="'Image 1'" />
             </div>
             <div class="double">
-                <div v-for="(img, index) in imgs.slice(1)">
-                <img
-                    :key="index"
-                    :src="img"
-                    :alt="'Image ' + (index + 2)"
-                /></div>
+                <div v-for="(img, index) in imgs.slice(1)" :key="index">
+                    <img
+                        :key="index"
+                        :src="img"
+                        :alt="'Image ' + (index + 2)"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -34,13 +35,14 @@ const props = defineProps({
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    height: 15.5rem;
-    gap: 1rem; 
+    height: 16.4rem;
+    gap: 1rem;
     overflow-x: scroll;
     padding-right: 1rem;
+    scrollbar-width: thin;
 }
 
-.alone{
+.alone {
     flex: 0 0 fit-content;
     height: 15.3rem;
     width: 13.5rem;

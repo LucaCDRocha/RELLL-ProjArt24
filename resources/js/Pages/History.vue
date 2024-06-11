@@ -11,13 +11,17 @@ const isOpen = ref(false);
 
 const data = ref({});
 
-const BottomSheet = (e) => {
+const bottomSheet = (e) => {
     if (e.point.difficulty) {
         fetch(route("trails.showJson", e.point.id))
             .then((response) => response.json())
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     } else {
         fetch(route("interestPoints.showJson", e.point.id))
@@ -25,6 +29,10 @@ const BottomSheet = (e) => {
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     }
 };
@@ -51,7 +59,7 @@ const datas = defineProps({
     <AppCardList
         :datas="historics"
         @handle-close="closeBottomSheet()"
-        @handle-point="BottomSheet($event)"
+        @handle-point="bottomSheet($event)"
         >Votre historique de sentiers</AppCardList
     >
 
@@ -60,7 +68,7 @@ const datas = defineProps({
     <AppCardList
         :datas="myTrails"
         @handle-close="closeBottomSheet()"
-        @handle-point="BottomSheet($event)"
+        @handle-point="bottomSheet($event)"
         >Les sentiers que vous avez créés</AppCardList
     >
 
@@ -73,13 +81,13 @@ const datas = defineProps({
             v-if="data.difficulty"
             :data="data"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
     </BaseBottomSheet>
     <TheNav />

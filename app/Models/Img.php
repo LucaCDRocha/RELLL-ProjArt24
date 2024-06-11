@@ -19,9 +19,4 @@ class Img extends Model
     {
         return $this->belongsTo(InterestPoint::class);
     }
-
-    public function onDelete()
-    {
-        unlink(public_path($this->img_path));
-    }
 }

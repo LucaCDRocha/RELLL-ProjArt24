@@ -6,6 +6,7 @@ import BasePlainButton from "@/Components/BasePlainButton.vue";
 import NewList from "@/Pages/Favorite/NewList.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { all } from "axios";
 
 const props = defineProps({
     title: {
@@ -32,7 +33,6 @@ const fetching = async () => {
     )
         .then((response) => response.json())
         .then((datas) => {
-            console.log(datas);
             allLists.value = datas.allLists;
             listIds.value = datas.listIds;
             title.value = datas.title;
@@ -41,6 +41,14 @@ const fetching = async () => {
 };
 
 fetching();
+
+watch(
+    allLists,
+    (value) => {
+        emit("emit-lists", { allLists: allLists.value });
+    },
+    { deep: true }
+);
 
 const isOpen = ref(false);
 const toggleBottomSheet = () => {
@@ -54,15 +62,11 @@ const form = useForm({
     check_ids: listIds.value,
 });
 
-watch(form, (value) => {
-    console.log(form);
-});
-
-const emit = defineEmits(["handleOpen"]);
+const emit = defineEmits(["handleOpen", "emit-lists"]);
 const submit = () => {
-    console.log(form);
     form.post(route("bookmark.addTrail"), {});
     emit("handleOpen");
+    fetching();
 };
 </script>
 
@@ -103,12 +107,12 @@ const submit = () => {
                 </BaseBottomSheet>
 
                 <div class="finalLinks">
-                    <Link
+                    <a
                         href=""
-                        @click.prevent="toggleBottomSheet()"
+                        @click.prevent="emit('handleOpen')"
                         class="underline text-sm font-medium text-onSurface dark:text-onSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
                     >
-                        Annuler</Link
+                        Annuler</a
                     >
                     <PrimaryButton
                         class="ms-4"

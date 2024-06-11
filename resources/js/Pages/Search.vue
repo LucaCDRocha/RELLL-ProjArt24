@@ -16,13 +16,17 @@ const isOpen = ref(false);
 
 const data = ref({});
 
-const BottomSheet = (e) => {
+const bottomSheet = (e) => {
     if (e.point.difficulty) {
         fetch(route("trails.showJson", e.point.id))
             .then((response) => response.json())
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     } else {
         fetch(route("interestPoints.showJson", e.point.id))
@@ -30,6 +34,10 @@ const BottomSheet = (e) => {
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     }
 };
@@ -261,7 +269,7 @@ const goBack = () => {
                     v-for="trail in trailsResults"
                     :key="trail.id"
                     :data="trail"
-                    @handle-point="BottomSheet($event)"
+                    @handle-point="bottomSheet($event)"
                 />
             </div>
 
@@ -271,7 +279,7 @@ const goBack = () => {
                     v-for="interestPoint in interestPointsResults"
                     :key="interestPoint.id"
                     :data="interestPoint"
-                    @handle-point="BottomSheet($event)"
+                    @handle-point="bottomSheet($event)"
                 />
             </div>
         </div>
@@ -296,13 +304,13 @@ const goBack = () => {
             v-if="data.difficulty"
             :data="data"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
     </BaseBottomSheet>
 

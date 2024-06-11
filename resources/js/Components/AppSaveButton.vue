@@ -1,6 +1,5 @@
 <script setup>
-import { Link } from "@inertiajs/vue3";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import MyLists from "@/Pages/Favorite/MyLists.vue";
@@ -20,24 +19,45 @@ const props = defineProps({
         type: Number,
         required: true,
     },
+    inDropdown: {
+        type: Boolean,
+        default: false,
+    },
 });
-
-console.log(props);
+const isSave = ref(false);
+const isSaved = (e) => {
+    e.allLists.find((list) => list.trail_ids.includes(props.id))
+        ? (isSave.value = true)
+        : (isSave.value = false);
+};
 </script>
 
 <template>
-    <!-- <Link :href="route('bookmark.allLists', { name: title, trailId: id })"> -->
-    <SecondaryButton icon="bookmark" @click="toggleBottomSheet()">
+    <SecondaryButton
+        v-if="!inDropdown"
+        icon="bookmark"
+        @click="toggleBottomSheet()"
+        :class="{ active: isSave }"
+    >
         Enregistrer</SecondaryButton
     >
-    <!-- </Link> -->
+
+    <p v-else :class="{ active: isSave }" @click="toggleBottomSheet()" class="cursor-pointer">
+        <span class="material-symbols-rounded">bookmark</span>
+        Enregistrer
+    </p>
 
     <BaseBottomSheet
-        v-if="isOpen"
+        v-show="isOpen"
         :isOpen="isOpen"
         @handle-close="toggleBottomSheet()"
     >
-        <MyLists :trailId="props.id" :title="props.title" @handle-open="toggleBottomSheet()" />
+        <MyLists
+            :trailId="props.id"
+            :title="props.title"
+            @handle-open="toggleBottomSheet()"
+            @emit-lists="isSaved($event)"
+        />
     </BaseBottomSheet>
 </template>
 
@@ -49,5 +69,13 @@ console.log(props);
     align-items: flex-start;
     width: 100%;
     height: fit-content;
+}
+
+.active :deep(.material-symbols-rounded) {
+    font-variation-settings: "FILL" 1;
+}
+
+.active .material-symbols-rounded {
+    font-variation-settings: "FILL" 1;
 }
 </style>

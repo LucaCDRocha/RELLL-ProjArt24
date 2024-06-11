@@ -15,7 +15,7 @@ const isOpen = ref(false);
 
 const data = ref({});
 
-const BottomSheet = (e) => {
+const bottomSheet = (e) => {
     if (e.point.difficulty) {
         window.location.href = route("trails.show", e.point.id);
     } else {
@@ -31,6 +31,10 @@ const BottomSheet = (e) => {
                         ? true
                         : false;
                 }
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     }
 };
@@ -115,7 +119,6 @@ const interestPointsResults = computed(() => {
 const isAdded = ref(false);
 if (props.waypoints) {
     watch(props.waypoints, () => {
-        console.log("appmap", props.waypoints);
         isAdded.value = props.waypoints.interest_points.find(
             (point) => point.id === data.value.id
         )
@@ -151,6 +154,7 @@ const emit = defineEmits(["add-point"]);
                             :key="filter.name"
                             :tag="filter.name"
                             :selected="filter.selected"
+                            class="cursor-pointer"
                             @click.prevent="switchFilter(filter)"
                         />
                         <BaseDivider class="searchDiv"/>
@@ -173,7 +177,7 @@ const emit = defineEmits(["add-point"]);
         :points="interestPointsResults"
         :waypoints="props.waypoints"
         :toBounds="props.toBounds"
-        @marker-click="BottomSheet($event)"
+        @marker-click="bottomSheet($event)"
     />
     <BaseBottomSheet
         v-if="isOpen"
@@ -185,20 +189,20 @@ const emit = defineEmits(["add-point"]);
             :data="data"
             :isAllreadyAdded="isAdded"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
             @add-point="emit('add-point', $event)"
         />
         <AppTrailInfo
             v-else-if="data.difficulty"
             :data="data"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
     </BaseBottomSheet>
 </template>

@@ -9,7 +9,7 @@ use App\Models\Tag;
 
 class SearchController extends Controller
 {
-    public function search()
+    public function search(int $tag_id = null)
     {
         $trails = Trail::all()
             ->load('img','interest_points')
@@ -36,6 +36,9 @@ class SearchController extends Controller
         // combine themes and tags into one array
         $filters = [];
         foreach ($tags as $tag) {
+            if ($tag['id'] == $tag_id) {
+                $filters[] = ['name' => $tag['name'], 'selected' => true];
+            } else
             $filters[] = ['name' => $tag['name'], 'selected' => false];
         }
 

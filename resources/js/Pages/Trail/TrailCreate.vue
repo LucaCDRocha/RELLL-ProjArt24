@@ -49,16 +49,11 @@ const form = useForm({
     interest_points: null,
 });
 
-watch(form, (value) => {
-    console.log(form);
-});
-
 const submit = () => {
     if (step.value === 6 && !form.interest_points) {
         form.errors.interest_points = "Veuillez choisir des points d'intérêts";
     } else {
         form.errors.interest_points = "";
-        console.log(trailInfo.value.summary.totalTime);
         form.time = trailInfo.value.summary.totalTime;
         form.post(route("trails.store"), {});
     }
@@ -188,7 +183,6 @@ const previousStep = () => {
 const textStart = ref("");
 const positionStart = ref(null);
 const locationStart = (e) => {
-    console.log("locationStart", e.point);
     positionStart.value = e.point;
     waypoints.value.location_start = {
         latitude: e.point.latLng.lat,
@@ -200,7 +194,6 @@ const locationStart = (e) => {
 const textEnd = ref("");
 const positionEnd = ref(null);
 const locationEnd = (e) => {
-    console.log("locationEnd", e.point);
     positionEnd.value = e.point;
     waypoints.value.location_end = {
         latitude: e.point.latLng.lat,
@@ -212,7 +205,6 @@ const locationEnd = (e) => {
 const textParking = ref("");
 const positionParking = ref(null);
 const locationParking = (e) => {
-    console.log("locationParking", e.point);
     positionParking.value = e.point;
     form.location_parking = e.point;
 };
@@ -286,7 +278,6 @@ const waypoints = ref({
 const addPoint = (point) => {
     if (waypoints.value.interest_points.find((p) => p.id === point.point.id)) {
         // remove the point if it's already added
-        console.log("remove", point);
         waypoints.value.interest_points =
             waypoints.value.interest_points.filter(
                 (p) => p.id !== point.point.id
@@ -576,7 +567,13 @@ onMounted(() => {
             <PrimaryButton v-if="step < 6" @click.prevent="nextStep()">
                 Prochaine étape
             </PrimaryButton>
-            <PrimaryButton v-else class="ms-4" @click.prevent="submit()">
+            <PrimaryButton
+                v-else
+                class="ms-4"
+                @click.prevent="submit()"
+                :class="{ 'opacity-25': form.processing }"
+                :disabled="form.processing"
+            >
                 Sauver
             </PrimaryButton>
         </div>

@@ -9,19 +9,20 @@ class LikeController extends Controller
 {
     //
 
-    public static function likeOrUnlikeComment(Request $request)
+    public static function likeOrUnlikeComment(int $comment_id, int $user_id)
     {
-        $user_id = $request->user()->id;
-        $like = Like::where('user_id', '=', $user_id)->where('comment_id', '=', $request->comment_id);
+        $like = Like::all()->where('comment_id', '=', $comment_id)->where('user_id', '=', $user_id)->first();
         if (is_null($like)) {
-            Like::create(['user_id' => $user_id], $request->comment_id);
+            Like::create(['user_id' => $user_id, 'comment_id' => $comment_id]);
         } else {
             $like->delete();
         }
-        return response()->json(
-            [
-                'message' => 'success'
-            ]
-        );
+
+        $likes = Like::all()->where('comment_id', '=', $comment_id)->count();
+        return response()->json([
+            'likes' => $likes,
+            'user_id' => $user_id,
+            'comment_id' => $comment_id,
+        ]);
     }
 }

@@ -14,13 +14,17 @@ const isOpen = ref(false);
 
 const data = ref({});
 
-const BottomSheet = (e) => {
+const bottomSheet = (e) => {
     if (e.point.difficulty) {
         fetch(route("trails.showJson", e.point.id))
             .then((response) => response.json())
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     } else {
         fetch(route("interestPoints.showJson", e.point.id))
@@ -28,12 +32,22 @@ const BottomSheet = (e) => {
             .then((datas) => {
                 data.value = datas;
                 isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     }
 };
 
 const closeBottomSheet = () => {
     isOpen.value = false;
+    full.value = false;
+};
+
+const full = ref(false);
+const toggleFull = () => {
+    full.value = true;
 };
 
 const props = defineProps({
@@ -42,6 +56,10 @@ const props = defineProps({
         default: () => [],
     },
     interestPoints: {
+        type: Array,
+        default: () => [],
+    },
+    tags: {
         type: Array,
         default: () => [],
     },
@@ -54,42 +72,50 @@ const props = defineProps({
     <TheHeader />
 
     <BaseLinkSearch />
-    
+
     <div class="home">
-        <!-- <SecondaryButton @click="$inertia.visit('/search')" icon="search"
-            >Rechercher</SecondaryButton
-        > -->
-
-
-        <AppCardList :datas="trails" @handle-point="BottomSheet($event)"
-            >Les parcours les plus populaires</AppCardList
+        <AppCardList :datas="trails" @handle-point="bottomSheet($event)"
+            >Les sentiers les plus populaires</AppCardList
         >
-        <AppCardList :datas="interestPoints" @handle-point="BottomSheet($event)"
-            >Les points d’intérêts les mieux notés</AppCardList
+        <AppCardList :datas="interestPoints" @handle-point="bottomSheet($event)"
+            >Les lieux les plus récents</AppCardList
         >
-        <!-- <AppCardList
-            :datas="trails[1].interest_points"
-            @handle-point="BottomSheet($event)"
-            >Les différentes catégories</AppCardList
-        > -->
+
+        <h2>Les différents thèmes</h2>
+        <div class="tags">
+            <a
+                v-for="tag in tags"
+                :key="tag.id"
+                :class="`bg-${tag.name
+                    .toLowerCase()
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')}`"
+                :href="route('search', tag.id)"
+            >
+                {{ tag.name }}
+            </a>
+        </div>
     </div>
 
     <BaseBottomSheet
         v-if="isOpen"
         :isOpen="isOpen"
         @handle-close="closeBottomSheet()"
+        @handle-full="toggleFull()"
     >
         <AppTrailInfo
             v-if="data.difficulty"
             :data="data"
+            :full="full"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
+            :full="full"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
     </BaseBottomSheet>
 
@@ -99,5 +125,31 @@ const props = defineProps({
 <style scoped>
 .home {
     padding: 1rem 0rem 0rem 1rem;
+}
+
+.tags {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-top: 1.25rem;
+    margin-bottom: 2.25rem;
+    align-content: flex-start;
+
+    height: 12rem;
+    width: 100%;
+    overflow: auto;
+}
+
+.tags a {
+    display: flex;
+    width: 11.1875rem;
+    height: 5.3125rem;
+    padding: 0.625rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    border-radius: 0.3125rem;
 }
 </style>

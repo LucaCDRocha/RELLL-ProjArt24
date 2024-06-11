@@ -23,8 +23,6 @@ const toggleSelect = () => {
         ? props.modelValue.filter((id) => id !== props.data.id)
         : [...props.modelValue, props.data.id];
 
-    console.log(updatedValue);
-
     emit("update:modelValue", updatedValue);
 };
 
