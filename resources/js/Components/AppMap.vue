@@ -145,7 +145,6 @@ const emit = defineEmits(["add-point"]);
             <template #content>
                 <div class="p-2">
                     <h2 class="text-lg font-bold">Filtres</h2>
-                    <BaseDivider />
                     <div class="flex flex-col gap-2">
                         <BaseTag
                             v-for="filter in props.filters"
@@ -154,6 +153,7 @@ const emit = defineEmits(["add-point"]);
                             :selected="filter.selected"
                             @click.prevent="switchFilter(filter)"
                         />
+                        <BaseDivider class="searchDiv"/>
                         <BaseTag
                             tag="Tout désélectionner"
                             :selected="false"

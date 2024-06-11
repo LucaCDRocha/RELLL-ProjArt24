@@ -216,7 +216,7 @@ const goBack = () => {
     <BaseDivider />
 
     <div class="search">
-        <div>
+        <div class="filtres">
             <BaseTag
                 v-for="difficulty in props.difficulties"
                 :key="difficulty.name"
@@ -226,7 +226,7 @@ const goBack = () => {
                 class="cursor-pointer"
             />
         </div>
-        <div>
+        <div class="filtres">
             <BaseTag
                 v-for="filter in props.filters"
                 :key="filter.name"
@@ -236,7 +236,7 @@ const goBack = () => {
                 class="cursor-pointer"
             />
         </div>
-        <div>
+        <div class="deselected filtres">
             <BaseTag
                 tag="Tout désélectionner"
                 :selected="false"
@@ -277,10 +277,10 @@ const goBack = () => {
         </div>
         <div v-else>
             <h2>Vos dernières recherches</h2>
-            <ul v-if="searchs">
+            <ul v-if="searchs" class="results">
                 <BaseDivider />
-                <li v-for="sea in searchs" :key="sea" @click="search = sea">
-                    {{ sea }}
+                <li v-for="sea in searchs" :key="sea" @click="search = sea" class="cursor-pointer">
+                    <p class="py-2">{{ sea }}</p>
                     <BaseDivider />
                 </li>
             </ul>
@@ -314,6 +314,18 @@ const goBack = () => {
     display: flex;
     flex-direction: column;
     padding: 1rem;
+    gap: 1rem;
+}
+
+.search > div.filtres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+div.deselected{
+    display: flex;
+    justify-content: flex-end;
 }
 
 .search-bar {
