@@ -84,8 +84,10 @@ const toggleReading = () => {
     console.log("start reading", currentPoint.value.description);
     if (synth.speaking) {
         synth.cancel();
+        document.querySelector(".audio-guide")?.classList.remove("active");
     } else {
         synth.speak(utterThis.value);
+        document.querySelector(".audio-guide")?.classList.add("active");
     }
 };
 
@@ -135,7 +137,10 @@ watch(currentPointIndex, (value) => {
     <div class="bottom-sheet">
         <div class="content">
             <h1>{{ currentPoint.name }}</h1>
-            <SecondaryButton icon="volume_up" @click="toggleReading()"
+            <SecondaryButton
+                icon="volume_up"
+                @click="toggleReading()"
+                class="audio-guide"
                 >Audio guide</SecondaryButton
             >
             <p>{{ currentPoint.description }}</p>
@@ -220,5 +225,9 @@ watch(currentPointIndex, (value) => {
 
 .primary {
     align-self: flex-end;
+}
+
+.audio-guide.active :deep(.material-symbols-rounded) {
+    font-variation-settings: "FILL" 1;
 }
 </style>
