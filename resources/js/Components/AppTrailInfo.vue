@@ -315,6 +315,8 @@ const emit = defineEmits(["handle-close", "handle-point"]);
     padding-right: 1rem;
 
     overflow-x: scroll;
+
+    padding: 0.3rem;
 }
 
 #map {

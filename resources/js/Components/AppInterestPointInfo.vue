@@ -142,4 +142,8 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 .header h1 {
     padding-right: 1rem;
 }
+
+a{
+    padding: 0.3rem;
+}
 </style>
