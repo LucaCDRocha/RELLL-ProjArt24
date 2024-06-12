@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Tag;
 
+use function PHPUnit\Framework\isNull;
+
 class TrailController extends Controller
 {
     /**
@@ -144,11 +146,11 @@ class TrailController extends Controller
         $reactions = [];
         foreach ($trail->rankings as $ranking) {
             $ranking->load('user');
-
+            $comment = $trail->comments()->where('user_id', $ranking->user_id)->where('created_at', $ranking->created_at)->exists() ? $trail->comments()->where('user_id', $ranking->user_id)->where('created_at', $ranking->created_at)->first() : null;
             $reaction = [
                 'user' => $ranking->user,
                 'ranking' => $ranking,
-                'comment' => $trail->comments()->where('user_id', $ranking->user_id)->first(),
+                'comment' => $comment,
             ];
 
             if ($reaction['comment'] !== null) {

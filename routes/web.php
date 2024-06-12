@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HistoricsController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\InterestPointController;
@@ -43,18 +44,21 @@ Route::middleware('auth')->group(function () {
         });
         Route::resource("/trails", TrailController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
         Route::resource("/interestPoints", InterestPointController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+        // Route::resource("/comments", CommentController::class)->only(['create', 'store']);
     });
-    
+
     Route::get('/rankTrail/{id}', [RankingController::class, 'create']);
     Route::post('/rankTrail', [RankingController::class, 'store'])->name('rank.store');
+    // Route::post("/commentTrail", [CommentController::class, 'createComment'])->name('comment.store');
 
     // API
 
-    Route::get("/api/likecomment/{comment_id}/{user_id}", [LikeController::class, 'likeOrUnlikeComment'])->name('like.addDelete');
+    Route::get("/api/commentTrail/{text}/{trail_id}", [CommentController::class, 'createComment'])->name("createComment");
+    Route::get("/api/likecomment/{trail_id}/{user_id}", [LikeController::class, 'likeOrUnlikeComment'])->name('like.addDelete');
 });
 
 require __DIR__ . '/auth.php';
- Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::resource("/trails", TrailController::class)->only(['index', 'show']);
