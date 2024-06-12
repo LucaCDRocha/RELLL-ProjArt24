@@ -64,13 +64,13 @@ const print = () => {
     window.print();
 };
 
-const report = () => {
-    if (props.trailId) {
-        window.location.href = `/trails/${props.trailId}/report`;
-    } else if (props.interestPointId) {
-        window.location.href = `/interestPoints/${props.interestPointId}/report`;
-    }
-};
+// const report = () => {
+//     if (props.trailId) {
+//         window.location.href = `/trails/${props.trailId}/report`;
+//     } else if (props.interestPointId) {
+//         window.location.href = `/interestPoints/${props.interestPointId}/report`;
+//     }
+// };
 
 const showModal = ref(false);
 const openModal = () => {
@@ -135,10 +135,10 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
                             <span class="material-symbols-rounded">print</span>
                             Imprimer
                         </p>
-                        <p v-if="!isUserAdmin" @click="report()">
+                        <!-- <p v-if="!isUserAdmin" @click="report()">
                             <span class="material-symbols-rounded">flag</span>
                             Signaler
-                        </p>
+                        </p> -->
                         <p v-if="isUserAdmin" @click="openModal()">
                             <span class="material-symbols-rounded">delete</span>
                             Supprimer
