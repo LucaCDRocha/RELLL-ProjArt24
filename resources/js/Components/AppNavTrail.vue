@@ -3,6 +3,8 @@ import { ref, onMounted } from "vue";
 import BaseNavLink from "@/Components/BaseNavLink.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { useForm, usePage } from "@inertiajs/vue3";
+import { trail } from "@/Stores/map";
 
 const props = defineProps({
     index: {
@@ -13,12 +15,22 @@ const props = defineProps({
         type: Number,
         default: 0,
     },
+    trail_id: {
+        type: Number,
+        required: true,
+    },
 });
 
 const isOpen = ref(false);
+const user = usePage().props.auth.user;
 
-const BottomSheet = (e) => {
+const bottomSheet = (e) => {
     isOpen.value = true;
+    if(user){
+    const form = useForm({
+        trail_id: props.trail_id,
+    });
+    form.post("/saveTrail");}
 };
 
 const closeBottomSheet = () => {
@@ -48,7 +60,7 @@ const emit = defineEmits(["next", "previous"]);
             icon="arrow_forward"
             >Point suivant</BaseNavLink
         >
-        <BaseNavLink v-else icon="check_circle" @click.prevent="BottomSheet()"
+        <BaseNavLink v-else icon="check_circle" @click.prevent="bottomSheet()"
             >Terminer</BaseNavLink
         >
     </div>

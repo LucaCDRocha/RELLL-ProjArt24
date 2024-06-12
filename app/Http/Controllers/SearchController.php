@@ -9,11 +9,22 @@ use App\Models\Tag;
 
 class SearchController extends Controller
 {
-    public function search()
+    public function search(int $tag_id = null)
     {
         $trails = Trail::all()
-            ->load('img')
-            ->select('img', 'name', 'id', 'difficulty', 'time');
+            ->load('img','interest_points')
+            ->select('img', 'name', 'id', 'difficulty', 'time', 'interest_points');
+        $allTrails = [];
+        foreach ($trails as $trail) {
+            $trail['interest_points'] = $trail['interest_points']->pluck('tags');
+            $tags = [];
+            foreach ($trail['interest_points'] as $tag) {
+                $tag = $tag->pluck('name');
+                $tags[] = $tag;
+            }
+            $trail['interest_points'] = $tags;
+            $allTrails[] = $trail;
+        }
 
         $interestPoints = InterestPoint::all()
             ->load('imgs', 'tags')
@@ -25,6 +36,9 @@ class SearchController extends Controller
         // combine themes and tags into one array
         $filters = [];
         foreach ($tags as $tag) {
+            if ($tag['id'] == $tag_id) {
+                $filters[] = ['name' => $tag['name'], 'selected' => true];
+            } else
             $filters[] = ['name' => $tag['name'], 'selected' => false];
         }
 
@@ -34,6 +48,6 @@ class SearchController extends Controller
             ['name' => 'Difficile', 'selected' => false],
         ];
 
-        return Inertia::render('Search', ['trails' => $trails, 'interestPoints' => $interestPoints, 'filters' => $filters, 'difficulties' => $difficulties]);
+        return Inertia::render('Search', ['trails' => $allTrails, 'interestPoints' => $interestPoints, 'filters' => $filters, 'difficulties' => $difficulties]);
     }
 }

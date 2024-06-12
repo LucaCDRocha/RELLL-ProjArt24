@@ -1,42 +1,47 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 import BaseTag from "@/Components/BaseTag.vue";
 
-const accordionOpen = ref(false)
+const accordionOpen = ref(false);
 
 const props = defineProps({
     title: {
         type: String,
-        required: true
+        required: true,
     },
     tag: {
         type: String,
-        required: false
+        required: false,
     },
     id: {
         type: Number,
-        required: true
+        required: true,
     },
     active: {
         type: Boolean,
-        default: true
+        default: true,
     },
     multiple: {
         type: Boolean,
-        default: false
-    }
-})
+        default: false,
+    },
+});
 
 onMounted(() => {
-    accordionOpen.value = props.active
-})
+    accordionOpen.value = props.active;
+});
 </script>
 
 <template>
     <div>
         <h2>
-            <button :id="id" class="flex justify-between w-full" @click.prevent="accordionOpen = !accordionOpen"
-                :aria-expanded="accordionOpen" :aria-controls="id">
+            <button
+                :id="id"
+                class="flex justify-between w-full"
+                @click.prevent="accordionOpen = !accordionOpen"
+                :aria-expanded="accordionOpen"
+                :aria-controls="id"
+            >
                 <div :class="multiple ? 'accordion' : 'accordion-single'">
                     {{ title }}
                     <div v-if="tag" class="tag">
@@ -51,9 +56,17 @@ onMounted(() => {
                 </span>
             </button>
         </h2>
-        <div :id="id" role="region" :aria-labelledby="id"
+        <div
+            :id="id"
+            role="region"
+            :aria-labelledby="id"
             class="grid overflow-hidden transition-all duration-300 ease-in-out"
-            :class="accordionOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'">
+            :class="
+                accordionOpen
+                    ? 'grid-rows-[1fr] opacity-100'
+                    : 'grid-rows-[0fr] opacity-0'
+            "
+        >
             <div class="overflow-hidden">
                 <slot />
             </div>

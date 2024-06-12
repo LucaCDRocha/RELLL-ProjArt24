@@ -15,7 +15,7 @@ const isOpen = ref(false);
 
 const data = ref({});
 
-const BottomSheet = (e) => {
+const bottomSheet = (e) => {
     if (e.point.difficulty) {
         window.location.href = route("trails.show", e.point.id);
     } else {
@@ -31,12 +31,18 @@ const BottomSheet = (e) => {
                         ? true
                         : false;
                 }
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
             });
     }
+    window.location.hash = "bottom-sheet";
 };
 
 const closeBottomSheet = () => {
     isOpen.value = false;
+    window.location.hash = "";
 };
 
 const props = defineProps({
@@ -79,6 +85,11 @@ const switchFilter = (filter) => {
         props.filters.find((f) => f.name === filter.name).selected =
             !filter.selected;
     }
+    if (filter.name === "Tout désélectionner") {
+        for (const filter of props.filters) {
+            filter.selected = false;
+        }
+    }
 };
 
 const search = ref("");
@@ -110,7 +121,6 @@ const interestPointsResults = computed(() => {
 const isAdded = ref(false);
 if (props.waypoints) {
     watch(props.waypoints, () => {
-        console.log("appmap", props.waypoints);
         isAdded.value = props.waypoints.interest_points.find(
             (point) => point.id === data.value.id
         )
@@ -140,14 +150,23 @@ const emit = defineEmits(["add-point"]);
             <template #content>
                 <div class="p-2">
                     <h2 class="text-lg font-bold">Filtres</h2>
-                    <BaseDivider />
                     <div class="flex flex-col gap-2">
                         <BaseTag
                             v-for="filter in props.filters"
                             :key="filter.name"
                             :tag="filter.name"
                             :selected="filter.selected"
+                            class="cursor-pointer"
                             @click.prevent="switchFilter(filter)"
+                        />
+                        <BaseDivider class="searchDiv" />
+                        <BaseTag
+                            tag="Tout désélectionner"
+                            :selected="false"
+                            @click.prevent="
+                                switchFilter({ name: 'Tout désélectionner' })
+                            "
+                            class="cursor-pointer"
                         />
                     </div>
                 </div>
@@ -162,7 +181,7 @@ const emit = defineEmits(["add-point"]);
         :points="interestPointsResults"
         :waypoints="props.waypoints"
         :toBounds="props.toBounds"
-        @marker-click="BottomSheet($event)"
+        @marker-click="bottomSheet($event)"
     />
     <BaseBottomSheet
         v-if="isOpen"
@@ -174,20 +193,20 @@ const emit = defineEmits(["add-point"]);
             :data="data"
             :isAllreadyAdded="isAdded"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
             @add-point="emit('add-point', $event)"
         />
         <AppTrailInfo
             v-else-if="data.difficulty"
             :data="data"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
             @handle-close="closeBottomSheet()"
-            @handle-point="BottomSheet($event)"
+            @handle-point="bottomSheet($event)"
         />
     </BaseBottomSheet>
 </template>

@@ -75,6 +75,21 @@ const updateVisuelTrail = () => {
     }
 };
 
+// read a summary at loud
+const synth = window.speechSynthesis;
+const utterThis = computed(() => {
+    return new SpeechSynthesisUtterance(currentPoint.value.description);
+});
+const toggleReading = () => {
+    if (synth.speaking) {
+        synth.cancel();
+        document.querySelector(".audio-guide")?.classList.remove("active");
+    } else {
+        synth.speak(utterThis.value);
+        document.querySelector(".audio-guide")?.classList.add("active");
+    }
+};
+
 onMounted(() => {
     updateVisuelTrail();
 
@@ -121,7 +136,12 @@ watch(currentPointIndex, (value) => {
     <div class="bottom-sheet">
         <div class="content">
             <h1>{{ currentPoint.name }}</h1>
-            <SecondaryButton icon="volume_up">Audio guide</SecondaryButton>
+            <SecondaryButton
+                icon="volume_up"
+                @click="toggleReading()"
+                class="audio-guide"
+                >Audio guide</SecondaryButton
+            >
             <p>{{ currentPoint.description }}</p>
             <PrimaryButton
                 v-if="
@@ -137,6 +157,7 @@ watch(currentPointIndex, (value) => {
     <AppNavTrail
         :index="currentPointIndex"
         :last-index="lastIndex"
+        :trail_id="props.trail.id"
         @next="next()"
         @previous="previous()"
     />
@@ -203,5 +224,9 @@ watch(currentPointIndex, (value) => {
 
 .primary {
     align-self: flex-end;
+}
+
+.audio-guide.active :deep(.material-symbols-rounded) {
+    font-variation-settings: "FILL" 1;
 }
 </style>

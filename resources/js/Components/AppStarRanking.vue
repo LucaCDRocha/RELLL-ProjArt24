@@ -1,34 +1,22 @@
-<script>
-export default {
-    props: {
-        rating: {
-            type: String,
-            required: true,
-        },
+<script setup>
+import { computed } from "vue";
+
+const props = defineProps({
+    rating: {
+        type: String,
+        required: true,
     },
-    computed: {
-        integerRating() {
-            return Math.floor(this.rating);
-        },
-        decimalRating() {
-            return this.rating - Math.floor(this.rating);
-        },
-    },
-};
+});
+const integerRating = computed(() => Math.floor(props.rating));
+const decimalRating = computed(() => props.rating - Math.floor(props.rating));
+
 </script>
 
 <template>
-    <div class="flex items-center space-x-1">
+    <div class="flex items-center">
         <template v-for="index in 5" :key="index">
-            <span
-                v-if="index <= integerRating"
-                class="material-symbols-rounded full-star"
-                >star</span
-            >
-            <span
-                v-else-if="index === integerRating + 1 && decimalRating >= 0.5"
-                class="material-symbols-rounded"
-            >
+            <span v-if="index <= integerRating" class="material-symbols-rounded full-star">star</span>
+            <span v-else-if="index === integerRating + 1 && decimalRating >= 0.5" class="material-symbols-rounded">
                 star_half
             </span>
             <span v-else class="material-symbols-rounded">star</span>
@@ -38,7 +26,7 @@ export default {
 
 <style scoped>
 span {
-    font-size: 1rem;
+    font-size: 1.3rem;
 }
 
 .full-star {

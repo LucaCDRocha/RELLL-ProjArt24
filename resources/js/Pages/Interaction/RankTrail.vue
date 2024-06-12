@@ -27,10 +27,6 @@ const rankStars = (e) => {
     form.rank = e;
 };
 
-watch(form, (value) => {
-    console.log(form);
-});
-
 const submit = () => {
     if (form.rank === 0) {
         form.errors.rank = "Veuillez donner une note au sentier";
@@ -83,7 +79,11 @@ const submit = () => {
             </div>
             <div class="actions">
                 <a href="/home">annuler</a>
-                <PrimaryButton>Valider</PrimaryButton>
+                <PrimaryButton
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                    >Valider</PrimaryButton
+                >
             </div>
         </form>
     </div>
@@ -95,7 +95,7 @@ const submit = () => {
 }
 
 .material-symbols-rounded {
-    @apply text-5xl
+    @apply text-5xl;
 }
 
 .stars {
@@ -123,5 +123,5 @@ form {
     justify-content: flex-end;
     gap: 1rem;
     align-items: center;
-} 
+}
 </style>

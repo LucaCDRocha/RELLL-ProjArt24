@@ -28,10 +28,6 @@ const form = useForm({
     location: null,
 });
 
-watch(form, (value) => {
-    console.log(form);
-});
-
 const submit = () => {
     if (form.location === null) {
         form.errors.location = "La position du lieu est obligatoire";

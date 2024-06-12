@@ -7,7 +7,6 @@ div {
     @apply bg-customGray dark:bg-darkCustomGray;
 
     height: 0.06rem;
-    margin-right : 1rem;
     border-radius: 10rem;
 }
 </style>

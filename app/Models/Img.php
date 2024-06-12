@@ -19,4 +19,9 @@ class Img extends Model
     {
         unlink(public_path($this->img_path));
     }
+  
+    public function interestPoint()
+    {
+        return $this->belongsTo(InterestPoint::class);
+    }
 }

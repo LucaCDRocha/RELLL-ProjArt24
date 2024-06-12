@@ -1,7 +1,7 @@
 <script setup>
 import BaseCard from "@/Components/BaseCard.vue";
 
-defineProps({
+const props = defineProps({
     datas: {
         type: Array,
         default: () => [],
@@ -31,6 +31,10 @@ div {
     flex-direction: column;
     gap: 1rem;
     width: 100%;
+}
+
+div h2 {
+    padding-right: 1rem;
 }
 
 div.cardList {

@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
     isOpen: {
         type: Boolean,
         default: false,
@@ -11,9 +11,12 @@ const scrollUp = (e) => {
     document.querySelector(
         ".base-overlay-card__content"
     ).style.height = `100vh`;
+
+    document.querySelector(".base-overlay-card__content").scrollTop = 0;
+    emit("handle-full");
 };
 
-const emit = defineEmits(["handle-close"]);
+const emit = defineEmits(["handle-close", "handle-full"]);
 </script>
 
 <template>
@@ -47,7 +50,7 @@ const emit = defineEmits(["handle-close"]);
 }
 
 .base-overlay-card[open] {
-    background-color: rgba(0, 0, 0, 0.20);
+    background-color: rgba(0, 0, 0, 0.2);
 
     top: 0;
 

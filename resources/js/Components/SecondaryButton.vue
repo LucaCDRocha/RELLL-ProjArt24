@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
     type: {
         type: String,
         default: "button",
@@ -24,7 +24,8 @@ button {
     @apply text-base font-medium;
     @apply text-onSurface dark:text-darkOnSurface;
 
-    @apply bg-transparent dark:bg-darkSurfaceVariant;
+    background: #EFF7EA;
+    @apply dark:bg-darkSurfaceVariant;
     @apply border-primary dark:border-darkPrimary;
     @apply border rounded-full shadow-sm;
 

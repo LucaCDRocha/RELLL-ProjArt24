@@ -13,16 +13,40 @@ const locate = ref(null);
 const customIcon = ref(
     L.icon({
         iconUrl: "/img/icons/pin.svg",
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
+        iconSize: [28, 30],
+        iconAnchor: [14, 30],
     })
 );
 
 const customIconActive = ref(
     L.icon({
         iconUrl: "/img/icons/pin_active.svg",
-        iconSize: [50, 50],
-        iconAnchor: [25, 50],
+        iconSize: [28, 30],
+        iconAnchor: [14, 30],
+    })
+);
+
+const customIconStart = ref(
+    L.icon({
+        iconUrl: "/img/icons/pin_start.svg",
+        iconSize: [28, 30],
+        iconAnchor: [14, 30],
+    })
+);
+
+const customIconEnd = ref(
+    L.icon({
+        iconUrl: "/img/icons/pin_end.svg",
+        iconSize: [28, 30],
+        iconAnchor: [14, 30],
+    })
+);
+
+const customIconParking = ref(
+    L.icon({
+        iconUrl: "/img/icons/pin_parking.svg",
+        iconSize: [28, 30],
+        iconAnchor: [14, 30],
     })
 );
 
@@ -64,6 +88,13 @@ const changeTrailMarker = (waypointId) => {
             i === waypointId + trailMarkers.value.length / 2
         ) {
             trailMarkers.value.at(i).setIcon(customIconActive.value);
+        } else if (i === 0 || i === trailMarkers.value.length / 2) {
+            trailMarkers.value.at(i).setIcon(customIconStart.value);
+        } else if (
+            i === trailMarkers.value.length / 2 ||
+            i === trailMarkers.value.length - 1
+        ) {
+            trailMarkers.value.at(i).setIcon(customIconEnd.value);
         } else {
             trailMarkers.value.at(i).setIcon(customIcon.value);
         }
@@ -77,6 +108,9 @@ export {
     trailMarkers,
     customIcon,
     customIconActive,
+    customIconStart,
+    customIconEnd,
+    customIconParking,
     locate,
     calculateDurationBetweenWaypoints,
     flyTo,

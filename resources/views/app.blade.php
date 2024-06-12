@@ -7,6 +7,19 @@
 
     <title inertia>{{ config('app.name', 'RELLL') }}</title>
 
+    <!-- Meta données -->
+    <meta name="title" content="VaudSentiers">
+    <meta name="description" content="Une application web de sentiers culturels">
+    <meta name="author" content="RELLL">
+    <meta name="keywords" content="sentiers, culture, vaud, suisse, randonnée, balade, patrimoine, histoire, nature">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="VaudSentiers" />
+    <meta property="og:description" content="Une application web de sentiers culturels" />
+    <meta property="og:image" content="public/img/logo/Logo_RGB_grand.png" />
+    <meta property="og:url" content="vaudsentiers.ch" />
+
+
     <!-- Logo -->
     <link rel="icon" href="/img/logo/Logo_RGB_petit.png" type="image/png" sizes="64x64">
 
@@ -20,7 +33,7 @@
 
     <!-- icons -->
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <!-- Scripts -->
     @routes

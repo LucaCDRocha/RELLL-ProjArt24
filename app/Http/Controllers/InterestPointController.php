@@ -101,7 +101,6 @@ class InterestPointController extends Controller
     public function getInterestPoint(string $id)
     {
         $interestPoint = InterestPoint::findOrFail($id)->load('location', 'tags', 'imgs', 'trails');
-
         foreach ($interestPoint->trails as $trail) {
             $trail->load('img');
         }
@@ -170,8 +169,44 @@ class InterestPointController extends Controller
      */
     public function destroy(string $id)
     {
-        InterestPoint::findOrFail($id)->delete();
-        return Inertia::render("home");
+        $interestPoint = InterestPoint::findOrFail($id)->load('trails', 'tags', 'imgs');
+
+
+        foreach ($interestPoint->tags as $tag) {
+            $interestPoint->tags()->detach($tag->id);
+        }
+
+        foreach ($interestPoint->imgs as $img) {
+            if (file_exists(public_path($img->img_path))) {
+                unlink(public_path($img->img_path));
+            }
+            $img->delete();
+        }
+
+
+        foreach ($interestPoint->trails as $trail) {
+            $trail->interest_points()->detach($interestPoint->id);
+            if (sizeof($trail->interest_points) == 0) {
+                $trail->load('img');
+
+                $trail->favorites()->detach();
+                $trail->historics()->delete();
+
+                $trail->rankings()->delete();
+                $trail->comments()->delete();
+
+                if (file_exists(public_path($trail->img->img_path))) {
+                    unlink(public_path($trail->img->img_path));
+                }
+                $trail->delete();
+
+                $trail->img()->delete();
+            }
+        }
+
+        $interestPoint->delete();
+
+        return redirect()->route('home');
     }
 
     public function map()

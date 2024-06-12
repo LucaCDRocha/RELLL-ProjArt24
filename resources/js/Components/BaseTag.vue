@@ -39,7 +39,7 @@ const getTagColor = (tag) => {
         case "panorama":
             return "bg-panorama";
         default:
-            return "bg-secondary text-onSecondary dark:bg-darkSecondary dark:text-dakrOnSecondary";
+            return "bg-secondary text-onSurface dark:bg-darkSecondary dark:text-dakrOnSecondary";
     }
 };
 
