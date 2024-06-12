@@ -91,7 +91,9 @@ const form = useForm({
 
             <div class="flex items-center gap-4">
                 <PrimaryButton :disabled="form.processing">Enregistrer</PrimaryButton>
-                <a href="/profile">Annuler</a>
+                <a href="/profile"
+                class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >Annuler</a>
 
                 <Transition
                     enter-active-class="transition ease-in-out"
