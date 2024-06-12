@@ -36,14 +36,13 @@ const submit = () => {
     <TheHeader />
 
     <div class="login">
+        <h1>Se connecter</h1>
         <GuestLayout>
             <Head title="Log in" />
 
             <div v-if="status" class="mb-4 font-medium text-sm text-primary">
                 {{ status }}
             </div>
-
-            <h1>Se connecter</h1>
 
             <form @submit.prevent="submit">
                 <div>
@@ -126,5 +125,12 @@ const submit = () => {
 <style scoped>
 .login {
     height: calc(var(--vh, 1vh) * 100 - 14.06rem);
+}
+h1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    margin-bottom: -2rem;
 }
 </style>

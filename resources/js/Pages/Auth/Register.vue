@@ -26,11 +26,13 @@ const submit = () => {
     <TheHeader />
 
     <div class="register">
-        <GuestLayout>
-            <Head title="Register" />
-
+        <div class="header">
             <h1>Créer un compte</h1>
             <small>Tout les champs sont obligatoires</small>
+        </div>
+
+        <GuestLayout>
+            <Head title="Register" />
 
             <form @submit.prevent="submit">
                 <div>
@@ -130,5 +132,12 @@ const submit = () => {
 <style scoped>
 .register {
     height: calc(var(--vh, 1vh) * 100 - 14.06rem);
+}
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    margin-bottom: -2rem;
 }
 </style>
