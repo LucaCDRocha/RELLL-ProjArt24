@@ -320,12 +320,13 @@ onMounted(() => {
         </section>
         <div>
             <div class="nav">
-                <a v-if="step > 1" @click.prevent="previousStep()" href="">Revenir en arrière</a>
-                <a v-else href="/create">Annuler</a>
+                <a v-if="step > 1" @click.prevent="previousStep()" href=""
+                class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >Revenir en arrière</a>
                 <PrimaryButton v-if="step < 3" @click.prevent="nextStep()">
                     Prochaine étape
                 </PrimaryButton>
-                <PrimaryButton v-else class="ms-4" @click.prevent="submit()">
+                <PrimaryButton v-else class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Sauver
                 </PrimaryButton>
             </div>

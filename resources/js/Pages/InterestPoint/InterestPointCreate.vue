@@ -2,12 +2,8 @@
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import BaseRadioButtonGroup from "@/Components/BaseRadioButtonGroup.vue";
 import BaseTextArea from "@/Components/BaseTextArea.vue";
-import BaseSelect from "@/Components/BaseSelect.vue";
-import BaseMultipleSelect from "@/Components/BaseMultipleSelect.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import { watch, ref, computed, onMounted } from "vue";
 import TheNav from "@/Components/TheNav.vue";
@@ -28,7 +24,7 @@ const form = useForm({
 
 const submit = () => {
     if (form.location === null) {
-        form.errors.location = "La position du lieu est obligatoire";
+        form.errors.location = "Indiquez une localisation";
     } else {
         form.errors.location = "";
         form.post(route("interestPoints.store"), {});
@@ -165,12 +161,12 @@ const nextStep = () => {
                 form.errors.tag_id = "";
             }
             if (seasonsSelected.value.length === 0) {
-                form.errors.seasons = "Les saisons du lieu sont obligatoires";
+                form.errors.seasons = "Indiquez au moins une saison d'ouverture";
             } else {
                 form.errors.seasons = "";
             }
             if (form.imgs.length === 0) {
-                form.errors.imgs = "Les images du lieu sont obligatoires";
+                form.errors.imgs = "Il faut au moins une image du lieu";
             } else {
                 form.errors.imgs = "";
             }
@@ -244,7 +240,7 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="url"
-                    value="Veuillez mettre le site web du lieu"
+                    value="Veuillez indiquer le site web du lieu"
                 />
                 <TextInput
                     id="url"
@@ -261,7 +257,7 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="tag"
-                    value="Le(s)quel(s) de ces tags correspondent au lieu ? *"
+                    value="Quel(s) tag(s) correspond(ent) à ce lieu ? *"
                 />
                 <BaseTag
                     v-for="tag in props.tags"
@@ -276,7 +272,7 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="season"
-                    value="Pendant quels saisons le lieu est ouvert ? *"
+                    value="Pendant quels saisons le lieu est-il ouvert ? *"
                 />
                 <BaseTag
                     v-for="season in seasons"
@@ -290,7 +286,7 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="imgs"
-                    value="Ajoutez une ou plusieurs images du lieu *"
+                    value="Ajoutez une ou plusieurs image(s) à ce lieu *"
                 />
                 <input
                     id="imgs"
@@ -331,9 +327,12 @@ onMounted(() => {
         <div>
             <div class="nav">
                 <a v-if="step > 1" @click.prevent="previousStep()" href=""
+                    class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
                     >Revenir en arrière</a
                 >
-                <a v-else href="/create">Annuler</a>
+                <a v-else href="/create"
+                class="underline text-sm font-medium text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
+                Annuler</a>
                 <PrimaryButton v-if="step < 3" @click.prevent="nextStep()">
                     Prochaine étape
                 </PrimaryButton>
@@ -360,7 +359,7 @@ onMounted(() => {
 }
 
 .nav {
-    @apply bg-surface;
+    @apply bg-surface dark:bg-darkSurface;
 
     position: fixed;
     bottom: 5rem;

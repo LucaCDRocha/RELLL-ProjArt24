@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { Head, useForm, usePage, Link } from "@inertiajs/vue3";
 import TheNav from "@/Components/TheNav.vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
@@ -105,12 +105,8 @@ const closeBottomSheet = () => {
             </TertiaryButton>
         </div>
 
-        <!-- Partie si connecté -->
-        <!-- <History /> -->
-        <!-- <PrimaryButton @click="$inertia.visit('/my-trails')">Historique</PrimaryButton> -->
-
-        <BaseDivider v-if="user" />
-        <h2 v-if="user">Modifier vos informations</h2>
+        <BaseDivider v-if="user"/>
+        <h2 v-if="user">Vos informations</h2>
         <div v-if="user" class="editForm">
             <p>{{ user.name }}</p>
             <SecondaryButton @click="edit()" icon="edit"
@@ -131,7 +127,7 @@ const closeBottomSheet = () => {
         </div>
         <BaseDivider v-if="user" />
 
-        <History v-if="user" :historics="historics" :myTrails="myTrails" />
+         <History v-if="user" :historics="historics" :myTrails="myTrails" :isAdmin="user.is_admin"/>
 
         <BaseDivider v-if="user" />
         <div v-if="user" class="destroy">

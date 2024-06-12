@@ -169,7 +169,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                     <p>Il n'y a pas encore de commentaires</p>
                 </div>
                 <div v-else class="content">
-                    <div class="stars">
+                    <div class="stars" v-if="data.note">
                         <p>{{ Math.floor(data.note * 10) / 10 }}</p>
                         <AppStarRanking :rating="data.note" />
                     </div>
