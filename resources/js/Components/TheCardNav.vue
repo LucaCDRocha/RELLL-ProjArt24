@@ -157,6 +157,7 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
                 Voulez-vous vraiment supprimer ce
                 {{ props.trailId ? "sentier" : "point" }} ?
             </h2>
+            <p v-if="props.interestPointId">Cette action supprimera également les sentiers qui n'auront plus de lieux.</p>
             <div class="actions">
                 <a @click.prevent="deleteItem()">
                     Supprimer le {{ props.trailId ? "sentier" : "point" }}
