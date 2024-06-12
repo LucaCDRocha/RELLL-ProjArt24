@@ -22,7 +22,7 @@ import { trailInfo } from "@/Stores/map";
 const props = defineProps({
     data: {
         type: Object,
-        default: () => {},
+        default: () => { },
     },
     full: {
         type: Boolean,
@@ -77,14 +77,8 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 <template>
     <div class="trail">
         <div class="header">
-            <TheCardNav
-                @handle-close="emit('handle-close')"
-                :is-full="full"
-                :trail-id="data.id"
-                :trail-title="data.name"
-                :is-save="isSave"
-                @emit-lists="isSaved($event)"
-            />
+            <TheCardNav @handle-close="emit('handle-close')" :is-full="full" :trail-id="data.id"
+                :trail-title="data.name" :is-save="isSave" @emit-lists="isSaved($event)" />
 
             <div class="tags" v-if="!full">
                 <div class="tag">
@@ -94,12 +88,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                 <BaseDividerVert style="padding-left: 0.06rem" />
 
                 <div class="tag">
-                    <BaseTag
-                        v-for="tag in tags"
-                        :key="tag.id"
-                        :tag="tag.name"
-                        :selected="true"
-                    />
+                    <BaseTag v-for="tag in tags" :key="tag.id" :tag="tag.name" :selected="true" />
                 </div>
             </div>
 
@@ -117,24 +106,14 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                     <span class="material-symbols-rounded">access_time</span>
                     {{ data.time }}
                 </p>
-                <span class="material-symbols-rounded" v-if="data.is_accessible"
-                    >accessible</span
-                >
+                <span class="material-symbols-rounded" v-if="data.is_accessible">accessible</span>
                 <p>{{ data.interest_points.length }} lieux</p>
             </div>
 
             <div class="actions">
-                <PrimaryButton
-                    @click="$inertia.visit(`/trail-start/${data.id}`)"
-                    >Commencer</PrimaryButton
-                >
-                <AppSaveButton
-                    v-if="isUserLoggedIn"
-                    :title="data.name"
-                    :id="data.id"
-                    :is-save="isSave"
-                    @emit-lists="isSaved($event)"
-                />
+                <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)">Commencer</PrimaryButton>
+                <AppSaveButton v-if="isUserLoggedIn" :title="data.name" :id="data.id" :is-save="isSave"
+                    @emit-lists="isSaved($event)" />
             </div>
 
             <BaseImgGalery :imgs="imgs" />
@@ -143,12 +122,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <div class="desciption">
             <h2>Description</h2>
             <div class="tags">
-                <BaseTag
-                    v-for="tag in tags"
-                    :key="tag.id"
-                    :tag="tag.name"
-                    :selected="true"
-                />
+                <BaseTag v-for="tag in tags" :key="tag.id" :tag="tag.name" :selected="true" />
             </div>
             <p>
                 {{ data.description }}
@@ -156,18 +130,11 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         </div>
 
         <div class="accordion">
-            <BaseAccordion
-                title="Itinéraire"
-                :id="1"
-                :tag="data.difficulty"
-                :multiple="true"
-            >
+            <BaseAccordion title="Itinéraire" :id="1" :tag="data.difficulty" :multiple="true">
                 <div class="content">
                     <div class="infos">
                         <p>
-                            <span class="material-symbols-rounded"
-                                >access_time</span
-                            >
+                            <span class="material-symbols-rounded">access_time</span>
                             {{ data.time }}
                         </p>
                         <p>{{ trailDistance }} km</p>
@@ -177,32 +144,17 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             </BaseAccordion>
         </div>
 
-        <AppCardList
-            :datas="data.interest_points"
-            @handle-point="emit('handle-point', $event)"
-            >Les {{ data.interest_points.length }} lieux présents dans ce
-            sentier</AppCardList
-        >
+        <AppCardList :datas="data.interest_points" @handle-point="emit('handle-point', $event)">Les {{
+            data.interest_points.length }} lieux présents dans ce
+            sentier</AppCardList>
 
         <div class="accordion">
             <BaseAccordion title="Accessibilité" :id="2">
                 <div class="content">
                     <div class="infos accessibilite">
-                        <span
-                            class="material-symbols-rounded"
-                            v-if="data.info_transport"
-                            >train</span
-                        >
-                        <span
-                            class="material-symbols-rounded"
-                            v-if="data.location_parking_id"
-                            >local_parking</span
-                        >
-                        <span
-                            class="material-symbols-rounded"
-                            v-if="data.is_accessible"
-                            >accessible</span
-                        >
+                        <span class="material-symbols-rounded" v-if="data.info_transport">train</span>
+                        <span class="material-symbols-rounded" v-if="data.location_parking_id">local_parking</span>
+                        <span class="material-symbols-rounded" v-if="data.is_accessible">accessible</span>
                     </div>
                     <p v-if="data.info_transport">
                         {{ data.info_transport }}
@@ -212,12 +164,8 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         </div>
 
         <div class="accordion">
-            <BaseAccordion
-                :title="`Avis (${data['reactions'].length})`"
-                :active="!data['reactions']"
-                :id="3"
-            >
-                <div v-if="!data['reactions']" class="content">
+            <BaseAccordion :title="`Avis (${data['reactions'].length})`" :active="!data['reactions']" :id="3">
+                <div v-if="data['reactions'].length == 0" class="content">
                     <p>Il n'y a pas encore de commentaires</p>
                 </div>
                 <div v-else class="content">
@@ -225,11 +173,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                         <p>{{ Math.floor(data.note * 10) / 10 }}</p>
                         <AppStarRanking :rating="data.note" />
                     </div>
-                    <AppReviewCard
-                        v-for="data in data['reactions']"
-                        :key="data.user.id"
-                        :data="data"
-                    />
+                    <AppReviewCard v-for="data in data['reactions']" :key="data.user.id" :data="data" />
                 </div>
             </BaseAccordion>
         </div>
