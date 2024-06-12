@@ -42,6 +42,14 @@ const customIconEnd = ref(
     })
 );
 
+const customIconParking = ref(
+    L.icon({
+        iconUrl: "/img/icons/pin_parking.svg",
+        iconSize: [28, 30],
+        iconAnchor: [14, 30],
+    })
+);
+
 function calculateDurationBetweenWaypoints(
     routeInstructions,
     startIndex,
@@ -102,6 +110,7 @@ export {
     customIconActive,
     customIconStart,
     customIconEnd,
+    customIconParking,
     locate,
     calculateDurationBetweenWaypoints,
     flyTo,

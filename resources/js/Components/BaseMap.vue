@@ -9,6 +9,7 @@ import {
     customIconActive,
     customIconEnd,
     customIconStart,
+    customIconParking,
     trailInfo,
 } from "@/Stores/map.js";
 import { onMounted, onUnmounted } from "vue";
@@ -193,6 +194,18 @@ const createWaypoints = (dataWay) => {
     trail.value.on("routesfound", (e) => {
         trailInfo.value = e.routes[0];
     });
+
+    if (props.waypoints.location_parking) {
+        const parking = L.marker(
+            L.latLng(
+                props.waypoints.location_parking.latitude,
+                props.waypoints.location_parking.longitude
+            ),
+            {
+                icon: customIconParking.value,
+            }
+        ).addTo(map.value);
+    }
 
     if (props.toBounds) {
         // calculate the zoom level to fit all the points
