@@ -50,7 +50,7 @@ const props = defineProps({
 
 /* Style pour l'icone du switch */
 .slider {
-    @apply bg-primary  ;
+    @apply bg-primary dark:bg-darkPrimary;
 
     position: absolute;
     cursor: pointer;
@@ -64,7 +64,7 @@ const props = defineProps({
 
 /* Style pour l'icone lorsqu'elle est cochez */
 .slider:before {
-    @apply bg-onPrimary;
+    @apply bg-onPrimary dark:bg-darkOnPrimary;
 
     content: "";
     position: absolute;
@@ -78,6 +78,6 @@ const props = defineProps({
 
 /* Déplacer l'icone vers la droite lorsqu'elle est coche */
 .switch-container input:checked ~ .slider:before {
-    transform: translateX(28px);
+    transform: translateX(27px);
 }
 </style>

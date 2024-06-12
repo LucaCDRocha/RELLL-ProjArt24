@@ -37,12 +37,17 @@ const bottomSheet = (e) => {
                 scroll ? (scroll.scrollTop = 0) : null;
             });
     }
-    window.location.hash = "bottom-sheet";
+    window.history.pushState("", "", window.location.pathname);
 };
 
 const closeBottomSheet = () => {
     isOpen.value = false;
-    window.location.hash = "";
+    full.value = false;
+};
+
+const full = ref(false);
+const toggleFull = () => {
+    full.value = true;
 };
 
 const props = defineProps({
@@ -187,11 +192,13 @@ const emit = defineEmits(["add-point"]);
         v-if="isOpen"
         :isOpen="isOpen"
         @handle-close="closeBottomSheet()"
+        @handle-full="toggleFull"
     >
         <AppInterestPointAddTrail
             v-if="props.waypoints"
             :data="data"
             :isAllreadyAdded="isAdded"
+            :full="full"
             @handle-close="closeBottomSheet()"
             @handle-point="bottomSheet($event)"
             @add-point="emit('add-point', $event)"
@@ -199,12 +206,14 @@ const emit = defineEmits(["add-point"]);
         <AppTrailInfo
             v-else-if="data.difficulty"
             :data="data"
+            :full="full"
             @handle-close="closeBottomSheet()"
             @handle-point="bottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
+            :full="full"
             @handle-close="closeBottomSheet()"
             @handle-point="bottomSheet($event)"
         />
@@ -240,15 +249,22 @@ const emit = defineEmits(["add-point"]);
 
 :deep(input) {
     @apply w-full;
-    @apply bg-transparent;
+    @apply bg-transparent dark:bg-transparent;
+    @apply text-onSurface dark:text-darkOnSurface;
+    @apply focus:ring-0;
 
     box-shadow: none;
     border: none;
     z-index: 1;
 }
 
+:deep(::placeholder) {
+    @apply text-onSurface dark:text-darkOnSurface;
+}
+
 :deep(.trigger) {
-    @apply bg-green-50 dark:bg-green-900;
+    @apply bg-surface dark:bg-darkSurface;
+    @apply ring-2 ring-darkSurface ring-opacity-20;
 
     position: absolute;
     top: 3rem;
@@ -267,6 +283,8 @@ const emit = defineEmits(["add-point"]);
 }
 
 :deep(.content) {
+    @apply bg-surface dark:bg-darkSurface;
+
     z-index: 1003;
     top: 5.4rem;
 }

@@ -90,5 +90,4 @@ const datas = defineProps({
             @handle-point="bottomSheet($event)"
         />
     </BaseBottomSheet>
-    <TheNav />
 </template>
