@@ -3,39 +3,68 @@ import { usePage } from "@inertiajs/vue3";
 import { onMounted } from "vue";
 import BaseNavLink from "@/Components/BaseNavLink.vue";
 
+const addActiveClass = (path) => {
+    console.log(path);
+    document
+        .querySelector(`nav a[href="/${path}"]`)
+        ?.querySelector("span")
+        ?.classList.add("active");
+};
+
 onMounted(() => {
     console.log(window.location.pathname);
-    switch (window.location.pathname) {
-        case "/login":
-        case "/logout":
-        case "/settings":
-        case "/register":
-        case "/my-trails":
-            document
-                .querySelector('a[href="/profile"]')
-                ?.querySelector("span")
-                ?.classList.add("active");
-            break;
-        case "/search":
-            document
-                .querySelector('a[href="/home"]')
-                ?.querySelector("span")
-                ?.classList.add("active");
-            break;
-        case "/trails/create":
-        case "/interestPoints/create":
-            document
-                .querySelector('a[href="/create"]')
-                ?.querySelector("span")
-                ?.classList.add("active");
-            break;
-        default:
-            document
-                .querySelector(`a[href="${window.location.pathname}"]`)
-                ?.querySelector("span")
-                ?.classList.add("active");
-            break;
+    const url = window.location.pathname.split("/");
+    if (url.some((el) => el === "home")) {
+        addActiveClass("home");
     }
+    if (url.some((el) => el === "map")) {
+        addActiveClass("map");
+    }
+    if (url.some((el) => el === "create")) {
+        addActiveClass("create");
+    }
+    if (url.some((el) => el === "bookmark")) {
+        addActiveClass("bookmark");
+    }
+    if (
+        url.some((el) => el === "profile") ||
+        url.some((el) => el === "about") ||
+        url.some((el) => el === "register") ||
+        url.some((el) => el === "login")
+    ) {
+        addActiveClass("profile");
+    }
+    // switch (window.location.pathname) {
+    //     case "/login":
+    //     case "/logout":
+    //     case "/settings":
+    //     case "/register":
+    //     case "/my-trails":
+    //         document
+    //             .querySelector('nav a[href="/profile"]')
+    //             ?.querySelector("span")
+    //             ?.classList.add("active");
+    //         break;
+    //     case "/search":
+    //         document
+    //             .querySelector('nav a[href="/home"]')
+    //             ?.querySelector("span")
+    //             ?.classList.add("active");
+    //         break;
+    //     case "/trails/create":
+    //     case "/interestPoints/create":
+    //         document
+    //             .querySelector('nav a[href="/create"]')
+    //             ?.querySelector("span")
+    //             ?.classList.add("active");
+    //         break;
+    //     default:
+    //         document
+    //             .querySelector(`nav a[href="${window.location.pathname}"]`)
+    //             ?.querySelector("span")
+    //             ?.classList.add("active");
+    //         break;
+    // }
 });
 
 const user = usePage().props.auth.user;
@@ -49,7 +78,9 @@ const isAdmin = isUserLoggedIn && isUserAdmin;
     <nav>
         <BaseNavLink icon="home" href="/home">Accueil</BaseNavLink>
         <BaseNavLink icon="map" href="/map">Carte</BaseNavLink>
-        <BaseNavLink v-if="isAdmin" icon="add_location_alt" href="/create">Créer</BaseNavLink>
+        <BaseNavLink v-if="isAdmin" icon="add_location_alt" href="/create"
+            >Créer</BaseNavLink
+        >
         <BaseNavLink icon="bookmark" href="/bookmark">Mes listes</BaseNavLink>
         <BaseNavLink icon="account_circle" href="/profile">Profil</BaseNavLink>
     </nav>

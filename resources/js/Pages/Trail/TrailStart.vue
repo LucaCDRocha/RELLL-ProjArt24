@@ -42,16 +42,33 @@ const currentPoint = computed(() => {
     }
 });
 
+const startReading = () => {
+    synth.speak(utterThis.value);
+    document.querySelector(".audio-guide")?.classList.add("active");
+};
+const stopReading = () => {
+    synth.cancel();
+    document.querySelector(".audio-guide")?.classList.remove("active");
+};
+
+const scrollToTop = () => {
+    document.querySelector(".bottom-sheet")?.scrollTo(0, 0);
+};
+
 const next = () => {
     if (currentPointIndex.value < lastIndex) {
         currentPointIndex.value++;
     }
+    stopReading();
+    scrollToTop();
 };
 
 const previous = () => {
     if (currentPointIndex.value > 0) {
         currentPointIndex.value--;
     }
+    stopReading();
+    scrollToTop();
 };
 
 if (window.location.hash) {
@@ -82,12 +99,14 @@ const utterThis = computed(() => {
 });
 const toggleReading = () => {
     if (synth.speaking) {
-        synth.cancel();
-        document.querySelector(".audio-guide")?.classList.remove("active");
+        stopReading();
     } else {
-        synth.speak(utterThis.value);
-        document.querySelector(".audio-guide")?.classList.add("active");
+        startReading();
     }
+};
+
+utterThis.value.onend = () => {
+    document.querySelector(".audio-guide")?.classList.remove("active");
 };
 
 onMounted(() => {

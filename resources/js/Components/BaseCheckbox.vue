@@ -88,7 +88,7 @@ input:target {
 }
 
 input:checked {
-    @apply bg-onSurface dark:bg-darkOnSurface;
+    @apply bg-onSurface dark:bg-darkSurface;
 }
 
 .checkboxGroup label {

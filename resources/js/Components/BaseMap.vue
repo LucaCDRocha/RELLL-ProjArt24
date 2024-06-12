@@ -362,4 +362,14 @@ onUnmounted(() => {
 :deep(.leaflet-routing-container) {
     display: none;
 }
+
+:deep(.leaflet-control-container a) {
+    @apply bg-surface dark:bg-darkSurface;
+    @apply text-onSurface dark:text-darkOnSurface;
+}
+
+:deep(.leaflet-control) {
+    @apply bg-surface dark:bg-darkSurface;
+    @apply text-onSurface dark:text-darkOnSurface;
+}
 </style>

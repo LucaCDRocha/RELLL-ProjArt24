@@ -22,10 +22,14 @@ class CommentSeeder extends Seeder
                 $trailId = JsonHelper::getInfoByValue('trails', 'name', $comment['trail']);
                 $userId = JsonHelper::getInfoByValue('users', 'name', $comment['user']);
 
+                $date = date("2024-06-10 00:00:00");
+
                 Comment::updateOrCreate([
                     'text' => $comment['content'],
                     'trail_id' => $trailId,
                     'user_id' => $userId,
+                    'created_at' => $date,
+                    'updated_at' => $date,
                 ]);
             }
         } catch (\Exception $e) {
