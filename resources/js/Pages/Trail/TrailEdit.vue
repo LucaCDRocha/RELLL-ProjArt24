@@ -77,10 +77,10 @@ const submit = () => {
         // form.put(route('trails.update', [props.trail.id]), {
         // });
         router.post(route('trails.update', [props.trail.id]), {
-        _method: "PUT",
-        // decompose the form
-        ...form,
-    });
+            _method: "PUT",
+            // decompose the form
+            ...form,
+        });
     }
 };
 
@@ -326,11 +326,6 @@ onMounted(() => {
         step.value = parseInt(window.location.hash.replace("#", ""));
     }
 });
-
-// const handleFileInput = (event) => {
-//     setTimeout(()=> {
-//     form.img = event.target.files[0], 1000 }); 
-// };
 
 const getOldDatas = () => {
     form.name = props.trail.name;

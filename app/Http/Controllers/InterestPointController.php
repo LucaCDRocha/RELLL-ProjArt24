@@ -114,10 +114,11 @@ class InterestPointController extends Controller
      */
     public function edit(string $id)
     {
-        $loc = Location::findOrFail(InterestPoint::findOrFail($id)->location_id);
+        $IP = InterestPoint::findOrFail($id)->load('imgs', 'tags', 'location');
+        $loc = Location::findOrFail($IP->location_id);
         $imgs = Img::where('interest_point_id', '=', $id)->get();
         return Inertia::render('InterestPoint/InterestPointEdit', [
-            'interest_point' => InterestPoint::findOrFail($id), 'tags' => Tag::all(), 'imgs' => $imgs,
+            'interest_point' => $IP, 'tags' => Tag::all(), 'imgs' => $imgs,
             'location' => ['latitude' => $loc->latitude, 'longitude' => $loc->longitude]
         ]);
     }
@@ -129,11 +130,14 @@ class InterestPointController extends Controller
     {
         $interestPoint = InterestPoint::findOrFail($id);
 
-
         $loc_id = LocationController::tryIdLocationOrNew($id, $request->location);
 
+        $old_seasons = [];
+        foreach ($request->seasons as $season) {
+            array_push($old_seasons, $season['name']);
+        }
 
-        $seasons = is_array($request->seasons) ? implode(',', $request->seasons) : $request->seasons;
+        $seasons = sizeof($old_seasons) != 4 ? implode(',', $old_seasons) : "Toutes";
 
         // Creation New InterestPoint
         $IP_inputs = [
@@ -142,9 +146,14 @@ class InterestPointController extends Controller
             'url' => $request->url,
             'open_seasons' => $seasons,
             'location_id' => $loc_id,
-            'tag_id' => $request->tag_id,
-
         ];
+
+        $interestPoint->tags()->detach();
+        foreach ($request->tags as $tag) {
+            $tag = Tag::findOrFail($tag['id']);
+            $interestPoint->tags()->attach($tag);
+        }
+
 
         if (sizeof($request->imgs) > 0) {
             if (!ImgController::updateImgsInterestPoints($request->imgs, $id)) {
@@ -153,7 +162,7 @@ class InterestPointController extends Controller
         }
         $interestPoint->update($IP_inputs);
 
-        return Inertia::render("home");
+        return redirect()->route('home');
     }
 
     /**

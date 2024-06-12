@@ -56,8 +56,7 @@ class ImgController extends Controller
 
     public static function updateImgsInterestPoints($pictures, $id)
     {
-        $old_pictures = Img::where('interest_point_id', '=', $id);
-
+        $old_pictures = Img::where('interest_point_id', '=', $id)->get();
         foreach ($pictures as $picture) {
             if (getimagesize($picture)) {
                 ImgController::storeImgInterestPoint($picture, $id);
@@ -65,8 +64,12 @@ class ImgController extends Controller
                 return false;
             }
         }
+
         for ($i = 0; $i < sizeof($old_pictures); $i++) {
-            unlink(public_path($old_pictures[$i]->img_path));
+            $old_pictures[$i]->update(['interest_point_id' => null]);
+            if (!str_contains($old_pictures[$i], "https")) {
+                unlink(public_path($old_pictures[$i]->img_path));
+            }
         }
         return true;
     }
