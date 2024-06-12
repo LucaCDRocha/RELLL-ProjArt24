@@ -14,19 +14,24 @@ const form = defineModel({
     type: Number,
     required: true
 })
+
+console.log(form.value);
 </script>
 
 <template>
     <select :name="name" :id="name" v-model="form">
-        <option disabled selected :value="0">-- Choisissez ci-dessous --</option>
-        <option v-for="option in options" :key="option.id" :value="option.id">{{ option.name }}</option>
+        <option :value="0" disabled selected>-- Choisissez ci-dessous --</option>
+        <option v-for="option in options" :key="option.id" :value="option.id" :id="option.id"> {{ option.name }}
+        </option>
     </select>
 </template>
 
 <style scoped>
 select {
-    appearance: none; /* Removes default styling */
-    -webkit-appearance: none; /* Safari */
+    appearance: none;
+    /* Removes default styling */
+    -webkit-appearance: none;
+    /* Safari */
 
     @apply bg-transparent dark:bg-transparent;
     @apply border-secondary dark:border-darkSecondary;
@@ -40,11 +45,12 @@ select:focus {
 }
 
 option:hover {
-    @apply bg-customGray dark:bg-darkCustomGray; /* Gray background for hovered option */
+    @apply bg-customGray dark:bg-darkCustomGray;
+    /* Gray background for hovered option */
 }
 
-option{
-    @apply bg-surfaceVariant dark:bg-darkSurfaceVariant; 
+option {
+    @apply bg-surfaceVariant dark:bg-darkSurfaceVariant;
     @apply border-primary dark:border-darkPrimary;
 }
 </style>

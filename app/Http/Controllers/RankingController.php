@@ -32,7 +32,7 @@ class RankingController extends Controller
     public function store(Request $request)
     {
         $inputs = ['note' => $request->rank, 'trail_id' => $request->trail_id, 'user_id' => $request->user()->id];
-        if (!isNull($request->comment)) {
+        if ($request->comment != "") {
             Comment::create(['text' => $request->comment, 'user_id' => $request->user()->id, 'trail_id' => $request->trail_id]);
         }
         Ranking::create($inputs);

@@ -35,11 +35,11 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $comment = Comment::create([
-            'text' => $request->text,
+            'text' => $request->comment,
             'trail_id' => $request->trail_id,
-            'user_id' => $request->user_id,
+            'user_id' => $request->user()->id
         ]);
-        return Inertia::render("Trails/Trailshow/$comment->trail_id"); // modifier comme Luca a fait
+        return;
     }
 
     /**
@@ -59,5 +59,15 @@ class CommentController extends Controller
         $trail = Trail::findOrFail($comment->trail_id);
         $comment->delete();
         return Inertia::render("Trails/Trailshow/$trail->id"); // modifier comme Luca a fait
+    }
+
+    public function createComment(Request $request)
+    {
+        $comment = Comment::create([
+            'text' => $request->text,
+            'trail_id' => $request->trail_id,
+            'user_id' => $request->user()->id
+        ]);
+        return Inertia::render('Interaction/SuccessRank');
     }
 }

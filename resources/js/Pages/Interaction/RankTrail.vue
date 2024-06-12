@@ -20,6 +20,11 @@ const form = useForm({
     comment: "",
 });
 
+// const formComment = useForm({
+//     trail_id: parseInt(props.trail_id),
+//     comment: "",
+// })
+
 const rank = ref(0);
 
 const rankStars = (e) => {
@@ -34,12 +39,17 @@ const submit = () => {
         form.errors.rank = "";
     }
     if (form.errors.rank === "") {
+        // if (formComment.comment != "") {
+        //     console.log("ON RENTRE");
+        //     formComment.post(route("comments.store"), {});
+        // }
         form.post(route("rank.store"), {});
     }
 };
 </script>
 
 <template>
+
     <Head title="Rank" />
     <div class="rank">
         <div>
@@ -48,37 +58,23 @@ const submit = () => {
         </div>
         <form @submit.prevent="submit()">
             <div>
-                <InputLabel
-                    for="rank"
-                    value="Quelle est votre note sur le sentier ? *"
-                />
+                <InputLabel for="rank" value="Quelle est votre note sur le sentier ? *" />
                 <div class="stars">
-                    <span
-                        v-for="num in 5"
-                        :key="num"
-                        @click="rankStars(num)"
-                        class="material-symbols-rounded"
-                        :class="{ 'full-star': num <= rank }"
-                        >star</span
-                    >
+                    <span v-for="num in 5" :key="num" @click="rankStars(num)" class="material-symbols-rounded"
+                        :class="{ 'full-star': num <= rank }">star</span>
                 </div>
                 <InputError class="mt-2" :message="form.errors.rank" />
             </div>
             <div>
-                <InputLabel
-                    for="comment"
-                    value="Quelle est votre avis sur le sentier ?"
-                />
-                <BaseTextArea
-                    id="comment"
-                    class="mt-1 block w-full"
-                    v-model="form.comment"
-                    placeholder="Comment"
-                ></BaseTextArea>
+                <InputLabel for="comment" value="Quelle est votre avis sur le sentier ?" />
+                <BaseTextArea id="comment" class="mt-1 block w-full" v-model="form.comment" placeholder="Comment">
+                </BaseTextArea>
                 <InputError class="mt-2" :message="form.errors.comment" />
             </div>
             <div class="actions">
-                <a href="/home">annuler</a>
+                <a href="/home"
+                class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >annuler</a>
                 <PrimaryButton
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
