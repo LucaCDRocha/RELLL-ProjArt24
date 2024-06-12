@@ -8,6 +8,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AppSaveButton from "@/Components/AppSaveButton.vue";
 
 const notOnMap = window.location.pathname !== "/map";
+const notOnCreate = window.location.pathname !== "/trails/create";
 
 const props = defineProps({
     isFull: {
@@ -116,11 +117,11 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
                 @click.self="emit('handle-close')"
                 >keyboard_arrow_down</span
             >
-            <div v-if="notOnMap">
+            <div v-if="notOnCreate">
                 <span class="material-symbols-rounded" @click="share()"
                     >share</span
                 >
-                <DropDown>
+                <DropDown v-if="notOnMap">
                     <template #trigger>
                         <span class="material-symbols-rounded">more_vert</span>
                     </template>
@@ -212,7 +213,7 @@ span.material-symbols-rounded {
 }
 
 :deep(.content) {
-    @apply bg-surface dark:bg-darkSurface;
+    @apply bg-surface dark:bg-darkSurfaceVariant;
 
     z-index: 1003;
     top: 1rem;

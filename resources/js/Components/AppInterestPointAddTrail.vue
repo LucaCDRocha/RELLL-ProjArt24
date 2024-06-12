@@ -41,7 +41,11 @@ const emit = defineEmits(["handle-close", "handle-point", "add-point"]);
 
 <template>
     <div class="interest-point">
-        <TheCardNav @handle-close="emit('handle-close')" />
+        <TheCardNav
+            @handle-close="emit('handle-close')"
+            :is-full="full"
+            :interest-point-id="data.id"
+        />
         <h1>{{ data.name }}</h1>
         <div class="ouvertures">
             <p>{{ data.open_seasons }}</p>
