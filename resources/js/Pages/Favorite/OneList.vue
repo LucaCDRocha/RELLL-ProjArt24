@@ -106,7 +106,7 @@ const toggleFull = () => {
         <div class="confirmation-modal">
             <h2>Voulez-vous vraiment supprimer cette liste ?</h2>
             <div class="actions">
-                <a @click.prevent="deleteList()"> Supprimer la liste </a>
+                <a @click.prevent="deleteList()" class="cursor-pointer"> Supprimer la liste </a>
                 <PrimaryButton @click="openModal()">
                     Non, annuler
                 </PrimaryButton>

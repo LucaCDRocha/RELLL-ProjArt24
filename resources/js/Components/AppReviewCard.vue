@@ -8,7 +8,7 @@ import { usePage } from "@inertiajs/vue3";
 const props = defineProps({
     data: {
         type: Object,
-        default: () => {},
+        default: () => { },
     },
 });
 
@@ -45,17 +45,9 @@ const like = (commentId) => {
                     </small>
                 </div>
             </div>
-            <SecondaryButton
-                v-if="data.comment !== null && user"
-                @click="like(data.comment.id)"
-                class="like"
-                :class="{ active: hasUserLiked }"
-                icon="thumb_up"
-                >{{ likes }}</SecondaryButton
-            >
+            <SecondaryButton v-if="data.comment !== null && user" @click="like(data.comment.id)" class="like"
+                :class="{ active: hasUserLiked }" icon="thumb_up">{{ likes }}</SecondaryButton>
             <div class="no-button-like" v-else>
-                <span class="material-symbols-rounded">thumb_up</span>
-                <p>{{ likes }}</p>
             </div>
         </div>
         <p v-if="data.comment !== null">{{ data.comment.text }}</p>
@@ -98,7 +90,7 @@ const like = (commentId) => {
     font-variation-settings: "FILL" 1;
 }
 
-.no-button-like{
+.no-button-like {
     display: flex;
     gap: 0.5rem;
     align-items: center;

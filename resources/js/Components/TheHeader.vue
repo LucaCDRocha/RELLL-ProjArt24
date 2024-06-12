@@ -4,11 +4,9 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 <template>
     <div class="the-header">
-        <ApplicationLogo />
-        <small
-            >Ce site est un site web fictif réalisé dans le cadre d'un cours
-            Bachelor.</small
-        >
+        <ApplicationLogo class="cursor-pointer" />
+        <small>Ce site est un site web fictif réalisé dans le cadre d'un cours
+            Bachelor.</small>
     </div>
 </template>
 
