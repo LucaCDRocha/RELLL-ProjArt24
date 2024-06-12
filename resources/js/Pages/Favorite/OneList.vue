@@ -97,7 +97,7 @@ const toggleFull = () => {
         </div>
         <div class="dangerButton">
             <DangerButton @click="openModal()" icon="delete">
-                Supprimer
+                Supprimer la liste
             </DangerButton>
         </div>
     </div>
