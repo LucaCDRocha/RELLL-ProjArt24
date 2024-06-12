@@ -47,10 +47,6 @@ const form = useForm({
     interest_points: null,
 });
 
-watch(form, () =>{
-    console.log(form);
-})
-
 const submit = () => {
     if (step.value === 6 && (form.interest_points==null || form.interest_points.length === 0)) {
         form.errors.interest_points = "Veuillez choisir des points d'intérêts";

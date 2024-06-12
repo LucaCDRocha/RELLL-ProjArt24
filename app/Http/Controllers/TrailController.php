@@ -106,7 +106,8 @@ class TrailController extends Controller
             $interest_point = InterestPoint::findOrFail($point['id']);
             $trail->interest_points()->save($interest_point);
         }
-        return redirect()->route('home');
+
+        return Inertia::render('Trail/SuccessTrailCreate');
     }
 
     /**
