@@ -1,7 +1,6 @@
 <script setup>
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import BaseTextArea from "@/Components/BaseTextArea.vue";
-import AppStarRanking from "@/Components/AppStarRanking.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import { Head, useForm } from "@inertiajs/vue3";
@@ -29,7 +28,7 @@ const rankStars = (e) => {
 
 const submit = () => {
     if (form.rank === 0) {
-        form.errors.rank = "Veuillez donner une note au sentier";
+        form.errors.rank = "Veuillez notez le sentier";
     } else {
         form.errors.rank = "";
     }
@@ -50,7 +49,7 @@ const submit = () => {
             <div>
                 <InputLabel
                     for="rank"
-                    value="Quelle est votre note sur le sentier ? *"
+                    value="Notez le sentier *"
                 />
                 <div class="stars">
                     <span
@@ -67,7 +66,7 @@ const submit = () => {
             <div>
                 <InputLabel
                     for="comment"
-                    value="Quelle est votre avis sur le sentier ?"
+                    value="Quel est votre avis sur le sentier ?"
                 />
                 <BaseTextArea
                     id="comment"

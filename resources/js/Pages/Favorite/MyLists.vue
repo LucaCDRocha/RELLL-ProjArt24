@@ -74,7 +74,7 @@ const submit = () => {
     <div>
         <div class="lists">
             <h3>
-                Dans quelle(s) liste(s) voulez-vous le sentier {{ title }} ?
+                Dans quelle(s) liste(s) voulez-vous ajouter le sentier {{ title }} ?
             </h3>
             <form @submit.prevent="submit">
                 <BaseCheckbox
@@ -134,6 +134,7 @@ div.lists {
 
 .lists h3 {
     font-size: 1.375rem;
+    text-align: center;
 }
 
 div.finalLinks {
