@@ -48,14 +48,22 @@ const bottomSheet = (e) => {
             data.value = datas;
             isOpen.value = true;
             const scroll = document.querySelector(
-                    ".base-overlay-card__content"
-                );
-                scroll ? (scroll.scrollTop = 0) : null;
+                ".base-overlay-card__content"
+            );
+            scroll ? (scroll.scrollTop = 0) : null;
         });
+    window.location.hash = "bottom-sheet";
 };
 
 const closeBottomSheet = () => {
     isOpen.value = false;
+    full.value = false;
+    window.location.hash = "";
+};
+
+const full = ref(false);
+const toggleFull = () => {
+    full.value = true;
 };
 </script>
 <template>
@@ -106,11 +114,13 @@ const closeBottomSheet = () => {
         v-if="isOpen"
         :isOpen="isOpen"
         @handle-close="closeBottomSheet()"
+        @handle-full="toggleFull()"
     >
         <AppTrailInfo
             :data="data"
             @handle-close="closeBottomSheet()"
             @handle-point="bottomSheet($event)"
+            :full="full"
         />
     </BaseBottomSheet>
     <TheNav />

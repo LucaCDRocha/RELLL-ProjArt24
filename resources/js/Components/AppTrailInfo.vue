@@ -63,6 +63,14 @@ onMounted(() => {
     }, 1000);
 });
 
+const isSave = ref(false);
+const isSaved = (e) => {
+    window.location.hash = "bottom-sheet";
+    e.allLists.find((list) => list.trail_ids.includes(props.data.id))
+        ? (isSave.value = true)
+        : (isSave.value = false);
+};
+
 const emit = defineEmits(["handle-close", "handle-point"]);
 </script>
 
@@ -74,6 +82,8 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                 :is-full="full"
                 :trail-id="data.id"
                 :trail-title="data.name"
+                :is-save="isSave"
+                @emit-lists="isSaved($event)"
             />
 
             <div class="tags" v-if="!full">
@@ -122,6 +132,8 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                     v-if="isUserLoggedIn"
                     :title="data.name"
                     :id="data.id"
+                    :is-save="isSave"
+                    @emit-lists="isSaved($event)"
                 />
             </div>
 
@@ -160,10 +172,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                         </p>
                         <p>{{ trailDistance }} km</p>
                     </div>
-                    <BaseMap
-                        :draggable="false"
-                        :waypoints="data"
-                    />
+                    <BaseMap :draggable="false" :waypoints="data" />
                 </div>
             </BaseAccordion>
         </div>

@@ -81,7 +81,6 @@ const utterThis = computed(() => {
     return new SpeechSynthesisUtterance(currentPoint.value.description);
 });
 const toggleReading = () => {
-    console.log("start reading", currentPoint.value.description);
     if (synth.speaking) {
         synth.cancel();
         document.querySelector(".audio-guide")?.classList.remove("active");

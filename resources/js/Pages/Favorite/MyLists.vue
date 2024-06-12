@@ -65,8 +65,8 @@ const form = useForm({
 const emit = defineEmits(["handleOpen", "emit-lists"]);
 const submit = () => {
     form.post(route("bookmark.addTrail"), {});
-    emit("handleOpen");
     fetching();
+    emit("handleOpen");
 };
 </script>
 

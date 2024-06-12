@@ -26,6 +26,10 @@ const props = defineProps({
         type: Number,
         default: null,
     },
+    isSave: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const user = usePage().props.auth.user;
@@ -91,7 +95,7 @@ const deleteItem = () => {
     }, 1000);
 };
 
-const emit = defineEmits(["handle-close"]);
+const emit = defineEmits(["handle-close", "emit-lists"]);
 </script>
 
 <template>
@@ -120,6 +124,8 @@ const emit = defineEmits(["handle-close"]);
                             :title="props.trailTitle"
                             :id="props.trailId"
                             :in-dropdown="true"
+                            :is-save="props.isSave"
+                            @emit-lists="emit('emit-lists', $event)"
                         />
                         <p @click="share()">
                             <span class="material-symbols-rounded">share</span>

@@ -37,10 +37,12 @@ const bottomSheet = (e) => {
                 scroll ? (scroll.scrollTop = 0) : null;
             });
     }
+    window.location.hash = "bottom-sheet";
 };
 
 const closeBottomSheet = () => {
     isOpen.value = false;
+    window.location.hash = "";
 };
 
 const props = defineProps({
@@ -157,11 +159,13 @@ const emit = defineEmits(["add-point"]);
                             class="cursor-pointer"
                             @click.prevent="switchFilter(filter)"
                         />
-                        <BaseDivider class="searchDiv"/>
+                        <BaseDivider class="searchDiv" />
                         <BaseTag
                             tag="Tout désélectionner"
                             :selected="false"
-                            @click.prevent="switchFilter({ name: 'Tout désélectionner' })"
+                            @click.prevent="
+                                switchFilter({ name: 'Tout désélectionner' })
+                            "
                             class="cursor-pointer"
                         />
                     </div>

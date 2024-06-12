@@ -23,13 +23,13 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    isSave: {
+        type: Boolean,
+        default: false,
+    },
 });
-const isSave = ref(false);
-const isSaved = (e) => {
-    e.allLists.find((list) => list.trail_ids.includes(props.id))
-        ? (isSave.value = true)
-        : (isSave.value = false);
-};
+
+const emit = defineEmits(["emit-lists"]);
 </script>
 
 <template>
@@ -42,7 +42,12 @@ const isSaved = (e) => {
         Enregistrer</SecondaryButton
     >
 
-    <p v-else :class="{ active: isSave }" @click="toggleBottomSheet()" class="cursor-pointer">
+    <p
+        v-else
+        :class="{ active: isSave }"
+        @click="toggleBottomSheet()"
+        class="cursor-pointer"
+    >
         <span class="material-symbols-rounded">bookmark</span>
         Enregistrer
     </p>
@@ -55,8 +60,8 @@ const isSaved = (e) => {
         <MyLists
             :trailId="props.id"
             :title="props.title"
+            @emit-lists="emit('emit-lists', $event)"
             @handle-open="toggleBottomSheet()"
-            @emit-lists="isSaved($event)"
         />
     </BaseBottomSheet>
 </template>
