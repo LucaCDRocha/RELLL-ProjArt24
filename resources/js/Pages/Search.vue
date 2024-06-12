@@ -40,12 +40,16 @@ const bottomSheet = (e) => {
                 scroll ? (scroll.scrollTop = 0) : null;
             });
     }
-    window.location.hash = "bottom-sheet";
 };
 
 const closeBottomSheet = () => {
     isOpen.value = false;
-    window.location.hash = "";
+    full.value = false;
+};
+
+const full = ref(false);
+const toggleFull = () => {
+    full.value = true;
 };
 
 const props = defineProps({
@@ -311,16 +315,19 @@ const goBack = () => {
         v-if="isOpen"
         :isOpen="isOpen"
         @handle-close="closeBottomSheet()"
+        @handle-full="toggleFull()"
     >
         <AppTrailInfo
             v-if="data.difficulty"
             :data="data"
+            :full="full"
             @handle-close="closeBottomSheet()"
             @handle-point="bottomSheet($event)"
         />
         <AppInterestPointInfo
             v-else
             :data="data"
+            :full="full"
             @handle-close="closeBottomSheet()"
             @handle-point="bottomSheet($event)"
         />
@@ -371,11 +378,17 @@ div.deselected {
 
 :deep(input) {
     @apply w-full;
-    @apply bg-transparent;
+    @apply bg-transparent dark:bg-transparent;
+    @apply text-onSurface dark:text-darkOnSurface;
+    @apply focus:ring-0;
 
     box-shadow: none;
     border: none;
     z-index: 1;
+}
+
+:deep(::placeholder) {
+    @apply text-onSurface dark:text-darkOnSurface;
 }
 
 div.trailsList {

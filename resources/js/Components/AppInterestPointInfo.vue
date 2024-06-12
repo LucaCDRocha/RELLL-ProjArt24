@@ -126,6 +126,10 @@ const emit = defineEmits(["handle-close", "handle-point"]);
     width: 100%;
 }
 
+.description p{
+    padding-right: 1rem;
+}
+
 .information {
     display: flex;
     flex-direction: column;
@@ -133,5 +137,13 @@ const emit = defineEmits(["handle-close", "handle-point"]);
     align-items: flex-start;
     width: 100%;
     padding-right: 1rem;
+}
+
+.header h1 {
+    padding-right: 1rem;
+}
+
+a{
+    padding: 0.3rem;
 }
 </style>

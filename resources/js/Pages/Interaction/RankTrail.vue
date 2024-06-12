@@ -19,6 +19,11 @@ const form = useForm({
     comment: "",
 });
 
+// const formComment = useForm({
+//     trail_id: parseInt(props.trail_id),
+//     comment: "",
+// })
+
 const rank = ref(0);
 
 const rankStars = (e) => {
@@ -33,12 +38,17 @@ const submit = () => {
         form.errors.rank = "";
     }
     if (form.errors.rank === "") {
+        // if (formComment.comment != "") {
+        //     console.log("ON RENTRE");
+        //     formComment.post(route("comments.store"), {});
+        // }
         form.post(route("rank.store"), {});
     }
 };
 </script>
 
 <template>
+
     <Head title="Rank" />
     <div class="rank">
         <div>
@@ -52,14 +62,8 @@ const submit = () => {
                     value="Notez le sentier *"
                 />
                 <div class="stars">
-                    <span
-                        v-for="num in 5"
-                        :key="num"
-                        @click="rankStars(num)"
-                        class="material-symbols-rounded"
-                        :class="{ 'full-star': num <= rank }"
-                        >star</span
-                    >
+                    <span v-for="num in 5" :key="num" @click="rankStars(num)" class="material-symbols-rounded"
+                        :class="{ 'full-star': num <= rank }">star</span>
                 </div>
                 <InputError class="mt-2" :message="form.errors.rank" />
             </div>
