@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import { Head } from "@inertiajs/vue3";
 import TheNav from "@/Components/TheNav.vue";
 import TheHeader from "@/Components/TheHeader.vue";
@@ -13,7 +12,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 
     <div class="creation">
         <p>
-            Les lieux que vous créet sont mis à disposition de tous le monde
+            Les lieux que vous créez sont mis à disposition de tout le monde
             afin d'agrandir la communauté VaudSentiers.
         </p>
         <section>

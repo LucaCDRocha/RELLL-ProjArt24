@@ -106,7 +106,9 @@ const toggleFull = () => {
         <div class="confirmation-modal">
             <h2>Voulez-vous vraiment supprimer cette liste ?</h2>
             <div class="actions">
-                <a @click.prevent="deleteList()" class="cursor-pointer"> Supprimer la liste </a>
+                <a @click.prevent="deleteList()"
+                class="cursor-pointer underline text-sm font-medium text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                > Supprimer la liste </a>
                 <PrimaryButton @click="openModal()">
                     Non, annuler
                 </PrimaryButton>
@@ -157,7 +159,6 @@ div.trailsList {
     align-items: center;
     gap: 2rem;
 }
-
 .actions a {
     @apply text-red-500 dark:text-red-400;
 }

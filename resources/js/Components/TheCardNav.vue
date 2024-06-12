@@ -8,6 +8,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AppSaveButton from "@/Components/AppSaveButton.vue";
 
 const notOnMap = window.location.pathname !== "/map";
+const notOnCreate = window.location.pathname !== "/trails/create";
 
 const props = defineProps({
     isFull: {
@@ -57,6 +58,16 @@ const share = () => {
             })
             .then(() => console.log("Successful share", url, title, text))
             .catch((error) => console.log("Error sharing", error));
+    } else {
+        // fallback
+        const text = `Découvrez ce lieu sur ${url}`;
+        const el = document.createElement("textarea");
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+        alert("Le lien a été copié dans votre presse-papier !");
     }
 };
 
@@ -106,11 +117,11 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
                 @click.self="emit('handle-close')"
                 >keyboard_arrow_down</span
             >
-            <div v-if="notOnMap">
+            <div v-if="notOnCreate">
                 <span class="material-symbols-rounded" @click="share()"
                     >share</span
                 >
-                <DropDown>
+                <DropDown v-if="notOnMap">
                     <template #trigger>
                         <span class="material-symbols-rounded">more_vert</span>
                     </template>
@@ -157,8 +168,10 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
                 Voulez-vous vraiment supprimer ce
                 {{ props.trailId ? "sentier" : "point" }} ?
             </h2>
+            <p v-if="props.interestPointId">Cette action supprimera également les sentiers qui n'auront plus de lieux.</p>
             <div class="actions">
-                <a @click.prevent="deleteItem()">
+                <a @click.prevent="deleteItem()"
+                class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
                     Supprimer le {{ props.trailId ? "sentier" : "point" }}
                 </a>
                 <PrimaryButton @click="openModal()">
@@ -202,7 +215,7 @@ span.material-symbols-rounded {
 }
 
 :deep(.content) {
-    @apply bg-surface dark:bg-darkSurface;
+    @apply bg-surface dark:bg-darkSurfaceVariant;
 
     z-index: 1003;
     top: 1rem;
@@ -232,10 +245,6 @@ span.material-symbols-rounded {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-}
-
-.actions a {
-    @apply text-red-500 dark:text-red-400;
 }
 
 p {

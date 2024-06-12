@@ -2,7 +2,6 @@
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import BaseRadioButtonGroup from "@/Components/BaseRadioButtonGroup.vue";
 import BaseTextArea from "@/Components/BaseTextArea.vue";
@@ -10,7 +9,6 @@ import BaseSelect from "@/Components/BaseSelect.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import { watch, ref, onMounted } from "vue";
 import BaseMap from "@/Components/BaseMap.vue";
-import BaseDivider from "@/Components/BaseDivider.vue";
 import { map, customIcon } from "@/Stores/map.js";
 import TheHeader from "@/Components/TheHeader.vue";
 import TheNav from "@/Components/TheNav.vue";
@@ -50,7 +48,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    if (step.value === 6 && !form.interest_points) {
+    if (step.value === 6 && (form.interest_points==null || form.interest_points.length === 0)) {
         form.errors.interest_points = "Veuillez choisir des points d'intérêts";
     } else {
         form.errors.interest_points = "";
@@ -292,6 +290,7 @@ const addPoint = (point) => {
             imgs: point.point.imgs,
         });
     }
+    closeBottomSheet();
 };
 
 const way = ref(waypoints.value);
@@ -357,8 +356,15 @@ onMounted(() => {
 
         <section v-if="step === 2">
             <div>
-                <InputLabel for="is_accessible" value="Est-ce que le sentier est accessible en chaises roulantes ? *" />
-                <BaseRadioButtonGroup name="is_accessible" :options="['Oui', 'Non']" v-model="form.is_accessible" />
+                <InputLabel
+                    for="is_accessible"
+                    value="Est-ce que le sentier est accessible en chaises roulantes / poussettes ? *"
+                />
+                <BaseRadioButtonGroup
+                    name="is_accessible"
+                    :options="['Oui', 'Non']"
+                    v-model="form.is_accessible"
+                />
                 <InputError class="mt-2" :message="form.errors.is_accessible" />
             </div>
 
@@ -369,10 +375,21 @@ onMounted(() => {
             </div>
 
             <div v-if="form.near_transport === 'Oui'">
-                <InputLabel for="info_transport" value="Si oui, à quoi ressemble l'accès aux transports publics ? *" />
-                <BaseTextArea id="info_transport" class="mt-1 block w-full" v-model="form.info_transports"
-                    placeholder="Le départ est à la gare de..." />
-                <InputError class="mt-2" :message="form.errors.info_transports" />
+                <InputLabel
+                    for="info_transport"
+                    value="Si oui, veuillez décrire l’accès aux transports public * 
+                    (description)"
+                />
+                <BaseTextArea
+                    id="info_transport"
+                    class="mt-1 block w-full"
+                    v-model="form.info_transports"
+                    placeholder="Le départ est à la gare de..."
+                />
+                <InputError
+                    class="mt-2"
+                    :message="form.errors.info_transports"
+                />
             </div>
         </section>
 
@@ -431,19 +448,38 @@ onMounted(() => {
 
         <section v-if="step === 6">
             <div>
-                <InputLabel for="interest_points"
-                    value="Veuillez choisir les lieux que vous souhaitez visiter lors du sentier *" />
-                <small>Veuillez les choisir dans l'ordre que vous souhaitez
-                    réaliser le parcous</small>
-                <InputError class="mt-2" :message="form.errors.interest_points" />
-                <AppMap v-if="step === 6" :points="interestPoints" :filters="filters" :track="false"
-                    :waypoints="waypoints" :toBounds="false" @add-point="addPoint($event)" />
+                <InputLabel
+                    for="interest_points"
+                    value="Par quel(s) lieu(x) souhaitez-vous passer ? *"
+                />
+                <small
+                    >Veuillez les choisir dans l'ordre que vous souhaitez
+                    réaliser le parcours</small
+                >
+                <InputError
+                    class="mt-2"
+                    :message="form.errors.interest_points"
+                />
+                <AppMap
+                    v-if="step === 6"
+                    :points="interestPoints"
+                    :filters="filters"
+                    :track="false"
+                    :waypoints="waypoints"
+                    :toBounds="false"
+                    @add-point="addPoint($event)"
+                />
             </div>
         </section>
 
         <div class="nav">
-            <a v-if="step > 1" @click.prevent="previousStep()" href="">Revenir en arrière</a>
-            <a v-else href="/create">Annuler</a>
+            <a v-if="step > 1" @click.prevent="previousStep()" href=""
+                class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >Revenir en arrière</a
+            >
+            <a v-else href="/create"
+            class="underline text-sm font-medium text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+            >Annuler</a>
             <PrimaryButton v-if="step < 6" @click.prevent="nextStep()">
                 Prochaine étape
             </PrimaryButton>

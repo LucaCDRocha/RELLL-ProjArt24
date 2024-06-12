@@ -74,9 +74,8 @@ class InterestPointController extends Controller
                 $interestPoint->delete();
             };
         }
-
-        // TODO : changer le 'home' en la vue confirmation de création IP
-        return redirect()->route('home');
+      
+        return Inertia::render('InterestPoint/SuccessInterestPointCreate');
     }
 
     /**

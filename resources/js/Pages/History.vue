@@ -5,7 +5,6 @@ import AppCardList from "@/Components/AppCardList.vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
-import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 
 const isOpen = ref(false);
 
@@ -14,17 +13,6 @@ const data = ref({});
 const bottomSheet = (e) => {
     if (e.point.difficulty) {
         fetch(route("trails.showJson", e.point.id))
-            .then((response) => response.json())
-            .then((datas) => {
-                data.value = datas;
-                isOpen.value = true;
-                const scroll = document.querySelector(
-                    ".base-overlay-card__content"
-                );
-                scroll ? (scroll.scrollTop = 0) : null;
-            });
-    } else {
-        fetch(route("interestPoints.showJson", e.point.id))
             .then((response) => response.json())
             .then((datas) => {
                 data.value = datas;
@@ -52,6 +40,11 @@ const datas = defineProps({
         required: false,
         default: () => [],
     },
+    isAdmin: {
+        type: Number,
+        required: false,
+        default: 0,
+    },
 });
 </script>
 
@@ -63,9 +56,9 @@ const datas = defineProps({
         >Votre historique de sentiers</AppCardList
     >
 
-    <BaseDivider />
+    <BaseDivider v-if="isAdmin == 1" />
 
-    <AppCardList
+    <AppCardList v-if="isAdmin == 1"
         :datas="myTrails"
         @handle-close="closeBottomSheet()"
         @handle-point="bottomSheet($event)"
@@ -78,17 +71,9 @@ const datas = defineProps({
         @handle-close="closeBottomSheet()"
     >
         <AppTrailInfo
-            v-if="data.difficulty"
-            :data="data"
-            @handle-close="closeBottomSheet()"
-            @handle-point="bottomSheet($event)"
-        />
-        <AppInterestPointInfo
-            v-else
             :data="data"
             @handle-close="closeBottomSheet()"
             @handle-point="bottomSheet($event)"
         />
     </BaseBottomSheet>
-    <TheNav />
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { Head, useForm, usePage, Link } from "@inertiajs/vue3";
 import TheNav from "@/Components/TheNav.vue";
 import BaseDivider from "@/Components/BaseDivider.vue";
@@ -71,11 +71,9 @@ const destroy = () => {
 const closeBottomSheet = () => {
     isOpen.value = false;
 };
-
 </script>
 
 <template>
-
     <Head title="Profil" />
 
     <TheHeader />
@@ -83,64 +81,81 @@ const closeBottomSheet = () => {
     <div class="profil">
         <div class="title">
             <h1>Votre profil</h1>
-            <DangerButton v-if="user" @click="logout()">Déconnexion</DangerButton>
-            <Link v-else
+            <DangerButton v-if="user" @click="logout()"
+                >Déconnexion</DangerButton
+            >
+            <Link
+                v-else
                 :href="route('login')"
-                    class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
-                >
-                <PrimaryButton>
-                Se connecter
-            </PrimaryButton>
-                </Link>
+                class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+            >
+                <PrimaryButton> Se connecter </PrimaryButton>
+            </Link>
         </div>
         <BaseDivider />
 
         <div class="settings">
             <h1>Paramètres</h1>
             <BaseToggleButton label="Thème sombre" />
-            <TertiaryButton v-if="!user" @click="$inertia.visit('/about')" class="contactButton">Nous contacter
+            <TertiaryButton
+                v-if="!user"
+                @click="$inertia.visit('/about')"
+                class="contactButton"
+                >Nous contacter
             </TertiaryButton>
         </div>
 
-        <!-- Partie si connecté -->
-        <!-- <History /> -->
-        <!-- <PrimaryButton @click="$inertia.visit('/my-trails')">Historique</PrimaryButton> -->
-
         <BaseDivider v-if="user"/>
-        <h2 v-if="user">Modifier vos informations</h2>
+        <h2 v-if="user">Vos informations</h2>
         <div v-if="user" class="editForm">
             <p>{{ user.name }}</p>
-            <SecondaryButton @click="edit()" icon="edit">Modifier</SecondaryButton>
+            <SecondaryButton @click="edit()" icon="edit"
+                >Modifier</SecondaryButton
+            >
         </div>
         <div v-if="user" class="editForm">
             <p>{{ user.email }}</p>
-            <SecondaryButton @click="edit()" icon="edit">Modifier</SecondaryButton>
+            <SecondaryButton @click="edit()" icon="edit"
+                >Modifier</SecondaryButton
+            >
         </div>
         <div v-if="user" class="editForm">
             <p>Votre mot de passe</p>
-            <SecondaryButton @click="editPassword()" icon="edit">Modifier</SecondaryButton>
+            <SecondaryButton @click="editPassword()" icon="edit"
+                >Modifier</SecondaryButton
+            >
         </div>
         <BaseDivider v-if="user" />
 
-         <History v-if="user" :historics="historics" :myTrails="myTrails"/>
+         <History v-if="user" :historics="historics" :myTrails="myTrails" :isAdmin="user.is_admin"/>
 
-         <BaseDivider v-if="user" />
+        <BaseDivider v-if="user" />
         <div v-if="user" class="destroy">
             <a
-                href="" @click.prevent="destroy()"
-                
-                    class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
-                >
+                href=""
+                @click.prevent="destroy()"
+                class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+            >
                 Supprimer votre compte
-        </a>
-            <PrimaryButton @click="$inertia.visit('/about')" class="contactButton">Nous contacter</PrimaryButton>
+            </a>
+            <PrimaryButton
+                @click="$inertia.visit('/about')"
+                class="contactButton"
+                >Nous contacter</PrimaryButton
+            >
         </div>
     </div>
 
-    <BaseBottomSheet v-if="isOpen" :isOpen="isOpen" @handle-close="toggleBottomSheet()">
+    <BaseBottomSheet
+        v-if="isOpen"
+        :isOpen="isOpen"
+        @handle-close="toggleBottomSheet()"
+    >
         <UpdatePasswordForm v-if="witchForm === 'password'" />
-        <DeleteUserForm v-else-if="witchForm === 'delete'"
-        @handle-close="closeBottomSheet()"/>
+        <DeleteUserForm
+            v-else-if="witchForm === 'delete'"
+            @handle-close="closeBottomSheet()"
+        />
         <UpdateProfileInformationForm v-else />
     </BaseBottomSheet>
 
@@ -180,7 +195,7 @@ div.settings {
     align-items: center;
 }
 
-.destroy{
+.destroy {
     display: flex;
     justify-content: space-between;
     align-items: center;

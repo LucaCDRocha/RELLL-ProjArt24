@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, computed } from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import BaseTag from "@/Components/BaseTag.vue";
 import BaseImgGalery from "@/Components/BaseImgGalery.vue";
@@ -30,7 +30,7 @@ for (const img of props.data.imgs) {
 
 const textButton = computed(() => {
     if (props.isAllreadyAdded) {
-        return "Ajouté";
+        return "Lieu ajouté";
     } else {
         return "Ajouter ce lieu";
     }
@@ -41,7 +41,11 @@ const emit = defineEmits(["handle-close", "handle-point", "add-point"]);
 
 <template>
     <div class="interest-point">
-        <TheCardNav @handle-close="emit('handle-close')" />
+        <TheCardNav
+            @handle-close="emit('handle-close')"
+            :is-full="full"
+            :interest-point-id="data.id"
+        />
         <h1>{{ data.name }}</h1>
         <div class="ouvertures">
             <p>{{ data.open_seasons }}</p>
@@ -90,5 +94,6 @@ const emit = defineEmits(["handle-close", "handle-point", "add-point"]);
 
 .button {
     align-self: flex-end;
+    padding-right: 1.3rem;
 }
 </style>

@@ -7,6 +7,7 @@ export default function useDarkMode() {
         document.documentElement.classList.toggle('dark');
         isDarkMode.value = !isDarkMode.value;
         localStorage.setItem('darkMode', JSON.stringify(isDarkMode.value));
+        window.location.reload();
     };
 
     const darkMode = JSON.parse(localStorage.getItem('darkMode'));

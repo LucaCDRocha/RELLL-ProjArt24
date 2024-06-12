@@ -21,8 +21,8 @@ const customIcon = ref(
 const customIconActive = ref(
     L.icon({
         iconUrl: "/img/icons/pin_active.svg",
-        iconSize: [28, 30],
-        iconAnchor: [14, 30],
+        iconSize: [34, 36],
+        iconAnchor: [17, 36],
     })
 );
 
