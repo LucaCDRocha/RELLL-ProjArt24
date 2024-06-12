@@ -26,6 +26,10 @@ const props = defineProps({
         type: Number,
         default: null,
     },
+    isSave: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const user = usePage().props.auth.user;
@@ -60,13 +64,13 @@ const print = () => {
     window.print();
 };
 
-const report = () => {
-    if (props.trailId) {
-        window.location.href = `/trails/${props.trailId}/report`;
-    } else if (props.interestPointId) {
-        window.location.href = `/interestPoints/${props.interestPointId}/report`;
-    }
-};
+// const report = () => {
+//     if (props.trailId) {
+//         window.location.href = `/trails/${props.trailId}/report`;
+//     } else if (props.interestPointId) {
+//         window.location.href = `/interestPoints/${props.interestPointId}/report`;
+//     }
+// };
 
 const showModal = ref(false);
 const openModal = () => {
@@ -91,7 +95,7 @@ const deleteItem = () => {
     }, 1000);
 };
 
-const emit = defineEmits(["handle-close"]);
+const emit = defineEmits(["handle-close", "emit-lists"]);
 </script>
 
 <template>
@@ -120,6 +124,8 @@ const emit = defineEmits(["handle-close"]);
                             :title="props.trailTitle"
                             :id="props.trailId"
                             :in-dropdown="true"
+                            :is-save="props.isSave"
+                            @emit-lists="emit('emit-lists', $event)"
                         />
                         <p @click="share()">
                             <span class="material-symbols-rounded">share</span>
@@ -129,10 +135,10 @@ const emit = defineEmits(["handle-close"]);
                             <span class="material-symbols-rounded">print</span>
                             Imprimer
                         </p>
-                        <p v-if="!isUserAdmin" @click="report()">
+                        <!-- <p v-if="!isUserAdmin" @click="report()">
                             <span class="material-symbols-rounded">flag</span>
                             Signaler
-                        </p>
+                        </p> -->
                         <p v-if="isUserAdmin" @click="openModal()">
                             <span class="material-symbols-rounded">delete</span>
                             Supprimer

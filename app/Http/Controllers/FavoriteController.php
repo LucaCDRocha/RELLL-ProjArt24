@@ -179,7 +179,5 @@ class FavoriteController extends Controller
             $tag = Favorite::findOrFail($list);
             $tag->trails()->detach($trailId);
         }
-
-        return;
     }
 }

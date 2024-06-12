@@ -38,11 +38,13 @@ const bottomSheet = (e) => {
                 scroll ? (scroll.scrollTop = 0) : null;
             });
     }
+    window.location.hash = "bottom-sheet";
 };
 
 const closeBottomSheet = () => {
     isOpen.value = false;
     full.value = false;
+    window.location.hash = "";
 };
 
 const full = ref(false);
@@ -128,6 +130,8 @@ const props = defineProps({
 }
 
 .tags {
+    @apply text-onSurface;
+
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
