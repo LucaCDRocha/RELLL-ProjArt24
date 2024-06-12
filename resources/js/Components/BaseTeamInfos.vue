@@ -43,6 +43,7 @@ const props = defineProps({
 
     img {
         height: 100px;
-        clip-path:ellipse(33% 50%);
+        object-fit: cover;
+        clip-path:ellipse(33% 40%);
     }
 </style>
