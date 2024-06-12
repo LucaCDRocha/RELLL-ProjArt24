@@ -8,11 +8,6 @@ const props = defineProps({
         default: () => [],
     },
 });
-onMounted(() => {
-    if (props.datas.length != 0) {
-        document.querySelector("#onNoData").classList = "hidden";
-    }
-})
 
 const emit = defineEmits(["handle-point"]);
 </script>
@@ -24,7 +19,7 @@ const emit = defineEmits(["handle-point"]);
         </h2>
         <div class="cardList">
             <BaseCard v-for="data in datas" :key="data.id" :data="data" @handle-point="emit('handle-point', $event)" />
-            <p id="onNoData">Aucun sentier n'utilise ce point</p>
+            <p v-if="props.datas.length === 0">Aucun sentier n'utilise ce point</p>
         </div>
     </div>
 </template>
