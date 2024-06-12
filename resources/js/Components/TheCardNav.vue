@@ -57,6 +57,16 @@ const share = () => {
             })
             .then(() => console.log("Successful share", url, title, text))
             .catch((error) => console.log("Error sharing", error));
+    } else {
+        // fallback
+        const text = `Découvrez ce lieu sur ${url}`;
+        const el = document.createElement("textarea");
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+        alert("Le lien a été copié dans votre presse-papier !");
     }
 };
 
