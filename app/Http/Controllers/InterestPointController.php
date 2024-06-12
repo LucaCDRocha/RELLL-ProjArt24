@@ -11,7 +11,8 @@ use Inertia\Inertia;
 use App\Models\Theme;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ImgController;
-use App\Models\Trail;
+use App\Http\Requests\InterestPointCreateRequest;
+use App\Http\Requests\InterestPointUpdateRequest;
 
 class InterestPointController extends Controller
 {
@@ -34,7 +35,7 @@ class InterestPointController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InterestPointCreateRequest $request)
     {
         $id_loc = LocationController::createLocation($request->location);
 
@@ -66,10 +67,14 @@ class InterestPointController extends Controller
             $interestPoint->tags()->attach($tagDB->id);
         }
         // Gestion des images
-
         foreach ($request->imgs as $picture) {
-            ImgController::storeImgInterestPoint($picture, $interestPoint->id);
+            // Si l'image est corrompu, le point d'interet n'est finalement pas crée
+            if (!ImgController::storeImgInterestPoint($picture, $interestPoint->id)) {
+                $interestPoint->tags()->detach();
+                $interestPoint->delete();
+            };
         }
+
         // TODO : changer le 'home' en la vue confirmation de création IP
         return redirect()->route('home');
     }
@@ -108,10 +113,11 @@ class InterestPointController extends Controller
      */
     public function edit(string $id)
     {
-        $loc = Location::findOrFail(InterestPoint::findOrFail($id)->location_id);
+        $IP = InterestPoint::findOrFail($id)->load('imgs', 'tags', 'location');
+        $loc = Location::findOrFail($IP->location_id);
         $imgs = Img::where('interest_point_id', '=', $id)->get();
         return Inertia::render('InterestPoint/InterestPointEdit', [
-            'interest_point' => InterestPoint::findOrFail($id), 'tags' => Tag::all(), 'imgs' => $imgs,
+            'interest_point' => $IP, 'tags' => Tag::all(), 'imgs' => $imgs,
             'location' => ['latitude' => $loc->latitude, 'longitude' => $loc->longitude]
         ]);
     }
@@ -119,15 +125,18 @@ class InterestPointController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(InterestPointUpdateRequest $request, string $id)
     {
         $interestPoint = InterestPoint::findOrFail($id);
 
-
         $loc_id = LocationController::tryIdLocationOrNew($id, $request->location);
 
+        $old_seasons = [];
+        foreach ($request->seasons as $season) {
+            array_push($old_seasons, $season['name']);
+        }
 
-        $seasons = is_array($request->seasons) ? implode(',', $request->seasons) : $request->seasons;
+        $seasons = sizeof($old_seasons) != 4 ? implode(',', $old_seasons) : "Toutes";
 
         // Creation New InterestPoint
         $IP_inputs = [
@@ -136,17 +145,23 @@ class InterestPointController extends Controller
             'url' => $request->url,
             'open_seasons' => $seasons,
             'location_id' => $loc_id,
-            'tag_id' => $request->tag_id,
-
         ];
 
+        $interestPoint->tags()->detach();
+        foreach ($request->tags as $tag) {
+            $tag = Tag::findOrFail($tag['id']);
+            $interestPoint->tags()->attach($tag);
+        }
+
+
         if (sizeof($request->imgs) > 0) {
-            dd("on rentre");
-            ImgController::updateImgsInterestPoints($request->imgs, $id);
+            if (!ImgController::updateImgsInterestPoints($request->imgs, $id)) {
+                return Inertia::render("Une des images que vous avez uploadé n'est pas valide");
+            };
         }
         $interestPoint->update($IP_inputs);
 
-        return $request->imgs;
+        return redirect()->route('home');
     }
 
     /**

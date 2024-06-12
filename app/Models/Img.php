@@ -15,6 +15,11 @@ class Img extends Model
         'interest_point_id'
     ];
 
+    public function onDelete()
+    {
+        unlink(public_path($this->img_path));
+    }
+  
     public function interestPoint()
     {
         return $this->belongsTo(InterestPoint::class);
