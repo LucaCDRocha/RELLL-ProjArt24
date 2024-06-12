@@ -51,11 +51,16 @@ const stopReading = () => {
     document.querySelector(".audio-guide")?.classList.remove("active");
 };
 
+const scrollToTop = () => {
+    document.querySelector(".bottom-sheet")?.scrollTo(0, 0);
+};
+
 const next = () => {
     if (currentPointIndex.value < lastIndex) {
         currentPointIndex.value++;
     }
     stopReading();
+    scrollToTop();
 };
 
 const previous = () => {
@@ -63,6 +68,7 @@ const previous = () => {
         currentPointIndex.value--;
     }
     stopReading();
+    scrollToTop();
 };
 
 if (window.location.hash) {
