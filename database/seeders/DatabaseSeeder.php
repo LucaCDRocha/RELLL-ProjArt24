@@ -29,9 +29,9 @@ class DatabaseSeeder extends Seeder
         $this->call(InterestPointTagSeeder::class);
 
         // création de commentaires et de notes test
-        // $this->call(CommentSeeder::class);
-        // $this->call(LikeSeeder::class);
-        // $this->call(RankingSeeder::class);
+        $this->call(CommentSeeder::class);
+        $this->call(LikeSeeder::class);
+        $this->call(RankingSeeder::class);
 
         // création de favoris et de listes
         $this->call(FavoriteSeeder::class);
