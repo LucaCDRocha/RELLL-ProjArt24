@@ -129,11 +129,16 @@ if (props.waypoints) {
     });
 }
 
+const emit = defineEmits(["add-point"]);
+
+const addPoint = (e) => {
+    closeBottomSheet();
+    emit("add-point", { point: e.point });
+};
+
 onUnmounted(() => {
     trail.value = null;
 });
-
-const emit = defineEmits(["add-point"]);
 </script>
 
 <template>
@@ -194,7 +199,7 @@ const emit = defineEmits(["add-point"]);
             :isAllreadyAdded="isAdded"
             @handle-close="closeBottomSheet()"
             @handle-point="bottomSheet($event)"
-            @add-point="emit('add-point', $event)"
+            @add-point="addPoint($event)"
         />
         <AppTrailInfo
             v-else-if="data.difficulty"

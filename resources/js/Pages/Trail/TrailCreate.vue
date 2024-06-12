@@ -2,7 +2,6 @@
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import BaseRadioButtonGroup from "@/Components/BaseRadioButtonGroup.vue";
 import BaseTextArea from "@/Components/BaseTextArea.vue";
@@ -10,7 +9,6 @@ import BaseSelect from "@/Components/BaseSelect.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import { watch, ref, onMounted } from "vue";
 import BaseMap from "@/Components/BaseMap.vue";
-import BaseDivider from "@/Components/BaseDivider.vue";
 import { map, customIcon } from "@/Stores/map.js";
 import TheHeader from "@/Components/TheHeader.vue";
 import TheNav from "@/Components/TheNav.vue";
@@ -49,8 +47,12 @@ const form = useForm({
     interest_points: null,
 });
 
+watch(form, () =>{
+    console.log(form);
+})
+
 const submit = () => {
-    if (step.value === 6 && !form.interest_points) {
+    if (step.value === 6 && (form.interest_points==null || form.interest_points.length === 0)) {
         form.errors.interest_points = "Veuillez choisir des points d'intérêts";
     } else {
         form.errors.interest_points = "";
@@ -292,6 +294,7 @@ const addPoint = (point) => {
             imgs: point.point.imgs,
         });
     }
+    closeBottomSheet();
 };
 
 const way = ref(waypoints.value);
@@ -386,7 +389,7 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="is_accessible"
-                    value="Est-ce que le sentier est accessible en chaises roulantes ? *"
+                    value="Est-ce que le sentier est accessible en chaises roulantes / poussettes ? *"
                 />
                 <BaseRadioButtonGroup
                     name="is_accessible"
@@ -415,7 +418,8 @@ onMounted(() => {
             <div v-if="form.near_transport === 'Oui'">
                 <InputLabel
                     for="info_transport"
-                    value="Si oui, à quoi ressemble l'accès aux transports publics ? *"
+                    value="Si oui, veuillez décrire l’accès aux transports public * 
+                    (description)"
                 />
                 <BaseTextArea
                     id="info_transport"
@@ -537,11 +541,11 @@ onMounted(() => {
             <div>
                 <InputLabel
                     for="interest_points"
-                    value="Veuillez choisir les lieux que vous souhaitez visiter lors du sentier *"
+                    value="Par quel(s) lieu(x) souhaitez-vous passer ? *"
                 />
                 <small
                     >Veuillez les choisir dans l'ordre que vous souhaitez
-                    réaliser le parcous</small
+                    réaliser le parcours</small
                 >
                 <InputError
                     class="mt-2"
