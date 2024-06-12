@@ -107,7 +107,7 @@ const closeBottomSheet = () => {
         <!-- <PrimaryButton @click="$inertia.visit('/my-trails')">Historique</PrimaryButton> -->
 
         <BaseDivider v-if="user"/>
-        <h2 v-if="user">Modifier vos informations</h2>
+        <h2 v-if="user">Vos informations</h2>
         <div v-if="user" class="editForm">
             <p>{{ user.name }}</p>
             <SecondaryButton @click="edit()" icon="edit">Modifier</SecondaryButton>
