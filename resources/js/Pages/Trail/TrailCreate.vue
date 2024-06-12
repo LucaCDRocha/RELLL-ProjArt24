@@ -316,7 +316,7 @@ onMounted(() => {
 
 <template>
 
-    <Head title="Créer un parcours" />
+    <Head title="Créer un sentier" />
 
     <TheHeader />
 
@@ -505,7 +505,7 @@ onMounted(() => {
 }
 
 .nav {
-    @apply bg-surface;
+    @apply bg-surface dark:bg-darkSurface;
 
     position: fixed;
     bottom: 5rem;
