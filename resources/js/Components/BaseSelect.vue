@@ -14,8 +14,6 @@ const form = defineModel({
     type: Number,
     required: true
 })
-
-console.log(form.value);
 </script>
 
 <template>

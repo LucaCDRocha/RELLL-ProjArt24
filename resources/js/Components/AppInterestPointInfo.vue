@@ -19,7 +19,6 @@ const props = defineProps({
 });
 
 const imgs = ref([]);
-console.log(props.data.trails);
 for (const img of props.data.imgs) {
     imgs.value.push(img.img_path);
 }

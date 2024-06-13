@@ -4,7 +4,6 @@ import { onMounted } from "vue";
 import BaseNavLink from "@/Components/BaseNavLink.vue";
 
 const addActiveClass = (path) => {
-    console.log(path);
     document
         .querySelector(`nav a[href="/${path}"]`)
         ?.querySelector("span")
@@ -12,9 +11,7 @@ const addActiveClass = (path) => {
 };
 
 onMounted(() => {
-    console.log(window.location.pathname);
     const url = window.location.pathname.split("/");
-    console.log(url);
     if (url.some((el) => el === "home") || url.every((el) => el === "")) {
         addActiveClass("");
     }

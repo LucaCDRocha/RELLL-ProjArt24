@@ -30,8 +30,6 @@ const props = defineProps({
     },
 });
 
-console.log(props.data);
-
 props.data.time = convertTime(props.data.time);
 
 const tags = ref([]);

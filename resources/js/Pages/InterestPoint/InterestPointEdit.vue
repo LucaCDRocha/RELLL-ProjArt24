@@ -127,7 +127,6 @@ watch(seasonsSelected, (value) => {
 
 const handleFileInput = (event) => {
     form.imgs = event.target.files; // Array.from(event.target.files);
-    console.log(form.imgs);
 };
 
 const textPoint = ref("");
@@ -138,7 +137,6 @@ const positionPoint = ref({
     }
 });
 const locationPoint = (e) => {
-    console.log("locationPoint", e.point);
     positionPoint.value = e.point;
     form.location = e.point;
 };

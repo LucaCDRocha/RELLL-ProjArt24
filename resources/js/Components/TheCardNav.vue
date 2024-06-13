@@ -54,14 +54,11 @@ const share = () => {
 
     // make a share of the current page
     if (navigator.share) {
-        navigator
-            .share({
-                title,
-                text,
-                url,
-            })
-            .then(() => console.log("Successful share", url, title, text))
-            .catch((error) => console.log("Error sharing", error));
+        navigator.share({
+            title,
+            text,
+            url,
+        });
     } else {
         // fallback
         const text = `Découvrez ce lieu sur ${url}`;

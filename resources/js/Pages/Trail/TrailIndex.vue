@@ -6,8 +6,6 @@ const trails = defineProps({
     },
 });
 
-console.log(trails);
-
 </script>
 
 <template>
