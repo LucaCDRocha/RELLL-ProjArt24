@@ -1,14 +1,14 @@
 <script setup>
-import { ref } from "vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import MyLists from "@/Pages/Favorite/MyLists.vue";
+import { ref } from 'vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import BaseBottomSheet from '@/Components/BaseBottomSheet.vue'
+import MyLists from '@/Pages/Favorite/MyLists.vue'
 
-const isOpen = ref(false);
+const isOpen = ref(false)
 
 const toggleBottomSheet = () => {
-    isOpen.value = !isOpen.value;
-};
+    isOpen.value = !isOpen.value
+}
 
 const props = defineProps({
     title: {
@@ -27,9 +27,9 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-});
+})
 
-const emit = defineEmits(["emit-lists"]);
+const emit = defineEmits(['emit-lists'])
 </script>
 
 <template>
@@ -77,10 +77,10 @@ const emit = defineEmits(["emit-lists"]);
 }
 
 .active :deep(.material-symbols-rounded) {
-    font-variation-settings: "FILL" 1;
+    font-variation-settings: 'FILL' 1;
 }
 
 .active .material-symbols-rounded {
-    font-variation-settings: "FILL" 1;
+    font-variation-settings: 'FILL' 1;
 }
 </style>

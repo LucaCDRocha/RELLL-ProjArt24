@@ -1,31 +1,28 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue'
 
 const model = defineModel({
     type: String,
     required: true,
-});
+})
 
-const input = ref(null);
+const input = ref(null)
 
 onMounted(() => {
     if (input.value.hasAttribute('autofocus')) {
-        input.value.focus();
+        input.value.focus()
     }
-});
+})
 
-defineExpose({ focus: () => input.value.focus() });
+defineExpose({ focus: () => input.value.focus() })
 </script>
 
 <template>
-    <textarea
-        v-model="model"
-        ref="input"
-    ></textarea>
+    <textarea v-model="model" ref="input"></textarea>
 </template>
 
 <style scoped>
-textarea{
+textarea {
     @apply focus:ring-1 focus:ring-primary dark:focus:ring-darkPrimary;
     @apply focus:border-primary dark:focus:border-darkPrimary;
     @apply rounded-md shadow-sm;

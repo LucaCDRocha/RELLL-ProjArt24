@@ -1,35 +1,35 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { getTimeDifference } from "@/Helpers/timeHelper.js";
-import AppStarRanking from "@/Components/AppStarRanking.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { usePage } from "@inertiajs/vue3";
+import { onMounted, ref } from 'vue'
+import { getTimeDifference } from '@/Helpers/timeHelper.js'
+import AppStarRanking from '@/Components/AppStarRanking.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import { usePage } from '@inertiajs/vue3'
 
 const props = defineProps({
     data: {
         type: Object,
         default: () => {},
     },
-});
+})
 
-const likes = ref(props.data.comment ? props.data.comment.likes.length : 0);
-const user = usePage().props.auth.user;
+const likes = ref(props.data.comment ? props.data.comment.likes.length : 0)
+const user = usePage().props.auth.user
 const hasUserLiked = ref(
     props.data.comment
         ? props.data.comment.likes.find((like) => like.user_id === user?.id)
         : false
-);
+)
 
 const like = (commentId) => {
-    if (!user) return;
+    if (!user) return
 
     fetch(`/api/likecomment/${commentId}/${user.id}`)
         .then((response) => response.json())
         .then((data) => {
-            likes.value = data.likes;
-            hasUserLiked.value = !hasUserLiked.value;
-        });
-};
+            likes.value = data.likes
+            hasUserLiked.value = !hasUserLiked.value
+        })
+}
 </script>
 
 <template>
@@ -95,7 +95,7 @@ const like = (commentId) => {
 }
 
 .like.active :deep(.material-symbols-rounded) {
-    font-variation-settings: "FILL" 1;
+    font-variation-settings: 'FILL' 1;
 }
 
 .no-button-like {

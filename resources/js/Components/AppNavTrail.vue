@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import BaseNavLink from "@/Components/BaseNavLink.vue";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { useForm, usePage } from "@inertiajs/vue3";
-import { trail } from "@/Stores/map";
+import { ref, onMounted } from 'vue'
+import BaseNavLink from '@/Components/BaseNavLink.vue'
+import BaseBottomSheet from '@/Components/BaseBottomSheet.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import { useForm, usePage } from '@inertiajs/vue3'
+import { trail } from '@/Stores/map'
 
 const props = defineProps({
     index: {
@@ -19,28 +19,28 @@ const props = defineProps({
         type: Number,
         required: true,
     },
-});
+})
 
-const isOpen = ref(false);
-const user = usePage().props.auth.user;
+const isOpen = ref(false)
+const user = usePage().props.auth.user
 
 const bottomSheet = (e) => {
-    isOpen.value = true;
+    isOpen.value = true
     if (user) {
         const form = useForm({
             trail_id: props.trail_id,
-        });
-        form.post("/saveTrail");
+        })
+        form.post('/saveTrail')
     }
-};
+}
 
 const closeBottomSheet = () => {
-    isOpen.value = false;
-};
+    isOpen.value = false
+}
 
-const id = window.location.href.split("/").pop().split("#")[0];
+const id = window.location.href.split('/').pop().split('#')[0]
 
-const emit = defineEmits(["next", "previous"]);
+const emit = defineEmits(['next', 'previous'])
 </script>
 
 <template>

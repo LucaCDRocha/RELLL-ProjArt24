@@ -1,19 +1,19 @@
 <script setup>
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import InputError from '@/Components/InputError.vue'
+import InputLabel from '@/Components/InputLabel.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import TextInput from '@/Components/TextInput.vue'
+import { useForm } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
-const passwordInput = ref(null);
-const currentPasswordInput = ref(null);
+const passwordInput = ref(null)
+const currentPasswordInput = ref(null)
 
 const form = useForm({
     current_password: '',
     password: '',
     password_confirmation: '',
-});
+})
 
 const updatePassword = () => {
     form.put(route('password.update'), {
@@ -21,16 +21,16 @@ const updatePassword = () => {
         onSuccess: () => form.reset(),
         onError: () => {
             if (form.errors.password) {
-                form.reset('password', 'password_confirmation');
-                passwordInput.value.focus();
+                form.reset('password', 'password_confirmation')
+                passwordInput.value.focus()
             }
             if (form.errors.current_password) {
-                form.reset('current_password');
-                currentPasswordInput.value.focus();
+                form.reset('current_password')
+                currentPasswordInput.value.focus()
             }
         },
-    });
-};
+    })
+}
 </script>
 
 <template>
@@ -39,13 +39,17 @@ const updatePassword = () => {
             <h2>Modifiez votre mot de passe</h2>
 
             <p class="mt-1 text-sm">
-                Assurez-vous que votre compte utilise un mot de passe long et aléatoire pour rester sécurisé.
+                Assurez-vous que votre compte utilise un mot de passe long et
+                aléatoire pour rester sécurisé.
             </p>
         </header>
 
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
             <div>
-                <InputLabel for="current_password" value="Mot de passe actuel" />
+                <InputLabel
+                    for="current_password"
+                    value="Mot de passe actuel"
+                />
 
                 <TextInput
                     id="current_password"
@@ -57,7 +61,10 @@ const updatePassword = () => {
                     autocomplete="current-password"
                 />
 
-                <InputError :message="form.errors.current_password" class="mt-2" />
+                <InputError
+                    :message="form.errors.current_password"
+                    class="mt-2"
+                />
             </div>
 
             <div>
@@ -77,7 +84,10 @@ const updatePassword = () => {
             </div>
 
             <div>
-                <InputLabel for="password_confirmation" value="Confirmer le mot de passe" />
+                <InputLabel
+                    for="password_confirmation"
+                    value="Confirmer le mot de passe"
+                />
 
                 <TextInput
                     id="password_confirmation"
@@ -88,14 +98,21 @@ const updatePassword = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError :message="form.errors.password_confirmation" class="mt-2" />
+                <InputError
+                    :message="form.errors.password_confirmation"
+                    class="mt-2"
+                />
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Sauvegarder</PrimaryButton>
-                <a href="/profile"
-                class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
-                >Annuler</a>
+                <PrimaryButton :disabled="form.processing"
+                    >Sauvegarder</PrimaryButton
+                >
+                <a
+                    href="/profile"
+                    class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                    >Annuler</a
+                >
 
                 <Transition
                     enter-active-class="transition ease-in-out"
@@ -103,7 +120,9 @@ const updatePassword = () => {
                     leave-active-class="transition ease-in-out"
                     leave-to-class="opacity-0"
                 >
-                    <p v-if="form.recentlySuccessful" class="text-sm">Modification enregistrée</p>
+                    <p v-if="form.recentlySuccessful" class="text-sm">
+                        Modification enregistrée
+                    </p>
                 </Transition>
             </div>
         </form>

@@ -1,32 +1,32 @@
 <script setup>
-import { convertTime } from '@/Helpers/timeHelper';
+import { convertTime } from '@/Helpers/timeHelper'
 // defini un props pour le composant avec tag qui est optionnel
 const props = defineProps({
     tag: {
         type: String,
-        default: () => "None",
+        default: () => 'None',
     },
     time: {
         type: String,
-        default: () => "None",
+        default: () => 'None',
     },
-});
+})
 
 // defini une fonction pour retourner la couleur de fond en fonction de la difficulté
 const getTagColor = (tag) => {
     switch (tag.toLowerCase()) {
-        case "facile":
-            return "bg-easy ";
-        case "moyen":
-            return "bg-medium";
-        case "difficile":
-            return "bg-hard";
+        case 'facile':
+            return 'bg-easy '
+        case 'moyen':
+            return 'bg-medium'
+        case 'difficile':
+            return 'bg-hard'
     }
-};
+}
 
 const getClasses = (tag) => {
-    return {[getTagColor(tag)] : true};
-};
+    return { [getTagColor(tag)]: true }
+}
 </script>
 
 <template>
@@ -46,18 +46,18 @@ const getClasses = (tag) => {
     flex-direction: column;
     @apply text-sm;
 }
-.label{
+.label {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     padding: 0.2rem 0.8rem;
     @apply dark:text-darkSurface;
 }
-.tag{
+.tag {
     border-top-left-radius: 0.35rem;
     border-top-right-radius: 0.35rem;
 }
-.time{
+.time {
     @apply bg-onPrimary dark:bg-white;
     @apply text-xs;
     border-bottom-left-radius: 0.35rem;

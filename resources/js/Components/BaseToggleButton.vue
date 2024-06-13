@@ -1,13 +1,13 @@
 <script setup>
-import useDarkMode from "@/Composables/darkMode.js";
+import useDarkMode from '@/Composables/darkMode.js'
 
-const { isDarkMode, toggleDarkMode } = useDarkMode();
+const { isDarkMode, toggleDarkMode } = useDarkMode()
 
 const props = defineProps({
     label: {
         type: String,
     },
-});
+})
 </script>
 
 <template>
@@ -42,7 +42,7 @@ const props = defineProps({
     cursor: pointer;
 }
 
-.switch-container input[type="checkbox"] {
+.switch-container input[type='checkbox'] {
     opacity: 0;
     width: 0;
     height: 0;
@@ -66,7 +66,7 @@ const props = defineProps({
 .slider:before {
     @apply bg-onPrimary dark:bg-darkOnPrimary;
 
-    content: "";
+    content: '';
     position: absolute;
     height: 26px;
     width: 26px;

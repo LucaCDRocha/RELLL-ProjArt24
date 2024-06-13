@@ -1,9 +1,9 @@
 <script setup>
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
-import { Link, useForm, usePage } from "@inertiajs/vue3";
+import InputError from '@/Components/InputError.vue'
+import InputLabel from '@/Components/InputLabel.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import TextInput from '@/Components/TextInput.vue'
+import { Link, useForm, usePage } from '@inertiajs/vue3'
 
 defineProps({
     mustVerifyEmail: {
@@ -12,22 +12,20 @@ defineProps({
     status: {
         type: String,
     },
-});
+})
 
-const user = usePage().props.auth.user;
+const user = usePage().props.auth.user
 
 const form = useForm({
     name: user.name,
     email: user.email,
-});
+})
 </script>
 
 <template>
     <section>
         <header>
-            <h2>
-                Modifiez vos informations personnelles
-            </h2>
+            <h2>Modifiez vos informations personnelles</h2>
 
             <p class="mt-1 text-sm">
                 Mettez à jour le nom et l'adresse e-mail de votre compte.
@@ -81,7 +79,7 @@ const form = useForm({
                     </Link>
                 </p>-->
 
-                <!-- <div
+            <!-- <div
                     v-show="status === 'verification-link-sent'"
                     class="mt-2 font-medium text-sm text-green-600 dark:text-green-400"
                 >
@@ -90,10 +88,14 @@ const form = useForm({
             </div> -->
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Enregistrer</PrimaryButton>
-                <a href="/profile"
-                class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
-                >Annuler</a>
+                <PrimaryButton :disabled="form.processing"
+                    >Enregistrer</PrimaryButton
+                >
+                <a
+                    href="/profile"
+                    class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                    >Annuler</a
+                >
 
                 <Transition
                     enter-active-class="transition ease-in-out"

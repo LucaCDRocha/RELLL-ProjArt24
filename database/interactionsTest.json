@@ -1,50 +1,50 @@
 {
-    "comments" : [
+    "comments": [
         {
             "user": "Test User",
             "trail": "Art en ville de Lausanne",
-            "content" : "Ce parcours est génial !"
+            "content": "Ce parcours est génial !"
         },
         {
             "user": "Marc",
             "trail": "Art en ville de Lausanne",
-            "content" : "Je recommande sans hésiter !"
+            "content": "Je recommande sans hésiter !"
         },
         {
             "user": "Sam",
             "trail": "Art en ville de Lausanne",
-            "content" : "Il manque des détails dans les points d'intérêts de ce parcours"
+            "content": "Il manque des détails dans les points d'intérêts de ce parcours"
         },
         {
             "user": "Sam",
             "trail": "L'Histoire d'Yverdon-les-Bains",
-            "content" : "Je redécouvre ma ville ! Merci pour ce partage !"
+            "content": "Je redécouvre ma ville ! Merci pour ce partage !"
         }
     ],
-    "rankings":[
+    "rankings": [
         {
-            "user" :"Test User",
-            "trail":"Art en ville de Lausanne",
+            "user": "Test User",
+            "trail": "Art en ville de Lausanne",
             "note": 5
         },
         {
-            "user" :"Sam",
-            "trail":"Art en ville de Lausanne",
+            "user": "Sam",
+            "trail": "Art en ville de Lausanne",
             "note": 2
         },
         {
-            "user" :"Marc",
-            "trail":"Art en ville de Lausanne",
+            "user": "Marc",
+            "trail": "Art en ville de Lausanne",
             "note": 4
         },
         {
-            "user" :"Marc",
-            "trail":"L'Histoire d'Yverdon-les-Bains",
+            "user": "Marc",
+            "trail": "L'Histoire d'Yverdon-les-Bains",
             "note": 4
         },
         {
-            "user" :"Sam",
-            "trail":"L'Histoire d'Yverdon-les-Bains",
+            "user": "Sam",
+            "trail": "L'Histoire d'Yverdon-les-Bains",
             "note": 4
         }
     ]

@@ -1,14 +1,14 @@
 <script setup>
-import Checkbox from "@/Components/Checkbox.vue";
-import GuestLayout from "@/Layouts/GuestLayout.vue";
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import TheNav from "@/Components/TheNav.vue";
-import TheHeader from "@/Components/TheHeader.vue";
-import BaseCheckbox from "@/Components/BaseCheckbox.vue";
+import Checkbox from '@/Components/Checkbox.vue'
+import GuestLayout from '@/Layouts/GuestLayout.vue'
+import InputError from '@/Components/InputError.vue'
+import InputLabel from '@/Components/InputLabel.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import TextInput from '@/Components/TextInput.vue'
+import { Head, Link, useForm } from '@inertiajs/vue3'
+import TheNav from '@/Components/TheNav.vue'
+import TheHeader from '@/Components/TheHeader.vue'
+import BaseCheckbox from '@/Components/BaseCheckbox.vue'
 
 defineProps({
     canResetPassword: {
@@ -17,19 +17,19 @@ defineProps({
     status: {
         type: String,
     },
-});
+})
 
 const form = useForm({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     remember: false,
-});
+})
 
 const submit = () => {
-    form.post(route("login"), {
-        onFinish: () => form.reset("password"),
-    });
-};
+    form.post(route('login'), {
+        onFinish: () => form.reset('password'),
+    })
+}
 </script>
 
 <template>

@@ -1,27 +1,27 @@
 <script setup>
-import { useForm } from "@inertiajs/vue3";
-import InputError from "@/Components/InputError.vue";
-import TextInput from "@/Components/TextInput.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { useForm } from '@inertiajs/vue3'
+import InputError from '@/Components/InputError.vue'
+import TextInput from '@/Components/TextInput.vue'
+import InputLabel from '@/Components/InputLabel.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
 
 const form = useForm({
-    name: "",
+    name: '',
     url: window.location.href,
-});
+})
 
-const emit = defineEmits(["send"]);
+const emit = defineEmits(['send'])
 
 const submit = () => {
-    form.post(route("bookmark.store"), {});
+    form.post(route('bookmark.store'), {})
     setTimeout(() => {
-        emit("send");
-    }, 1000);
-};
+        emit('send')
+    }, 1000)
+}
 
 const goBack = () => {
-    window.history.back();
-};
+    window.history.back()
+}
 </script>
 <template>
     <div class="lists">

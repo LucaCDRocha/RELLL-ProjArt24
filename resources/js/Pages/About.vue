@@ -1,72 +1,83 @@
 <script setup>
-import { Head, useForm, usePage, Link } from "@inertiajs/vue3";
-import TheNav from "@/Components/TheNav.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import BaseDivider from "@/Components/BaseDivider.vue";
-import BaseTeamInfos from "@/Components/BaseTeamInfos.vue";
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import TextInput from "@/Components/TextInput.vue";
-import BaseTextArea from "@/Components/BaseTextArea.vue";
+import { Head, useForm, usePage, Link } from '@inertiajs/vue3'
+import TheNav from '@/Components/TheNav.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import BaseDivider from '@/Components/BaseDivider.vue'
+import BaseTeamInfos from '@/Components/BaseTeamInfos.vue'
+import InputError from '@/Components/InputError.vue'
+import InputLabel from '@/Components/InputLabel.vue'
+import TextInput from '@/Components/TextInput.vue'
+import BaseTextArea from '@/Components/BaseTextArea.vue'
 
 const team = [
     {
-        name: "Laurence Kohli",
-        title: "Cheffe de projet",
-        photo: "/img/team/Kohli.png"
-    }, {
-        name: "Luca Correia Da Rocha",
-        title: "Lead technique partie front-end",
-        photo: "/img/team/CorreiaDaRocha.png"
-    }, {
-        name: "Robin Frossard",
-        title: "Lead technique partie back-end",
-        photo: "/img/team/Frossard.png"
-    }, {
-        name: "Elodie Perring",
-        title: "Responsable UX/UI design",
-        photo: "/img/team/Perring.png"
-    }, {
-        name: "Lucas Tschaler",
-        title: "UX/UI design et communication externe",
-        photo: "/img/team/Tschaler.png"
-    }
+        name: 'Laurence Kohli',
+        title: 'Cheffe de projet',
+        photo: '/img/team/Kohli.png',
+    },
+    {
+        name: 'Luca Correia Da Rocha',
+        title: 'Lead technique partie front-end',
+        photo: '/img/team/CorreiaDaRocha.png',
+    },
+    {
+        name: 'Robin Frossard',
+        title: 'Lead technique partie back-end',
+        photo: '/img/team/Frossard.png',
+    },
+    {
+        name: 'Elodie Perring',
+        title: 'Responsable UX/UI design',
+        photo: '/img/team/Perring.png',
+    },
+    {
+        name: 'Lucas Tschaler',
+        title: 'UX/UI design et communication externe',
+        photo: '/img/team/Tschaler.png',
+    },
 ]
-const user = usePage().props.auth.user;
+const user = usePage().props.auth.user
 
 const form = useForm({
     object: '',
     content: '',
     reply_mail: user ? user.email : '',
     name: user ? user.name : '',
-});
+})
 
 const submit = () => {
-    form.post(route('contact'), {
-    });
-};
+    form.post(route('contact'), {})
+}
 
 const goBack = () => {
-    window.history.back();
-};
+    window.history.back()
+}
 </script>
 
 <template>
-
     <Head title="Contacter" />
 
     <div class="about">
-
-        <span class="material-symbols-rounded cursor-pointer" @click="goBack()"> arrow_back </span>
+        <span class="material-symbols-rounded cursor-pointer" @click="goBack()">
+            arrow_back
+        </span>
         <BaseDivider />
 
         <div class="infos">
             <h3>Informations sur l'application</h3>
-            <p>Cette application a été réalisée dans le cadre du projet d’articulation en 2ème année d’ingénierie des
-                médias à la HEIG-VD, en 2024.</p>
+            <p>
+                Cette application a été réalisée dans le cadre du projet
+                d’articulation en 2ème année d’ingénierie des médias à la
+                HEIG-VD, en 2024.
+            </p>
             <div class="team">
-                <BaseTeamInfos v-for="member in team" :key="member.name" :name="member.name" :title="member.title"
-                    :img="member.photo" />
+                <BaseTeamInfos
+                    v-for="member in team"
+                    :key="member.name"
+                    :name="member.name"
+                    :title="member.title"
+                    :img="member.photo"
+                />
             </div>
         </div>
 
@@ -75,8 +86,14 @@ const goBack = () => {
         <div class="contact">
             <h3>Nous contacter</h3>
             <a href="mailto:contact@vaudsentiers.ch">
-                <span class="material-symbols-rounded cursor-pointer">mail</span>
-                <p class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">contact(at)vaudsentiers.ch</p>
+                <span class="material-symbols-rounded cursor-pointer"
+                    >mail</span
+                >
+                <p
+                    class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >
+                    contact(at)vaudsentiers.ch
+                </p>
             </a>
             <!-- <form @submit.prevent="submit">
                 <div>

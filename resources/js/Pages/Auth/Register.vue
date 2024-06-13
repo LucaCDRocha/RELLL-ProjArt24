@@ -1,25 +1,25 @@
 <script setup>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import TheNav from "@/Components/TheNav.vue";
-import TheHeader from "@/Components/TheHeader.vue";
+import GuestLayout from '@/Layouts/GuestLayout.vue'
+import InputError from '@/Components/InputError.vue'
+import InputLabel from '@/Components/InputLabel.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import TextInput from '@/Components/TextInput.vue'
+import { Head, Link, useForm } from '@inertiajs/vue3'
+import TheNav from '@/Components/TheNav.vue'
+import TheHeader from '@/Components/TheHeader.vue'
 
 const form = useForm({
-    name: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
-});
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+})
 
 const submit = () => {
-    form.post(route("register"), {
-        onFinish: () => form.reset("password", "password_confirmation"),
-    });
-};
+    form.post(route('register'), {
+        onFinish: () => form.reset('password', 'password_confirmation'),
+    })
+}
 </script>
 
 <template>

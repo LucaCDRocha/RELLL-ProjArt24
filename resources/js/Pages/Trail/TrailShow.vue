@@ -1,53 +1,53 @@
 <script setup>
-import { ref } from "vue";
-import { Head } from "@inertiajs/vue3";
-import AppTrailInfo from "@/Components/AppTrailInfo.vue";
-import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
+import { ref } from 'vue'
+import { Head } from '@inertiajs/vue3'
+import AppTrailInfo from '@/Components/AppTrailInfo.vue'
+import AppInterestPointInfo from '@/Components/AppInterestPointInfo.vue'
+import BaseBottomSheet from '@/Components/BaseBottomSheet.vue'
 
-const isOpen = ref(false);
+const isOpen = ref(false)
 
-const data = ref({});
+const data = ref({})
 
 const bottomSheet = (e) => {
     if (e.point.difficulty) {
-        window.location.href = route("trails.show", e.point.id);
+        window.location.href = route('trails.show', e.point.id)
     } else {
-        fetch(route("interestPoints.showJson", e.point.id))
+        fetch(route('interestPoints.showJson', e.point.id))
             .then((response) => response.json())
             .then((datas) => {
-                data.value = datas;
-                isOpen.value = true;
+                data.value = datas
+                isOpen.value = true
                 const scroll = document.querySelector(
-                    ".base-overlay-card__content"
-                );
-                scroll ? (scroll.scrollTop = 0) : null;
-            });
+                    '.base-overlay-card__content'
+                )
+                scroll ? (scroll.scrollTop = 0) : null
+            })
     }
-    window.location.hash = "bottom-sheet";
-};
+    window.location.hash = 'bottom-sheet'
+}
 
 const closeBottomSheet = () => {
-    isOpen.value = false;
-    full.value = false;
-    window.location.hash = "";
-};
+    isOpen.value = false
+    full.value = false
+    window.location.hash = ''
+}
 
-const full = ref(false);
+const full = ref(false)
 const toggleFull = () => {
-    full.value = true;
-};
+    full.value = true
+}
 
 const props = defineProps({
     trail: {
         type: Object,
         default: () => {},
     },
-});
+})
 
 const goBack = () => {
-    window.history.back();
-};
+    window.history.back()
+}
 </script>
 
 <template>

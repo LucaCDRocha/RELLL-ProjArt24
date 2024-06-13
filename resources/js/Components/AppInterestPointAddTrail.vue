@@ -1,10 +1,10 @@
 <script setup>
-import { ref, computed } from "vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import BaseTag from "@/Components/BaseTag.vue";
-import BaseImgGalery from "@/Components/BaseImgGalery.vue";
-import TheCardNav from "@/Components/TheCardNav.vue";
-import AppCardList from "@/Components/AppCardList.vue";
+import { ref, computed } from 'vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import BaseTag from '@/Components/BaseTag.vue'
+import BaseImgGalery from '@/Components/BaseImgGalery.vue'
+import TheCardNav from '@/Components/TheCardNav.vue'
+import AppCardList from '@/Components/AppCardList.vue'
 
 const props = defineProps({
     data: {
@@ -19,24 +19,24 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-});
+})
 
-const imgs = ref([]);
+const imgs = ref([])
 
 for (const img of props.data.imgs) {
-    if (img.img_path.includes("http")) imgs.value.push(img.img_path);
-    else imgs.value.push(`${img.img_path}`);
+    if (img.img_path.includes('http')) imgs.value.push(img.img_path)
+    else imgs.value.push(`${img.img_path}`)
 }
 
 const textButton = computed(() => {
     if (props.isAllreadyAdded) {
-        return "Lieu ajouté";
+        return 'Lieu ajouté'
     } else {
-        return "Ajouter ce lieu";
+        return 'Ajouter ce lieu'
     }
-});
+})
 
-const emit = defineEmits(["handle-close", "handle-point", "add-point"]);
+const emit = defineEmits(['handle-close', 'handle-point', 'add-point'])
 </script>
 
 <template>

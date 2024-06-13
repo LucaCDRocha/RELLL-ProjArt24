@@ -1,8 +1,8 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
-import TheNav from "@/Components/TheNav.vue";
-import TheHeader from "@/Components/TheHeader.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
+import { Head } from '@inertiajs/vue3'
+import TheNav from '@/Components/TheNav.vue'
+import TheHeader from '@/Components/TheHeader.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
 </script>
 
 <template>

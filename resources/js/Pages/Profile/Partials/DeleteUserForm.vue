@@ -1,26 +1,26 @@
 <script setup>
-import DangerButton from '@/Components/DangerButton.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import Modal from '@/Components/Modal.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { nextTick, ref } from 'vue';
+import DangerButton from '@/Components/DangerButton.vue'
+import InputError from '@/Components/InputError.vue'
+import InputLabel from '@/Components/InputLabel.vue'
+import Modal from '@/Components/Modal.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import TextInput from '@/Components/TextInput.vue'
+import { useForm } from '@inertiajs/vue3'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import { nextTick, ref } from 'vue'
 
-const confirmingUserDeletion = ref(false);
-const passwordInput = ref(null);
+const confirmingUserDeletion = ref(false)
+const passwordInput = ref(null)
 
 const form = useForm({
     password: '',
-});
+})
 
 const confirmUserDeletion = () => {
-    confirmingUserDeletion.value = true;
+    confirmingUserDeletion.value = true
 
-    nextTick(() => passwordInput.value.focus());
-};
+    nextTick(() => passwordInput.value.focus())
+}
 
 const deleteUser = () => {
     form.delete(route('profile.destroy'), {
@@ -28,17 +28,16 @@ const deleteUser = () => {
         onSuccess: () => closeModal(),
         onError: () => passwordInput.value.focus(),
         onFinish: () => form.reset(),
-    });
-};
+    })
+}
 
 const closeModal = () => {
-    confirmingUserDeletion.value = false;
+    confirmingUserDeletion.value = false
 
-    form.reset();
-};
+    form.reset()
+}
 
-const emit = defineEmits(["handle-close"]);
-
+const emit = defineEmits(['handle-close'])
 </script>
 
 <template>
@@ -46,20 +45,19 @@ const emit = defineEmits(["handle-close"]);
         <header>
             <h2>Voulez-vous vraiment supprimer votre compte ?</h2>
 
-            <p>
-                Toutes vos données seront perdues.
-            </p>
+            <p>Toutes vos données seront perdues.</p>
             <div class="choices">
                 <a
-                        @click="deleteUser"
-                class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                    @click="deleteUser"
+                    class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
                 >
-                    Supprimer le compte</a>
-                <PrimaryButton @click.self="emit('handle-close')">Non, annuler</PrimaryButton>
+                    Supprimer le compte</a
+                >
+                <PrimaryButton @click.self="emit('handle-close')"
+                    >Non, annuler</PrimaryButton
+                >
             </div>
         </header>
-
-        
 
         <!-- <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
@@ -106,15 +104,15 @@ const emit = defineEmits(["handle-close"]);
 </template>
 
 <style scoped>
-    header {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
+header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 
-    .choices {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-    }
+.choices {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
 </style>

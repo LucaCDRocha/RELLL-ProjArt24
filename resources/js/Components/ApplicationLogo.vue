@@ -1,5 +1,5 @@
 <script setup>
-const isDarkMode = JSON.parse(localStorage.getItem("darkMode"));
+const isDarkMode = JSON.parse(localStorage.getItem('darkMode'))
 </script>
 
 <template>

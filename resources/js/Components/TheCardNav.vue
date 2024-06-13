@@ -1,14 +1,14 @@
 <script setup>
-import BaseDivider from "@/Components/BaseDivider.vue";
-import DropDown from "@/Components/Dropdown.vue";
-import { useForm, usePage } from "@inertiajs/vue3";
-import { ref } from "vue";
-import Modal from "@/Components/Modal.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import AppSaveButton from "@/Components/AppSaveButton.vue";
+import BaseDivider from '@/Components/BaseDivider.vue'
+import DropDown from '@/Components/Dropdown.vue'
+import { useForm, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import Modal from '@/Components/Modal.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import AppSaveButton from '@/Components/AppSaveButton.vue'
 
-const notOnMap = window.location.pathname !== "/map";
-const notOnCreate = window.location.pathname !== "/trails/create";
+const notOnMap = window.location.pathname !== '/map'
+const notOnCreate = window.location.pathname !== '/trails/create'
 
 const props = defineProps({
     isFull: {
@@ -31,25 +31,25 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-});
+})
 
-const user = usePage().props.auth.user;
-const isUserLoggedIn = user && Object.keys(user).length > 0;
-const isUserAdmin = user && user.is_admin === 1;
+const user = usePage().props.auth.user
+const isUserLoggedIn = user && Object.keys(user).length > 0
+const isUserAdmin = user && user.is_admin === 1
 
 const share = () => {
-    let url = window.location.origin;
-    let title = document.title;
-    let text = document.title;
+    let url = window.location.origin
+    let title = document.title
+    let text = document.title
 
     if (props.trailId) {
-        url += `/trails/${props.trailId}`;
-        title = `Découvrez ce sentier !`;
-        text = `Découvrez ce sentier sur ${url}`;
+        url += `/trails/${props.trailId}`
+        title = `Découvrez ce sentier !`
+        text = `Découvrez ce sentier sur ${url}`
     } else if (props.interestPointId) {
-        url += `/interestPoints/${props.interestPointId}`;
-        title = `Découvrez ce lieu !`;
-        text = `Découvrez ce lieu sur ${url}`;
+        url += `/interestPoints/${props.interestPointId}`
+        title = `Découvrez ce lieu !`
+        text = `Découvrez ce lieu sur ${url}`
     }
 
     // make a share of the current page
@@ -58,31 +58,31 @@ const share = () => {
             title,
             text,
             url,
-        });
+        })
     } else {
         // fallback
-        const text = `Découvrez ce lieu sur ${url}`;
-        const el = document.createElement("textarea");
-        el.value = text;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand("copy");
-        document.body.removeChild(el);
-        alert("Le lien a été copié dans votre presse-papier !");
+        const text = `Découvrez ce lieu sur ${url}`
+        const el = document.createElement('textarea')
+        el.value = text
+        document.body.appendChild(el)
+        el.select()
+        document.execCommand('copy')
+        document.body.removeChild(el)
+        alert('Le lien a été copié dans votre presse-papier !')
     }
-};
+}
 
 const print = () => {
-    window.print();
-};
+    window.print()
+}
 
 const update = () => {
     if (props.trailId) {
-        window.location.href = `/trails/${props.trailId}/edit`;
+        window.location.href = `/trails/${props.trailId}/edit`
     } else if (props.interestPointId) {
-        window.location.href = `/interestPoints/${props.interestPointId}/edit`;
+        window.location.href = `/interestPoints/${props.interestPointId}/edit`
     }
-};
+}
 
 // const report = () => {
 //     if (props.trailId) {
@@ -92,30 +92,30 @@ const update = () => {
 //     }
 // };
 
-const showModal = ref(false);
+const showModal = ref(false)
 const openModal = () => {
-    showModal.value = !showModal.value;
-};
+    showModal.value = !showModal.value
+}
 
 const deleteItem = () => {
     const form = useForm({
         id: props.trailId || props.interestPointId,
-    });
+    })
     if (props.trailId) {
-        form.delete(route("trails.destroy", { id: props.trailId }), {});
+        form.delete(route('trails.destroy', { id: props.trailId }), {})
     } else if (props.interestPointId) {
         form.delete(
-            route("interestPoints.destroy", { id: props.interestPointId }),
+            route('interestPoints.destroy', { id: props.interestPointId }),
             {}
-        );
+        )
     }
-    openModal();
+    openModal()
     setTimeout(() => {
-        window.location.href = "/";
-    }, 1000);
-};
+        window.location.href = '/'
+    }, 1000)
+}
 
-const emit = defineEmits(["handle-close", "emit-lists"]);
+const emit = defineEmits(['handle-close', 'emit-lists'])
 </script>
 
 <template>
@@ -175,7 +175,7 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
         <div class="confirmation-modal">
             <h2>
                 Voulez-vous vraiment supprimer ce
-                {{ props.trailId ? "sentier" : "point" }} ?
+                {{ props.trailId ? 'sentier' : 'point' }} ?
             </h2>
             <p v-if="props.interestPointId">
                 Cette action supprimera également les sentiers qui n'auront plus
@@ -186,7 +186,7 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
                     @click.prevent="deleteItem()"
                     class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
                 >
-                    Supprimer le {{ props.trailId ? "sentier" : "point" }}
+                    Supprimer le {{ props.trailId ? 'sentier' : 'point' }}
                 </a>
                 <PrimaryButton @click="openModal()">
                     Non, annuler

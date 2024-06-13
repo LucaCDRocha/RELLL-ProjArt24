@@ -1,54 +1,54 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
-import BaseMap from "@/Components/BaseMap.vue";
-import { trail } from "@/Stores/map.js";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import AppTrailInfo from "@/Components/AppTrailInfo.vue";
-import AppInterestPointAddTrail from "@/Components/AppInterestPointAddTrail.vue";
-import TextInput from "@/Components/TextInput.vue";
-import BaseDivider from "@/Components/BaseDivider.vue";
-import DropDown from "@/Components/Dropdown.vue";
-import BaseTag from "@/Components/BaseTag.vue";
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import AppInterestPointInfo from '@/Components/AppInterestPointInfo.vue'
+import BaseMap from '@/Components/BaseMap.vue'
+import { trail } from '@/Stores/map.js'
+import BaseBottomSheet from '@/Components/BaseBottomSheet.vue'
+import AppTrailInfo from '@/Components/AppTrailInfo.vue'
+import AppInterestPointAddTrail from '@/Components/AppInterestPointAddTrail.vue'
+import TextInput from '@/Components/TextInput.vue'
+import BaseDivider from '@/Components/BaseDivider.vue'
+import DropDown from '@/Components/Dropdown.vue'
+import BaseTag from '@/Components/BaseTag.vue'
 
-const isOpen = ref(false);
+const isOpen = ref(false)
 
-const data = ref({});
+const data = ref({})
 
 const bottomSheet = (e) => {
     if (e.point.difficulty) {
-        window.location.href = route("trails.show", e.point.id);
+        window.location.href = route('trails.show', e.point.id)
     } else {
-        fetch(route("interestPoints.showJson", e.point.id))
+        fetch(route('interestPoints.showJson', e.point.id))
             .then((response) => response.json())
             .then((datas) => {
-                data.value = datas;
-                isOpen.value = true;
+                data.value = datas
+                isOpen.value = true
                 if (props.waypoints) {
                     isAdded.value = props.waypoints.interest_points.find(
                         (point) => point.id === data.value.id
                     )
                         ? true
-                        : false;
+                        : false
                 }
                 const scroll = document.querySelector(
-                    ".base-overlay-card__content"
-                );
-                scroll ? (scroll.scrollTop = 0) : null;
-            });
+                    '.base-overlay-card__content'
+                )
+                scroll ? (scroll.scrollTop = 0) : null
+            })
     }
-    window.history.pushState("", "", window.location.pathname);
-};
+    window.history.pushState('', '', window.location.pathname)
+}
 
 const closeBottomSheet = () => {
-    isOpen.value = false;
-    full.value = false;
-};
+    isOpen.value = false
+    full.value = false
+}
 
-const full = ref(false);
+const full = ref(false)
 const toggleFull = () => {
-    full.value = true;
-};
+    full.value = true
+}
 
 const props = defineProps({
     points: {
@@ -73,77 +73,77 @@ const props = defineProps({
         default: true,
         required: false,
     },
-});
+})
 
 const filtersSelected = computed(() => {
-    let selected = [];
+    let selected = []
     for (const filter of props.filters) {
         if (filter.selected) {
-            selected.push(filter);
+            selected.push(filter)
         }
     }
-    return selected;
-});
+    return selected
+})
 
 const switchFilter = (filter) => {
     if (props.filters.find((f) => f.name === filter.name)) {
         props.filters.find((f) => f.name === filter.name).selected =
-            !filter.selected;
+            !filter.selected
     }
-    if (filter.name === "Tout désélectionner") {
+    if (filter.name === 'Tout désélectionner') {
         for (const filter of props.filters) {
-            filter.selected = false;
+            filter.selected = false
         }
     }
-};
+}
 
-const search = ref("");
+const search = ref('')
 
 const interestPointsResults = computed(() => {
-    let filtered = props.points;
+    let filtered = props.points
     if (search.value) {
         filtered = props.points.filter((interestPoint) =>
             interestPoint.name
                 .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
                 .includes(
                     search.value
                         .toLowerCase()
-                        .normalize("NFD")
-                        .replace(/[\u0300-\u036f]/g, "")
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
                 )
-        );
+        )
     }
-    if (filtersSelected.value.length === 0) return filtered;
+    if (filtersSelected.value.length === 0) return filtered
     return filtered.filter((interestPoint) =>
         filtersSelected.value.every((filter) =>
             interestPoint.tags.find((tag) => tag.name === filter.name)
         )
-    );
-});
+    )
+})
 
-const isAdded = ref(false);
+const isAdded = ref(false)
 if (props.waypoints) {
     watch(props.waypoints, () => {
         isAdded.value = props.waypoints.interest_points.find(
             (point) => point.id === data.value.id
         )
             ? true
-            : false;
-    });
+            : false
+    })
 }
 
-const emit = defineEmits(["add-point"]);
+const emit = defineEmits(['add-point'])
 
 const addPoint = (e) => {
-    closeBottomSheet();
-    emit("add-point", { point: e.point });
-};
+    closeBottomSheet()
+    emit('add-point', { point: e.point })
+}
 
 onUnmounted(() => {
-    trail.value = null;
-});
+    trail.value = null
+})
 </script>
 
 <template>

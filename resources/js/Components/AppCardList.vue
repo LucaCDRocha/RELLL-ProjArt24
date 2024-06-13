@@ -1,15 +1,14 @@
 <script setup>
-import BaseCard from "@/Components/BaseCard.vue";
-import { onMounted } from "vue";
+import BaseCard from '@/Components/BaseCard.vue'
 
 const props = defineProps({
     datas: {
         type: Array,
         default: () => [],
     },
-});
+})
 
-const emit = defineEmits(["handle-point"]);
+const emit = defineEmits(['handle-point'])
 </script>
 
 <template>
@@ -18,8 +17,15 @@ const emit = defineEmits(["handle-point"]);
             <slot />
         </h2>
         <div class="cardList">
-            <BaseCard v-for="data in datas" :key="data.id" :data="data" @handle-point="emit('handle-point', $event)" />
-            <p v-if="props.datas.length === 0">Aucun sentier n'utilise ce point</p>
+            <BaseCard
+                v-for="data in datas"
+                :key="data.id"
+                :data="data"
+                @handle-point="emit('handle-point', $event)"
+            />
+            <p v-if="props.datas.length === 0">
+                Aucun sentier n'utilise ce point
+            </p>
         </div>
     </div>
 </template>
@@ -45,6 +51,6 @@ div.cardList {
 }
 
 .hidden {
-    opacity: 0,
+    opacity: 0;
 }
 </style>

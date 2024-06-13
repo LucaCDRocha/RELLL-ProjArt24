@@ -1,12 +1,12 @@
 <script setup>
-import { useForm, Link } from "@inertiajs/vue3";
-import { ref, watch } from "vue";
-import BaseCheckbox from "@/Components/BaseCheckbox.vue";
-import BasePlainButton from "@/Components/BasePlainButton.vue";
-import NewList from "@/Pages/Favorite/NewList.vue";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { all } from "axios";
+import { useForm, Link } from '@inertiajs/vue3'
+import { ref, watch } from 'vue'
+import BaseCheckbox from '@/Components/BaseCheckbox.vue'
+import BasePlainButton from '@/Components/BasePlainButton.vue'
+import NewList from '@/Pages/Favorite/NewList.vue'
+import BaseBottomSheet from '@/Components/BaseBottomSheet.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import { all } from 'axios'
 
 const props = defineProps({
     title: {
@@ -17,64 +17,65 @@ const props = defineProps({
         type: Number,
         required: true,
     },
-});
+})
 
-const title = ref(props.title);
-const allLists = ref([]);
-const listIds = ref([]);
-const trailId = ref(props.trailId);
+const title = ref(props.title)
+const allLists = ref([])
+const listIds = ref([])
+const trailId = ref(props.trailId)
 
 const fetching = async () => {
     fetch(
-        route("bookmark.allLists", {
+        route('bookmark.allLists', {
             trailId: trailId.value,
             name: title.value,
         })
     )
         .then((response) => response.json())
         .then((datas) => {
-            allLists.value = datas.allLists;
-            listIds.value = datas.listIds;
-            title.value = datas.title;
-            trailId.value = parseInt(datas.trailId);
-        });
-};
+            allLists.value = datas.allLists
+            listIds.value = datas.listIds
+            title.value = datas.title
+            trailId.value = parseInt(datas.trailId)
+        })
+}
 
-fetching();
+fetching()
 
 watch(
     allLists,
     (value) => {
-        emit("emit-lists", { allLists: allLists.value });
+        emit('emit-lists', { allLists: allLists.value })
     },
     { deep: true }
-);
+)
 
-const isOpen = ref(false);
+const isOpen = ref(false)
 const toggleBottomSheet = () => {
     fetching().then(() => {
-        isOpen.value = !isOpen.value;
-    });
-};
+        isOpen.value = !isOpen.value
+    })
+}
 
 const form = useForm({
     trail_id: trailId.value,
     check_ids: listIds.value,
-});
+})
 
-const emit = defineEmits(["handleOpen", "emit-lists"]);
+const emit = defineEmits(['handleOpen', 'emit-lists'])
 const submit = () => {
-    form.post(route("bookmark.addTrail"), {});
-    fetching();
-    emit("handleOpen");
-};
+    form.post(route('bookmark.addTrail'), {})
+    fetching()
+    emit('handleOpen')
+}
 </script>
 
 <template>
     <div>
         <div class="lists">
             <h3>
-                Dans quelle(s) liste(s) voulez-vous ajouter le sentier {{ title }} ?
+                Dans quelle(s) liste(s) voulez-vous ajouter le sentier
+                {{ title }} ?
             </h3>
             <form @submit.prevent="submit">
                 <BaseCheckbox
@@ -145,7 +146,7 @@ div.finalLinks {
     align-items: center;
 }
 
-:deep(.base-overlay-card__content){
+:deep(.base-overlay-card__content) {
     display: block;
 }
 </style>

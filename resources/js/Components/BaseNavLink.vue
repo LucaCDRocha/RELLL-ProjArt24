@@ -2,13 +2,13 @@
 const props = defineProps({
     icon: {
         type: String,
-        default: "",
+        default: '',
     },
     href: {
         type: String,
-        default: "",
+        default: '',
     },
-});
+})
 </script>
 
 <template>
@@ -45,6 +45,6 @@ span {
 
 span.active {
     @apply bg-primarySurface dark:bg-darkPrimarySurface;
-    @apply dark:text-darkOnPrimary;      
+    @apply dark:text-darkOnPrimary;
 }
 </style>

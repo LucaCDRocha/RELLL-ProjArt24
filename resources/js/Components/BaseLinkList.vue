@@ -1,21 +1,21 @@
 <script setup>
 const props = defineProps({
-    name : {
+    name: {
         required: true,
-        type: String
+        type: String,
     },
-    id :{
-        required : true,
-        type : Number
-    },
-    link :{
+    id: {
         required: true,
-        type : String
+        type: Number,
     },
-    numberElem :{
-        type : Number
-    }
-});
+    link: {
+        required: true,
+        type: String,
+    },
+    numberElem: {
+        type: Number,
+    },
+})
 </script>
 
 <template>
@@ -31,17 +31,17 @@ const props = defineProps({
 </template>
 
 <style scoped>
-    div.element {
-        justify-content: space-between;
-        border-bottom-width: 1px;
-        @apply border-b border-customGray dark:border-darkCustomGray;
-        padding: 12px 5px;
-        margin-right: 1rem;
-    }
-    div{
-        display: flex;
-    }
-    div.details{
-        gap: 0.25rem;
-    }
+div.element {
+    justify-content: space-between;
+    border-bottom-width: 1px;
+    @apply border-b border-customGray dark:border-darkCustomGray;
+    padding: 12px 5px;
+    margin-right: 1rem;
+}
+div {
+    display: flex;
+}
+div.details {
+    gap: 0.25rem;
+}
 </style>

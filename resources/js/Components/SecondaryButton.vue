@@ -2,12 +2,12 @@
 const props = defineProps({
     type: {
         type: String,
-        default: "button",
+        default: 'button',
     },
     icon: {
         type: String,
     },
-});
+})
 </script>
 
 <template>
@@ -24,7 +24,7 @@ button {
     @apply text-base font-medium;
     @apply text-onSurface dark:text-darkOnSurface;
 
-    background: #EFF7EA;
+    background: #eff7ea;
     @apply dark:bg-darkSurfaceVariant;
     @apply border-primary dark:border-darkPrimary;
     @apply border rounded-full shadow-sm;

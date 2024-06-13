@@ -1,16 +1,16 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import TheNav from "@/Components/TheNav.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import BaseCard from "@/Components/BaseCard.vue";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import AppTrailInfo from "@/Components/AppTrailInfo.vue";
-import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
-import TheHeader from "@/Components/TheHeader.vue";
-import DangerButton from "@/Components/DangerButton.vue";
-import Modal from "@/Components/Modal.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { onMounted, ref } from 'vue'
+import { Head, Link, useForm } from '@inertiajs/vue3'
+import TheNav from '@/Components/TheNav.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import BaseCard from '@/Components/BaseCard.vue'
+import BaseBottomSheet from '@/Components/BaseBottomSheet.vue'
+import AppTrailInfo from '@/Components/AppTrailInfo.vue'
+import AppInterestPointInfo from '@/Components/AppInterestPointInfo.vue'
+import TheHeader from '@/Components/TheHeader.vue'
+import DangerButton from '@/Components/DangerButton.vue'
+import Modal from '@/Components/Modal.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
 
 const items = defineProps({
     trailsList: {
@@ -21,64 +21,64 @@ const items = defineProps({
         type: Object,
         default: () => [],
     },
-});
+})
 const form = useForm({
     id: items.listDetails.id,
-});
+})
 const submit = () => {
-    form.get(route("bookmark.edit", { id: items.listDetails.id }), {});
-};
+    form.get(route('bookmark.edit', { id: items.listDetails.id }), {})
+}
 
 const deleteList = () => {
-    form.delete(route("bookmark.destroy", { id: items.listDetails.id }), {});
-};
+    form.delete(route('bookmark.destroy', { id: items.listDetails.id }), {})
+}
 
-const showModal = ref(false);
+const showModal = ref(false)
 const openModal = () => {
-    showModal.value = !showModal.value;
-};
+    showModal.value = !showModal.value
+}
 
-const isOpen = ref(false);
+const isOpen = ref(false)
 
-const data = ref({});
+const data = ref({})
 
 const bottomSheet = (e) => {
     if (e.point.difficulty) {
-        fetch(route("trails.showJson", e.point.id))
+        fetch(route('trails.showJson', e.point.id))
             .then((response) => response.json())
             .then((datas) => {
-                data.value = datas;
-                isOpen.value = true;
+                data.value = datas
+                isOpen.value = true
                 const scroll = document.querySelector(
-                    ".base-overlay-card__content"
-                );
-                scroll ? (scroll.scrollTop = 0) : null;
-            });
+                    '.base-overlay-card__content'
+                )
+                scroll ? (scroll.scrollTop = 0) : null
+            })
     } else {
-        fetch(route("interestPoints.showJson", e.point.id))
+        fetch(route('interestPoints.showJson', e.point.id))
             .then((response) => response.json())
             .then((datas) => {
-                data.value = datas;
-                isOpen.value = true;
+                data.value = datas
+                isOpen.value = true
                 const scroll = document.querySelector(
-                    ".base-overlay-card__content"
-                );
-                scroll ? (scroll.scrollTop = 0) : null;
-            });
+                    '.base-overlay-card__content'
+                )
+                scroll ? (scroll.scrollTop = 0) : null
+            })
     }
-    window.location.hash = "bottom-sheet";
-};
+    window.location.hash = 'bottom-sheet'
+}
 
 const closeBottomSheet = () => {
-    isOpen.value = false;
-    full.value = false;
-    window.location.hash = "";
-};
+    isOpen.value = false
+    full.value = false
+    window.location.hash = ''
+}
 
-const full = ref(false);
+const full = ref(false)
 const toggleFull = () => {
-    full.value = true;
-};
+    full.value = true
+}
 </script>
 <template>
     <Head :title="listDetails.name" />

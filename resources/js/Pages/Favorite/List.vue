@@ -1,31 +1,31 @@
 <script setup>
-import { Head, usePage } from "@inertiajs/vue3";
-import TheNav from "@/Components/TheNav.vue";
-import BaseDivider from "@/Components/BaseDivider.vue";
-import BaseLinkList from "@/Components/BaseLinkList.vue";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import BasePlainButton from "@/Components/BasePlainButton.vue";
-import NewList from "@/Pages/Favorite/NewList.vue";
-import { ref, watch } from "vue";
-import TheHeader from "@/Components/TheHeader.vue";
-import BaseImgGrid from "@/Components/BaseImgGrid.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
+import { Head, usePage } from '@inertiajs/vue3'
+import TheNav from '@/Components/TheNav.vue'
+import BaseDivider from '@/Components/BaseDivider.vue'
+import BaseLinkList from '@/Components/BaseLinkList.vue'
+import BaseBottomSheet from '@/Components/BaseBottomSheet.vue'
+import BasePlainButton from '@/Components/BasePlainButton.vue'
+import NewList from '@/Pages/Favorite/NewList.vue'
+import { ref, watch } from 'vue'
+import TheHeader from '@/Components/TheHeader.vue'
+import BaseImgGrid from '@/Components/BaseImgGrid.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
 
-const isOpen = ref(false);
+const isOpen = ref(false)
 
 const toggleBottomSheet = () => {
-    isOpen.value = !isOpen.value;
-};
+    isOpen.value = !isOpen.value
+}
 
 const listes = defineProps({
     list: {
         type: Array,
         default: () => [],
     },
-});
+})
 
-const { props: pageProps } = usePage();
-const successMessage = pageProps.flash?.success;
+const { props: pageProps } = usePage()
+const successMessage = pageProps.flash?.success
 </script>
 <template>
     <Head title="Vos listes" />
@@ -105,7 +105,7 @@ const successMessage = pageProps.flash?.success;
     padding-right: 1rem;
 }
 
-:deep(.base-overlay-card__content){
+:deep(.base-overlay-card__content) {
     display: block;
 }
 </style>

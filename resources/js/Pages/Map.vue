@@ -1,11 +1,11 @@
 <script setup>
-import { computed, ref } from "vue";
-import { Head } from "@inertiajs/vue3";
-import TheNav from "@/Components/TheNav.vue";
-import AppMap from "@/Components/AppMap.vue";
-import TheHeader from "@/Components/TheHeader.vue";
-import BaseLinkSearch from "@/Components/BaseLinkSearch.vue";
-import TextInput from "@/Components/TextInput.vue";
+import { computed, ref } from 'vue'
+import { Head } from '@inertiajs/vue3'
+import TheNav from '@/Components/TheNav.vue'
+import AppMap from '@/Components/AppMap.vue'
+import TheHeader from '@/Components/TheHeader.vue'
+import BaseLinkSearch from '@/Components/BaseLinkSearch.vue'
+import TextInput from '@/Components/TextInput.vue'
 
 const props = defineProps({
     interestPoints: {
@@ -16,7 +16,7 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
-});
+})
 </script>
 
 <template>

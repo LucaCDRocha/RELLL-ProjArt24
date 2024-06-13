@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 
 const props = defineProps({
     id: {
@@ -17,34 +17,32 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-});
+})
 
 const form = defineModel({
-    key: "form",
+    key: 'form',
     default: [],
-});
+})
 
 const toggleCheckbox = (event) => {
-    const checkbox = event.currentTarget.querySelector(
-        'input[type="checkbox"]'
-    );
-    checkbox.checked = !checkbox.checked;
+    const checkbox = event.currentTarget.querySelector('input[type="checkbox"]')
+    checkbox.checked = !checkbox.checked
 
     // Trigger the change event manually to update the v-model
-    const changeEvent = new Event("change", { bubbles: true });
-    checkbox.dispatchEvent(changeEvent);
-};
+    const changeEvent = new Event('change', { bubbles: true })
+    checkbox.dispatchEvent(changeEvent)
+}
 
 const preventClickPropagation = (event) => {
     // Prevent the click event from bubbling up to the parent div
-    event.stopPropagation();
-};
+    event.stopPropagation()
+}
 
 onMounted(() => {
     if (props.checked) {
-        form.value.push(props.id);
+        form.value.push(props.id)
     }
-});
+})
 </script>
 
 <template>

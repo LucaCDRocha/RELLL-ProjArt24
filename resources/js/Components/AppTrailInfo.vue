@@ -1,83 +1,88 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { usePage } from "@inertiajs/vue3";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import BaseTag from "@/Components/BaseTag.vue";
-import BaseDividerVert from "@/Components/BaseDividerVert.vue";
-import TheCardNav from "@/Components/TheCardNav.vue";
-import BaseImgGalery from "@/Components/BaseImgGalery.vue";
-import AppCardList from "@/Components/AppCardList.vue";
-import BaseMap from "@/Components/BaseMap.vue";
-import AppSaveButton from "@/Components/AppSaveButton.vue";
-import AppStarRanking from "@/Components/AppStarRanking.vue";
-import BaseAccordion from "@/Components/BaseAccordion.vue";
-import AppReviewCard from "@/Components/AppReviewCard.vue";
+import { onMounted, ref } from 'vue'
+import { usePage } from '@inertiajs/vue3'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import BaseTag from '@/Components/BaseTag.vue'
+import BaseDividerVert from '@/Components/BaseDividerVert.vue'
+import TheCardNav from '@/Components/TheCardNav.vue'
+import BaseImgGalery from '@/Components/BaseImgGalery.vue'
+import AppCardList from '@/Components/AppCardList.vue'
+import BaseMap from '@/Components/BaseMap.vue'
+import AppSaveButton from '@/Components/AppSaveButton.vue'
+import AppStarRanking from '@/Components/AppStarRanking.vue'
+import BaseAccordion from '@/Components/BaseAccordion.vue'
+import AppReviewCard from '@/Components/AppReviewCard.vue'
 import {
     convertTime,
     convertDate,
     getTimeDifference,
-} from "@/Helpers/timeHelper.js";
-import { trailInfo } from "@/Stores/map";
+} from '@/Helpers/timeHelper.js'
+import { trailInfo } from '@/Stores/map'
 
 const props = defineProps({
     data: {
         type: Object,
-        default: () => { },
+        default: () => {},
     },
     full: {
         type: Boolean,
         default: false,
     },
-});
+})
 
-props.data.time = convertTime(props.data.time);
+props.data.time = convertTime(props.data.time)
 
-const tags = ref([]);
+const tags = ref([])
 for (const interestPoint of props.data.interest_points) {
     for (const tag of interestPoint.tags) {
         if (!tags.value.find((t) => t.name === tag.name)) {
-            tags.value.push(tag);
+            tags.value.push(tag)
         }
     }
 }
 
-const user = usePage().props.auth.user;
-const isUserLoggedIn = user && Object.keys(user).length > 0;
+const user = usePage().props.auth.user
+const isUserLoggedIn = user && Object.keys(user).length > 0
 
-const imgs = ref([]);
+const imgs = ref([])
 
-imgs.value.push(props.data.img.img_path);
+imgs.value.push(props.data.img.img_path)
 
 for (const point of props.data.interest_points) {
     for (const img of point.imgs) {
-        imgs.value.push(img.img_path);
+        imgs.value.push(img.img_path)
     }
 }
 
-const trailDistance = ref(0);
+const trailDistance = ref(0)
 onMounted(() => {
     setTimeout(() => {
         trailDistance.value =
-            Math.round((trailInfo.value.summary.totalDistance / 1000) * 10) /
-            10;
-    }, 1000);
-});
+            Math.round((trailInfo.value.summary.totalDistance / 1000) * 10) / 10
+    }, 1000)
+})
 
-const isSave = ref(false);
+const isSave = ref(false)
 const isSaved = (e) => {
     e.allLists.find((list) => list.trail_ids.includes(props.data.id))
         ? (isSave.value = true)
-        : (isSave.value = false);
-};
+        : (isSave.value = false)
+}
 
-const emit = defineEmits(["handle-close", "handle-point"]);
+const emit = defineEmits(['handle-close', 'handle-point'])
 </script>
 
 <template>
     <div class="trail">
         <div class="header">
-            <TheCardNav @handle-close="emit('handle-close')" :is-full="full" :trail-id="data.id"
-                :trail-title="data.name" :is-save="isSave" @emit-lists="isSaved($event)" />
+            <TheCardNav
+                @handle-close="emit('handle-close')"
+                :is-full="full"
+                :trail-id="data.id"
+                :trail-title="data.name"
+                :is-save="isSave"
+                @emit-lists="isSaved($event)"
+            />
 
             <div class="tags" v-if="!full">
                 <div class="tag">
@@ -87,7 +92,12 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                 <BaseDividerVert style="padding-left: 0.06rem" />
 
                 <div class="tag">
-                    <BaseTag v-for="tag in tags" :key="tag.id" :tag="tag.name" :selected="true" />
+                    <BaseTag
+                        v-for="tag in tags"
+                        :key="tag.id"
+                        :tag="tag.name"
+                        :selected="true"
+                    />
                 </div>
             </div>
 
@@ -105,14 +115,27 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                     <span class="material-symbols-rounded">access_time</span>
                     {{ data.time }}
                 </p>
-                <span class="material-symbols-rounded" v-if="data.is_accessible">accessible</span>
-                <p>{{ data.interest_points.length }} {{ data.interest_points.length === 1 ? 'lieu' : 'lieux' }}</p>
+                <span class="material-symbols-rounded" v-if="data.is_accessible"
+                    >accessible</span
+                >
+                <p>
+                    {{ data.interest_points.length }}
+                    {{ data.interest_points.length === 1 ? 'lieu' : 'lieux' }}
+                </p>
             </div>
 
             <div class="actions">
-                <PrimaryButton @click="$inertia.visit(`/trail-start/${data.id}`)">Commencer</PrimaryButton>
-                <AppSaveButton v-if="isUserLoggedIn" :title="data.name" :id="data.id" :is-save="isSave"
-                    @emit-lists="isSaved($event)" />
+                <PrimaryButton
+                    @click="$inertia.visit(`/trail-start/${data.id}`)"
+                    >Commencer</PrimaryButton
+                >
+                <AppSaveButton
+                    v-if="isUserLoggedIn"
+                    :title="data.name"
+                    :id="data.id"
+                    :is-save="isSave"
+                    @emit-lists="isSaved($event)"
+                />
             </div>
 
             <BaseImgGalery :imgs="imgs" />
@@ -121,7 +144,12 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <div class="desciption">
             <h2>Description</h2>
             <div class="tags">
-                <BaseTag v-for="tag in tags" :key="tag.id" :tag="tag.name" :selected="true" />
+                <BaseTag
+                    v-for="tag in tags"
+                    :key="tag.id"
+                    :tag="tag.name"
+                    :selected="true"
+                />
             </div>
             <p>
                 {{ data.description }}
@@ -129,11 +157,18 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         </div>
 
         <div class="accordion">
-            <BaseAccordion title="Itinéraire" :id="1" :tag="data.difficulty" :multiple="true">
+            <BaseAccordion
+                title="Itinéraire"
+                :id="1"
+                :tag="data.difficulty"
+                :multiple="true"
+            >
                 <div class="content">
                     <div class="infos">
                         <p>
-                            <span class="material-symbols-rounded">access_time</span>
+                            <span class="material-symbols-rounded"
+                                >access_time</span
+                            >
                             {{ data.time }}
                         </p>
                         <p>{{ trailDistance }} km</p>
@@ -143,17 +178,37 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             </BaseAccordion>
         </div>
 
-        <AppCardList :datas="data.interest_points" @handle-point="emit('handle-point', $event)">
-            {{ data.interest_points.length === 1 ? ' Le lieu présent' : `Les ${data.interest_points.length } lieux présents` }} dans ce
-            sentier</AppCardList>
+        <AppCardList
+            :datas="data.interest_points"
+            @handle-point="emit('handle-point', $event)"
+        >
+            {{
+                data.interest_points.length === 1
+                    ? ' Le lieu présent'
+                    : `Les ${data.interest_points.length} lieux présents`
+            }}
+            dans ce sentier</AppCardList
+        >
 
         <div class="accordion">
             <BaseAccordion title="Accessibilité" :id="2">
                 <div class="content">
                     <div class="infos accessibilite">
-                        <span class="material-symbols-rounded" v-if="data.info_transport">train</span>
-                        <span class="material-symbols-rounded" v-if="data.location_parking_id">local_parking</span>
-                        <span class="material-symbols-rounded" v-if="data.is_accessible">accessible</span>
+                        <span
+                            class="material-symbols-rounded"
+                            v-if="data.info_transport"
+                            >train</span
+                        >
+                        <span
+                            class="material-symbols-rounded"
+                            v-if="data.location_parking_id"
+                            >local_parking</span
+                        >
+                        <span
+                            class="material-symbols-rounded"
+                            v-if="data.is_accessible"
+                            >accessible</span
+                        >
                     </div>
                     <p v-if="data.info_transport">
                         {{ data.info_transport }}
@@ -163,7 +218,11 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         </div>
 
         <div class="accordion">
-            <BaseAccordion :title="`Avis (${data['reactions'].length})`" :active="!data['reactions']" :id="3">
+            <BaseAccordion
+                :title="`Avis (${data['reactions'].length})`"
+                :active="!data['reactions']"
+                :id="3"
+            >
                 <div v-if="data['reactions'].length == 0" class="content">
                     <p>Il n'y a pas encore de commentaires</p>
                 </div>
@@ -172,7 +231,11 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                         <p>{{ Math.floor(data.note * 10) / 10 }}</p>
                         <AppStarRanking :rating="data.note" />
                     </div>
-                    <AppReviewCard v-for="data in data['reactions']" :key="data.user.id" :data="data" />
+                    <AppReviewCard
+                        v-for="data in data['reactions']"
+                        :key="data.user.id"
+                        :data="data"
+                    />
                 </div>
             </BaseAccordion>
         </div>

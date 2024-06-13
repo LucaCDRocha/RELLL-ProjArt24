@@ -1,6 +1,6 @@
 <script setup>
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { Head } from "@inertiajs/vue3";
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import { Head } from '@inertiajs/vue3'
 </script>
 
 <template>

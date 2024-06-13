@@ -2,12 +2,12 @@
 const props = defineProps({
     type: {
         type: String,
-        default: "button",
+        default: 'button',
     },
     icon: {
         type: String,
     },
-});
+})
 </script>
 
 <template>

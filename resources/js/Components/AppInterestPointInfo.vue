@@ -1,37 +1,46 @@
 <script setup>
-import { ref } from "vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import BaseTag from "@/Components/BaseTag.vue";
-import BaseImgGalery from "@/Components/BaseImgGalery.vue";
-import TheCardNav from "@/Components/TheCardNav.vue";
-import AppCardList from "@/Components/AppCardList.vue";
-import { convertDate } from "@/Helpers/timeHelper.js";
+import { ref } from 'vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import BaseTag from '@/Components/BaseTag.vue'
+import BaseImgGalery from '@/Components/BaseImgGalery.vue'
+import TheCardNav from '@/Components/TheCardNav.vue'
+import AppCardList from '@/Components/AppCardList.vue'
+import { convertDate } from '@/Helpers/timeHelper.js'
 
 const props = defineProps({
     data: {
         type: Object,
-        default: () => { },
+        default: () => {},
     },
     full: {
         type: Boolean,
         default: false,
     },
-});
+})
 
-const imgs = ref([]);
+const imgs = ref([])
 for (const img of props.data.imgs) {
-    imgs.value.push(img.img_path);
+    imgs.value.push(img.img_path)
 }
 
-const emit = defineEmits(["handle-close", "handle-point"]);
+const emit = defineEmits(['handle-close', 'handle-point'])
 </script>
 
 <template>
     <div class="interest-point">
         <div class="header">
-            <TheCardNav @handle-close="emit('handle-close')" :is-full="full" :interest-point-id="data.id" />
+            <TheCardNav
+                @handle-close="emit('handle-close')"
+                :is-full="full"
+                :interest-point-id="data.id"
+            />
             <div class="tags" v-if="!full">
-                <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />
+                <BaseTag
+                    v-for="tag in data.tags"
+                    :key="tag.id"
+                    :tag="tag.name"
+                    :selected="true"
+                />
             </div>
             <div>
                 <h1>{{ data.name }}</h1>
@@ -39,7 +48,12 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                     <p>{{ data.open_seasons }}</p>
                 </div>
             </div>
-            <a v-if="data.url !== '-' && full" :href="data.url" target="_blank" rel="noopener noreferrer">
+            <a
+                v-if="data.url !== '-' && full"
+                :href="data.url"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
                 <PrimaryButton>Voir le site web</PrimaryButton>
             </a>
             <BaseImgGalery :imgs="imgs" />
@@ -48,13 +62,21 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <div class="description">
             <h2>Description</h2>
             <div class="tags">
-                <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />
+                <BaseTag
+                    v-for="tag in data.tags"
+                    :key="tag.id"
+                    :tag="tag.name"
+                    :selected="true"
+                />
             </div>
             <p>{{ data.description }}</p>
         </div>
 
-        <AppCardList v-if="props.data.trails.lenght !== 0" :datas="data.trails"
-            @handle-point="emit('handle-point', $event)">Les sentiers menant à ce lieu
+        <AppCardList
+            v-if="props.data.trails.lenght !== 0"
+            :datas="data.trails"
+            @handle-point="emit('handle-point', $event)"
+            >Les sentiers menant à ce lieu
         </AppCardList>
 
         <div class="information">
@@ -104,7 +126,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
     width: 100%;
 }
 
-.description p{
+.description p {
     padding-right: 1rem;
 }
 
@@ -121,7 +143,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
     padding-right: 1rem;
 }
 
-a{
+a {
     padding: 0.3rem;
 }
 </style>

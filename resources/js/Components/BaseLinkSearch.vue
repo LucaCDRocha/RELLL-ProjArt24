@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from "vue";
-import TextInput from "@/Components/TextInput.vue";
-import BaseDivider from "@/Components/BaseDivider.vue";
+import { ref } from 'vue'
+import TextInput from '@/Components/TextInput.vue'
+import BaseDivider from '@/Components/BaseDivider.vue'
 
-const no = ref("");
+const no = ref('')
 </script>
 
 <template>

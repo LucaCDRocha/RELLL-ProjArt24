@@ -1,12 +1,14 @@
 <script setup>
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 </script>
 
 <template>
     <div class="the-header">
         <ApplicationLogo class="cursor-pointer" />
-        <small>Ce site est un site web fictif réalisé dans le cadre d'un cours
-            Bachelor.</small>
+        <small
+            >Ce site est un site web fictif réalisé dans le cadre d'un cours
+            Bachelor.</small
+        >
     </div>
 </template>
 

@@ -1,99 +1,99 @@
 <script setup>
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
-import BaseTextArea from "@/Components/BaseTextArea.vue";
-import { Head, useForm } from "@inertiajs/vue3";
-import { watch, ref, computed, onMounted } from "vue";
-import TheNav from "@/Components/TheNav.vue";
-import TheHeader from "@/Components/TheHeader.vue";
-import BaseTag from "@/Components/BaseTag.vue";
-import BaseMap from "@/Components/BaseMap.vue";
-import { customIcon, map } from "@/Stores/map.js";
+import InputError from '@/Components/InputError.vue'
+import InputLabel from '@/Components/InputLabel.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import TextInput from '@/Components/TextInput.vue'
+import BaseTextArea from '@/Components/BaseTextArea.vue'
+import { Head, useForm } from '@inertiajs/vue3'
+import { watch, ref, computed, onMounted } from 'vue'
+import TheNav from '@/Components/TheNav.vue'
+import TheHeader from '@/Components/TheHeader.vue'
+import BaseTag from '@/Components/BaseTag.vue'
+import BaseMap from '@/Components/BaseMap.vue'
+import { customIcon, map } from '@/Stores/map.js'
 
 const form = useForm({
-    name: "",
-    description: "",
-    url: "",
+    name: '',
+    description: '',
+    url: '',
     seasons: [],
     tags: [],
     imgs: [],
     location: null,
-});
+})
 
 const submit = () => {
     if (form.location === null) {
-        form.errors.location = "Indiquez une localisation";
+        form.errors.location = 'Indiquez une localisation'
     } else {
-        form.errors.location = "";
-        form.post(route("interestPoints.store"), {});
+        form.errors.location = ''
+        form.post(route('interestPoints.store'), {})
     }
-};
+}
 
 const props = defineProps({
     tags: {
         type: Array,
         default: () => [],
     },
-});
+})
 const tagsSelected = computed(() => {
-    let selected = [];
+    let selected = []
     for (const tag of props.tags) {
         if (tag.selected) {
-            selected.push(tag);
+            selected.push(tag)
         }
     }
-    return selected;
-});
+    return selected
+})
 const switchTag = (tag) => {
     if (props.tags.find((f) => f.name === tag.name)) {
-        props.tags.find((f) => f.name === tag.name).selected = !tag.selected;
+        props.tags.find((f) => f.name === tag.name).selected = !tag.selected
     }
-};
+}
 watch(tagsSelected, (value) => {
-    form.tags = value;
-});
+    form.tags = value
+})
 
 const seasons = ref([
-    { name: "Printemps", selected: false },
-    { name: "Eté", selected: false },
-    { name: "Automne", selected: false },
-    { name: "Hiver", selected: false },
+    { name: 'Printemps', selected: false },
+    { name: 'Eté', selected: false },
+    { name: 'Automne', selected: false },
+    { name: 'Hiver', selected: false },
     // { name: "Toutes", selected: false },
-]);
+])
 const seasonsSelected = computed(() => {
-    let selected = [];
+    let selected = []
     for (const season of seasons.value) {
         if (season.selected) {
-            selected.push(season);
+            selected.push(season)
         }
     }
-    return selected;
-});
+    return selected
+})
 const switchSeason = (season) => {
     if (seasons.value.find((f) => f.name === season.name)) {
         seasons.value.find((f) => f.name === season.name).selected =
-            !season.selected;
+            !season.selected
     }
-};
+}
 watch(seasonsSelected, (value) => {
-    form.seasons = value;
-});
+    form.seasons = value
+})
 
 const handleFileInput = (event) => {
-    form.imgs = event.target.files; // Array.from(event.target.files);
-};
+    form.imgs = event.target.files // Array.from(event.target.files);
+}
 
-const textPoint = ref("");
-const positionPoint = ref(null);
+const textPoint = ref('')
+const positionPoint = ref(null)
 const locationPoint = (e) => {
-    positionPoint.value = e.point;
-    form.location = e.point;
-};
+    positionPoint.value = e.point
+    form.location = e.point
+}
 
 const placeMarker = (adresse) => {
-    if (adresse === "") return;
+    if (adresse === '') return
 
     // remove previous marker
     map.value.eachLayer((layer) => {
@@ -101,9 +101,9 @@ const placeMarker = (adresse) => {
             layer instanceof L.Marker &&
             layer.options.icon === customIcon.value
         ) {
-            map.value.removeLayer(layer);
+            map.value.removeLayer(layer)
         }
-    });
+    })
 
     fetch(
         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
@@ -113,107 +113,106 @@ const placeMarker = (adresse) => {
         .then((response) => response.json())
         .then((data) => {
             if (data.length > 0) {
-                const point = data[0];
-                const latLng = L.latLng(point.lat, point.lon);
-                locationPoint({ point: { latLng } });
+                const point = data[0]
+                const latLng = L.latLng(point.lat, point.lon)
+                locationPoint({ point: { latLng } })
                 L.marker(latLng, {
                     icon: customIcon.value,
                     draggable: true,
                 })
                     .addTo(map.value)
-                    .on("dragend", function (e) {
-                        locationPoint({ point: { latLng } });
-                    });
+                    .on('dragend', function (e) {
+                        locationPoint({ point: { latLng } })
+                    })
             } else {
-                alert("Adresse introuvable");
+                alert('Adresse introuvable')
             }
         })
         .catch((error) =>
             console.error("Erreur lors de la recherche de l'adresse:", error)
-        );
-};
+        )
+}
 
 //affichage du formulaire en plusieurs pages
-const step = ref(1);
+const step = ref(1)
 const nextStep = () => {
     switch (step.value) {
         case 1:
-            if (form.name === "") {
-                form.errors.name = "Le nom du lieu est obligatoire";
+            if (form.name === '') {
+                form.errors.name = 'Le nom du lieu est obligatoire'
             } else {
-                form.errors.name = "";
+                form.errors.name = ''
             }
-            if (form.description === "") {
+            if (form.description === '') {
                 form.errors.description =
-                    "La description du lieu est obligatoire";
+                    'La description du lieu est obligatoire'
             } else {
-                form.errors.description = "";
+                form.errors.description = ''
             }
             if (
                 form.url.length > 0 &&
                 form.url.match(/(http(s?)):\/\//) === null
             ) {
                 form.errors.url_point =
-                    "L'url doit commencer par http:// ou https://";
+                    "L'url doit commencer par http:// ou https://"
             } else if (
                 form.url.length > 0 &&
                 form.url.match(
                     /(www\.)?([a-zA-Z0-9-]+)\.([a-zA-Z0-9-]+)(\/[a-zA-Z0-9-#]+\/?)*$/
                 ) === null
             ) {
-                form.errors.url_point = "L'url n'est pas valide";
+                form.errors.url_point = "L'url n'est pas valide"
             } else {
-                form.errors.url_point = "";
+                form.errors.url_point = ''
             }
-            if (form.errors.name === "" && form.errors.description === "") {
-                step.value++;
+            if (form.errors.name === '' && form.errors.description === '') {
+                step.value++
             }
-            break;
+            break
 
         case 2:
             if (tagsSelected.value.length === 0) {
-                form.errors.tag_id = "Le tag du lieu est obligatoire";
+                form.errors.tag_id = 'Le tag du lieu est obligatoire'
             } else {
-                form.errors.tag_id = "";
+                form.errors.tag_id = ''
             }
             if (seasonsSelected.value.length === 0) {
-                form.errors.seasons =
-                    "Indiquez au moins une saison d'ouverture";
+                form.errors.seasons = "Indiquez au moins une saison d'ouverture"
             } else {
-                form.errors.seasons = "";
+                form.errors.seasons = ''
             }
             if (form.imgs.length === 0) {
-                form.errors.imgs = "Il faut au moins une image du lieu";
+                form.errors.imgs = 'Il faut au moins une image du lieu'
             } else {
-                form.errors.imgs = "";
+                form.errors.imgs = ''
             }
             if (
-                form.errors.tag_id === "" &&
-                form.errors.seasons === "" &&
-                form.errors.imgs === ""
+                form.errors.tag_id === '' &&
+                form.errors.seasons === '' &&
+                form.errors.imgs === ''
             ) {
-                step.value++;
+                step.value++
             }
-            break;
+            break
 
         default:
-            break;
+            break
     }
-};
+}
 const previousStep = () => {
-    step.value--;
-};
+    step.value--
+}
 
 // TODO: remove that
 watch(step, (value) => {
-    window.location.hash = value;
-});
+    window.location.hash = value
+})
 
 onMounted(() => {
     if (window.location.hash) {
-        step.value = parseInt(window.location.hash.replace("#", ""));
+        step.value = parseInt(window.location.hash.replace('#', ''))
     }
-});
+})
 </script>
 
 <template>
@@ -351,9 +350,13 @@ onMounted(() => {
                     class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
                     >Revenir en arrière</a
                 >
-                <a v-else href="/create"
-                class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
-                Annuler</a>
+                <a
+                    v-else
+                    href="/create"
+                    class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >
+                    Annuler</a
+                >
                 <PrimaryButton v-if="step < 3" @click.prevent="nextStep()">
                     Prochaine étape
                 </PrimaryButton>

@@ -1,8 +1,8 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import BaseTag from "@/Components/BaseTag.vue";
+import { ref, onMounted } from 'vue'
+import BaseTag from '@/Components/BaseTag.vue'
 
-const accordionOpen = ref(false);
+const accordionOpen = ref(false)
 
 const props = defineProps({
     title: {
@@ -25,11 +25,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-});
+})
 
 onMounted(() => {
-    accordionOpen.value = props.active;
-});
+    accordionOpen.value = props.active
+})
 </script>
 
 <template>

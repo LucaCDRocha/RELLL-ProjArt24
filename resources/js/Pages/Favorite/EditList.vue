@@ -1,10 +1,10 @@
 <script setup>
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import BaseDeleteCard from "@/Components/BaseDeleteCard.vue";
-import TheNav from "@/Components/TheNav.vue";
-import { watch } from "vue";
-import TheHeader from "@/Components/TheHeader.vue";
+import { Head, Link, useForm } from '@inertiajs/vue3'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import BaseDeleteCard from '@/Components/BaseDeleteCard.vue'
+import TheNav from '@/Components/TheNav.vue'
+import { watch } from 'vue'
+import TheHeader from '@/Components/TheHeader.vue'
 
 const items = defineProps({
     trailsList: {
@@ -15,15 +15,15 @@ const items = defineProps({
         type: Object,
         default: () => [],
     },
-});
+})
 const form = useForm({
     id: items.listDetails.id,
     aSupprimer: [],
-});
+})
 
 const submit = () => {
-    form.put(route("bookmark.update", { id: items.listDetails.id }), {});
-};
+    form.put(route('bookmark.update', { id: items.listDetails.id }), {})
+}
 </script>
 <template>
     <Head :title="listDetails.name" />

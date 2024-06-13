@@ -1,22 +1,22 @@
 <script setup>
-import { ref } from "vue";
-import AppDoubleTag from "@/Components/AppDoubleTag.vue";
+import { ref } from 'vue'
+import AppDoubleTag from '@/Components/AppDoubleTag.vue'
 
 const props = defineProps({
     data: {
         type: Object,
         default: () => {},
     },
-});
+})
 
-const img = ref();
+const img = ref()
 if (props.data.imgs) {
-    img.value = props.data.imgs[0].img_path;
+    img.value = props.data.imgs[0].img_path
 } else {
-    img.value = props.data.img.img_path;
-};
+    img.value = props.data.img.img_path
+}
 
-const emit = defineEmits(["handle-point"]);
+const emit = defineEmits(['handle-point'])
 </script>
 
 <template>
@@ -51,7 +51,9 @@ div.card {
     margin-bottom: 1rem;
 
     border-radius: 1.75rem;
-    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 4px 6px rgba(50, 50, 93, 0.11),
+        0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .card .tag {

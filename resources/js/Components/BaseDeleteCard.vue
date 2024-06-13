@@ -1,36 +1,36 @@
 <script setup>
-import { computed, ref } from "vue";
-import DangerButton from "@/Components/DangerButton.vue";
+import { computed, ref } from 'vue'
+import DangerButton from '@/Components/DangerButton.vue'
 
 const props = defineProps({
     data: {
         type: Object,
         default: () => {},
     },
-});
+})
 
 const model = defineModel({
     type: Array,
     default: () => [],
-});
+})
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue'])
 
-const isSelected = computed(() => props.modelValue.includes(props.data.id));
+const isSelected = computed(() => props.modelValue.includes(props.data.id))
 
 const toggleSelect = () => {
     const updatedValue = isSelected.value
         ? props.modelValue.filter((id) => id !== props.data.id)
-        : [...props.modelValue, props.data.id];
+        : [...props.modelValue, props.data.id]
 
-    emit("update:modelValue", updatedValue);
-};
+    emit('update:modelValue', updatedValue)
+}
 
-const img = ref();
+const img = ref()
 if (props.data.imgs) {
-    img.value = props.data.imgs[0].img_path;
+    img.value = props.data.imgs[0].img_path
 } else {
-    img.value = props.data.img.img_path;
+    img.value = props.data.img.img_path
 }
 </script>
 
@@ -44,7 +44,7 @@ if (props.data.imgs) {
     >
         <div class="toDelete" :class="isSelected ? 'active' : ''">
             <DangerButton type="button">{{
-                isSelected ? "Selectionné" : "Supprimer"
+                isSelected ? 'Selectionné' : 'Supprimer'
             }}</DangerButton>
         </div>
         <p>{{ data.name }}</p>
@@ -64,7 +64,9 @@ div.card {
     margin-bottom: 1rem;
 
     border-radius: 1.75rem;
-    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 4px 6px rgba(50, 50, 93, 0.11),
+        0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .card .toDelete {
@@ -84,7 +86,7 @@ div.toDelete.active :deep(button) {
     @apply text-darkOnPrimary dark:text-darkOnPrimary;
 }
 
-:deep(button){
+:deep(button) {
     @apply bg-error dark:bg-error;
     @apply text-onPrimary dark:text-onPrimary;
     @apply focus:bg-red-700 dark:focus:bg-red-700;

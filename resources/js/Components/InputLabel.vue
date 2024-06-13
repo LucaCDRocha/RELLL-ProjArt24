@@ -3,11 +3,13 @@ const props = defineProps({
     value: {
         type: String,
     },
-});
+})
 </script>
 
 <template>
-    <label class="block font-medium text-sm text-onSurface dark:text-darkOnSurface">
+    <label
+        class="block font-medium text-sm text-onSurface dark:text-darkOnSurface"
+    >
         <span v-if="value">{{ value }}</span>
         <span v-else><slot /></span>
     </label>

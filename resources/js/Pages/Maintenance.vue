@@ -1,7 +1,7 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
-import TheHeader from "@/Components/TheHeader.vue";
-import TheNav from "@/Components/TheNav.vue";
+import { Head } from '@inertiajs/vue3'
+import TheHeader from '@/Components/TheHeader.vue'
+import TheNav from '@/Components/TheNav.vue'
 </script>
 
 <template>
@@ -18,7 +18,7 @@ import TheNav from "@/Components/TheNav.vue";
 </template>
 
 <style scoped>
-.maintenance{
+.maintenance {
     display: flex;
     flex-direction: column;
     justify-content: center;

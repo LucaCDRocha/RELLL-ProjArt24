@@ -1,36 +1,36 @@
 <script setup>
-import { usePage } from "@inertiajs/vue3";
-import { onMounted } from "vue";
-import BaseNavLink from "@/Components/BaseNavLink.vue";
+import { usePage } from '@inertiajs/vue3'
+import { onMounted } from 'vue'
+import BaseNavLink from '@/Components/BaseNavLink.vue'
 
 const addActiveClass = (path) => {
     document
         .querySelector(`nav a[href="/${path}"]`)
-        ?.querySelector("span")
-        ?.classList.add("active");
-};
+        ?.querySelector('span')
+        ?.classList.add('active')
+}
 
 onMounted(() => {
-    const url = window.location.pathname.split("/");
-    if (url.some((el) => el === "home") || url.every((el) => el === "")) {
-        addActiveClass("");
+    const url = window.location.pathname.split('/')
+    if (url.some((el) => el === 'home') || url.every((el) => el === '')) {
+        addActiveClass('')
     }
-    if (url.some((el) => el === "map")) {
-        addActiveClass("map");
+    if (url.some((el) => el === 'map')) {
+        addActiveClass('map')
     }
-    if (url.some((el) => el === "create") || url.some((el) => el === "edit")) {
-        addActiveClass("create");
+    if (url.some((el) => el === 'create') || url.some((el) => el === 'edit')) {
+        addActiveClass('create')
     }
-    if (url.some((el) => el === "bookmark")) {
-        addActiveClass("bookmark");
+    if (url.some((el) => el === 'bookmark')) {
+        addActiveClass('bookmark')
     }
     if (
-        url.some((el) => el === "profile") ||
-        url.some((el) => el === "about") ||
-        url.some((el) => el === "register") ||
-        url.some((el) => el === "login")
+        url.some((el) => el === 'profile') ||
+        url.some((el) => el === 'about') ||
+        url.some((el) => el === 'register') ||
+        url.some((el) => el === 'login')
     ) {
-        addActiveClass("profile");
+        addActiveClass('profile')
     }
     // switch (window.location.pathname) {
     //     case "/login":
@@ -63,13 +63,13 @@ onMounted(() => {
     //             ?.classList.add("active");
     //         break;
     // }
-});
+})
 
-const user = usePage().props.auth.user;
-const isUserLoggedIn = user && Object.keys(user).length > 0;
-const isUserAdmin = user && user.is_admin === 1;
+const user = usePage().props.auth.user
+const isUserLoggedIn = user && Object.keys(user).length > 0
+const isUserAdmin = user && user.is_admin === 1
 
-const isAdmin = isUserLoggedIn && isUserAdmin;
+const isAdmin = isUserLoggedIn && isUserAdmin
 </script>
 
 <template>

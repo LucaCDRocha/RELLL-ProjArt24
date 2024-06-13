@@ -4,19 +4,17 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-});
+})
 
 const scrollUp = (e) => {
-    document.querySelector(".base-overlay-card__content").style.top = `0`;
-    document.querySelector(
-        ".base-overlay-card__content"
-    ).style.height = `100vh`;
+    document.querySelector('.base-overlay-card__content').style.top = `0`
+    document.querySelector('.base-overlay-card__content').style.height = `100vh`
 
-    document.querySelector(".base-overlay-card__content").scrollTop = 0;
-    emit("handle-full");
-};
+    document.querySelector('.base-overlay-card__content').scrollTop = 0
+    emit('handle-full')
+}
 
-const emit = defineEmits(["handle-close", "handle-full"]);
+const emit = defineEmits(['handle-close', 'handle-full'])
 </script>
 
 <template>
@@ -77,7 +75,8 @@ const emit = defineEmits(["handle-close", "handle-full"]);
 
     transition: top 0.5s;
 
-    box-shadow: 0 -11px 10px rgba(50, 50, 93, 0.11),
+    box-shadow:
+        0 -11px 10px rgba(50, 50, 93, 0.11),
         0 0px 5px rgba(0, 0, 0, 0.08);
 }
 </style>

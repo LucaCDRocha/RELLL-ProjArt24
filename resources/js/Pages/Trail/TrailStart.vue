@@ -1,137 +1,137 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
-import { ref, computed, watch, onMounted } from "vue";
-import AppNavTrail from "@/Components/AppNavTrail.vue";
-import BaseMap from "@/Components/BaseMap.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import BaseNavLink from "@/Components/BaseNavLink.vue";
+import { Head } from '@inertiajs/vue3'
+import { ref, computed, watch, onMounted } from 'vue'
+import AppNavTrail from '@/Components/AppNavTrail.vue'
+import BaseMap from '@/Components/BaseMap.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import BaseNavLink from '@/Components/BaseNavLink.vue'
 import {
     trail,
     trailInfo,
     calculateDurationBetweenWaypoints,
     flyTo,
     changeTrailMarker,
-} from "@/Stores/map.js";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+} from '@/Stores/map.js'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
 
 const props = defineProps({
     trail: {
         type: Object,
         default: () => {},
     },
-});
+})
 
-const summary = ref({ time: 0, distance: 0 });
+const summary = ref({ time: 0, distance: 0 })
 
-const lastIndex = props.trail.interest_points.length + 1;
+const lastIndex = props.trail.interest_points.length + 1
 
-const currentPointIndex = ref(0);
+const currentPointIndex = ref(0)
 const currentPoint = computed(() => {
     if (currentPointIndex.value === 0) {
         return {
-            name: "Départ de la randonnée",
+            name: 'Départ de la randonnée',
             description: `${props.trail.description} ${props.trail.info_transport}`,
-        };
+        }
     } else if (currentPointIndex.value === lastIndex) {
         return {
-            name: "Arrivée de la randonnée",
+            name: 'Arrivée de la randonnée',
             description: `Vous êtes arrivé à destination. On espère que vous avez apprécié la randonnée.`,
-        };
+        }
     } else {
-        return props.trail.interest_points[currentPointIndex.value - 1];
+        return props.trail.interest_points[currentPointIndex.value - 1]
     }
-});
+})
 
 const startReading = () => {
-    synth.speak(utterThis.value);
-    document.querySelector(".audio-guide")?.classList.add("active");
-};
+    synth.speak(utterThis.value)
+    document.querySelector('.audio-guide')?.classList.add('active')
+}
 const stopReading = () => {
-    synth.cancel();
-    document.querySelector(".audio-guide")?.classList.remove("active");
-};
+    synth.cancel()
+    document.querySelector('.audio-guide')?.classList.remove('active')
+}
 
 const scrollToTop = () => {
-    document.querySelector(".bottom-sheet")?.scrollTo(0, 0);
-};
+    document.querySelector('.bottom-sheet')?.scrollTo(0, 0)
+}
 
 const next = () => {
     if (currentPointIndex.value < lastIndex) {
-        currentPointIndex.value++;
+        currentPointIndex.value++
     }
-    stopReading();
-    scrollToTop();
-};
+    stopReading()
+    scrollToTop()
+}
 
 const previous = () => {
     if (currentPointIndex.value > 0) {
-        currentPointIndex.value--;
+        currentPointIndex.value--
     }
-    stopReading();
-    scrollToTop();
-};
+    stopReading()
+    scrollToTop()
+}
 
 if (window.location.hash) {
-    currentPointIndex.value = parseInt(window.location.hash.substring(1));
+    currentPointIndex.value = parseInt(window.location.hash.substring(1))
 }
 
 const updateVisuelTrail = () => {
     if (currentPointIndex.value === 0) {
-        flyTo(props.trail.location_start, 18, 2);
-        changeTrailMarker(currentPointIndex.value);
+        flyTo(props.trail.location_start, 18, 2)
+        changeTrailMarker(currentPointIndex.value)
     } else if (currentPointIndex.value === lastIndex) {
-        flyTo(props.trail.location_end, 18, 2);
-        changeTrailMarker(currentPointIndex.value);
+        flyTo(props.trail.location_end, 18, 2)
+        changeTrailMarker(currentPointIndex.value)
     } else {
         flyTo(
             props.trail.interest_points[currentPointIndex.value - 1].location,
             18,
             2
-        );
-        changeTrailMarker(currentPointIndex.value);
+        )
+        changeTrailMarker(currentPointIndex.value)
     }
-};
+}
 
 // read a summary at loud
-const synth = window.speechSynthesis;
+const synth = window.speechSynthesis
 const utterThis = computed(() => {
-    return new SpeechSynthesisUtterance(currentPoint.value.description);
-});
+    return new SpeechSynthesisUtterance(currentPoint.value.description)
+})
 const toggleReading = () => {
     if (synth.speaking) {
-        stopReading();
+        stopReading()
     } else {
-        startReading();
+        startReading()
     }
-};
+}
 
 utterThis.value.onend = () => {
-    document.querySelector(".audio-guide")?.classList.remove("active");
-};
+    document.querySelector('.audio-guide')?.classList.remove('active')
+}
 
 onMounted(() => {
-    updateVisuelTrail();
+    updateVisuelTrail()
 
     setTimeout(() => {
         summary.value = calculateDurationBetweenWaypoints(
             trailInfo.value.instructions,
             currentPointIndex.value,
             currentPointIndex.value + 1
-        );
-    }, 1000);
-});
+        )
+    }, 1000)
+})
 
 watch(currentPointIndex, (value) => {
-    updateVisuelTrail();
+    updateVisuelTrail()
 
-    window.location.hash = value;
+    window.location.hash = value
 
     summary.value = calculateDurationBetweenWaypoints(
         trailInfo.value.instructions,
         currentPointIndex.value,
         currentPointIndex.value + 1
-    );
-});
+    )
+})
 </script>
 
 <template>
@@ -206,7 +206,8 @@ watch(currentPointIndex, (value) => {
     overflow: scroll;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
-    box-shadow: 0 -11px 10px rgba(50, 50, 93, 0.11),
+    box-shadow:
+        0 -11px 10px rgba(50, 50, 93, 0.11),
         0 0px 5px rgba(0, 0, 0, 0.08);
 }
 
@@ -246,6 +247,6 @@ watch(currentPointIndex, (value) => {
 }
 
 .audio-guide.active :deep(.material-symbols-rounded) {
-    font-variation-settings: "FILL" 1;
+    font-variation-settings: 'FILL' 1;
 }
 </style>

@@ -1,56 +1,56 @@
 <script setup>
-import { ref } from "vue";
-import { Head } from "@inertiajs/vue3";
-import TheNav from "@/Components/TheNav.vue";
-import AppCardList from "@/Components/AppCardList.vue";
-import TheHeader from "@/Components/TheHeader.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
-import AppTrailInfo from "@/Components/AppTrailInfo.vue";
-import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
-import BaseLinkSearch from "@/Components/BaseLinkSearch.vue";
+import { ref } from 'vue'
+import { Head } from '@inertiajs/vue3'
+import TheNav from '@/Components/TheNav.vue'
+import AppCardList from '@/Components/AppCardList.vue'
+import TheHeader from '@/Components/TheHeader.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import BaseBottomSheet from '@/Components/BaseBottomSheet.vue'
+import AppTrailInfo from '@/Components/AppTrailInfo.vue'
+import AppInterestPointInfo from '@/Components/AppInterestPointInfo.vue'
+import BaseLinkSearch from '@/Components/BaseLinkSearch.vue'
 
-const isOpen = ref(false);
+const isOpen = ref(false)
 
-const data = ref({});
+const data = ref({})
 
 const bottomSheet = (e) => {
     if (e.point.difficulty) {
-        fetch(route("trails.showJson", e.point.id))
+        fetch(route('trails.showJson', e.point.id))
             .then((response) => response.json())
             .then((datas) => {
-                data.value = datas;
-                isOpen.value = true;
+                data.value = datas
+                isOpen.value = true
                 const scroll = document.querySelector(
-                    ".base-overlay-card__content"
-                );
-                scroll ? (scroll.scrollTop = 0) : null;
-            });
+                    '.base-overlay-card__content'
+                )
+                scroll ? (scroll.scrollTop = 0) : null
+            })
     } else {
-        fetch(route("interestPoints.showJson", e.point.id))
+        fetch(route('interestPoints.showJson', e.point.id))
             .then((response) => response.json())
             .then((datas) => {
-                data.value = datas;
-                isOpen.value = true;
+                data.value = datas
+                isOpen.value = true
                 const scroll = document.querySelector(
-                    ".base-overlay-card__content"
-                );
-                scroll ? (scroll.scrollTop = 0) : null;
-            });
+                    '.base-overlay-card__content'
+                )
+                scroll ? (scroll.scrollTop = 0) : null
+            })
     }
-    window.location.hash = "bottom-sheet";
-};
+    window.location.hash = 'bottom-sheet'
+}
 
 const closeBottomSheet = () => {
-    isOpen.value = false;
-    full.value = false;
-    window.location.hash = "";
-};
+    isOpen.value = false
+    full.value = false
+    window.location.hash = ''
+}
 
-const full = ref(false);
+const full = ref(false)
 const toggleFull = () => {
-    full.value = true;
-};
+    full.value = true
+}
 
 const props = defineProps({
     trails: {
@@ -65,7 +65,7 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
-});
+})
 </script>
 
 <template>
