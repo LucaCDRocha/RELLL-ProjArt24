@@ -174,7 +174,10 @@ const createWaypoints = (dataWay) => {
                         ? customIconEnd.value
                         : window.location.pathname
                               .split("/")
-                              .some((el) => el === "create")
+                              .some((el) => el === "create") ||
+                          window.location.pathname
+                              .split("/")
+                              .some((el) => el === "edit")
                         ? customIconActive.value
                         : customIcon.value,
             }).on("click", function () {
