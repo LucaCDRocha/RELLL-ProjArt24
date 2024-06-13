@@ -141,7 +141,7 @@ const closeBottomSheet = () => {
             <PrimaryButton
                 @click="$inertia.visit('/about')"
                 class="contactButton"
-                >Nous contacter</PrimaryButton
+                >A propos</PrimaryButton
             >
         </div>
     </div>

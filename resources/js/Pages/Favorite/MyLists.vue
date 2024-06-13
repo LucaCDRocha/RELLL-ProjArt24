@@ -134,7 +134,8 @@ div.lists {
 
 .lists h3 {
     font-size: 1.375rem;
-    text-align: center;
+    /* padding-left: 1rem; */
+    /* text-align: center; */
 }
 
 div.finalLinks {
@@ -142,5 +143,9 @@ div.finalLinks {
     justify-content: flex-end;
     margin-top: 1rem;
     align-items: center;
+}
+
+:deep(.base-overlay-card__content){
+    display: block;
 }
 </style>

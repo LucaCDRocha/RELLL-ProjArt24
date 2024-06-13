@@ -62,11 +62,9 @@ const difficulties = [
     { id: 3, name: "Difficile" },
 ];
 
-
-
-watch(form, (value) => {
-    console.log(form.img);
-});
+const goBack = () => {
+    window.history.back();
+};
 
 const submit = () => {
     if (step.value === 6 && (form.interest_points==null || form.interest_points.length === 0)) {
@@ -535,8 +533,8 @@ onMounted(() => {
             <a v-if="step > 1" @click.prevent="previousStep()" href=""
                 class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
                 >Revenir en arrière</a>
-            <a v-else href="/home"
-            class="underline text-sm font-medium text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+            <a v-else href="" @click="goBack()"
+            class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
             >Annuler</a>
             <PrimaryButton v-if="step < 6" @click.prevent="nextStep()">
                 Prochaine étape
