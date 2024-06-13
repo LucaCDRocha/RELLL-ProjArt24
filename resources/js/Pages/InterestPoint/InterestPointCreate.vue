@@ -149,6 +149,22 @@ const nextStep = () => {
             } else {
                 form.errors.description = "";
             }
+            if (
+                form.url.length > 0 &&
+                form.url.match(/(http(s?)):\/\//) === null
+            ) {
+                form.errors.url_point =
+                    "L'url doit commencer par http:// ou https://";
+            } else if (
+                form.url.length > 0 &&
+                form.url.match(
+                    /(www\.)?([a-zA-Z0-9-]+)\.([a-zA-Z0-9-]+)(\/[a-zA-Z0-9-#]+\/?)*$/
+                ) === null
+            ) {
+                form.errors.url_point = "L'url n'est pas valide";
+            } else {
+                form.errors.url_point = "";
+            }
             if (form.errors.name === "" && form.errors.description === "") {
                 step.value++;
             }
@@ -161,7 +177,8 @@ const nextStep = () => {
                 form.errors.tag_id = "";
             }
             if (seasonsSelected.value.length === 0) {
-                form.errors.seasons = "Indiquez au moins une saison d'ouverture";
+                form.errors.seasons =
+                    "Indiquez au moins une saison d'ouverture";
             } else {
                 form.errors.seasons = "";
             }
@@ -246,6 +263,7 @@ onMounted(() => {
                     id="url"
                     class="mt-1 block w-full"
                     v-model="form.url"
+                    type="url"
                     required
                     placeholder="https://plateforme10.ch"
                 />
@@ -326,13 +344,20 @@ onMounted(() => {
         </section>
         <div>
             <div class="nav">
-                <a v-if="step > 1" @click.prevent="previousStep()" href=""
+                <a
+                    v-if="step > 1"
+                    @click.prevent="previousStep()"
+                    href=""
                     class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
                     >Revenir en arrière</a
                 >
-                <a v-else href="/create"
-                class="underline text-sm font-medium text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
-                Annuler</a>
+                <a
+                    v-else
+                    href="/create"
+                    class="underline text-sm font-medium text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >
+                    Annuler</a
+                >
                 <PrimaryButton v-if="step < 3" @click.prevent="nextStep()">
                     Prochaine étape
                 </PrimaryButton>
