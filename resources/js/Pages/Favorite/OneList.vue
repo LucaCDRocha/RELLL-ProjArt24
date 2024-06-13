@@ -6,6 +6,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import BaseCard from "@/Components/BaseCard.vue";
 import BaseBottomSheet from "@/Components/BaseBottomSheet.vue";
 import AppTrailInfo from "@/Components/AppTrailInfo.vue";
+import AppInterestPointInfo from "@/Components/AppInterestPointInfo.vue";
 import TheHeader from "@/Components/TheHeader.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import Modal from "@/Components/Modal.vue";
@@ -42,16 +43,29 @@ const isOpen = ref(false);
 const data = ref({});
 
 const bottomSheet = (e) => {
-    fetch(route("trails.showJson", e.id))
-        .then((response) => response.json())
-        .then((datas) => {
-            data.value = datas;
-            isOpen.value = true;
-            const scroll = document.querySelector(
-                ".base-overlay-card__content"
-            );
-            scroll ? (scroll.scrollTop = 0) : null;
-        });
+    if (e.point.difficulty) {
+        fetch(route("trails.showJson", e.point.id))
+            .then((response) => response.json())
+            .then((datas) => {
+                data.value = datas;
+                isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
+            });
+    } else {
+        fetch(route("interestPoints.showJson", e.point.id))
+            .then((response) => response.json())
+            .then((datas) => {
+                data.value = datas;
+                isOpen.value = true;
+                const scroll = document.querySelector(
+                    ".base-overlay-card__content"
+                );
+                scroll ? (scroll.scrollTop = 0) : null;
+            });
+    }
     window.location.hash = "bottom-sheet";
 };
 
@@ -61,21 +75,12 @@ const closeBottomSheet = () => {
     window.location.hash = "";
 };
 
-const hideDelete = () => {
-    if (items.listDetails.name == "Favoris") {
-        document.querySelector(".dangerButton button").classList = "button-hidden"
-    }
-}
-onMounted(() => {
-    hideDelete();
-})
 const full = ref(false);
 const toggleFull = () => {
     full.value = true;
 };
 </script>
 <template>
-
     <Head :title="listDetails.name" />
 
     <TheHeader />
@@ -95,9 +100,17 @@ const toggleFull = () => {
             </div>
         </div>
         <div class="trailsList">
-            <BaseCard v-for="trail in trailsList" :key="trail.id" :data="trail" @click="bottomSheet(trail)"></BaseCard>
+            <BaseCard
+                v-for="trail in trailsList"
+                :key="trail.id"
+                :data="trail"
+                @click="bottomSheet(trail)"
+            ></BaseCard>
         </div>
-        <div class="dangerButton">
+        <div
+            v-if="items.listDetails.name.toLowerCase() !== 'favoris'"
+            class="dangerButton"
+        >
             <DangerButton @click="openModal()" icon="delete">
                 Supprimer la liste
             </DangerButton>
@@ -108,9 +121,12 @@ const toggleFull = () => {
         <div class="confirmation-modal">
             <h2>Voulez-vous vraiment supprimer cette liste ?</h2>
             <div class="actions">
-                <a @click.prevent="deleteList()"
-                class="cursor-pointer underline text-sm font-medium text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
-                > Supprimer la liste </a>
+                <a
+                    @click.prevent="deleteList()"
+                    class="cursor-pointer underline text-sm font-medium text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >
+                    Supprimer la liste
+                </a>
                 <PrimaryButton @click="openModal()">
                     Non, annuler
                 </PrimaryButton>
@@ -118,9 +134,26 @@ const toggleFull = () => {
         </div>
     </Modal>
 
-    <BaseBottomSheet v-if="isOpen" :isOpen="isOpen" @handle-close="closeBottomSheet()" @handle-full="toggleFull()">
-        <AppTrailInfo :data="data" @handle-close="closeBottomSheet()" @handle-point="bottomSheet($event)"
-            :full="full" />
+    <BaseBottomSheet
+        v-if="isOpen"
+        :isOpen="isOpen"
+        @handle-close="closeBottomSheet()"
+        @handle-full="toggleFull()"
+    >
+        <AppTrailInfo
+            v-if="data.difficulty"
+            :data="data"
+            :full="full"
+            @handle-close="closeBottomSheet()"
+            @handle-point="bottomSheet($event)"
+        />
+        <AppInterestPointInfo
+            v-else
+            :data="data"
+            :full="full"
+            @handle-close="closeBottomSheet()"
+            @handle-point="bottomSheet($event)"
+        />
     </BaseBottomSheet>
     <TheNav />
 </template>
@@ -163,10 +196,5 @@ div.trailsList {
 }
 .actions a {
     @apply text-red-500 dark:text-red-400;
-}
-
-.button-hidden {
-    opacity: 0;
-    pointer-events: none;
 }
 </style>

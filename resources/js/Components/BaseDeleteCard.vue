@@ -80,10 +80,13 @@ div.card {
 }
 
 div.toDelete.active :deep(button) {
-    @apply bg-red-400;
+    @apply bg-darkError dark:bg-darkError;
+    @apply text-darkOnPrimary dark:text-darkOnPrimary;
 }
 
 :deep(button){
-    @apply focus:bg-red-700;
+    @apply bg-error dark:bg-error;
+    @apply text-onPrimary dark:text-onPrimary;
+    @apply focus:bg-red-700 dark:focus:bg-red-700;
 }
 </style>

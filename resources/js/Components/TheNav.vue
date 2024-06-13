@@ -14,13 +14,14 @@ const addActiveClass = (path) => {
 onMounted(() => {
     console.log(window.location.pathname);
     const url = window.location.pathname.split("/");
-    if (url.some((el) => el === "home")) {
-        addActiveClass("home");
+    console.log(url);
+    if (url.some((el) => el === "home") || url.every((el) => el === "")) {
+        addActiveClass("");
     }
     if (url.some((el) => el === "map")) {
         addActiveClass("map");
     }
-    if (url.some((el) => el === "create")) {
+    if (url.some((el) => el === "create") || url.some((el) => el === "edit")) {
         addActiveClass("create");
     }
     if (url.some((el) => el === "bookmark")) {
@@ -47,7 +48,7 @@ onMounted(() => {
     //         break;
     //     case "/search":
     //         document
-    //             .querySelector('nav a[href="/home"]')
+    //             .querySelector('nav a[href="/"]')
     //             ?.querySelector("span")
     //             ?.classList.add("active");
     //         break;
@@ -76,7 +77,7 @@ const isAdmin = isUserLoggedIn && isUserAdmin;
 
 <template>
     <nav>
-        <BaseNavLink icon="home" href="/home">Accueil</BaseNavLink>
+        <BaseNavLink icon="home" href="/">Accueil</BaseNavLink>
         <BaseNavLink icon="map" href="/map">Carte</BaseNavLink>
         <BaseNavLink v-if="isAdmin" icon="add_location_alt" href="/create"
             >Créer</BaseNavLink

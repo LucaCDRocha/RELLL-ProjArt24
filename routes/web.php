@@ -14,15 +14,7 @@ use App\Http\Controllers\RankingController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    return redirect()->route('home');
-    // return Inertia::render('Welcome', [
-    //     'canLogin' => Route::has('login'),
-    //     'canRegister' => Route::has('register'),
-    //     'laravelVersion' => Application::VERSION,
-    //     'phpVersion' => PHP_VERSION,
-    // ]);
-});
+Route::get('/', [HomeController::class, 'home'])->name('home');
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
@@ -60,7 +52,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 
-Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::resource("/trails", TrailController::class)->only(['index', 'show']);
 
 Route::resource("/interestPoints", InterestPointController::class)->only(['index', 'show']);

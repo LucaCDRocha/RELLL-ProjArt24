@@ -54,18 +54,26 @@ const emit = defineEmits(["handle-close", "handle-point", "add-point"]);
             <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" />
         </div>
 
-        <PrimaryButton
-            class="button"
-            @click.prevent="emit('add-point', { point: data })"
-            >{{ textButton }}</PrimaryButton
-        >
+        <div class="button">
+            <PrimaryButton
+                @click.prevent="emit('add-point', { point: data })"
+                >{{ textButton }}</PrimaryButton
+            >
+        </div>
 
         <BaseImgGalery :imgs="imgs" />
-        <h2>Description</h2>
-        <div class="tags">
-            <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" />
+
+        <div class="description">
+            <h2>Description</h2>
+            <div class="tags">
+                <BaseTag
+                    v-for="tag in data.tags"
+                    :key="tag.id"
+                    :tag="tag.name"
+                />
+            </div>
+            <p>{{ data.description }}</p>
         </div>
-        <p>{{ data.description }}</p>
     </div>
 </template>
 
@@ -94,6 +102,13 @@ const emit = defineEmits(["handle-close", "handle-point", "add-point"]);
 
 .button {
     align-self: flex-end;
-    padding-right: 1.3rem;
+    padding-right: 1rem;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-right: 1rem;
 }
 </style>

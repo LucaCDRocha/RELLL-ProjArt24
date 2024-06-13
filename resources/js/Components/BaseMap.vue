@@ -172,6 +172,10 @@ const createWaypoints = (dataWay) => {
                         ? customIconStart.value
                         : wp.name === "Arrivée"
                         ? customIconEnd.value
+                        : window.location.pathname
+                              .split("/")
+                              .some((el) => el === "create")
+                        ? customIconActive.value
                         : customIcon.value,
             }).on("click", function () {
                 if (wp.name === "Départ" || wp.name === "Arrivée") {

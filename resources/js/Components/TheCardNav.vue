@@ -40,13 +40,16 @@ const isUserAdmin = user && user.is_admin === 1;
 const share = () => {
     let url = window.location.origin;
     let title = document.title;
+    let text = document.title;
 
     if (props.trailId) {
         url += `/trails/${props.trailId}`;
         title = `Découvrez ce sentier !`;
+        text = `Découvrez ce sentier sur ${url}`;
     } else if (props.interestPointId) {
         url += `/interestPoints/${props.interestPointId}`;
         title = `Découvrez ce lieu !`;
+        text = `Découvrez ce lieu sur ${url}`;
     }
 
     // make a share of the current page
@@ -54,6 +57,7 @@ const share = () => {
         navigator
             .share({
                 title,
+                text,
                 url,
             })
             .then(() => console.log("Successful share", url, title, text))
@@ -110,7 +114,7 @@ const deleteItem = () => {
     }
     openModal();
     setTimeout(() => {
-        window.location.href = "/home";
+        window.location.href = "/";
     }, 1000);
 };
 
@@ -138,14 +142,14 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
                             <span class="material-symbols-rounded">edit</span>
                             Modifier
                         </p>
-                        <AppSaveButton
+                        <!-- <AppSaveButton
                             v-if="isUserLoggedIn && props.trailId"
                             :title="props.trailTitle"
                             :id="props.trailId"
                             :in-dropdown="true"
                             :is-save="props.isSave"
                             @emit-lists="emit('emit-lists', $event)"
-                        />
+                        /> -->
                         <p @click="share()">
                             <span class="material-symbols-rounded">share</span>
                             Partager
@@ -176,10 +180,15 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
                 Voulez-vous vraiment supprimer ce
                 {{ props.trailId ? "sentier" : "point" }} ?
             </h2>
-            <p v-if="props.interestPointId">Cette action supprimera également les sentiers qui n'auront plus de lieux.</p>
+            <p v-if="props.interestPointId">
+                Cette action supprimera également les sentiers qui n'auront plus
+                de lieux.
+            </p>
             <div class="actions">
-                <a @click.prevent="deleteItem()"
-                class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
+                <a
+                    @click.prevent="deleteItem()"
+                    class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >
                     Supprimer le {{ props.trailId ? "sentier" : "point" }}
                 </a>
                 <PrimaryButton @click="openModal()">

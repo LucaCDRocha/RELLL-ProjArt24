@@ -81,7 +81,7 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.comment" />
             </div>
             <div class="actions">
-                <a href="/home"
+                <a href="/"
                 class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
                 >annuler</a>
                 <PrimaryButton

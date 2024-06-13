@@ -54,7 +54,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             <p>{{ data.description }}</p>
         </div>
 
-        <AppCardList v-if="props.data.trails.lenght != 0" :datas="data.trails"
+        <AppCardList v-if="props.data.trails.lenght !== 0" :datas="data.trails"
             @handle-point="emit('handle-point', $event)">Les sentiers menant à ce lieu
         </AppCardList>
 

@@ -106,7 +106,7 @@ const closeBottomSheet = () => {
             </TertiaryButton>
         </div>
 
-        <BaseDivider v-if="user"/>
+        <BaseDivider v-if="user" />
         <h2 v-if="user">Vos informations</h2>
         <div v-if="user" class="editForm">
             <p>{{ user.name }}</p>
@@ -128,7 +128,12 @@ const closeBottomSheet = () => {
         </div>
         <BaseDivider v-if="user" />
 
-         <History v-if="user" :historics="historics" :myTrails="myTrails" :isAdmin="user.is_admin"/>
+        <History
+            v-if="user"
+            :historics="historics"
+            :myTrails="myTrails"
+            :isAdmin="user.is_admin"
+        />
 
         <BaseDivider v-if="user" />
         <div v-if="user" class="destroy">
@@ -152,12 +157,13 @@ const closeBottomSheet = () => {
         :show="isOpen"
         @close="toggleBottomSheet()"
     >
-        <UpdatePasswordForm v-if="witchForm === 'password'" />
+        <UpdatePasswordForm v-if="witchForm === 'password'" class="form" />
         <DeleteUserForm
             v-else-if="witchForm === 'delete'"
+            class="form"
             @handle-close="closeBottomSheet()"
         />
-        <UpdateProfileInformationForm v-else />
+        <UpdateProfileInformationForm v-else class="form" />
     </Modal>
 
     <TheNav />
@@ -202,5 +208,9 @@ div.settings {
     align-items: center;
     margin-top: 1.25rem;
     margin-bottom: 2rem;
+}
+
+.form{
+    padding-right: 1rem;
 }
 </style>

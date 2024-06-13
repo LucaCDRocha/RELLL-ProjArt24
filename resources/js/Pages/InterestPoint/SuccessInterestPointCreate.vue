@@ -10,7 +10,7 @@ import { Head } from "@inertiajs/vue3";
             <h1>Votre point a été ajouté !</h1>
             <p>Nous vous remercions de votre participation.</p>
         </div>
-        <PrimaryButton @click="$inertia.visit(`/home`)">
+        <PrimaryButton @click="$inertia.visit(`/`)">
             Retour à l'accueil
         </PrimaryButton>
     </div>
@@ -27,7 +27,8 @@ import { Head } from "@inertiajs/vue3";
     padding: 1rem;
 }
 
-.success h1, p {
+.success h1,
+p {
     text-align: center;
 }
 </style>

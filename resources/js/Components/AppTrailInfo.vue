@@ -30,6 +30,8 @@ const props = defineProps({
     },
 });
 
+console.log(props.data);
+
 props.data.time = convertTime(props.data.time);
 
 const tags = ref([]);
@@ -65,7 +67,6 @@ onMounted(() => {
 
 const isSave = ref(false);
 const isSaved = (e) => {
-    window.location.hash = "bottom-sheet";
     e.allLists.find((list) => list.trail_ids.includes(props.data.id))
         ? (isSave.value = true)
         : (isSave.value = false);

@@ -7,13 +7,13 @@ const isDarkMode = JSON.parse(localStorage.getItem("darkMode"));
         v-if="isDarkMode"
         src="/img/logo/Logo_RGB_Blanc_grand.png"
         alt="Logo de VaudSentiers"
-        @click="$inertia.visit('/home')"
+        @click="$inertia.visit('/')"
     />
     <img
         v-else
         src="/img/logo/Logo_RGB_grand.png"
         alt="Logo de VaudSentiers"
-        @click="$inertia.visit('/home')"
+        @click="$inertia.visit('/')"
     />
 </template>
 

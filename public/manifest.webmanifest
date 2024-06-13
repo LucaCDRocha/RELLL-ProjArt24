@@ -1,0 +1,26 @@
+{
+    "name": "VaudSentiers - Sentiers culturels du canton de Vaud",
+    "short_name": "VaudSentiers",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#F8FBF1",
+    "theme_color": "#3F6836",
+    "icons": [
+        {
+            "src": "/img/logo/Logo_RGB_petit.png",
+            "sizes": "366x366",
+            "type": "image/png"
+        },
+        {
+            "src": "/img/logo/Logo_RGB_grand.png",
+            "sizes": "1051x276",
+            "type": "image/png"
+        },
+        {
+            "src": "/img/logo/Logo_RGB_Blanc_grand.png",
+            "sizes": "1050x276",
+            "type": "image/png"
+        }
+    ]
+}

@@ -34,7 +34,7 @@ textarea{
 }
 
 textarea::placeholder {
-    @apply text-onSurfaceVariant dark:text-darkOnSurfaceVariant;
+    @apply text-outline dark:text-outline;
     @apply text-lg;
 }
 </style>

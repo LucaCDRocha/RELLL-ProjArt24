@@ -7,6 +7,9 @@
 
     <title inertia>{{ config('app.name', 'RELLL') }}</title>
 
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+
     <!-- Meta données -->
     <meta name="title" content="VaudSentiers">
     <meta name="description" content="Une application web de sentiers culturels">

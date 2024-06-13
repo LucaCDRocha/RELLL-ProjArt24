@@ -137,7 +137,6 @@ class TrailController extends Controller
     public function getTrail(string $id)
     {
         $trail = Trail::findOrFail($id)->load('img', 'location_start', 'location_end', 'location_parking', 'interest_points', 'rankings', 'user', 'comments');
-
         foreach ($trail->comments as $comment) {
             $comment->load('user', 'likes');
 
@@ -164,9 +163,12 @@ class TrailController extends Controller
         }
 
         // order the reactions by likes
+        // dd($reactions);
         usort($reactions, function ($a, $b) {
             if ($a['comment'] === null) {
                 return 1;
+            } else if ($b['comment'] === null) {
+                return -1;
             } else {
                 return count($b['comment']->likes) <=> count($a['comment']->likes);
             }
