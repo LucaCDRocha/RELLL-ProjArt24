@@ -218,16 +218,16 @@ const goBack = () => {
 </script>
 
 <template>
+
     <Head title="Search" />
 
     <TheHeader />
 
     <form @submit.prevent="" @change="store()" class="search-bar">
-        <span class="material-symbols-rounded" @click="goBack()"
-            >arrow_back</span
-        >
+        <div class="cursor-pointer"><span class="material-symbols-rounded" @click="goBack()">arrow_back</span>
+        </div>
         <TextInput v-model="search" placeholder="Rechercher" />
-        <span class="material-symbols-rounded" @click="search = ''">close</span>
+        <div class="cursor-pointer"><span class="material-symbols-rounded" @click="search = ''">close</span></div>
         <button>
             <span class="material-symbols-rounded">search</span>
         </button>
@@ -236,38 +236,19 @@ const goBack = () => {
 
     <div class="search">
         <div class="filtres">
-            <BaseTag
-                v-for="difficulty in props.difficulties"
-                :key="difficulty.name"
-                :tag="difficulty.name"
-                :selected="difficulty.selected"
-                @click.prevent="switchFilter(difficulty)"
-                class="cursor-pointer"
-            />
+            <BaseTag v-for="difficulty in props.difficulties" :key="difficulty.name" :tag="difficulty.name"
+                :selected="difficulty.selected" @click.prevent="switchFilter(difficulty)" class="cursor-pointer" />
         </div>
         <div class="filtres">
-            <BaseTag
-                v-for="filter in props.filters"
-                :key="filter.name"
-                :tag="filter.name"
-                :selected="filter.selected"
-                @click.prevent="switchFilter(filter)"
-                class="cursor-pointer"
-            />
+            <BaseTag v-for="filter in props.filters" :key="filter.name" :tag="filter.name" :selected="filter.selected"
+                @click.prevent="switchFilter(filter)" class="cursor-pointer" />
         </div>
         <div class="deselected filtres">
-            <BaseTag
-                tag="Tout désélectionner"
-                :selected="false"
-                @click.prevent="switchFilter({ name: 'Tout désélectionner' })"
-                class="cursor-pointer"
-            />
+            <BaseTag tag="Tout désélectionner" :selected="false"
+                @click.prevent="switchFilter({ name: 'Tout désélectionner' })" class="cursor-pointer" />
         </div>
 
-        <div
-            class="resultats"
-            v-if="search !== '' || filtersSelected.length !== 0"
-        >
+        <div class="resultats" v-if="search !== '' || filtersSelected.length !== 0">
             <h2>
                 Résultats ({{
                     interestPointsResults.length + trailsResults.length
@@ -276,34 +257,21 @@ const goBack = () => {
             <BaseDivider />
             <h3>Sentiers</h3>
             <div class="trailsList">
-                <BaseCard
-                    v-for="trail in trailsResults"
-                    :key="trail.id"
-                    :data="trail"
-                    @handle-point="bottomSheet($event)"
-                />
+                <BaseCard v-for="trail in trailsResults" :key="trail.id" :data="trail"
+                    @handle-point="bottomSheet($event)" />
             </div>
 
             <h3>Points d'intérêt</h3>
             <div class="trailsList">
-                <BaseCard
-                    v-for="interestPoint in interestPointsResults"
-                    :key="interestPoint.id"
-                    :data="interestPoint"
-                    @handle-point="bottomSheet($event)"
-                />
+                <BaseCard v-for="interestPoint in interestPointsResults" :key="interestPoint.id" :data="interestPoint"
+                    @handle-point="bottomSheet($event)" />
             </div>
         </div>
         <div v-else>
             <h2>Vos dernières recherches</h2>
             <ul v-if="searchs" class="results">
                 <BaseDivider />
-                <li
-                    v-for="sea in searchs"
-                    :key="sea"
-                    @click="search = sea"
-                    class="cursor-pointer"
-                >
+                <li v-for="sea in searchs" :key="sea" @click="search = sea" class="cursor-pointer">
                     <p class="py-2">{{ sea }}</p>
                     <BaseDivider />
                 </li>
@@ -344,7 +312,7 @@ const goBack = () => {
     gap: 1rem;
 }
 
-.search > div.filtres {
+.search>div.filtres {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -364,7 +332,7 @@ div.deselected {
     height: 4rem;
 }
 
-.search-bar > button {
+.search-bar>button {
     @apply bg-primarySurface dark:bg-darkPrimarySurface;
     @apply text-onSurface dark:text-darkSurface;
     @apply rounded-full;

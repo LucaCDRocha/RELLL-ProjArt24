@@ -10,7 +10,7 @@ import { convertDate } from "@/Helpers/timeHelper.js";
 const props = defineProps({
     data: {
         type: Object,
-        default: () => {},
+        default: () => { },
     },
     full: {
         type: Boolean,
@@ -19,7 +19,7 @@ const props = defineProps({
 });
 
 const imgs = ref([]);
-
+console.log(props.data.trails);
 for (const img of props.data.imgs) {
     imgs.value.push(img.img_path);
 }
@@ -30,18 +30,9 @@ const emit = defineEmits(["handle-close", "handle-point"]);
 <template>
     <div class="interest-point">
         <div class="header">
-            <TheCardNav
-                @handle-close="emit('handle-close')"
-                :is-full="full"
-                :interest-point-id="data.id"
-            />
+            <TheCardNav @handle-close="emit('handle-close')" :is-full="full" :interest-point-id="data.id" />
             <div class="tags" v-if="!full">
-                <BaseTag
-                    v-for="tag in data.tags"
-                    :key="tag.id"
-                    :tag="tag.name"
-                    :selected="true"
-                />
+                <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />
             </div>
             <div>
                 <h1>{{ data.name }}</h1>
@@ -49,12 +40,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                     <p>{{ data.open_seasons }}</p>
                 </div>
             </div>
-            <a
-                v-if="data.url !== '-' && full"
-                :href="data.url"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
+            <a v-if="data.url !== '-' && full" :href="data.url" target="_blank" rel="noopener noreferrer">
                 <PrimaryButton>Voir le site web</PrimaryButton>
             </a>
             <BaseImgGalery :imgs="imgs" />
@@ -63,21 +49,14 @@ const emit = defineEmits(["handle-close", "handle-point"]);
         <div class="description">
             <h2>Description</h2>
             <div class="tags">
-                <BaseTag
-                    v-for="tag in data.tags"
-                    :key="tag.id"
-                    :tag="tag.name"
-                    :selected="true"
-                />
+                <BaseTag v-for="tag in data.tags" :key="tag.id" :tag="tag.name" :selected="true" />
             </div>
             <p>{{ data.description }}</p>
         </div>
 
-        <AppCardList
-            :datas="data.trails"
-            @handle-point="emit('handle-point', $event)"
-            >Les sentiers menant à ce lieu</AppCardList
-        >
+        <AppCardList v-if="props.data.trails.lenght != 0" :datas="data.trails"
+            @handle-point="emit('handle-point', $event)">Les sentiers menant à ce lieu
+        </AppCardList>
 
         <div class="information">
             <h2>Informations sur le sentier</h2>
