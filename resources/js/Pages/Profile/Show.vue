@@ -14,6 +14,7 @@ import TheHeader from "@/Components/TheHeader.vue";
 import BaseToggleButton from "@/Components/BaseToggleButton.vue";
 import History from "@/Pages/History.vue";
 import TertiaryButton from "@/Components/TertiaryButton.vue";
+import Modal from "@/Components/Modal.vue";
 
 const isOpen = ref(false);
 const witchForm = ref("");
@@ -146,10 +147,10 @@ const closeBottomSheet = () => {
         </div>
     </div>
 
-    <BaseBottomSheet
+    <Modal
         v-if="isOpen"
-        :isOpen="isOpen"
-        @handle-close="toggleBottomSheet()"
+        :show="isOpen"
+        @close="toggleBottomSheet()"
     >
         <UpdatePasswordForm v-if="witchForm === 'password'" />
         <DeleteUserForm
@@ -157,7 +158,7 @@ const closeBottomSheet = () => {
             @handle-close="closeBottomSheet()"
         />
         <UpdateProfileInformationForm v-else />
-    </BaseBottomSheet>
+    </Modal>
 
     <TheNav />
 </template>
