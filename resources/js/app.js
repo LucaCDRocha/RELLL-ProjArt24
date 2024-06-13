@@ -41,3 +41,15 @@ createInertiaApp({
         color: "#4B5563",
     },
 });
+
+navigator.serviceWorker.register("/workerCacheFetched.js").then(
+    (registration) => {
+        console.log(
+            "Service Worker registered with scope:",
+            registration.scope
+        );
+    },
+    (err) => {
+        console.log("Service Worker registration failed:", err);
+    }
+);
