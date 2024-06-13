@@ -156,12 +156,13 @@ const closeBottomSheet = () => {
         :isOpen="isOpen"
         @handle-close="toggleBottomSheet()"
     >
-        <UpdatePasswordForm v-if="witchForm === 'password'" />
+        <UpdatePasswordForm v-if="witchForm === 'password'" class="form" />
         <DeleteUserForm
             v-else-if="witchForm === 'delete'"
+            class="form"
             @handle-close="closeBottomSheet()"
         />
-        <UpdateProfileInformationForm v-else />
+        <UpdateProfileInformationForm v-else class="form" />
     </BaseBottomSheet>
 
     <TheNav />
@@ -206,5 +207,9 @@ div.settings {
     align-items: center;
     margin-top: 1.25rem;
     margin-bottom: 2rem;
+}
+
+.form{
+    padding-right: 1rem;
 }
 </style>
