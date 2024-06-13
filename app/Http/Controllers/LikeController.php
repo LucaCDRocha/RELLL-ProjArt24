@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Like;
-use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-    //
-
+    /**
+     * Like or unlike a comment
+     * 
+     * @param int $comment_id
+     * @param int $user_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public static function likeOrUnlikeComment(int $comment_id, int $user_id)
     {
         $like = Like::all()->where('comment_id', '=', $comment_id)->where('user_id', '=', $user_id)->first();

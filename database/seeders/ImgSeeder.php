@@ -22,10 +22,7 @@ class ImgSeeder extends Seeder
             $imageTrails = collect($data['sentiers'])
                 ->pluck('image');
 
-            dump($imageTrails);
-
             foreach ($imageTrails as $image) {
-                dump($image);
                 //  Img::create([
                 //     'source' => $image['source'],
                 //     'url' => $image['url'],

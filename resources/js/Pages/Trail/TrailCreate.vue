@@ -304,10 +304,6 @@ watch(
     },
     { deep: true }
 )
-// TODO: remove that
-watch(step, (value) => {
-    window.location.hash = value
-})
 
 onMounted(() => {
     if (window.location.hash) {

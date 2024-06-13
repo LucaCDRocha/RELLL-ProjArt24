@@ -9,9 +9,12 @@ use ValueError;
 
 class ImgController extends Controller
 {
-    /*
-        Return id
-    */
+    /**
+     * Store a newly created resource in storage.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
     public static function storeImgTrail($picture)
     {
         try {
@@ -31,9 +34,12 @@ class ImgController extends Controller
         }
     }
 
-    /*
-        Return id
-    */
+    /**
+     * Store a newly created resource in storage.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
     public static function storeImgInterestPoint($picture, $id_IP)
     {
         try {
@@ -54,6 +60,13 @@ class ImgController extends Controller
         }
     }
 
+    /**
+     * Update images of an interest point
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return void
+     */
     public static function updateImgsInterestPoints($pictures, $id)
     {
         $old_pictures = Img::where('interest_point_id', '=', $id)->get();
@@ -74,6 +87,13 @@ class ImgController extends Controller
         return true;
     }
 
+    /**
+     * Update image of an interest point
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return void
+     */
     public static function updateImgTrail($picture, $id)
     {
         if (getimagesize($picture)) {

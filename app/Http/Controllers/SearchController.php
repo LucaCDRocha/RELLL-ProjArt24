@@ -9,6 +9,12 @@ use App\Models\Tag;
 
 class SearchController extends Controller
 {
+    /**
+     * Display the search page.
+     * 
+     * @param int $tag_id
+     * @return \Inertia\Response
+     */
     public function search(int $tag_id = null)
     {
         $trails = Trail::all()
@@ -33,7 +39,7 @@ class SearchController extends Controller
         $tags = Tag::all()
             ->select('name', 'id');
 
-        // combine themes and tags into one array
+        // combine tags into an array
         $filters = [];
         foreach ($tags as $tag) {
             if ($tag['id'] == $tag_id) {

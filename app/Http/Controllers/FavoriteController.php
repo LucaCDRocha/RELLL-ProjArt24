@@ -23,6 +23,13 @@ class FavoriteController extends Controller
         return Inertia::render('Favorite/List', ['list' => $userLists]);
     }
 
+    /**
+     * Display a listing of the resource.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \Exception
+     */
     public function allLists(Request $request)
     {
         $name = $request->name;
@@ -147,6 +154,12 @@ class FavoriteController extends Controller
         return redirect()->route('bookmark.index')->with('success', 'Liste supprimée avec succès.');
     }
 
+    /**
+     * Add a trail to a list
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
     public function addTrail(Request $request)
     {
         $userId = auth()->id();

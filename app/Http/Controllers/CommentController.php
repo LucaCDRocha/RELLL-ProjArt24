@@ -11,6 +11,9 @@ class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
+     * @param int $idTrail
+     * @return \Inertia\Response
      */
     public function index($idTrail)
     {
@@ -22,6 +25,9 @@ class CommentController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * 
+     * @param int $trail_id
+     * @return \Inertia\Response
      */
     public function create($trail_id)
     {
@@ -31,6 +37,9 @@ class CommentController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return void
      */
     public function store(Request $request)
     {
@@ -44,6 +53,9 @@ class CommentController extends Controller
 
     /**
      * Display the specified resource.
+     * 
+     * @param string $id
+     * @return \Inertia\Response
      */
     public function show(string $id)
     {
@@ -52,6 +64,9 @@ class CommentController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * 
+     * @param string $id
+     * @return \Inertia\Response
      */
     public function destroy(string $id)
     {
@@ -61,6 +76,12 @@ class CommentController extends Controller
         return Inertia::render("Trails/Trailshow/$trail->id"); // modifier comme Luca a fait
     }
 
+    /**
+     * Create a comment
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Inertia\Response
+     */
     public function createComment(Request $request)
     {
         $comment = Comment::create([

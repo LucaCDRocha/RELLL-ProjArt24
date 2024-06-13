@@ -230,11 +230,6 @@ const previousStep = () => {
     step.value--
 }
 
-// TODO: remove that
-watch(step, (value) => {
-    window.location.hash = value
-})
-
 onMounted(() => {
     if (window.location.hash) {
         step.value = parseInt(window.location.hash.replace('#', ''))

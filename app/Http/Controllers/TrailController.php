@@ -38,9 +38,11 @@ class TrailController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Return the time in a time format
+     * 
+     * @param int $time
+     * @return string
      */
-
     public function getTimeTrail($time)
     {
         // transforme le temps ($time qui est en secondes) en time format
@@ -50,16 +52,13 @@ class TrailController extends Controller
         return $hours . ':' . $minutes . ':' . $seconds;
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(TrailCreateRequest $request)
     {
         // Sauvegarde d'une image dans la BD
-
-        // Gestion du nom pour éviter les doublons
-
         $img_id = ImgController::storeImgTrail($request->img);
-        /* 
-            Sauvegarde d'un trail dans la BD
-        */
 
         // Sauvegarde des coordonées GPS
         $loc_start_id = LocationController::createLocation($request->location_start);
@@ -79,7 +78,7 @@ class TrailController extends Controller
             $difficulty = 'Difficile';
         }
 
-        $inputs = // Enlever les default avant lancement de l'app
+        $inputs =
             [
                 'name' => $request->name,
                 'time' => TrailController::getTimeTrail($request->time),
@@ -99,12 +98,6 @@ class TrailController extends Controller
 
         $trail = Trail::create($inputs);
 
-        /*
-        Gestion des points d'interets via la table pivot 
-        << Actuellement fais avec des strings, À voir si on peut modifier une fois qu'il y aura la carte >>
-        */
-
-        // le String doit arriver comme suit Latitude,Longitude;Latitude,Longitude;Latitude,Longitude;...
         $interest_points = $request->interest_points;
 
         foreach ($interest_points as $point) {
@@ -117,6 +110,9 @@ class TrailController extends Controller
 
     /**
      * Display the specified resource.
+     * 
+     * @param string $id
+     * @return \Inertia\Response
      */
     public function show(string $id)
     {
@@ -125,6 +121,9 @@ class TrailController extends Controller
 
     /**
      * Return the trail with the id in JSON format
+     * 
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function showJson(string $id)
     {
@@ -133,6 +132,9 @@ class TrailController extends Controller
 
     /**
      * get the trail with the id
+     * 
+     * @param string $id
+     * @return \App\Models\Trail
      */
     public function getTrail(string $id)
     {
@@ -208,84 +210,12 @@ class TrailController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // $trail = Trail::findOrFail($id);
-        // $new_Inputs = $request->except('location_start', 'location_end', 'location_parking', 'interest_points');
-        // $new_Inputs['time'] = TrailController::getTimeTrail($request->interest_points);
-
-        // // Gestions des Foreign Key depuis la Request
-        // $loc_start_id = Location::where('latitude', '=', $request->location_start->latitude)->where('longitude', '=', $request->location_start->longitude)->id;
-        // $loc_end_id = Location::where('latitude', '=', $request->location_end->latitude)->where('longitude', '=', $request->location_end->longitude)->id;
-        // $loc_parking_id = Location::where('latitude', '=', $request->location_parking->latitude)->where('longitude', '=', $request->location_parking->longitude)->id;
-        // $img_id = Img::where('img', '=', $request->img)->id;
-        // $interest_points = $request->interest_points;
-
-
-        // // FOREIGN KEY - interest_point
-        // foreach ($interest_points as $point) {
-        //     $id_point = InterestPoint::where('latitude', '=', $point->latitude)->where('longitude', '=', $point->longitude);
-        //     if (!$trail->interest_points()->whereHas($id_point))
-        //     // si un point d'interet dans la requete n'est pas relié au sentier
-        //     {
-        //         $trail->interest_points()->save($id_point);
-        //     }
-        // }
-        // // \/ Tout regrouper dans un énorme forEach avec les variables créer dynamiquement ???????????????????
-
-        // // FOREIGN KEY - location_start
-        // // Si le retour de la Location est idem à celle stocker sur le sentier
-        // if ($trail->location_start_id !== $loc_start_id) /*{
-        //     $new_Inputs['location_start_id'] = $loc_start_id; ----> si ça marche pas !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // } else*/ {
-        //     $trail->location_start()->delete();
-
-        //     // Création de la nouvelle Location + lien avec le trail
-        //     $input_loc = ['longitude' => $request->location_start->longitude, 'latitude' => $request->location_start->latitude];
-        //     $loc = Location::create($input_loc);
-        //     $trail->location_start()->save($loc);
-        // }
-
-
-        // // FOREIGN KEY - location_end
-        // // Si le retour de la Location est idem à celle stocker sur le sentier
-        // if ($trail->location_end_id !== $loc_end_id) {
-        //     $trail->location_end()->delete();
-
-        //     // Création de la nouvelle Location + lien avec le trail
-        //     $input_loc = ['longitude' => $request->location_end->longitude, 'latitude' => $request->location_end->latitude];
-        //     $loc = Location::create($input_loc);
-        //     $trail->location_end()->save($loc);
-        // }
-
-
-        // // FOREIGN KEY - location_parking
-        // // Si le retour de la Location est idem à celle stocker sur le sentier
-        // if ($trail->location_parking_id !== $loc_parking_id) {
-        //     $trail->location_parking()->delete();
-
-        //     // Création de la nouvelle Location + lien avec le trail
-        //     $input_loc = ['longitude' => $request->location_parking->longitude, 'latitude' => $request->location_parking->latitude];
-        //     $loc = Location::create($input_loc);
-        //     $trail->location_parking()->save($loc);
-        // }
-
-        // // FOREIGN KEY - img
-        // if ($trail->img_id !== $img_id) {
-        //     $trail->img()->delete();
-
-        //     // Création de la nouvelle Img + lien avec le trail
-        //     $img = Img::create($request->img);
-        //     $trail->img()->save($img);
-        // }
-        // V2.0
         $trail = Trail::findOrFail($id);
 
         // Supprime l'ancienne photo et modofie la FK dans trail
         if ($request->img) {
             ImgController::updateImgTrail($request->img, $trail->id);
         }
-        /* 
-            Sauvegarde d'un trail dans la BD
-        */
 
         // Sauvegarde des coordonées GPS
         $loc_start = Location::findOrFail($trail->location_start_id);
@@ -383,6 +313,12 @@ class TrailController extends Controller
         return redirect()->route('home');
     }
 
+    /**
+     * Show the trail in a map for follow it
+     * 
+     * @param int $id
+     * @return \Inertia\Response
+     */
     public function start($id)
     {
         $trail = Trail::findOrFail($id)->load('interest_points', 'location_start', 'location_end', 'location_parking', 'rankings', 'img');

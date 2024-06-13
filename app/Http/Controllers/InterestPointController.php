@@ -6,9 +6,7 @@ use App\Models\Img;
 use App\Models\InterestPoint;
 use App\Models\Location;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\Theme;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ImgController;
 use App\Http\Requests\InterestPointCreateRequest;
@@ -88,6 +86,9 @@ class InterestPointController extends Controller
 
     /**
      * Return the InterestPoint with the id in JSON format
+     * 
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function showJson(string $id)
     {
@@ -96,6 +97,9 @@ class InterestPointController extends Controller
 
     /**
      * Get the InterestPoint with the id
+     * 
+     * @param string $id
+     * @return \App\Models\InterestPoint
      */
     public function getInterestPoint(string $id)
     {
@@ -208,6 +212,11 @@ class InterestPointController extends Controller
         return redirect()->route('home');
     }
 
+    /**
+     * Display the map page
+     * 
+     * @return \Inertia\Response
+     */
     public function map()
     {
         $allInterestPoints = InterestPoint::all()->load('location', 'imgs', 'tags');

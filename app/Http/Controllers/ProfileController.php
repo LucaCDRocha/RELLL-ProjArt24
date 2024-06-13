@@ -40,6 +40,9 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Show');
     }
 
+    /**
+     * Display the user's profile edit form.
+     */
     public function edit(Request $request): Response
     {
         return Inertia::render('Profile/Edit', [
@@ -62,7 +65,6 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Inertia::render('Profile/Partials/SuccessUpdate');
-        //return Redirect::route('profile.edit');
     }
 
     /**
@@ -70,10 +72,6 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // $request->validate([
-        //     'password' => ['required', 'current_password'],
-        // ]);
-
         $user = $request->user();
 
         Auth::logout();

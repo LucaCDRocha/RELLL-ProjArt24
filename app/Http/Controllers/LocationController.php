@@ -9,7 +9,12 @@ use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
-    //
+    /**
+     * Store a newly location in database.
+     * 
+     * @param array $arr_loc
+     * @return int
+     */
     public static function createLocation($arr_loc)
     {
         $location = Location::create([
@@ -20,11 +25,13 @@ class LocationController extends Controller
         return $location->id;
     }
 
-    /*
-        FOR UPDATE 
-        Test if the location send by the form is still the same as the location logged in the DB for this IP
-        If not, it create a new Location and return the new ID
-    */
+    /**
+     * FOR UPDATE
+     * Test if the location sent by the form is still the same as the location logged in the DB for this IP.
+     * If not, it creates a new Location and returns the new ID.
+     *
+     * @return int The ID of the new Location if the location has changed, otherwise null.
+     */
     public static function tryIdLocationOrNew($id_IP, $arr_loc)
     {
         $interest_point = InterestPoint::findOrFail($id_IP);

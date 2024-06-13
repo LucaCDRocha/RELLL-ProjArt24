@@ -9,6 +9,12 @@ use Inertia\Inertia;
 
 class HistoricsController extends Controller
 {
+    /**
+     * Save a trail in the user's historic
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
     public function save(Request $request){
         if(Historic::where('user_id', auth()->id())->where('trail_id', $request->trail_id)->exists()){
             $historic = Historic::where('user_id', auth()->id())->where('trail_id', $request->trail_id)->first();

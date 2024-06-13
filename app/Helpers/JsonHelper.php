@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\DB;
 
 class JsonHelper
 {
+    /**
+     * Lire un fichier JSON
+     *
+     * @param string $filePath
+     * @return array
+     * @throws \Exception
+     */
     public static function readJson($filePath)
     {
         $jsonPath = database_path($filePath);
@@ -20,6 +27,13 @@ class JsonHelper
         return json_decode($jsonData, true);
     }
 
+    /**
+     * Trouver l'ID d'une location par ses coordonnées
+     * 
+     * @param array $coordinates
+     * @return int|null
+     * @throws \Exception
+     */
     public static function getLocationIdByCoordinates($coordinates)
     {
         $location = DB::table('locations')
@@ -34,6 +48,15 @@ class JsonHelper
         }
     }
 
+    /**
+     * Trouver l'ID d'une valeur dans une table
+     * 
+     * @param string $table
+     * @param string $field
+     * @param string $value
+     * @return int|null
+     * @throws \Exception
+     */
     public static function getInfoByValue($table, $field, $value)
     {
         $data = DB::table($table)
