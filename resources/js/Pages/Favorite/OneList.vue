@@ -198,9 +198,4 @@ div.trailsList {
 .actions a {
     @apply text-red-500 dark:text-red-400;
 }
-
-.button-hidden {
-    opacity: 0;
-    pointer-events: none;
-}
 </style>

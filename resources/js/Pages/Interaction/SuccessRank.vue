@@ -10,7 +10,7 @@ import { Head } from "@inertiajs/vue3";
             <h1>Votre avis a été ajouté !</h1>
             <p>Nous vous remercions d’avoir noté ce sentier.</p>
         </div>
-        <PrimaryButton @click="$inertia.visit(`/home`)">
+        <PrimaryButton @click="$inertia.visit(`/`)">
             Retour à l'accueil
         </PrimaryButton>
     </div>

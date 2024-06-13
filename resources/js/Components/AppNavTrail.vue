@@ -26,11 +26,12 @@ const user = usePage().props.auth.user;
 
 const bottomSheet = (e) => {
     isOpen.value = true;
-    if(user){
-    const form = useForm({
-        trail_id: props.trail_id,
-    });
-    form.post("/saveTrail");}
+    if (user) {
+        const form = useForm({
+            trail_id: props.trail_id,
+        });
+        form.post("/saveTrail");
+    }
 };
 
 const closeBottomSheet = () => {
@@ -46,7 +47,7 @@ const emit = defineEmits(["next", "previous"]);
     <div class="nav">
         <BaseNavLink
             v-if="props.index === 0"
-            @click.prevent="$inertia.visit(`/home`)"
+            @click.prevent="$inertia.visit(`/`)"
             icon="cancel"
             class="quit"
             >Quitter</BaseNavLink
@@ -76,7 +77,7 @@ const emit = defineEmits(["next", "previous"]);
                 <p>Vous avez terminé le sentier !</p>
             </div>
             <div class="buttons">
-                <a href="/home">Quitter</a>
+                <a href="/">Quitter</a>
                 <PrimaryButton
                     @click.prevent="$inertia.visit(`/rankTrail/${id}`)"
                     >Noter le sentier</PrimaryButton

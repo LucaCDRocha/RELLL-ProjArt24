@@ -106,7 +106,7 @@ const deleteItem = () => {
     }
     openModal();
     setTimeout(() => {
-        window.location.href = "/home";
+        window.location.href = "/";
     }, 1000);
 };
 
@@ -172,10 +172,15 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
                 Voulez-vous vraiment supprimer ce
                 {{ props.trailId ? "sentier" : "point" }} ?
             </h2>
-            <p v-if="props.interestPointId">Cette action supprimera également les sentiers qui n'auront plus de lieux.</p>
+            <p v-if="props.interestPointId">
+                Cette action supprimera également les sentiers qui n'auront plus
+                de lieux.
+            </p>
             <div class="actions">
-                <a @click.prevent="deleteItem()"
-                class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
+                <a
+                    @click.prevent="deleteItem()"
+                    class="underline text-sm text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+                >
                     Supprimer le {{ props.trailId ? "sentier" : "point" }}
                 </a>
                 <PrimaryButton @click="openModal()">

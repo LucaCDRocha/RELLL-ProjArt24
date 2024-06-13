@@ -145,7 +145,7 @@ watch(currentPointIndex, (value) => {
         <BaseNavLink
             class="quit"
             icon="cancel"
-            @click.prevent="$inertia.visit(`/home`)"
+            @click.prevent="$inertia.visit(`/`)"
             >Quitter</BaseNavLink
         >
     </div>

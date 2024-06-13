@@ -48,7 +48,7 @@ onMounted(() => {
     //         break;
     //     case "/search":
     //         document
-    //             .querySelector('nav a[href="/home"]')
+    //             .querySelector('nav a[href="/"]')
     //             ?.querySelector("span")
     //             ?.classList.add("active");
     //         break;
