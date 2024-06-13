@@ -315,7 +315,7 @@ onMounted(() => {
 
 <template>
 
-    <Head title="Créer un parcours" />
+    <Head title="Créer un sentier" />
 
     <TheHeader />
 
@@ -477,7 +477,7 @@ onMounted(() => {
                 >Revenir en arrière</a
             >
             <a v-else href="/create"
-            class="underline text-sm font-medium text-error dark:text-darkError hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
+            class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800"
             >Annuler</a>
             <PrimaryButton v-if="step < 6" @click.prevent="nextStep()">
                 Prochaine étape
@@ -504,7 +504,7 @@ onMounted(() => {
 }
 
 .nav {
-    @apply bg-surface;
+    @apply bg-surface dark:bg-darkSurface;
 
     position: fixed;
     bottom: 5rem;

@@ -79,6 +79,14 @@ const print = () => {
     window.print();
 };
 
+const update = () => {
+    if (props.trailId) {
+        window.location.href = `/trails/${props.trailId}/edit`;
+    } else if (props.interestPointId) {
+        window.location.href = `/interestPoints/${props.interestPointId}/edit`;
+    }
+};
+
 // const report = () => {
 //     if (props.trailId) {
 //         window.location.href = `/trails/${props.trailId}/report`;
@@ -130,7 +138,7 @@ const emit = defineEmits(["handle-close", "emit-lists"]);
                         <span class="material-symbols-rounded">more_vert</span>
                     </template>
                     <template #content>
-                        <p v-if="isUserAdmin">
+                        <p v-if="isUserAdmin" @click="update()">
                             <span class="material-symbols-rounded">edit</span>
                             Modifier
                         </p>
