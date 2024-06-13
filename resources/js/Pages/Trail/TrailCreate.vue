@@ -290,7 +290,6 @@ const addPoint = (point) => {
             imgs: point.point.imgs,
         });
     }
-    closeBottomSheet();
 };
 
 const way = ref(waypoints.value);
