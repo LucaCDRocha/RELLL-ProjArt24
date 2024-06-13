@@ -18,6 +18,10 @@ const submit = () => {
         emit("send");
     }, 1000);
 };
+
+const goBack = () => {
+    window.history.back();
+};
 </script>
 <template>
     <div class="lists">
@@ -38,12 +42,17 @@ const submit = () => {
                 <InputError :message="form.errors.name" />
             </div>
 
+            <div class="nav">
+            <a href="" @click="goBack()"
+                class="underline text-sm font-medium text-onSurface dark:text-darkOnSurface hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
+                Annuler</a>
             <PrimaryButton
                 type="submit"
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
                 >Valider</PrimaryButton
             >
+            </div>
         </form>
     </div>
 </template>
@@ -73,5 +82,21 @@ const submit = () => {
     gap: 0.5rem;
     align-items: flex-start;
     width: 100%;
+}
+
+.nav {
+    @apply bg-surface dark:bg-darkSurface;
+
+    position: fixed;
+    bottom: 5rem;
+
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    width: 100vw;
+    box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 </style>

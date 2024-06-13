@@ -1,7 +1,6 @@
 <script setup>
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import BaseTextArea from "@/Components/BaseTextArea.vue";
-import AppStarRanking from "@/Components/AppStarRanking.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import { Head, useForm } from "@inertiajs/vue3";
@@ -34,7 +33,7 @@ const rankStars = (e) => {
 
 const submit = () => {
     if (form.rank === 0) {
-        form.errors.rank = "Veuillez donner une note au sentier";
+        form.errors.rank = "Veuillez notez le sentier";
     } else {
         form.errors.rank = "";
     }
@@ -58,7 +57,10 @@ const submit = () => {
         </div>
         <form @submit.prevent="submit()">
             <div>
-                <InputLabel for="rank" value="Quelle est votre note sur le sentier ? *" />
+                <InputLabel
+                    for="rank"
+                    value="Notez le sentier *"
+                />
                 <div class="stars">
                     <span v-for="num in 5" :key="num" @click="rankStars(num)" class="material-symbols-rounded"
                         :class="{ 'full-star': num <= rank }">star</span>
@@ -66,9 +68,16 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.rank" />
             </div>
             <div>
-                <InputLabel for="comment" value="Quelle est votre avis sur le sentier ?" />
-                <BaseTextArea id="comment" class="mt-1 block w-full" v-model="form.comment" placeholder="Comment">
-                </BaseTextArea>
+                <InputLabel
+                    for="comment"
+                    value="Quel est votre avis sur le sentier ?"
+                />
+                <BaseTextArea
+                    id="comment"
+                    class="mt-1 block w-full"
+                    v-model="form.comment"
+                    placeholder="Comment"
+                ></BaseTextArea>
                 <InputError class="mt-2" :message="form.errors.comment" />
             </div>
             <div class="actions">

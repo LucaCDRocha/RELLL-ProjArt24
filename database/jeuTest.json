@@ -172,7 +172,7 @@
             "duree": "00:30:00",
             "difficulte": "Facile",
             "accessibilite": true,
-            "info_transport": "Ce parcours est une boucle depuis l'arrêt du bus Yverdon, Théâtre Benno Besson des bus 604 et 605'.",
+            "info_transport": "Ce parcours est une boucle depuis l'arrêt du bus Yverdon, Théâtre Benno Besson des bus 604 et 605.",
             "depart": {
                 "coordonnees": [46.77911, 6.642196]
             },

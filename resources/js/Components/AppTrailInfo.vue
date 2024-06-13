@@ -107,7 +107,7 @@ const emit = defineEmits(["handle-close", "handle-point"]);
                     {{ data.time }}
                 </p>
                 <span class="material-symbols-rounded" v-if="data.is_accessible">accessible</span>
-                <p>{{ data.interest_points.length }} lieux</p>
+                <p>{{ data.interest_points.length }} {{ data.interest_points.length === 1 ? 'lieu' : 'lieux' }}</p>
             </div>
 
             <div class="actions">
@@ -144,8 +144,8 @@ const emit = defineEmits(["handle-close", "handle-point"]);
             </BaseAccordion>
         </div>
 
-        <AppCardList :datas="data.interest_points" @handle-point="emit('handle-point', $event)">Les {{
-            data.interest_points.length }} lieux présents dans ce
+        <AppCardList :datas="data.interest_points" @handle-point="emit('handle-point', $event)">
+            {{ data.interest_points.length === 1 ? ' Le lieu présent' : `Les ${data.interest_points.length } lieux présents` }} dans ce
             sentier</AppCardList>
 
         <div class="accordion">
