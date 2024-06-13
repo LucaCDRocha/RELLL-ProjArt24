@@ -32,14 +32,14 @@ const successMessage = pageProps.flash?.success;
 
     <TheHeader />
 
-    <div class="lists">
+    <div class="vos-lists">
         <div class="title">
             <h2>Vos listes</h2>
             <SecondaryButton icon="add_circle" @click="toggleBottomSheet()"
                 >Ajouter une liste</SecondaryButton
             >
         </div>
-        <BaseDivider />
+        <BaseDivider class="divider" />
 
         <div v-if="successMessage" class="alert alert-success">
             {{ successMessage }}
@@ -60,6 +60,9 @@ const successMessage = pageProps.flash?.success;
         :isOpen="isOpen"
         @handle-close="toggleBottomSheet()"
     >
+        <span class="material-symbols-rounded" @click="toggleBottomSheet()"
+            >close</span
+        >
         <NewList @send="toggleBottomSheet()" />
     </BaseBottomSheet>
 
@@ -69,7 +72,15 @@ const successMessage = pageProps.flash?.success;
 
 <style scoped>
 .lists {
+    padding: 1rem 1rem 0rem 0rem;
+}
+
+.vos-lists {
     padding: 1rem 0rem 0rem 1rem;
+}
+
+.divider {
+    margin-right: 1rem;
 }
 
 .alert {
@@ -92,5 +103,9 @@ const successMessage = pageProps.flash?.success;
     margin-top: 1.25rem;
     margin-bottom: 2.25rem;
     padding-right: 1rem;
+}
+
+:deep(.base-overlay-card__content){
+    display: block;
 }
 </style>

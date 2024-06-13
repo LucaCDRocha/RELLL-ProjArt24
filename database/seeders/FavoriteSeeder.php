@@ -18,7 +18,7 @@ class FavoriteSeeder extends Seeder
         for ($i = 1; $i < 4; $i++) {
             Favorite::updateOrCreate([
                 'user_id' => $i,
-                'name' => 'favoris',
+                'name' => 'Favoris',
             ]);
         }
         
@@ -26,10 +26,10 @@ class FavoriteSeeder extends Seeder
         $listes = ["A faire avec ma famille", "A refaire", "Why not"];
         for ($i=0; $i < count($listes); $i++) { 
             Favorite::updateOrCreate([
-                'user_id' => 2,
+                'user_id' => 1,
                 'name' => $listes[$i],
             ],[
-                'user_id' => 2,
+                'user_id' => 1,
                 'name' => $listes[$i],
                 'created_at' => now(),
                 'updated_at' => now()
