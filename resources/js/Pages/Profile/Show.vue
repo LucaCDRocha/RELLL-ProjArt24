@@ -102,8 +102,8 @@ const closeBottomSheet = () => {
                 v-if="!user"
                 @click="$inertia.visit('/about')"
                 class="contactButton"
-                >Nous contacter
-            </TertiaryButton>
+                >A propos</TertiaryButton
+            >
         </div>
 
         <BaseDivider v-if="user" />

@@ -45,11 +45,11 @@ const share = () => {
     if (props.trailId) {
         url += `/trails/${props.trailId}`
         title = `Découvrez ce sentier !`
-        text = `Découvrez ce sentier sur ${url}`
+        text = `Découvrez ce sentier sur VaudSentiers`
     } else if (props.interestPointId) {
         url += `/interestPoints/${props.interestPointId}`
         title = `Découvrez ce lieu !`
-        text = `Découvrez ce lieu sur ${url}`
+        text = `Découvrez ce lieu sur VaudSentiers`
     }
 
     // make a share of the current page

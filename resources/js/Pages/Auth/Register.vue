@@ -130,9 +130,6 @@ const submit = () => {
 </template>
 
 <style scoped>
-.register {
-    height: calc(var(--vh, 1vh) * 100 - 14.06rem);
-}
 .header {
     display: flex;
     flex-direction: column;

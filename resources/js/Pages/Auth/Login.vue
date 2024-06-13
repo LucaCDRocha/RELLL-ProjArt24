@@ -123,9 +123,6 @@ const submit = () => {
 </template>
 
 <style scoped>
-.login {
-    height: calc(var(--vh, 1vh) * 100 - 14.06rem);
-}
 h1 {
     display: flex;
     flex-direction: column;
