@@ -105,7 +105,7 @@ const closeBottomSheet = () => {
             </TertiaryButton>
         </div>
 
-        <BaseDivider v-if="user"/>
+        <BaseDivider v-if="user" />
         <h2 v-if="user">Vos informations</h2>
         <div v-if="user" class="editForm">
             <p>{{ user.name }}</p>
@@ -127,7 +127,12 @@ const closeBottomSheet = () => {
         </div>
         <BaseDivider v-if="user" />
 
-         <History v-if="user" :historics="historics" :myTrails="myTrails" :isAdmin="user.is_admin"/>
+        <History
+            v-if="user"
+            :historics="historics"
+            :myTrails="myTrails"
+            :isAdmin="user.is_admin"
+        />
 
         <BaseDivider v-if="user" />
         <div v-if="user" class="destroy">
